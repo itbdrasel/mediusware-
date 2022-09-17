@@ -1,0 +1,6 @@
+@include('Core::layouts.head')
+@include('Core::layouts.header')
+@include('Core::layouts.breadcrumb')
+@include('Core::layouts.sidebar_left')
+@yield('content')
+@include('Core::layouts.footer')
