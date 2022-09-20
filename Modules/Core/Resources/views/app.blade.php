@@ -1,0 +1,7 @@
+@include('core::layouts.header')
+@include('core::layouts.top_ber')
+@include('core::layouts.sidebar_top')
+@yield('app_content')
+@include('core::layouts.sidebar_footer')
+@include('core::layouts.breadcrumb')
+@include('core::layouts.footer')

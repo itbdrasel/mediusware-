@@ -1,8 +1,5 @@
-@include('core::layouts.header')
-@include('core::layouts.top_ber')
-@include('core::layouts.sidebar_top')
+@extends('core::app')
+@section('app_content')
 @include('core::layouts.nav_ber')
-@include('core::layouts.sidebar_footer')
-@include('core::layouts.breadcrumb')
 @yield('content')
-@include('core::layouts.footer')
+@endsection
