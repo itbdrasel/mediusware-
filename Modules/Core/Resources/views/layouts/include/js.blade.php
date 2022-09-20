@@ -6,7 +6,7 @@
 <script>var APP_URL = {!! json_encode(url('/')) !!};</script>
 <script>var pageUrl = {!! json_encode(url($pageUrl ?? '')) !!};</script>
 
-@include('Core::layouts.include.js_plugin')
+@include('core::layouts.include.js_plugin')
 
 @if((Session::has('success')) || (Session::has('error')) || Session::has('message')))
 <script type="text/javascript">

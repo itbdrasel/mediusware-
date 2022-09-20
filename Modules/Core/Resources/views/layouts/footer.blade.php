@@ -1,7 +1,7 @@
 </div>
 <!-- /.content-wrapper -->
 <footer class="main-footer">
-    <strong>Copyright &copy; 2020-{{date('Y')}} <a href="{{$url}}">{{$appName}}</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2022-{{date('Y')}} <a href="{{$url}}">{{$appName}}</a>.</strong> All rights reserved.
 </footer>
 
 <!-- Control Sidebar -->
@@ -12,7 +12,7 @@
 </div>
 <!-- ./wrapper -->
 
-@include('Core::layouts.include.js')
+@include('core::layouts.include.js')
 
 
 </body>

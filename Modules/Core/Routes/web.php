@@ -13,4 +13,5 @@
 
 Route::prefix('core')->group(function() {
     Route::get('/', 'CoreController@index');
+    Route::get('/dashboard', 'DashboardController@index');
 });

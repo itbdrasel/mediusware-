@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2022 at 07:01 AM
+-- Generation Time: Sep 20, 2022 at 08:28 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -259,13 +259,13 @@ CREATE TABLE `tbl_settings` (
 --
 
 INSERT INTO `tbl_settings` (`s_id`, `s_name`, `s_value`, `updated_at`) VALUES
-(1, 'appName', 'Visual Commerce', '2022-08-13 15:09:09'),
-(2, 'appTitle', 'Visual Commerce', '2022-08-13 15:09:09'),
-(3, 'url', 'https://tos.com.bd', '2022-08-13 15:09:09'),
-(4, 'email', 'help@tos.com.bd', '2022-08-13 15:15:15'),
-(5, 'appAddress', 'House #29, Road #09, PC Culture Housing Society, Mohammadpur, Dhaka 1207.', '2022-08-05 17:37:05'),
-(6, 'contact', '+880 197 777 1867', '2022-08-05 17:37:05'),
-(7, 'logo', '/images/base_setting/logo.png', '2022-04-22 16:05:57'),
+(1, 'appName', 'erp system.', '2022-08-13 15:09:09'),
+(2, 'appTitle', 'erp system', '2022-08-13 15:09:09'),
+(3, 'url', 'https://erp-system.com', '2022-08-13 15:09:09'),
+(4, 'email', 'help@erp-system.bd', '2022-08-13 15:15:15'),
+(5, 'appAddress', 'House #46, Road #09, PC Culture Housing Society, Mohammadpur, Dhaka 1207.', '2022-08-05 17:37:05'),
+(6, 'contact', '+880 191 105 4866', '2022-08-05 17:37:05'),
+(7, 'logo', '/uploads/core/base_setting/logo.png', '2022-04-22 16:05:57'),
 (8, 'c_symbol', 'TK', '2022-08-05 17:37:05'),
 (9, 'c_order', 'left', '2021-12-28 13:16:39'),
 (10, 'date_format', 'd-m-Y', '2022-01-02 13:50:53'),
@@ -273,7 +273,7 @@ INSERT INTO `tbl_settings` (`s_id`, `s_name`, `s_value`, `updated_at`) VALUES
 (12, 'default_tax', '5', '2022-01-02 15:57:55'),
 (13, 'include_tax', '0', '2022-01-02 16:03:50'),
 (14, 'only_default_tax', '0', '2022-01-02 16:05:34'),
-(15, 'description', 'Visual Commerce', '2022-09-03 03:07:47'),
+(15, 'description', 'erp system.', '2022-09-03 03:07:47'),
 (16, 'social', '[{\"network_name\":\"Facebook\",\"network_link\":null},{\"network_name\":\"LinkedIn\",\"network_link\":null}]', '2022-09-03 03:05:25'),
 (17, 'comment', '0', NULL),
 (18, 'analytics', '0000000', NULL),
