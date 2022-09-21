@@ -40,11 +40,10 @@ class LoginController extends Controller
      *
      */
 
-
-
     public function login(){
 
         if($this->auth->check()){
+
             return $this->auth->roleRedirect();
         }
 
@@ -100,7 +99,7 @@ class LoginController extends Controller
 
         $this->auth->logout();
 
-        return redirect('core/login');
+        return redirect($this->bUrl.'/login');
     }
 
 

@@ -1,6 +1,16 @@
 <?php
 
 
+/* * *
+ * Get the available Auth instance.
+ *
+ * @return App\Repositories\AuthInterface
+ */
+
+function dAuth(){
+    return app('Modules\Core\Repositories\AuthInterface');
+}
+
 /*****
  * currency()
  * Return currency format.
@@ -27,28 +37,30 @@ function currency($amount, $format = false, $symbole=true){
 
 function getResourceRoute($controller, $array=''){
     $route =  Illuminate\Support\Facades\Route::class;
+
     for ($i=0; $i<count($array); $i++) {
         switch ($array[$i]) {
+
             case "index":
-                $route::match(['get', 'post'], '/', [$controller,'index'])->name('');
+                $route::match(['get', 'post'], '/', $controller.'@index')->name('');
                 break;
             case "store":
-                $route::post('/store', [$controller,'store'])->name('.store');
+                $route::post('/store', $controller.'@store')->name('.store');
                 break;
             case "create":
-                $route::get('/create', [$controller,'create'])->name('.create');
+                $route::get('/create', $controller.'@create')->name('.create');
                 break;
             case "edit":
-                $route::get('/{id}/edit', [$controller,'edit'])->name('.edit');
+                $route::get('/{id}/edit', $controller.'@edit')->name('.edit');
                 break;
             case "update":
-                $route::post('/update', [$controller,'update'])->name('.update');
+                $route::post('/update', $controller.'@update')->name('.update');
                 break;
             case "show":
-                $route::get('/{id}', [$controller,'show'])->name('.show');
+                $route::get('/{id}', $controller.'@show')->name('.show');
                 break;
             case "delete":
-                $route::match(['get', 'post'], '/delete/{id}', [$controller,'destroy'])->where(['id' => '[0-9]+'])->name('.delete');
+                $route::match(['get', 'post'], '/delete/{id}', $controller.'@destroy')->where(['id' => '[0-9]+'])->name('.delete');
                 break;
         }
     }

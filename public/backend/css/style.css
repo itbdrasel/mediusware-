@@ -7,6 +7,10 @@
 .frontoffice-body .table td .btn{ padding-top:0px; padding-bottom:0px;}
 .frontoffice-body .next-action{}
 .frontoffice-body .next-action a{ color:#fff; text-transform:uppercase; font-weight:bold; font-size:13px;}
+.frontoffice-body .table .checkin{ background:#0ac986;}
+.frontoffice-body .table .checkout{ background:#01B3B6;}
+.frontoffice-body .checkin:hover{ background:#1ede9b}
+.frontoffice-body .checkout:hover{ background:#fe976b}
 .frontoffice-body .btn{ text-transform:uppercase}
 .frontoffice-body .flaticon-reception:before{ margin-left:0}
 .frontoffice-body .form-header{ background:#dde2e3; padding:10px 10px 4px 10px; margin-bottom:15px; border-radius:4px;}
@@ -1361,3 +1365,37 @@ a.picture_remove{
 i.reservations_icon{
     color: #606d7e !important;
 }
+
+.invalid-feedback{
+    position: absolute;
+    bottom: -10px;
+    background-color: #fff;
+    left: 27px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: auto !important;
+}
+
+.content-wrapper>.content {
+    padding: 0 .9rem;
+}
+.main-sidebar {
+    background: #343a40;
+}
+
+
+.elevation-4{
+    box-shadow: none !important;
+}
+.main-header {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.menu-open{
+    background-color: #4b4e50;
+    border-radius: 10px;
+}
+.menu-open .active{
+    margin-right: 15px !important;
+}
+

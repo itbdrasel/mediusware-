@@ -20,9 +20,19 @@ Route::prefix('core')->group(function() {
     });
 
 
-    Route::get('/', 'CoreController@index');
-    Route::get('/dashboard', 'DashboardController@index');
+    Route::group(['as'=>'core'], function () {
+        Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+        // Setting Route
+        Route::group(['prefix'=>'settings','as'=>'settings', 'controller'=>'SettingsController'], function () {
+            Route::get('/', 'index');
+            Route::post('/', 'store')->name('.store');
+            Route::match(['get', 'post'], '/logo', 'logo')->name('.logo');
+        });
+    });
+
 });
+
 
 Route::get('all/clear', function() {
     Artisan::call('config:clear');

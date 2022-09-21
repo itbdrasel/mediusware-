@@ -9,7 +9,7 @@
     <!-- Brand Logo -->
     <a href="{{url('/')}}" class="brand-link top_title">
         <span class="w-100"><img style="margin: 0 auto; max-height:40px " class="d-block" src="{{url($logo)}}"></span>
-        <p class="brand-text font-weight-light text-center">{{$appName}}</p>
+{{--        <p class="brand-text font-weight-light text-center">{{$appName}}</p>--}}
     </a>
 
     <!-- Sidebar -->

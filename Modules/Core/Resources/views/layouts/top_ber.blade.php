@@ -23,11 +23,11 @@
             </style>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-{{--                    <i class="nav-icon fas fa-user-circle"></i> {{dAuth()->getUser()->full_name}} ({{dAuth()->getUser()->roles->first()->name}})--}}
+                    <i class="nav-icon fas fa-user-circle"></i> {{dAuth()->getUser()->full_name}} ({{dAuth()->getUser()->roles->first()->name}})
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <div class="dropdown-divider"></div>
-{{--                    <a href="{{url('author/profile/'. dAuth()->getUser()->id)}}" class="dropdown-item">--}}
+                    <a href="{{url('author/profile/'. dAuth()->getUser()->id)}}" class="dropdown-item">
                         <i class="fas fa-user mr-2"></i> Your Profile
                     </a>
                     <div class="dropdown-divider"></div>

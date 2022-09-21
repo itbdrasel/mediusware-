@@ -265,7 +265,7 @@ INSERT INTO `tbl_settings` (`s_id`, `s_name`, `s_value`, `updated_at`) VALUES
 (4, 'email', 'help@erp-system.bd', '2022-08-13 15:15:15'),
 (5, 'appAddress', 'House #46, Road #09, PC Culture Housing Society, Mohammadpur, Dhaka 1207.', '2022-08-05 17:37:05'),
 (6, 'contact', '+880 191 105 4866', '2022-08-05 17:37:05'),
-(7, 'logo', '/uploads/core/base_setting/logo.png', '2022-04-22 16:05:57'),
+(7, 'logo', '/uploads/core/setting/logo.png', '2022-04-22 16:05:57'),
 (8, 'c_symbol', 'TK', '2022-08-05 17:37:05'),
 (9, 'c_order', 'left', '2021-12-28 13:16:39'),
 (10, 'date_format', 'd-m-Y', '2022-01-02 13:50:53'),
