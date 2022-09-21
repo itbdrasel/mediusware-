@@ -1,24 +1,24 @@
-<?php namespace App\Repositories;
+<?php namespace Modules\Core\Repositories;
 
 
 interface AuthInterface
 {
-    
+
     public function roleRedirect();
-    
+
     public function register(array $credentials);
-    
+
     public function createRole(array $credentials);
 
     public function authenticate(array $credentials);
 
     public function authenticateAndRemember(array $credentials);
-   
+
     public function getUser();
 
     // @return user data model
     public function getAllUser();
-    
+
     public function findById($id);
 
     public function findRoleByID($id);
@@ -26,11 +26,11 @@ interface AuthInterface
     public function findRoleByName($name);
 
     public function findUserById($id);
-    
+
     public function check();
 
     // @return bool
-    public function userExist($id); 
+    public function userExist($id);
 
     public function logout();
 
@@ -48,7 +48,7 @@ interface AuthInterface
     public function createActivation($userInfo);
     public function completeActivation($userInfo, $code);
     public function removeExpiredActivation();
-    public function activateDeactivate($userId, $status);       
+    public function activateDeactivate($userId, $status);
 
     //reminder
     public function reminder($userInfo);

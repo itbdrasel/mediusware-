@@ -1,7 +1,7 @@
-<?php namespace App\Replies;
+<?php namespace Modules\Core\Replies;
 
 class SuccessReply implements ReplyInterface {
-    
+
     public function __construct($result) {
 
         $this->result = $result;
@@ -14,8 +14,8 @@ class SuccessReply implements ReplyInterface {
 
     }
 
-    /** 
-     * @return mixed 
+    /**
+     * @return mixed
      */
 
     public function getReply() {

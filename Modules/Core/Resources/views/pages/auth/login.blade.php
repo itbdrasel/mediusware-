@@ -1,4 +1,4 @@
-@extends("master_auth")
+@extends("core::master_auth")
 @section("content")
 	<style>
 		.login-box, .register-box {
@@ -9,22 +9,22 @@
 	<section class="login-section">
 		<div class="container-fluid pl-0">
 			<div class="row d-flex justify-content-center align-items-center">
-				<div class="col-lg-7 col-md-6">
+				<div class="col-lg-8 col-md-6">
 
 					<div class="login-section-img">
 						<h3>{{$appTitle}}</h3>
 					</div>
 				</div>
-				<div class="col-lg-5 col-md-6 d-flex justify-content-center">
+				<div class="col-lg-4 col-md-6 d-flex justify-content-center">
 					<div class="login-box">
 						<div class="login-box-title">
 							<img src="{{url($logo)}}">
 							<h3>{{$appTitle}}</h3>
 							<h5>Sign in to Continue</h5>
+
 						</div>
 
 						<div class="d-flex align-items-center login-box-title2">
-{{--							<h3>Admin Dashboard</h3>--}}
 							@if($errors->any())
 							<div class="alert alert-danger w-100 alert-dismissible fade show" role="alert" style="background-color: #f8d7da !important; border-color: #f5c2c7; color: #842029;">
 								{{$errors->all()[0]??''}}
@@ -36,7 +36,7 @@
 						</div>
 						<div>
 							<div class="login-card-body">
-								<form action="{{url('system/core/login')}}" method="post" class="m-0">
+								<form action="{{url($pageUrl)}}" method="post" class="m-0">
 									@csrf
 									<div class="row">
 										<div class="col-12">
@@ -63,7 +63,7 @@
 											<button type="submit" class="btn btn-block">Sign In</button>
 										</div>
 										<div class="col-12 login-link">
-											<a href="{{url('system/core/forgot-password')}}">Forget Password?</a>
+											<a href="{{url($bUrl.'/forgot-password')}}">Forget Password?</a>
 										</div>
 									</div>
 								</form>

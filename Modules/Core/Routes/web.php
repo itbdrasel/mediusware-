@@ -12,6 +12,24 @@
 */
 
 Route::prefix('core')->group(function() {
+    Route::controller(Auth\LoginController::class)->group(function () {
+        Route::get('/', 'login');
+        Route::get('login', 'login');
+        Route::post('login', 'store');
+        Route::get('logout', 'logout');
+    });
+
+
     Route::get('/', 'CoreController@index');
     Route::get('/dashboard', 'DashboardController@index');
+});
+
+Route::get('all/clear', function() {
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('event:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('optimize:clear');
+    dd("Cache is cleared");
 });

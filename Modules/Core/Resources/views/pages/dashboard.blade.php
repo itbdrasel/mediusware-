@@ -1,9 +1,14 @@
 @extends('core::master')
 
 @section('content')
-    <h1>Hello World</h1>
-
-    <p>
-        This view is loaded from module: {!! config('core.name') !!}
-    </p>
+    <section class="content">
+        <div class="card card-outline card-secondary">
+            <div class="card-header">
+            </div>
+            <div class="card-body" >
+            </div>
+            <div class="card-footer">
+            </div>
+        </div>
+    </section>
 @endsection

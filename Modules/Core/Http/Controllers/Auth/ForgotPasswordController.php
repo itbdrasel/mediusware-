@@ -5,12 +5,12 @@ namespace Modules\Core\Http\Controllers\Auth;
 
 use Illuminate\Routing\Controller;
 
-use App\Helpers\SuccessError;
-use App\User;
+use Modules\Core\Helpers\SuccessError;
+use Modules\Core\Entities\User;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
-use App\Repositories\AuthInterface as Auth;
+use Modules\Core\Repositories\AuthInterface as Auth;
 
 class ForgotPasswordController extends Controller
 {

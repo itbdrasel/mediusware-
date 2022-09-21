@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Core\Entities;
 
-use App\Roles;
+use Modules\Core\Entities\Roles;
 use Illuminate\Database\Eloquent\Model;
 
 class RoleUser extends Model

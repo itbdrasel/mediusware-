@@ -1,14 +1,10 @@
 <?php
 
+namespace Modules\Core\Services;
 
-namespace App\Services;
+use Modules\Core\Entities\ModuleSection;
+use Modules\Core\Repositories\AuthInterface as Auth;
 
-use App\Helpers\Logs;
-use App\Models\ModuleSection;
-
-use App\Repositories\AuthInterface as Auth;
-
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,12 +23,9 @@ class PermissionService
     }
 
 
-
     public function routeRegister($request){
         $sectionName        = $request['section_name'];
         $routeName          = $request['route_name'];
-        $actionName         = substr($routeName, strrpos($routeName, '.') );
-        $actionName         = trim($actionName,'.');
         $roles              = $request['role']; // can be multiple [array]
         $module_name        = $request['module_name'];
         $routeWithRoles     = json_encode( [$routeName => $roles ] );
@@ -56,12 +49,8 @@ class PermissionService
         $routeData['section_action_route'] = $routeWithRoles;
         if (!empty($data)) {
             $this->model::where('section_name', $sectionName)->update( $routeData);
-            $log_title = 'Route (Section : '.$sectionName  .') was update by '. $this->auth->getUser()->full_name;
-            Logs::create($log_title,'route_section_update');
         }else{
             $this->model::insert($routeData);
-            $log_title = 'Route (Section : '.$sectionName  .') was update by '. $this->auth->getUser()->full_name;
-            Logs::create($log_title,'route_section_update');
         }
         $role = $this->auth->findRoleById($roles);
         if($role){

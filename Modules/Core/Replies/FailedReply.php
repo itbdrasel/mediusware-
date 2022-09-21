@@ -1,4 +1,4 @@
-<?php namespace App\Replies;
+<?php namespace Modules\Core\Replies;
 
 class FailedReply implements ReplyInterface {
 
@@ -14,8 +14,8 @@ class FailedReply implements ReplyInterface {
 
     }
 
-    /** 
-     * @return mixed 
+    /**
+     * @return mixed
      */
 
     public function getReply() {

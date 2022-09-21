@@ -1,15 +1,20 @@
 <?php
 
-namespace App;
+namespace Modules\Core\Entities;
 
-use App\Models\RoleUser;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Modules\Core\Entities\RoleUser;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+
+    use HasApiTokens, HasFactory, Notifiable;
+
 
     public static $sortable = ['id' => 'id', 'name' => 'full_name', 'role'=>'roles.name','login'=>'last_login'];
 

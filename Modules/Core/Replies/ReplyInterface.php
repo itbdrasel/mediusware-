@@ -1,17 +1,17 @@
-<?php namespace App\Replies;
+<?php namespace Modules\Core\Replies;
 
 interface ReplyInterface {
-    
-    /* * 
-     * @return boolean 
+
+    /* *
+     * @return boolean
      */
 
     public function hasFailed();
-    
-    /* * 
-     * @return mixed 
+
+    /* *
+     * @return mixed
      */
-    
+
      public function getReply();
 
 }

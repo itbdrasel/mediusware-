@@ -13,10 +13,25 @@ use Validator;
 class LoginController extends Controller
 {
     private $data;
+    private $bUrl;
+    private $title;
+
     private $auth;
 
     public function __construct(Auth $auth){
-        $this->auth = $auth;
+        $this->auth         = $auth;
+
+        $this->moduleName   = 'core';
+        $this->bUrl         = $this->moduleName;
+        $this->title        = 'Login';
+    }
+
+
+
+    public function layout($pageName){
+        $this->data['bUrl']     = $this->bUrl;
+        echo view($this->moduleName.'::pages.auth.'.$pageName.'', $this->data);
+
     }
 
 
@@ -25,14 +40,20 @@ class LoginController extends Controller
      *
      */
 
+
+
     public function login(){
 
         if($this->auth->check()){
             return $this->auth->roleRedirect();
         }
 
-        $this->data['title'] = 'Administrator - '.config('appTitle');
-        return view('system.auth.login',$this->data);
+        $this->data = [
+            'title'         => 'Administrator - '.config('appTitle'),
+            'pageUrl'       => $this->bUrl.'/login'
+        ];
+
+        $this->layout('login');
     }
 
     /* * *
@@ -40,7 +61,7 @@ class LoginController extends Controller
     *
     */
 
-    public function loginAction(Request $request){
+    public function store(Request $request){
 
         $errorMsg = [
             'email.required'    => 'Enter an Email Address.',
@@ -79,7 +100,7 @@ class LoginController extends Controller
 
         $this->auth->logout();
 
-        return redirect('system/core/login');
+        return redirect('core/login');
     }
 
 

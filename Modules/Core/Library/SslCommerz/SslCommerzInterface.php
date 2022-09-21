@@ -1,5 +1,5 @@
 <?php
-namespace App\Library\SslCommerz;
+namespace Modules\Core\Library\SslCommerz;
 
 interface SslCommerzInterface
 {
