@@ -5,6 +5,7 @@ namespace Modules\Core\Http\Controllers;
 use Illuminate\Routing\Controller;
 
 use Modules\Core\Entities\Settings;
+use Modules\Core\Entities\Tax;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class SettingsController extends Controller
     private $title;
     private $model;
     private $auth;
+    private $moduleName;
 
     public function __construct(Auth $auth){
         $this->auth         = $auth;
@@ -43,9 +45,8 @@ class SettingsController extends Controller
                 'page_icon' => '<i class="fa fa-book"></i>',
                 'pageUrl'   => $this->bUrl,
                 'allData'   => $this->bUrl,
-                'allTex'    => [],
+                'allTex'    => Tax::orderBy('tax_id', 'ASC')->get(),
             ];
-//        $this->data['allTex']   = Tax::orderBy('tax_id', 'ASC')->get();
 
         $this->layout('index');
     }

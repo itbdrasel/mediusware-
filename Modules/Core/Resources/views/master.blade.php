@@ -1,8 +1,4 @@
-@include('core::layouts.header')
-@include('core::layouts.top_ber')
-@include('core::layouts.sidebar_top')
-@include('core::layouts.nav_ber')
-@include('core::layouts.sidebar_footer')
-@include('core::layouts.breadcrumb')
-@yield('content')
-@include('core::layouts.footer')
+@extends('core::app')
+@section('nav_ber')
+    @include('core::layouts.nav_ber')
+@endsection

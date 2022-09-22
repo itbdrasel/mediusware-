@@ -1,83 +1,87 @@
 <?php
+namespace Modules\Core\Http\Controllers;
 
-namespace App\Http\Controllers\Sys;
-use App\Http\Controllers\Controller;
+use Modules\Core\Entities\Roles;
+use Modules\Core\Repositories\AuthInterface as Auth;
 
-use App\Helpers\Logs;
-use App\Models\ModuleSection;
-use App\Repositories\AuthInterface as Auth;
-use App\User;
+use Modules\Core\Entities\ModuleSection;
+use Modules\Core\Entities\User;
+
+use Modules\Core\Services\PermissionService;
+
+
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
-
-
 use Illuminate\Http\Request;
 
-use App\Services\PermissionService;
 
 
 class PermissionController extends Controller
 {
 
-	private $moduleName;
-	private $data;
-	private $bUrl;
 
+    private $data;
+    private $bUrl;
+    private $title;
+    private $model;
     private $auth;
+    private $moduleName;
 
     public function __construct(Auth $auth){
-        $this->auth = $auth;
+        $this->auth         = $auth;
+        $this->model        = ModuleSection::class;
+        $this->moduleName   = 'core';
+        $this->bUrl         = $this->moduleName.'/permissions';
+        $this->title        = 'User Permission';
+    }
 
-		 $this->tableId = 'roles';
-		 $this->moduleName = 'system/core';
-		 $this->bUrl = $this->moduleName.'/permissions';
-	}
 
-	public function roles(Request $request){
+    public function layout($pageName){
+
+        $this->data['bUrl']     =  $this->bUrl;
+        echo view($this->moduleName.'::pages.permissions.'.$pageName.'', $this->data);
+
+    }
+
+    public function index(Request $request){
         $this->data = [
-            'title'         => 'Role Manage',
-            'pageUrl'       => $this->moduleName.'/roles',
-            'page_icon'     => '<i class="fa fa-book"></i>',
-            'roles'         => DB::table('roles')->get(),
+            'title'         => $this->title.' Manager',
+            'pageUrl'       => $this->bUrl,
+            'page_icon'     => '<i class="fas fa-tasks"></i>',
+            'roles'         => Roles::get(),
+            'modules'       =>  $this->model::select('section_module_name')->get()->unique('section_module_name'),
+            'sections'      =>  $this->model::orderBy('section_module_name')->get(),
         ];
 
-        return view('system.auth.roles', $this->data);
+        $this->data['roleId']       = $request['role'];
+        $this->data['sectionId']    = $request['section'];
+        $this->data['module']       = $request['module'];
+
+        $this->layout('index');
     }
-    public function roleCreate(){
+
+
+    public function create(){
         $this->data = [
-            'title'         => 'Add New Role',
-            'pageUrl'       => $this->moduleName.'/roles',
-            'page_icon'     => '<i class="fa fa-book"></i>',
+            'title'         => $this->title.' Create',
+            'pageUrl'       => $this->bUrl,
+            'page_icon'     => '<i class="fas fa-layer-plus"></i>',
         ];
 
-        return view('system.auth.role_create', $this->data);
+        $this->layout('index');
     }
-    public function roleStore(Request $request){
-        $rules = [
-            'role_name'     =>'required|max:255',
-            'role_slug'     =>'required|max:255|unique:roles,slug',
-            'redirect'      =>'required|max:255|',
-        ];
-        $attribute =[];
-        $customMessages =[];
-        $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
-        if ($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-        $this->auth->createRole([
-            'name'      => $request['role_name'],
-            'slug'      => $request['role_slug'],
-            'redirect'  => $request['redirect'],
-            'session_data'  => json_encode([
-                'session_key'   => $request['session_key'],
-                'session_value' => $request['session_value'],
-            ]),
-        ]);
-        $log_title = 'Role ('.$request['role_slug'].') was Create by '. $this->auth->getUser()->full_name;
-        Logs::create($log_title,'role_create');
-        return redirect($this->moduleName.'/roles')->with('success', 'Record Successfully Created.');
+
+
+
+    public function store(Request $request){
+
     }
+
+
+
+
+
 
 
     public function permissions(Request $request){

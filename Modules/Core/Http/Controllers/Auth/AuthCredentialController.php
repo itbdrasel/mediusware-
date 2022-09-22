@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Validator;
 
 
-class LoginController extends Controller
+class AuthCredentialController extends Controller
 {
     private $data;
     private $bUrl;

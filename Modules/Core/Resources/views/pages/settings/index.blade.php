@@ -30,7 +30,7 @@
         <form method="post" action="{{url($bUrl.'/store')}}" enctype="multipart/form-data" >
         @csrf
         <!-- Default box -->
-            <div class="card">
+            <div class="card card-outline card-info">
                 <div class="card-body" id="settings">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" id="settingsTab" role="tablist">

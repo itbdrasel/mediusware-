@@ -12,7 +12,8 @@
 */
 
 Route::prefix('core')->group(function() {
-    Route::controller(Auth\LoginController::class)->group(function () {
+
+    Route::controller(Auth\AuthCredentialController::class)->group(function () {
         Route::get('/', 'login');
         Route::get('login', 'login');
         Route::post('login', 'store');
@@ -25,11 +26,17 @@ Route::prefix('core')->group(function() {
 
         // Setting Route
         Route::group(['prefix'=>'settings','as'=>'settings', 'controller'=>'SettingsController'], function () {
-            Route::get('/', 'index');
-            Route::post('/', 'store')->name('.store');
+            getResourceRoute(['index', 'store'], false);
             Route::match(['get', 'post'], '/logo', 'logo')->name('.logo');
         });
     });
+
+
+    // Permission Route
+    Route::group(['prefix'=>'permissions','as'=>'permissions','controller'=>'PermissionController'], function () {
+        getResourceRoute(['index', 'create','store'], false);
+    });
+
 
 });
 

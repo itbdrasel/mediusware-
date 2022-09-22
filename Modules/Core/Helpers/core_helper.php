@@ -35,36 +35,46 @@ function currency($amount, $format = false, $symbole=true){
 
 
 
-function getResourceRoute($controller, $array=''){
+function getResourceRoute($array, $match=true, $match_2=true){
     $route =  Illuminate\Support\Facades\Route::class;
 
     for ($i=0; $i<count($array); $i++) {
         switch ($array[$i]) {
-
             case "index":
-                $route::match(['get', 'post'], '/', $controller.'@index')->name('');
+                if ($match) {
+                    $route::match(['get', 'post'], '/', 'index')->name('');
+                }else{
+                    $route::get('/', 'index')->name('');
+                }
                 break;
             case "store":
-                $route::post('/store', $controller.'@store')->name('.store');
+                $route::post('/store', 'store')->name('.store');
                 break;
             case "create":
-                $route::get('/create', $controller.'@create')->name('.create');
+                $route::get('/create', 'create')->name('.create');
                 break;
             case "edit":
-                $route::get('/{id}/edit', $controller.'@edit')->name('.edit');
+                $route::get('/{id}/edit', 'edit')->name('.edit');
                 break;
             case "update":
-                $route::post('/update', $controller.'@update')->name('.update');
+                $route::post('/update','update')->name('.update');
                 break;
             case "show":
-                $route::get('/{id}', $controller.'@show')->name('.show');
+                $route::get('/{id}', 'show')->name('.show');
                 break;
             case "delete":
-                $route::match(['get', 'post'], '/delete/{id}', $controller.'@destroy')->where(['id' => '[0-9]+'])->name('.delete');
+                if ($match_2) {
+                    $route::match(['get', 'post'], '/delete/{id}','destroy')->name('.delete');
+                }else{
+                    $route::get( '/delete/{id}','destroy')->name('.delete');
+                }
                 break;
         }
     }
 }
+
+
+
 
 /*****
  * validation_errors()
@@ -170,9 +180,22 @@ if (! function_exists('activeMenu')) {
     }
 }
 // Menu menu open class add
-if (! function_exists('menuOpen')) {
-    function menuOpen($sig, $data){
-        return (Request::segment($sig) == $data)?'menu-open':'';
+if (! function_exists('menuOpenActive')) {
+    function menuOpenActive($sig, $data, $active=false){
+        if (is_array($data)) {
+            for ($x = 0; $x < count($data); $x++) {
+                if (Request::segment($sig) == $data[$x]) {
+                    if ($active) {
+                        return 'active';
+                    }else{
+                        return 'menu-open';
+                    }
+
+                }
+            }
+        }else{
+            return (Request::segment($sig) == $data)?'menu-open':'';
+        }
     }
 }
 
