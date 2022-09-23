@@ -1,0 +1,84 @@
+<?php
+
+
+namespace Modules\Core\Services;
+
+use Validator;
+
+class CRUDServices{
+
+    private $data;
+    public function __construct(){
+
+    }
+
+    /**
+     * Function validation handle by request quote from validation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  false|true $session
+     *
+     * @return validation message
+     */
+
+    public function getIndexData($request, $model){
+        $model_sortable = $model::$sortable;
+        $tableId = $model::$sortable['id'];
+        $perPage = session('per_page') ?: 10;
+
+        //table item serial starting from 0
+        $data['serial'] = ( ($request->get('page') ?? 1) -1) * $perPage;
+
+        if($request->method() === 'POST'){
+            session(['per_page' => $request->post('per_page') ]);
+        }
+
+        //model query...
+        $queryData = $model::orderBy( getOrder($model_sortable, $tableId)['by'], getOrder($model_sortable, $tableId)['order']);
+        //filter by text.....
+        $data['filter'] ='';
+        if( $request->filled('filter') ){
+            $filter = $model::$filters;
+            if (!empty($filter)) {
+                $sl =0;
+                foreach ($filter as $key=>$value){
+                    $data['filter'] = $filter = $request->get('filter');
+                    $sl++;
+                    if ($sl ==1) {
+                        $queryData->where($value, 'like', '%'.$filter.'%');
+                    }else{
+                        $queryData->orWhere($value, 'like', '%'.$filter.'%');
+                    }
+                }
+            }
+
+        }
+
+        $data['allData'] =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
+        return $data;
+
+    }
+
+    public function getValidationRules($model){
+        $data['rules'] = [];
+        $data['attribute'] = [];
+        foreach ($model::$required as $key=>$value){
+            $data['rules'][$value]  = 'required';
+            if (!empty($value)) {
+                $data['attribute'][$value]  = $value;
+            }
+        }
+        return $data;
+    }
+
+    public function getInsertData($model, $request){
+        $data = [];
+        $array= $model::$insertData;
+        for ($i=0; $i<count( $array); $i++){
+            $data[$array[$i]]= $request[$array[$i]];
+        }
+        return $data;
+    }
+
+
+}

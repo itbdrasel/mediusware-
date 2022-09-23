@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2022 at 08:28 AM
+-- Generation Time: Sep 23, 2022 at 08:19 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rasel_erp_system`
+-- Database: `erp_system`
 --
 
 -- --------------------------------------------------------
@@ -146,6 +146,14 @@ CREATE TABLE `persistences` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `persistences`
+--
+
+INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
+(4, 1, 'Xp1lOVaE4brMh9VWrTATaEmISvprqcnl', '2022-09-23 05:10:17', '2022-09-23 05:10:17'),
+(5, 1, 'BCJlJO0ekX21EYifUECdxwrH07WKbdWd', '2022-09-23 10:38:05', '2022-09-23 10:38:05');
+
 -- --------------------------------------------------------
 
 --
@@ -191,7 +199,7 @@ CREATE TABLE `roles` (
   `id` int(10) UNSIGNED NOT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `permissions` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permissions` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `redirect_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `module_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -203,7 +211,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `slug`, `name`, `permissions`, `redirect_url`, `module_code`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'Administrator', NULL, 'home', NULL, '2021-01-15 05:01:15', '2022-06-15 07:15:05');
+(1, 'admin', 'Administrator', NULL, 'core/dashboard', NULL, '2021-01-15 05:01:15', '2022-06-15 07:15:05');
 
 -- --------------------------------------------------------
 
@@ -228,13 +236,35 @@ INSERT INTO `role_users` (`user_id`, `role_id`, `created_at`, `updated_at`) VALU
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_modules`
+--
+
+CREATE TABLE `tbl_modules` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `status` tinyint(2) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_modules`
+--
+
+INSERT INTO `tbl_modules` (`id`, `name`, `slug`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Core', 'core', 1, '2022-09-23 12:13:23', '2022-09-23 12:13:23');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_module_sections`
 --
 
 CREATE TABLE `tbl_module_sections` (
-  `section_id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `section_name` varchar(255) NOT NULL,
-  `section_module_name` varchar(255) DEFAULT NULL,
+  `module_id` int(11) DEFAULT NULL,
   `section_action_route` text DEFAULT NULL,
   `section_roles_permission` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -265,7 +295,7 @@ INSERT INTO `tbl_settings` (`s_id`, `s_name`, `s_value`, `updated_at`) VALUES
 (4, 'email', 'help@erp-system.bd', '2022-08-13 15:15:15'),
 (5, 'appAddress', 'House #46, Road #09, PC Culture Housing Society, Mohammadpur, Dhaka 1207.', '2022-08-05 17:37:05'),
 (6, 'contact', '+880 191 105 4866', '2022-08-05 17:37:05'),
-(7, 'logo', '/uploads/core/setting/logo.png', '2022-04-22 16:05:57'),
+(7, 'logo', '/uploads/core/settings/logo.png', '2022-04-22 16:05:57'),
 (8, 'c_symbol', 'TK', '2022-08-05 17:37:05'),
 (9, 'c_order', 'left', '2021-12-28 13:16:39'),
 (10, 'date_format', 'd-m-Y', '2022-01-02 13:50:53'),
@@ -346,7 +376,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `permissions`, `m_permission`, `password`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-07-04 21:53:34', NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', NULL, NULL, '2021-01-15 06:37:06', '2022-07-04 21:53:34');
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-09-23 10:38:05', NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', NULL, NULL, '2021-01-15 06:37:06', '2022-09-23 10:38:05');
 
 -- --------------------------------------------------------
 
@@ -451,10 +481,16 @@ ALTER TABLE `role_users`
   ADD PRIMARY KEY (`user_id`);
 
 --
+-- Indexes for table `tbl_modules`
+--
+ALTER TABLE `tbl_modules`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_module_sections`
 --
 ALTER TABLE `tbl_module_sections`
-  ADD PRIMARY KEY (`section_id`),
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `section_name` (`section_name`);
 
 --
@@ -523,7 +559,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -544,10 +580,16 @@ ALTER TABLE `roles`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `tbl_modules`
+--
+ALTER TABLE `tbl_modules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tbl_module_sections`
 --
 ALTER TABLE `tbl_module_sections`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_settings`

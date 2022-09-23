@@ -32,6 +32,11 @@ Route::prefix('core')->group(function() {
     });
 
 
+    // Module Route
+    Route::group(['prefix'=>'module','as'=>'module','controller'=>'ModuleController'], function () {
+        getResourceRoute(['index','edit','store', 'delete']);
+    });
+
     // Permission Route
     Route::group(['prefix'=>'permissions','as'=>'permissions','controller'=>'PermissionController'], function () {
         getResourceRoute(['index', 'create','store'], false);
