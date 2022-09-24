@@ -109,8 +109,7 @@ class ModuleController extends Controller
         }
         $params = $this->getInsertData($request);
 
-
-        if ( empty($id) ) {
+        if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
         }else{
@@ -131,27 +130,11 @@ class ModuleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $id = filter_var($id, FILTER_VALIDATE_INT);
-        if( !$id ){ exit('Bad Request!'); }
-
-        $this->data = [
-            'title'     => 'Delete '.$this->title,
-            'pageUrl'   => $this->bUrl.'/delete/'.$id,
-            'page_icon' => '<i class="fa fa-trash"></i>',
-            'objData'   => $this->model::where($this->tableId, $id)->first(),
-        ];
-
-        $this->data['tableID'] = $this->tableId;
-        $this->data['bUrl'] = $this->bUrl;
-
-
         if($request->method() === 'POST' ){
-            $this->model::where($this->tableId, $id)->delete();
-
+//            $this->model::where($this->tableId, $id)->delete();
             echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
         }else{
-            return view('core::layouts.include.delete', $this->data);
-
+            return $this->crudServices->destroy($request, $id, $this->model, $this->tableId, $this->bUrl, $this->title);
         }
 
     }

@@ -6,13 +6,12 @@
 
 <div class="modal-content">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel"> {{$title}} </h4>
+        <h4 class="m-0" style="margin: 0 !important; font-size: 19px; font-weight: bold" ><i class="fa fa-trash"></i> {{$title}} </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
     <div class="modal-body">
         <form method="post" action="{{url($pageUrl)}}" id="delete" >
             @csrf
-
 
             <div class="alert alert-warning" role="alert">&nbsp;</div>
             <div class="alert alert-success" role="alert">&nbsp;</div>
@@ -20,17 +19,14 @@
             <div class="fbody">
 
                 <input type="hidden" name="id" id="id" value="{{ $objData->$tableID }}" />
-
-
                 <div class="form-group" >
                     <label class="col-sm-7 control-label" >Do you want to delete {{ $title }} ? </label>
                     <div class='col-sm-5'>
+                        <input type="submit" value="Yes, Delete This" class="btn btn-danger" id="submit" />
+                        &nbsp;<a class="btn btn-default no" data-dismiss="modal" data-reload="false">No, Go Back</a>
 
-                        <input type="submit" value="Yes" class="btn btn-danger" id="submit" />
-
-
-                        &nbsp;<a class="btn btn-default no" data-dismiss="modal" data-reload="false">No</a>
-                    </div></div>
+                    </div>
+                </div>
 
 
             </div>
