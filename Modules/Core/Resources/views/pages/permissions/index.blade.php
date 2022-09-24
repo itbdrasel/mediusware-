@@ -27,15 +27,16 @@
 
                                     <select id="role" name="role" class="form-control" >
                                         <option value=""> Select User</option>
+                                        @if (!empty($roles))
                                         @foreach($roles as $role)
                                             @php
                                                 $permissions =  str_replace('.','_',$role->permissions);
                                                 $permissions = json_decode($permissions);
                                             @endphp
-
                                             <option {{ isset($roleId) && $roleId == $role->id ? 'selected' : '' }} value="{{$role->id}}">{{ucfirst($role->name)}}</option>
 
-                                        @endforeach;
+                                        @endforeach
+                                        @endif
                                     </select>
 
                                 </div>
@@ -44,11 +45,11 @@
                                 <div class="col-sm-2">
                                     <select id="module" name="module" class="form-control" >
                                         <option value=""> Select Module </option>
+                                        @if (!empty($modules))
                                         @foreach($modules as $section)
-
-                                            <option {{ isset($module) && $module == $section->section_module_name ? 'selected' : '' }} value="{{$section->section_module_name}}">{{ucwords($section->section_module_name)}}</option>
-
-                                        @endforeach;
+                                            <option {{ isset($module) && $module == $section->section_module_name ? 'selected' : '' }} value="{{$section->slug}}">{{ucwords($section->name)}}</option>
+                                        @endforeach
+                                        @endif
                                     </select>
                                 </div>
 
@@ -57,11 +58,14 @@
                                 <div class="col-sm-3">
                                     <select id="section" name="section" class="form-control" >
                                         <option value=""> Select Section </option>
+                                        @if (!empty($sections))
+
                                         @foreach($sections as $section)
 
                                             <option {{ isset($sectionId) && $sectionId == $section->section_id ? 'selected' : '' }} value="{{$section->section_id}}">{{ucfirst($section->section_name).' ('.ucwords($section->section_module_name).')'}}</option>
 
-                                        @endforeach;
+                                        @endforeach
+                                        @endif
                                     </select>
                                 </div>
 

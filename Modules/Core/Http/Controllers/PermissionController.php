@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Core\Http\Controllers;
 
+use Modules\Core\Entities\Module;
 use Modules\Core\Entities\Roles;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
@@ -50,9 +51,10 @@ class PermissionController extends Controller
             'pageUrl'       => $this->bUrl,
             'page_icon'     => '<i class="fas fa-tasks"></i>',
             'roles'         => Roles::get(),
-            'modules'       =>  $this->model::select('section_module_name')->get()->unique('section_module_name'),
-            'sections'      =>  $this->model::orderBy('section_module_name')->get(),
+            'modules'       =>  Module::where('status',1)->get(),
+            'sections'      =>  $this->model::orderBy('module_id')->get(),
         ];
+
 
         $this->data['roleId']       = $request['role'];
         $this->data['sectionId']    = $request['section'];
@@ -66,15 +68,24 @@ class PermissionController extends Controller
         $this->data = [
             'title'         => $this->title.' Create',
             'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-layer-plus"></i>',
+            'page_icon'     => '<i class="fas fa-plus"></i>',
+            'modules'       =>  Module::where('status',1)->get(),
+            'roles'         => Roles::get(),
         ];
 
-        $this->layout('index');
+        $this->layout('create');
     }
 
 
 
-    public function store(Request $request){
+    public function store(Request $request, PermissionService $permissionService){
+        $validator = $permissionService->routeValidation($request);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+            $permissionService->routeRegister($request);
+            return redirect()->back()->with('success', 'Data Recorded Successful.');
+        }
 
     }
 

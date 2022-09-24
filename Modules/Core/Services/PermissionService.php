@@ -27,10 +27,10 @@ class PermissionService
         $sectionName        = $request['section_name'];
         $routeName          = $request['route_name'];
         $roles              = $request['role']; // can be multiple [array]
-        $module_name        = $request['module_name'];
+        $module_id          = $request['module_name'];
         $routeWithRoles     = json_encode( [$routeName => $roles ] );
 
-        $data = $this->model::where(['section_name'=> $sectionName])->where('section_module_name', $module_name)->first();
+        $data = $this->model::where(['section_name'=> $sectionName])->where('module_id', $module_id)->first();
         if (!empty($data)) {
             $getRoutes = $data->section_action_route;
             $routeNames = json_decode($getRoutes, true);
@@ -44,9 +44,9 @@ class PermissionService
             $roles_permission = trim($this->arrayValue($roles), ',"');
             $routeData['section_roles_permission'] = '["' . $roles_permission . '"]';
         }
-        $routeData['section_name'] = $sectionName;
-        $routeData['section_module_name'] = $module_name;
-        $routeData['section_action_route'] = $routeWithRoles;
+        $routeData['section_name']          = $sectionName;
+        $routeData['module_id']             = $module_id;
+        $routeData['section_action_route']  = $routeWithRoles;
         if (!empty($data)) {
             $this->model::where('section_name', $sectionName)->update( $routeData);
         }else{
@@ -69,12 +69,11 @@ class PermissionService
             'route_name'	=> ['required',
                 function ($attribute, $value, $fail)  use ($request) {
                     if ( !Route::has($value) ) {
-                        $fail(__('The '.$attribute.' is not exist.'));
+                        $fail(__('The route name is not exist.'));
                     }
                 },
             ],
             'role'			=> 'required'
-
         ];
 
         $attribute = [

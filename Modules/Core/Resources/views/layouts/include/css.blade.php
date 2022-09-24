@@ -12,6 +12,7 @@
 @stack('css_plugin')
 <link rel="stylesheet" href="{{url('backend')}}/plugins/fontawesome-free/css/all.min.css">
 <!-- Flaticon -->
+<link rel="stylesheet" href="{{url('backend')}}/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 <link rel="stylesheet" href="{{url('backend')}}/fonts/flaticon.css">
 <!-- materials icon -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
