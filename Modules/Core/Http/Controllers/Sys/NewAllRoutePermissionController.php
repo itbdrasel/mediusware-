@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Sys;
+namespace Modules\Core\Http\Controllers\Sys;
+use Illuminate\Routing\Controller;
 
-use App\Repositories\AuthInterface as Auth;
+use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 
 class NewAllRoutePermissionController extends Controller
 {

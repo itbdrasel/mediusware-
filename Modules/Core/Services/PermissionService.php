@@ -34,6 +34,7 @@ class PermissionService
         if (!empty($data)) {
             $getRoutes = $data->section_action_route;
             $routeNames = json_decode($getRoutes, true);
+
             if (array_key_exists($routeName, $routeNames)) {
                 $routeNames[$routeName] = $roles; // update existing route.
             } else {
@@ -47,16 +48,31 @@ class PermissionService
         $routeData['section_name']          = $sectionName;
         $routeData['module_id']             = $module_id;
         $routeData['section_action_route']  = $routeWithRoles;
+
         if (!empty($data)) {
             $this->model::where('section_name', $sectionName)->update( $routeData);
         }else{
             $this->model::insert($routeData);
         }
-        $role = $this->auth->findRoleById($roles);
+        if (!empty($roles)) {
+            if (is_array($roles)) {
+                foreach ($roles as $role){
+                    $this->addPermission($role, $routeName);
+                }
+
+            }else{
+                $this->addPermission($roles, $routeName);
+            }
+        }
+
+    }
+
+
+    public function addPermission($role_id, $routeName){
+        $role = $this->auth->findRoleById($role_id);
         if($role){
             $role->addPermission($routeName,true)->save();
         }
-
     }
 
 

@@ -21,7 +21,7 @@ Route::prefix('core')->group(function() {
     });
 
 
-    Route::group(['as'=>'core'], function () {
+    Route::group(['as'=>'core.'], function () {
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
         // Setting Route
@@ -29,18 +29,19 @@ Route::prefix('core')->group(function() {
             getResourceRoute(['index', 'store'], false);
             Route::match(['get', 'post'], '/logo', 'logo')->name('.logo');
         });
-    });
 
 
-    // Module Route
-    Route::group(['prefix'=>'module','as'=>'module','controller'=>'ModuleController'], function () {
-        getResourceRoute(['index','edit','store', 'delete']);
+        // Module Route
+        Route::group(['prefix'=>'module','as'=>'module','controller'=>'ModuleController'], function () {
+            getResourceRoute(['index','edit','store', 'delete']);
+        });
+
+        // Permission Route
+        Route::group(['prefix'=>'permissions','as'=>'permissions','controller'=>'PermissionController'], function () {
+            getResourceRoute(['index', 'create','store']);
+        });
     });
 
-    // Permission Route
-    Route::group(['prefix'=>'permissions','as'=>'permissions','controller'=>'PermissionController'], function () {
-        getResourceRoute(['index', 'create','store'], false);
-    });
 
 
 });
@@ -54,4 +55,9 @@ Route::get('all/clear', function() {
     Artisan::call('cache:clear');
     Artisan::call('optimize:clear');
     dd("Cache is cleared");
+});
+
+Route::controller(Sys\NewAllRoutePermissionController::class)->group(function () {
+    Route::get('new-all-route-permission','store');
+    Route::get('all-routes', 'getAllRoutes');
 });

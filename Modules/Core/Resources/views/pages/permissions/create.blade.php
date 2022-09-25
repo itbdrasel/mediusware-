@@ -69,7 +69,7 @@
                             @foreach($roles as $role)
                                 <div class="form-group clearfix">
                                     <div class="icheck-success">
-                                        <input name="role[]" type="checkbox" id="role{{$role->id}}" >
+                                        <input name="role[]" value="{{$role->id}}" type="checkbox" id="role{{$role->id}}" >
                                         <label for="role{{$role->id}}">{{ucfirst($role->name)}}</label>
                                     </div>
                                 </div>

@@ -52,13 +52,40 @@ class PermissionController extends Controller
             'page_icon'     => '<i class="fas fa-tasks"></i>',
             'roles'         => Roles::get(),
             'modules'       =>  Module::where('status',1)->get(),
-            'sections'      =>  $this->model::orderBy('module_id')->get(),
+            'sections'      =>  $this->model::orderBy('module_id')->with('module')->get(),
         ];
 
 
-        $this->data['roleId']       = $request['role'];
-        $this->data['sectionId']    = $request['section'];
-        $this->data['module']       = $request['module'];
+
+        if($request->method() === 'POST' ){
+            $rules = [
+                'role_id'	=> ['required'],
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }else{
+                $role = $this->data['role_id'] = $request['role_id'];
+                $section_id = $this->data['section_id'] = $request['section_id'];
+                $module_id = $this->data['module_id'] = $request['module_id'];
+                $permissions = $this->data['rolePermissions'] = $this->auth->findRoleById($role);
+                $query = $this->model::orderBy('section_name');
+                if ($section_id) {
+                    $query->where('id', $section_id);
+                }
+                if ($module_id) {
+                    $query->where('module_id', $module_id);
+                    $this->data['sections'] = $this->model::orderBy('module_id')->where('module_id', $module_id)->with('module')->get();
+                }
+
+                $sectionNames = $this->data['sectionNames'] = $query->get();
+            }
+        }
+
+
+        $this->data['role_id']       = $request['role_id'];
+        $this->data['section_id']    = $request['section_id'];
+        $this->data['module_id']       = $request['module_id'];
 
         $this->layout('index');
     }
@@ -70,7 +97,7 @@ class PermissionController extends Controller
             'pageUrl'       => $this->bUrl,
             'page_icon'     => '<i class="fas fa-plus"></i>',
             'modules'       =>  Module::where('status',1)->get(),
-            'roles'         => Roles::get(),
+            'roles'         =>  Roles::get(),
         ];
 
         $this->layout('create');
