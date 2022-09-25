@@ -31,7 +31,7 @@ class NewAllRoutePermissionController extends Controller
             if (!empty($value->getName())) {
                 $routeName  = $value->getName();
                 $route_names = explode('.',$routeName);
-                if ($route_names[0] !='debugbar' && $route_names[0] !='ignition' ) {
+                if ($route_names[0] !='debugbar' && $route_names[0] !='ignition' && $route_names[0] !='sanctum') {
                     $module_name = $route_names[0] ?? '';
                     $sectionName = $route_names[1] ?? '';
                     if (empty($sectionName)){
@@ -91,7 +91,7 @@ class NewAllRoutePermissionController extends Controller
             $rul = $value->uri();
             $routeName = $value->getName();
             $route_names= explode('.',$routeName);
-            if (!empty($routeName) && $route_names[0] !='debugbar' && $route_names[0] !='ignition') {
+            if (!empty($routeName) && $route_names[0] !='debugbar' && $route_names[0] !='ignition' && $route_names[0] !='sanctum') {
                 $sl++;
                 $routeName = $value->getName();
                 echo $rul.' ('.$routeName.')<br><br>';
