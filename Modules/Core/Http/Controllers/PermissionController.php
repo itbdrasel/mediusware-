@@ -52,13 +52,17 @@ class PermissionController extends Controller
             'page_icon'     => '<i class="fas fa-tasks"></i>',
             'roles'         => Roles::get(),
             'modules'       =>  Module::where('status',1)->get(),
-            'sections'      =>  $this->model::orderBy('module_id')->with('module')->get(),
             'sectionNames'  =>  [],
         ];
 
+        $role_id        =  $request['role_id'];
+        $section_id     =  $request['section_id'];
+        $module_id      =  $request['module_id'];
+        $sectionsQuery  = $this->model::orderBy('module_id')->with('module');
 
 
         if($request->method() === 'POST' ){
+            // Validation
             $rules = [
                 'role_id'	=> ['required'],
             ];
@@ -66,17 +70,15 @@ class PermissionController extends Controller
             if($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }else{
-                $role = $this->data['role_id'] = $request['role_id'];
-                $section_id = $this->data['section_id'] = $request['section_id'];
-                $module_id = $this->data['module_id'] = $request['module_id'];
-                $this->data['rolePermissions'] = $this->auth->findRoleById($role);
+                // query
+                $this->data['rolePermissions'] = $this->auth->findRoleById($role_id);
                 $query = $this->model::orderBy('section_name');
                 if ($section_id) {
                     $query->where('id', $section_id);
                 }
                 if ($module_id) {
                     $query->where('module_id', $module_id);
-                    $this->data['sections'] = $this->model::orderBy('module_id')->where('module_id', $module_id)->with('module')->get();
+                    $sectionsQuery->orderBy('section_name')->where('module_id', $module_id);
                 }
 
                 $this->data['sectionNames'] = $query->get();
@@ -84,9 +86,10 @@ class PermissionController extends Controller
         }
 
 
-        $this->data['role_id']       = $request['role_id'];
-        $this->data['section_id']    = $request['section_id'];
-        $this->data['module_id']       = $request['module_id'];
+        $this->data['role_id']          = $role_id;
+        $this->data['section_id']       = $section_id;
+        $this->data['module_id']        = $module_id;
+        $this->data['sections']         = $sectionsQuery->get();
 
         $this->layout('index');
     }
@@ -117,14 +120,42 @@ class PermissionController extends Controller
 
     }
 
-    public function edit(){
+    public function edit(Request $request){
         $this->data = [
             'title'         => $this->title.' Edit',
             'pageUrl'       => $this->bUrl,
             'page_icon'     => '<i class="fas fa-edit"></i>',
             'modules'       =>  Module::where('status',1)->get(),
             'roles'         =>  Roles::get(),
+            'section_id'    => $request['section_id'],
+            'sections'  =>  [],
         ];
+
+
+        if($request->method() === 'POST' ){
+            $rules = [
+                'module_id'	=> ['required'],
+            ];
+            $attribute =[
+                'module_id'=> 'Module'
+            ];
+            $customMessages =[];
+            $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
+            if($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }else{
+                $module_id  = $request['module_id'];
+                $section_id = $request['section_id'];
+                $this->data['module_id'] = $module_id;
+                $query = $this->model::orderBy('section_name')->where('module_id', $module_id);
+                if (!empty($section_id)){
+                    $query->where('id', $section_id);
+                }
+                $this->data['sections'] = $query->get();
+
+            }
+
+        }
 
         $this->layout('edit');
     }
@@ -145,6 +176,18 @@ class PermissionController extends Controller
 		}
     }
 
+    public function getSectionsById(Request $request){
+        $sections = $this->model::orderBy('section_name')->select('section_name', 'id')->where('module_id', $request['module_id'])->with('module')->get();
+        $html = ' <option value=""> Select Section </option>';
+        $section_id = $request['section_id'];
+        if (!empty($sections)){
+            foreach ($sections as $section){
+                $selected = !empty($section_id) && $section_id == $section->id?'selected':'';
+                $html .='<option '.$selected.' value="'.$section->id.'"> '.$section->section_name.' </option>';
+            }
+        }
+        return $html;
+    }
 
 
 

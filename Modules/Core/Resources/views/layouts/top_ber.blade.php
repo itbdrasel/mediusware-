@@ -14,7 +14,7 @@
 
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item">
-                <a href="{{url('/')}}" target="_blank" class="nav-link"><i class="nav-icon fas fa-globe"></i> Website</a>
+                <a href="{{url('/')}}" target="_blank" class="nav-link"><i class="nav-icon fas fa-globe"></i><span class="d-none d-sm-inline-block"> Website</span></a>
             </li>
             <style>
                 .dropdown-menu-lg{
@@ -23,7 +23,7 @@
             </style>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="nav-icon fas fa-user-circle"></i> {{dAuth()->getUser()->full_name}} ({{dAuth()->getUser()->roles->first()->name}})
+                    <i class="nav-icon fas fa-user-circle"></i> <span class="d-none d-sm-inline-block">{{dAuth()->getUser()->full_name}} ({{dAuth()->getUser()->roles->first()->name}})</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <div class="dropdown-divider"></div>

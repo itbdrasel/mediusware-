@@ -348,6 +348,13 @@ th.text-center.sorting {
     .responsive-table{
         overflow-x: scroll;
     }
+
+    .frontoffice-body .card-header .card-title{
+        font-size: 14px;
+    }
+    .content-header h1{
+        font-size: 20px;
+    }
 }
 
 

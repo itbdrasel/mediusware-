@@ -55,7 +55,7 @@
 
                                 <label for="section_id" class="col-sm-1 col-form-label">Section </label>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-3 form-group">
                                     <select id="section_id" name="section_id" class="form-control" >
                                         <option value=""> Select Section </option>
                                         @if (!empty($sections))
@@ -68,12 +68,13 @@
                                         @endif
                                     </select>
                                 </div>
+                                <div class="col-sm-2 form-group">
 
                                 @php
                                     $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                 @endphp
                                 <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary">Search</button>&nbsp;&nbsp;
-
+                                </div>
                             </div>
 
                         </form>

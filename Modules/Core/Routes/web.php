@@ -39,9 +39,10 @@ Route::prefix('core')->group(function() {
         // Permission Route
         Route::group(['prefix'=>'permissions','as'=>'permissions','controller'=>'PermissionController'], function () {
             getResourceRoute(['index', 'create','store']);
-            Route::get('edit', 'edit')->name('.edit');
+            Route::match(['get', 'post'],'edit', 'edit')->name('.edit');
             // Ajax route
-            Route::post('add-remove', 'addRemove')->name('.add_remove');
+            Route::post('add-remove', 'addRemove')->name('.ajax_add_remove');
+            Route::post('get-sections', 'getSectionsById')->name('.ajax_get_sections');
         });
     });
 
@@ -64,3 +65,5 @@ Route::controller(Sys\NewAllRoutePermissionController::class)->group(function ()
     Route::get('new-all-route-permission','store');
     Route::get('all-routes', 'getAllRoutes');
 });
+
+

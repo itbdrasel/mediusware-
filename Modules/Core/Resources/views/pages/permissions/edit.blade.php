@@ -1,7 +1,22 @@
+@push('css')
+    <style>
+        table.blueTable {
+            margin: 10px;
+            border: 1px solid #1C6EA4;
+            text-align: left;
+        }
+        table.blueTable td, table.blueTable th {
+            border: 1px solid #AAAAAA;
+            padding: 5px 5px;
+        }
+        .frontoffice-body .table td{ background: transparent !important;}
+
+    </style>
+@endpush
 @extends('core::master')
 
 @section('content')
-    <section class="content">
+    <section class="content frontoffice-body">
         <div class="card card-outline card-info">
             <div class="card-header">
                 <h2 class="card-title"> {!! $page_icon !!} &nbsp; {{ $title }} </h2>
@@ -14,81 +29,175 @@
                     </button>
                 </div>
             </div>
-            <form method="post" action="{{url($bUrl.'/store')}}" enctype="multipart/form-data">
-                @csrf
 
             <div class="card-body" >
-                {!! validation_errors($errors) !!}
-                <div class="form-group row">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" action="" >
+                            @csrf
 
-                    @php
-                        $input_name = 'module_name';
-                    @endphp
-                    <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
-                    <div class="col-sm-3">
-                        <select id="{{$input_name}}" name="{{$input_name}}" class="form-control @error($input_name) is-invalid @enderror">
-                            @if (!empty($modules))
-                                @foreach($modules as $module)
-                            <option {{old($input_name) ==$module->id?'selected':''}} value="{{$module->id}}"> {{$module->name}}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    @php
-                        $input_name = 'section_name';
-                    @endphp
-                    <label for="{{$input_name}}" class="col-sm-2 col-form-label">  {{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
-                    <div class="col-sm-3">
-                        <input type="text" value="{{old($input_name)}}" name="{{$input_name}}"  id="{{$input_name}}"    class="form-control @error($input_name) is-invalid @enderror">
-                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    @php
-                        $input_name = 'route_name';
-                    @endphp
-                    <label for="{{$input_name}}" class="col-sm-2 col-form-label">  {{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
-                    <div class="col-sm-3">
-                        <input type="text" value="{{old($input_name)}}" name="{{$input_name}}"  id="{{$input_name}}"    class="form-control @error($input_name) is-invalid @enderror">
-                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
-                    </div>
-
-                </div>
-                <div class="form-group row">
-
-                    @php
-                        $input_name = 'route_name';
-                    @endphp
-                    <label for="{{$input_name}}" class="col-sm-2 col-form-label">  {{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
-                    <div class="col-sm-6">
-                        @if (!empty($roles))
-                            @foreach($roles as $role)
-                                <div class="form-group clearfix">
-                                    <div class="icheck-success">
-                                        <input name="role[]" value="{{$role->id}}" type="checkbox" id="role{{$role->id}}" >
-                                        <label for="role{{$role->id}}">{{ucfirst($role->name)}}</label>
-                                    </div>
+                            {!! validation_errors($errors) !!}
+                            <div class="form-group row">
+                                <label for="section" class="col-sm-2 col-form-label">Modules <code>*</code></label>
+                                <div class="col-sm-3">
+                                    <select id="module_id" name="module_id" class="form-control" >
+                                        <option value=""> Select Module </option>
+                                        @if (!empty($modules))
+                                            @foreach($modules as $module)
+                                                <option  {{ isset($module_id) && $module_id == $module->id ? 'selected' : '' }} value="{{$module->id}}">{{ucwords($module->name)}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
-                            @endforeach
-                        @endif
-                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="section_id" class="col-sm-2 col-form-label">Section </label>
+                                <div class="col-sm-3">
+                                    <select id="section_id" name="section_id" class="form-control" >
+                                        <option value=""> Select Section </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="section_id" class="col-sm-2 col-form-label"> </label>
+                                <div class="col-sm-3">
+                                        @php
+                                            $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
+                                        @endphp
+                                        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary">Search</button>&nbsp;&nbsp;
+                                </div>
+                            </div>
 
-                </div>
-            </div>
-                <div class="card-footer">
-                    <div class="offset-md-2 col-sm-9">
-                        @php
-                            $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
-                        @endphp
-                        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary">Save</button>&nbsp;&nbsp;
-                        <a href="{{url($bUrl)}}"  class="btn btn-warning">Cancel</a>
+                        </form>
                     </div>
                 </div>
-            </form>
+                <div class="panel-group" id="accordion">
+                    @if(!empty($sections) && $sections->count() > 0)
+                        @foreach($sections as $section)
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-title" data-toggle="collapse" data-parent="#accordion" href="#section_{{$section->id}}">{{$section->section_name}}</a>
+                        </div>
+                        <div id="section_{{$section->id}}" class="card-body collapse in show">
+                            <table class="table table-bordered other_guest">
+                                <thead>
+                                <tr>
+                                    <th width="30%">Route Name</th>
+                                    <th>Role</th>
+                                    <th width="5%" class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @php
+                                    $actions = json_decode($section->section_action_route);
+                                    $sl =1;
+                                    $array_key= 0;
+                                @endphp
+                                @if(!empty($actions))
+                                @foreach($actions as $key => $value)
+                                    <tr class="route_{{++$sl}} " @if (! Route::has($key) ) style="background-color: #f2dede;" @endif>
+                                        <td style="vertical-align: middle">
+                                            <input type="text" value="{{$key}}" id="route_name_{{$sl}}" onblur="routeCheck({{$sl}})" name="route_name[{{$array_key}}]" class="form-control">
+                                            <input type="hidden" id="old_route_name_{{$sl}}" value="{{$key}}">
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                @foreach($roles as $role_key=>$role)
+                                                    @php
+
+                                                        $checked = in_array($role->id, $value) ? "checked" : "";
+                                                    @endphp
+                                                    <div class="col-4 mb-2">
+                                                        <input id="role_{{$sl.'_'.$role->id}}" {{$checked}} value="{{$role->id}}" type="checkbox" name="roles[{{$array_key}}][]" class="role-permission" >
+                                                        <label for="role_{{$sl.'_'.$role->id}}" class="form-check-label">{{ucfirst($role->name)}}</label>&nbsp;
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <div class="guest-info-btn"><span class="remove bg-danger" id="route_{{$sl}}" data-value="{{$key}}" onclick="removeItem({{$sl}})" style="cursor: pointer"><i class="fas fa-times"></i></span></div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                        @endforeach
+                    @endif
+                </div>
+
+            </div>
+
+
+
         </div>
     </section>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function(){
+            getModuleBySections();
+        });
+        $('#module_id').on('change', function () {
+            getModuleBySections();
+        });
+        function getModuleBySections(){
+        let module_id = $('#module_id').val();
+        if (module_id !=''){
+                $.ajax({
+                    type: "post",
+                    url: "{{ url('core/permissions/get-sections') }}",
+                    data: {
+                        "_token"        : "{{ csrf_token() }}",
+                        module_id       : module_id,
+                        section_id      : "{{$section_id}}"
+                    },
+                    success: function(data){
+                        $('#section_id').html(data);
+                    },
+                    error: function(err){
+
+                    }
+                });
+            }
+        }
+
+        function removeItem(id) {
+            let route = $('#route_'+id).data('value');
+            var section_id = $('#section_id').val();
+            if (confirm('Do you wont to remove?')) {
+                $.ajax({
+                    url: '{{url('core/permissions/route-remove')}}',
+                    data:{_token:"{{ csrf_token() }}",id:section_id, route:route},
+                    type: 'post',
+                    success: function (data) {
+                        $('.route_'+id).remove();
+                    }
+                });
+            }
+        }
+        function routeCheck(id) {
+            var route_name = $('#route_name_'+id).val();
+            var old_route_name = $('#old_route_name_'+id).val();
+            $.ajax({
+                url: '{{url('core/permissions/route_check')}}',
+                data:{_token:"{{ csrf_token() }}",route_name:route_name},
+                type: 'post',
+                dataType:"json",
+                success: function (data) {
+                    if (data.error == false){
+                        $('#route_name_'+id).val(old_route_name);
+                        toastr.error(data.message);
+                    }else {
+                        $('#old_route_name_'+id).val(route_name);
+                    }
+
+                }
+            });
+        }
+    </script>
+    </script>
+@endpush
