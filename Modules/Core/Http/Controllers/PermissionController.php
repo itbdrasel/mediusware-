@@ -128,7 +128,7 @@ class PermissionController extends Controller
             'modules'       =>  Module::where('status',1)->get(),
             'roles'         =>  Roles::get(),
             'section_id'    => $request['section_id'],
-            'sections'  =>  [],
+            'sections'      =>  [],
         ];
 
 
@@ -149,10 +149,10 @@ class PermissionController extends Controller
                 $this->data['module_id'] = $module_id;
                 $query = $this->model::orderBy('section_name')->where('module_id', $module_id);
                 if (!empty($section_id)){
-                    $query->where('id', $section_id);
+                    $query->whereIn('id', $section_id);
                 }
-                $this->data['sections'] = $query->get();
 
+                $this->data['sections'] = $query->get();
             }
 
         }
@@ -182,7 +182,8 @@ class PermissionController extends Controller
         $section_id = $request['section_id'];
         if (!empty($sections)){
             foreach ($sections as $section){
-                $selected = !empty($section_id) && $section_id == $section->id?'selected':'';
+//                $selected = !empty($section_id) && $section_id == $section->id?'selected':'';
+                $selected = '';
                 $html .='<option '.$selected.' value="'.$section->id.'"> '.$section->section_name.' </option>';
             }
         }
@@ -193,7 +194,7 @@ class PermissionController extends Controller
     function routeRemove(Request $request){
         $id     = $request['id'];
 	    $route  = $request['route'];
-        $route_date =  $this->model->where('id',$id)->first();
+        $route_date =  $this->model::where('id',$id)->first();
         $actions = json_decode($route_date->section_action_route);
         if (!empty($actions->$route)) {
             unset($actions->$route);

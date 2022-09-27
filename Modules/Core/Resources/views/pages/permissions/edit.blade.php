@@ -13,6 +13,9 @@
 
     </style>
 @endpush
+@php
+//dd($section_id)
+@endphp
 @extends('core::master')
 
 @section('content')
@@ -53,8 +56,13 @@
                             <div class="form-group row">
                                 <label for="section_id" class="col-sm-2 col-form-label">Section </label>
                                 <div class="col-sm-3">
-                                    <select id="section_id" name="section_id" class="form-control" >
+                                    <select id="section_id" name="section_id[]" class="select2" multiple="multiple" data-placeholder="Select Section" style="width: 100%;"  >
                                         <option value=""> Select Section </option>
+                                    @if(!empty($sections) && $sections->count() > 0)
+                                            @foreach($sections as $section)
+                                        <option selected value="{{$section->id}}"> {{$section->section_name}} </option>
+                                            @endforeach
+                                    @endif
                                     </select>
                                 </div>
                             </div>
@@ -72,6 +80,10 @@
                     </div>
                 </div>
                 <div class="panel-group" id="accordion">
+                    @php
+                        $sl = 0;
+                        $array_key= 0;
+                    @endphp
                     @if(!empty($sections) && $sections->count() > 0)
                         @foreach($sections as $section)
                             <input type="hidden" id="s_id_{{$section->id}}" value="{{$section->id}}">
@@ -91,8 +103,6 @@
                                 <tbody>
                                 @php
                                     $actions = json_decode($section->section_action_route);
-                                    $sl = 0;
-                                    $array_key= 0;
                                 @endphp
                                 @if(!empty($actions))
                                 @foreach($actions as $key => $value)
@@ -140,9 +150,10 @@
 @push('js')
     <script>
         $(document).ready(function(){
-            getModuleBySections();
+            // getModuleBySections();
         });
-        $('#module_id').on('change', function () {
+        $('#module_id').on('change', function (e) {
+            e.preventDefault();
             getModuleBySections();
         });
         function getModuleBySections(){
@@ -154,16 +165,17 @@
                     data: {
                         "_token"        : "{{ csrf_token() }}",
                         module_id       : module_id,
-                        section_id      : "{{$section_id}}"
+                        {{--section_id      : "{{$section_id}}"--}}
                     },
                     success: function(data){
                         $('#section_id').html(data);
                     },
                     error: function(err){
-
+                        $('#section_id').html('');
                     }
                 });
             }
+            $('#section_id').html('');
         }
 
         function removeItem(id, section_id) {
@@ -172,9 +184,9 @@
                 $.ajax({
                     url: "{{url('core/permissions/route-remove')}}",
                     data:{
-                        _token:"{{ csrf_token() }}",
-                        id:section_id,
-                        route:route_name
+                        "_token"        : "{{ csrf_token() }}",
+                        id              : section_id,
+                        route           : route_name
                     },
                     type: 'post',
                     success: function (data) {

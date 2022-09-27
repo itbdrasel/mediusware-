@@ -21,12 +21,14 @@
     @elseif(Session::has('error'))
     toastr.error('{{ Session::get('error') }}');
     @endif
-    $(function() {
 
+</script>
+@endif
+<script>
+    $(function() {
         //Initialize Select2 Elements
         $('.select2').select2()
         //Date range picker
     });
 </script>
-@endif
 @stack('js')
