@@ -74,6 +74,7 @@
                 <div class="panel-group" id="accordion">
                     @if(!empty($sections) && $sections->count() > 0)
                         @foreach($sections as $section)
+                            <input type="hidden" id="s_id_{{$section->id}}" value="{{$section->id}}">
                     <div class="card">
                         <div class="card-header">
                             <a class="card-title" data-toggle="collapse" data-parent="#accordion" href="#section_{{$section->id}}">{{$section->section_name}}</a>
@@ -90,7 +91,7 @@
                                 <tbody>
                                 @php
                                     $actions = json_decode($section->section_action_route);
-                                    $sl =1;
+                                    $sl = 0;
                                     $array_key= 0;
                                 @endphp
                                 @if(!empty($actions))
@@ -115,7 +116,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center" style="vertical-align: middle">
-                                            <div class="guest-info-btn"><span class="remove bg-danger" id="route_{{$sl}}" data-value="{{$key}}" onclick="removeItem({{$sl}})" style="cursor: pointer"><i class="fas fa-times"></i></span></div>
+                                            <div class="guest-info-btn"><span class="remove bg-danger" id="route_{{$sl}}" data-value="{{$key}}" onclick="removeItem('{{$sl}}', '{{$section->id}}')" style="cursor: pointer"><i class="fas fa-times"></i></span></div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -165,13 +166,16 @@
             }
         }
 
-        function removeItem(id) {
-            let route = $('#route_'+id).data('value');
-            var section_id = $('#section_id').val();
+        function removeItem(id, section_id) {
+            var route_name = $('#route_name_'+id).val();
             if (confirm('Do you wont to remove?')) {
                 $.ajax({
-                    url: '{{url('core/permissions/route-remove')}}',
-                    data:{_token:"{{ csrf_token() }}",id:section_id, route:route},
+                    url: "{{url('core/permissions/route-remove')}}",
+                    data:{
+                        _token:"{{ csrf_token() }}",
+                        id:section_id,
+                        route:route_name
+                    },
                     type: 'post',
                     success: function (data) {
                         $('.route_'+id).remove();
@@ -179,11 +183,12 @@
                 });
             }
         }
+
         function routeCheck(id) {
             var route_name = $('#route_name_'+id).val();
             var old_route_name = $('#old_route_name_'+id).val();
             $.ajax({
-                url: '{{url('core/permissions/route_check')}}',
+                url: '{{url('core/ajax/route-check')}}',
                 data:{_token:"{{ csrf_token() }}",route_name:route_name},
                 type: 'post',
                 dataType:"json",

@@ -42,6 +42,7 @@ Route::prefix('core')->group(function() {
             Route::match(['get', 'post'],'edit', 'edit')->name('.edit');
             // Ajax route
             Route::post('add-remove', 'addRemove')->name('.ajax_add_remove');
+            Route::post('route-remove', 'routeRemove')->name('.ajax_route_remove');
             Route::post('get-sections', 'getSectionsById')->name('.ajax_get_sections');
         });
     });
@@ -64,6 +65,12 @@ Route::get('all/clear', function() {
 Route::controller(Sys\NewAllRoutePermissionController::class)->group(function () {
     Route::get('new-all-route-permission','store');
     Route::get('all-routes', 'getAllRoutes');
+});
+
+
+// Module Route
+Route::group(['prefix'=>'core/ajax','controller'=>'AjaxJsonController'], function () {
+    Route::post('route-check', 'routeCheck');
 });
 
 

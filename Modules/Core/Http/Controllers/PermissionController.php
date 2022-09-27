@@ -190,37 +190,17 @@ class PermissionController extends Controller
     }
 
 
-
-    // Ajax Json Query
     function routeRemove(Request $request){
-	    $id     = $request['id'];
+        $id     = $request['id'];
 	    $route  = $request['route'];
-        $actionName = substr($route, strrpos($route, '.'));
-        $actionName = trim($actionName,'.');
-
-
-        $route_date = DB::table('tbl_module_sections')->where('section_id',$id)->first();
+        $route_date =  $this->model->where('id',$id)->first();
         $actions = json_decode($route_date->section_action_route);
-
         if (!empty($actions->$route)) {
-
             unset($actions->$route);
-            $log_title = 'Route (Section : '.$route_date->section_name  .', Permission : '.$actionName.') was delete by '. $this->auth->getUser()->full_name;
-            Logs::create($log_title,'route_permission_delete');
         }
-
-        DB::table('tbl_module_sections')->where('section_id',$id)->update(['section_action_route'=>json_encode($actions)]);
+        $this->model::where('id',$id)->update(['section_action_route'=>json_encode($actions)]);
     }
 
-    function routeCheck(Request $request){
-        $route_name     = $request['route_name'];
-        $error = true;
-        if (!Route::has($route_name)) {
-            $error = false;
-            $message = 'The '.$route_name.' is not exist.';
-        }
-        return json_encode(['error'=>$error, 'message'=>$message]);
 
-    }
 
 }
