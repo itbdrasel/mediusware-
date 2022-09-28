@@ -14,7 +14,10 @@
     </style>
 @endpush
 @php
-//dd($section_id)
+
+/*if (array_search(1,[1,2]) !=''){
+   dd('ok');
+}*/
 @endphp
 @extends('core::master')
 
@@ -58,9 +61,9 @@
                                 <div class="col-sm-3">
                                     <select id="section_id" name="section_id[]" class="select2" multiple="multiple" data-placeholder="Select Section" style="width: 100%;"  >
                                         <option value=""> Select Section </option>
-                                    @if(!empty($sections) && $sections->count() > 0)
-                                            @foreach($sections as $section)
-                                        <option selected value="{{$section->id}}"> {{$section->section_name}} </option>
+                                    @if(!empty($all_sections) && $all_sections->count() > 0)
+                                            @foreach($all_sections as $section)
+                                        <option {{!empty($section_id) && array_search($section->id,$section_id) !=''?'selected':''}}  value="{{$section->id}}"> {{$section->section_name}} </option>
                                             @endforeach
                                     @endif
                                     </select>
@@ -72,13 +75,17 @@
                                         @php
                                             $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                         @endphp
-                                        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary">Search</button>&nbsp;&nbsp;
+                                        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>&nbsp;&nbsp;
                                 </div>
                             </div>
 
                         </form>
                     </div>
                 </div>
+                <form method="post" action="{{url($bUrl.'/update')}}" >
+                    @csrf
+                    <input type="hidden" name="module_id" value="{{$module_id??''}}">
+                    <input type="hidden" name="section_id[]" value="{{$section_id??''}}">
                 <div class="panel-group" id="accordion">
                     @php
                         $sl = 0;
@@ -86,7 +93,7 @@
                     @endphp
                     @if(!empty($sections) && $sections->count() > 0)
                         @foreach($sections as $section)
-                            <input type="hidden" id="s_id_{{$section->id}}" value="{{$section->id}}">
+                            <input type="hidden" name="section_name[{{$section->id}}]" value="{{$section->section_name}}">
                     <div class="card">
                         <div class="card-header">
                             <a class="card-title" data-toggle="collapse" data-parent="#accordion" href="#section_{{$section->id}}">{{$section->section_name}}</a>
@@ -108,7 +115,7 @@
                                 @foreach($actions as $key => $value)
                                     <tr class="route_{{++$sl}} " @if (! Route::has($key) ) style="background-color: #f2dede;" @endif>
                                         <td style="vertical-align: middle">
-                                            <input type="text" value="{{$key}}" id="route_name_{{$sl}}" onblur="routeCheck({{$sl}})" name="route_name[{{$array_key}}]" class="form-control">
+                                            <input type="text" value="{{$key}}" id="route_name_{{$sl}}" onblur="routeCheck({{$sl}})" name="route_name[{{$section->id}}]" class="form-control">
                                             <input type="hidden" id="old_route_name_{{$sl}}" value="{{$key}}">
                                         </td>
                                         <td>
@@ -119,7 +126,7 @@
                                                         $checked = in_array($role->id, $value) ? "checked" : "";
                                                     @endphp
                                                     <div class="col-4 mb-2">
-                                                        <input id="role_{{$sl.'_'.$role->id}}" {{$checked}} value="{{$role->id}}" type="checkbox" name="roles[{{$array_key}}][]" class="role-permission" >
+                                                        <input id="role_{{$sl.'_'.$role->id}}" {{$checked}} value="{{$role->id}}" type="checkbox" name="roles[{{$section->id}}][]" class="role-permission" >
                                                         <label for="role_{{$sl.'_'.$role->id}}" class="form-check-label">{{ucfirst($role->name)}}</label>&nbsp;
                                                     </div>
                                                 @endforeach
@@ -138,6 +145,18 @@
                         @endforeach
                     @endif
                 </div>
+
+
+                    <div class="card-footer">
+                        <div class="offset-md-2 col-sm-9">
+                            @php
+                                $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
+                            @endphp
+                            <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>&nbsp;&nbsp;
+                            <a href="{{url($bUrl)}}"  class="btn btn-warning"><i class="fas fa-times"></i> Cancel</a>
+                        </div>
+                    </div>
+                </form>
 
             </div>
 

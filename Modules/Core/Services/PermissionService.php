@@ -28,6 +28,11 @@ class PermissionService
         $routeName          = $request['route_name'];
         $roles              = $request['role']; // can be multiple [array]
         $module_id          = $request['module_name'];
+        $this->routeSave($module_id, $roles, $sectionName, $routeName);
+    }
+
+    public function routeSave($module_id, $roles, $sectionName, $routeName, $edit=false){
+
         $routeWithRoles     = json_encode( [$routeName => $roles ] );
 
         $data = $this->model::where(['section_name'=> $sectionName])->where('module_id', $module_id)->first();
@@ -35,11 +40,17 @@ class PermissionService
             $getRoutes = $data->section_action_route;
             $routeNames = json_decode($getRoutes, true);
 
-            if (array_key_exists($routeName, $routeNames)) {
-                $routeNames[$routeName] = $roles; // update existing route.
+            if (array_key_exists($routeName, $routeNames) || $edit== true) {
+                if ($edit== true){
+                    $routeNames = [$routeName => $roles];
+                }else{
+                    $routeNames[$routeName] = $roles;
+                }
+                // update existing route.
             } else {
                 $routeNames += [$routeName => $roles]; // append new route for existing section
             }
+
             $routeWithRoles = $routeNames;
         } else {
             $roles_permission = trim($this->arrayValue($roles), ',"');
@@ -49,7 +60,7 @@ class PermissionService
         $routeData['module_id']             = $module_id;
         $routeData['section_action_route']  = $routeWithRoles;
 
-        if (!empty($data)) {
+        if (!empty($data) || $edit== true) {
             $this->model::where('section_name', $sectionName)->update( $routeData);
         }else{
             $this->model::insert($routeData);
@@ -64,7 +75,6 @@ class PermissionService
                 $this->addPermission($roles, $routeName);
             }
         }
-
     }
 
 

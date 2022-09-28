@@ -131,7 +131,7 @@ class PermissionController extends Controller
             'sections'      =>  [],
         ];
 
-
+        $sections = [];
         if($request->method() === 'POST' ){
             $rules = [
                 'module_id'	=> ['required'],
@@ -148,6 +148,7 @@ class PermissionController extends Controller
                 $section_id = $request['section_id'];
                 $this->data['module_id'] = $module_id;
                 $query = $this->model::orderBy('section_name')->where('module_id', $module_id);
+                $sections = $query->get();
                 if (!empty($section_id)){
                     $query->whereIn('id', $section_id);
                 }
@@ -156,8 +157,38 @@ class PermissionController extends Controller
             }
 
         }
-
+        $this->data['all_sections'] = $sections;
         $this->layout('edit');
+    }
+
+    public function update(Request $request, PermissionService $permissionService){
+//        dd($request->all());
+//        return redirect()->back()->withInput();
+        $rules = [
+            'module_id'	        => "required",
+            'route_name.*'	    => "required",
+            'section_name.*'	=> "required",
+            'roles'	            => "required",
+        ];
+        $attribute =[
+            'module_id'=> 'Module'
+        ];
+        $customMessages =[];
+        $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $section_names = $request['section_name'];
+        if (!empty($section_names) && count($section_names) >0){
+            foreach ($section_names as $key=>$value){
+                $sectionName    = $value;
+                $routeName      = $request['route_name'][$key];
+                $roles          = $request['roles'][$key];
+                $permissionService->routeSave($request['module_id'], $roles, $sectionName, $routeName, true);
+            }
+        }
+        return redirect()->back()->with('success', 'Successfully Updated.')->withInput();
     }
 
 

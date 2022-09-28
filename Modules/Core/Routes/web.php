@@ -40,6 +40,7 @@ Route::prefix('core')->group(function() {
         Route::group(['prefix'=>'permissions','as'=>'permissions','controller'=>'PermissionController'], function () {
             getResourceRoute(['index', 'create','store']);
             Route::match(['get', 'post'],'edit', 'edit')->name('.edit');
+            Route::post('update', 'update')->name('.update');
             // Ajax route
             Route::post('add-remove', 'addRemove')->name('.ajax_add_remove');
             Route::post('route-remove', 'routeRemove')->name('.ajax_route_remove');
