@@ -120,7 +120,7 @@ class PermissionController extends Controller
     public function edit(Request $request){
         $this->data = [
             'title'         => $this->title.' Edit',
-            'pageUrl'       => $this->bUrl,
+            'pageUrl'       => $this->bUrl.'/edit',
             'page_icon'     => '<i class="fas fa-edit"></i>',
             'modules'       =>  Module::where('status',1)->get(),
             'roles'         =>  Roles::get(),
@@ -162,8 +162,8 @@ class PermissionController extends Controller
 
         $rules = [
             'module_id'	        => "required",
-            'route_name.*'	    => "required",
-            'id.*'	            => "required",
+            'route_name'	    => "required",
+            'id'	            => "required",
             'roles'	            => "required",
         ];
         $attribute =[
@@ -177,6 +177,80 @@ class PermissionController extends Controller
         $permissionService->routeRegisterUpdate($request);
         return redirect()->back()->with('success', 'Successfully Updated.')->withInput();
     }
+
+    public function sectionEdit(Request $request){
+        $this->data = [
+            'title'         => $this->title.' Section Edit',
+            'pageUrl'       => $this->bUrl.'/section-edit',
+            'page_icon'     => '<i class="fas fa-edit"></i>',
+            'modules'       =>  Module::where('status',1)->get(),
+            'sections'      =>  [],
+            'section_id'    => $request['section_id'],
+        ];
+        $sections = [];
+        if($request->method() === 'POST' ){
+            $rules = [
+                'module_id'	=> ['required'],
+            ];
+            $attribute =[
+                'module_id'=> 'Module'
+            ];
+            $customMessages =[];
+            $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
+            if($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }else{
+                $module_id  = $request['module_id'];
+                $section_id = $request['section_id'];
+                $this->data['module_id'] = $module_id;
+                $query = $this->model::orderBy('section_name')->where('module_id', $module_id);
+                $sections = $query->get();
+                if (!empty($section_id)){
+                    $query->whereIn('id', $section_id);
+                }
+
+                $this->data['sections'] = $query->get();
+            }
+            $this->data['all_sections'] = $sections;
+
+        }
+        $this->layout('section_edit');
+    }
+
+    public function sectionUpdate(Request $request, PermissionService $permissionService){
+
+        $rules = [
+            'module_id'	            => "required",
+            'section_name.*'	    => "required",
+        ];
+        $attribute =[
+            'module_id'=> 'Module'
+        ];
+        $customMessages =[];
+        $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $section_names = $request['section_name'];
+        if (!empty($section_names)){
+            foreach ($section_names as $key=>$value){
+                if (!empty($value) && !empty($key)){
+                   $check = $this->model::where('id','!=', $key)->where('section_name',$value)->first();
+                   if (empty($check)){
+                       $this->model::where('id', $key)->update(['section_name'=>$value]);
+                   }else{
+                     return redirect()->back()->with('error', 'The '.$value.' has already been taken')->withInput();
+                   }
+//
+                }
+            }
+        }
+        return redirect()->back()->with('success', 'Successfully Updated.')->withInput();
+    }
+
+
+
+
 
 
 

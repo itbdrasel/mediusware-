@@ -3,15 +3,17 @@
 namespace Modules\Core\Http\Controllers\Sys;
 use Illuminate\Routing\Controller;
 
+use Modules\Core\Entities\ModuleSection;
+use Modules\Core\Entities\Roles;
 use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 
 class NewAllRoutePermissionController extends Controller
 {
 
     private $moduleName;
     private $bUrl;
+    private $model;
     private $auth;
 
     public function __construct(Auth $auth){
@@ -19,12 +21,13 @@ class NewAllRoutePermissionController extends Controller
 
         $this->tableId = 'roles';
         $this->moduleName = 'system/core';
+        $this->model        = ModuleSection::class;
         $this->bUrl = $this->moduleName.'/permissions';
     }
 
     public function store(){
-        DB::table('tbl_module_sections')->truncate();
-        DB::table('roles')->update(['permissions'=>null]);
+//        $this->model::truncate();
+//        Roles::update(['permissions'=>null]);
         $name = Route::getRoutes();
         $sl =0;
         foreach ($name as $value) {
@@ -39,13 +42,15 @@ class NewAllRoutePermissionController extends Controller
                     }
                     $sectionName = ucwords(str_replace(['_','-'],' ',$sectionName));
                     $module_name = ucwords(str_replace(['_','-'],' ',$module_name));
+                    $module_id = $this->getModuleNameById($module_name);
+
                     if ($sectionName != 'Ajax') {
                         $sl++;
                         $roles =['1']; // can be multiple [array]
                         $routeWithRoles = json_encode([$routeName => $roles]);
                         // check if the section name exist
-                        $data = DB::table('tbl_module_sections')->where(['section_name'=> $sectionName])
-                            ->where('section_module_name', $module_name)->first();
+                        $data = $this->model::where(['section_name'=> $sectionName])
+                            ->where('section_module_name', $module_id)->first();
                         if (!empty($data)) {
                             $getRoutes = $data->section_action_route;
                             $routeNames = json_decode($getRoutes, true);
@@ -65,9 +70,9 @@ class NewAllRoutePermissionController extends Controller
 
 
                         if (!empty($data)) {
-                            DB::table('tbl_module_sections')->where('section_name', $sectionName)->update( $routeData);
+                            $this->model::where('section_name', $sectionName)->update( $routeData);
                         }else{
-                            DB::table('tbl_module_sections')->insert($routeData);
+                            $this->model::insert($routeData);
                         }
                         $role = $this->auth->findRoleById(1);
                         if($role){
@@ -81,6 +86,17 @@ class NewAllRoutePermissionController extends Controller
         dd('Total Route '.$sl.' Successful. Permission Add');
         return redirect()->back()->with('success', 'Total Route '.$sl.' Successful. Permission Add');
 
+    }
+
+    public function getModuleNameById($name){
+        $modules = $this->allModuleName();
+        return $modules[$name];
+    }
+
+    public function allModuleName(){
+        return [
+            'core'=>1
+        ];
     }
 
 

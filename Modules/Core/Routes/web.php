@@ -41,6 +41,8 @@ Route::prefix('core')->group(function() {
             getResourceRoute(['index', 'create','store']);
             Route::match(['get', 'post'],'edit', 'edit')->name('.edit');
             Route::post('update', 'update')->name('.update');
+            Route::match(['get', 'post'],'section-edit', 'sectionEdit')->name('.section_edit');
+            Route::post('section-update', 'sectionUpdate')->name('.section_update');
             // Ajax route
             Route::post('add-remove', 'addRemove')->name('.ajax_add_remove');
             Route::post('route-remove', 'routeRemove')->name('.ajax_route_remove');
