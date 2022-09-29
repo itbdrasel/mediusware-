@@ -9,15 +9,15 @@
             border: 1px solid #AAAAAA;
             padding: 5px 5px;
         }
+        td{
+            vertical-align: middle !important;
+        }
         .frontoffice-body .table td{ background: transparent !important;}
 
     </style>
 @endpush
 @php
 
-/*if (array_search(1,[1,2]) !=''){
-   dd('ok');
-}*/
 @endphp
 @extends('core::master')
 
@@ -56,6 +56,7 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label for="section_id" class="col-sm-2 col-form-label">Section </label>
                                 <div class="col-sm-3">
@@ -82,18 +83,20 @@
                         </form>
                     </div>
                 </div>
+
                 <form method="post" action="{{url($bUrl.'/update')}}" >
+
                     @csrf
                     <input type="hidden" name="module_id" value="{{$module_id??''}}">
-                    <input type="hidden" name="section_id[]" value="{{$section_id??''}}">
                 <div class="panel-group" id="accordion">
                     @php
                         $sl = 0;
                         $array_key= 0;
                     @endphp
+
                     @if(!empty($sections) && $sections->count() > 0)
                         @foreach($sections as $section)
-                            <input type="hidden" name="section_name[{{$section->id}}]" value="{{$section->section_name}}">
+                            <input type="hidden" name="id[{{$section->id}}]" value="{{$section->id}}">
                     <div class="card">
                         <div class="card-header">
                             <a class="card-title" data-toggle="collapse" data-parent="#accordion" href="#section_{{$section->id}}">{{$section->section_name}}</a>
@@ -115,8 +118,7 @@
                                 @foreach($actions as $key => $value)
                                     <tr class="route_{{++$sl}} " @if (! Route::has($key) ) style="background-color: #f2dede;" @endif>
                                         <td style="vertical-align: middle">
-                                            <input type="text" value="{{$key}}" id="route_name_{{$sl}}" onblur="routeCheck({{$sl}})" name="route_name[{{$section->id}}]" class="form-control">
-                                            <input type="hidden" id="old_route_name_{{$sl}}" value="{{$key}}">
+                                            <input type="text" value="{{$key}}" id="route_name_{{$sl}}" onblur="routeCheck({{$sl}})" name="route_name[{{$section->id}}][{{$key}}]" class="form-control">
                                         </td>
                                         <td>
                                             <div class="row">
@@ -126,7 +128,7 @@
                                                         $checked = in_array($role->id, $value) ? "checked" : "";
                                                     @endphp
                                                     <div class="col-4 mb-2">
-                                                        <input id="role_{{$sl.'_'.$role->id}}" {{$checked}} value="{{$role->id}}" type="checkbox" name="roles[{{$section->id}}][]" class="role-permission" >
+                                                        <input id="role_{{$sl.'_'.$role->id}}" {{$checked}} value="{{$role->id}}" type="checkbox" name="roles[{{$section->id}}][{{$key}}][]" class="role-permission" >
                                                         <label for="role_{{$sl.'_'.$role->id}}" class="form-check-label">{{ucfirst($role->name)}}</label>&nbsp;
                                                     </div>
                                                 @endforeach

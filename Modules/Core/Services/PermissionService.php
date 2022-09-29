@@ -28,11 +28,6 @@ class PermissionService
         $routeName          = $request['route_name'];
         $roles              = $request['role']; // can be multiple [array]
         $module_id          = $request['module_name'];
-        $this->routeSave($module_id, $roles, $sectionName, $routeName);
-    }
-
-    public function routeSave($module_id, $roles, $sectionName, $routeName, $edit=false){
-
         $routeWithRoles     = json_encode( [$routeName => $roles ] );
 
         $data = $this->model::where(['section_name'=> $sectionName])->where('module_id', $module_id)->first();
@@ -40,13 +35,8 @@ class PermissionService
             $getRoutes = $data->section_action_route;
             $routeNames = json_decode($getRoutes, true);
 
-            if (array_key_exists($routeName, $routeNames) || $edit== true) {
-                if ($edit== true){
-                    $routeNames = [$routeName => $roles];
-                }else{
-                    $routeNames[$routeName] = $roles;
-                }
-                // update existing route.
+            if (array_key_exists($routeName, $routeNames)) {
+                $routeNames[$routeName] = $roles;  // update existing route.
             } else {
                 $routeNames += [$routeName => $roles]; // append new route for existing section
             }
@@ -60,11 +50,35 @@ class PermissionService
         $routeData['module_id']             = $module_id;
         $routeData['section_action_route']  = $routeWithRoles;
 
-        if (!empty($data) || $edit== true) {
-            $this->model::where('section_name', $sectionName)->update( $routeData);
+        if (!empty($data)) {
+            $this->model::where('section_name', $sectionName)->update($routeData);
         }else{
             $this->model::insert($routeData);
         }
+        $this->rolePermission($roles, $routeName);
+    }
+
+    public function routeRegisterUpdate($request){
+        $section_id         = $request['id'];
+        if (!empty($section_id) && count($section_id) >0){
+            foreach ($section_id as $key=>$value){
+                $id                 = $value;
+                $routeNames         = $request['route_name'][$key];
+                $routeWithRoles     = [];
+                if (!empty($routeNames) && count($routeNames) >0) {
+                    foreach ($routeNames as $rKey=>$routeName){
+                        $roles = $request['roles'][$key][$rKey];
+                        $routeWithRoles[$routeName] = $roles;
+                        $this->rolePermission($roles, $routeName);
+                    }
+                }
+                $routeData['section_action_route']  = json_encode($routeWithRoles);
+                $this->model::where('id', $id)->update($routeData);
+            }
+        }
+    }
+
+    public function rolePermission($roles, $routeName){
         if (!empty($roles)) {
             if (is_array($roles)) {
                 foreach ($roles as $role){

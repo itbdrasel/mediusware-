@@ -6,13 +6,10 @@ use Modules\Core\Entities\Roles;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Modules\Core\Entities\ModuleSection;
-use Modules\Core\Entities\User;
 
 use Modules\Core\Services\PermissionService;
 
-
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -162,12 +159,11 @@ class PermissionController extends Controller
     }
 
     public function update(Request $request, PermissionService $permissionService){
-//        dd($request->all());
-//        return redirect()->back()->withInput();
+
         $rules = [
             'module_id'	        => "required",
             'route_name.*'	    => "required",
-            'section_name.*'	=> "required",
+            'id.*'	            => "required",
             'roles'	            => "required",
         ];
         $attribute =[
@@ -178,16 +174,7 @@ class PermissionController extends Controller
         if($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
-        $section_names = $request['section_name'];
-        if (!empty($section_names) && count($section_names) >0){
-            foreach ($section_names as $key=>$value){
-                $sectionName    = $value;
-                $routeName      = $request['route_name'][$key];
-                $roles          = $request['roles'][$key];
-                $permissionService->routeSave($request['module_id'], $roles, $sectionName, $routeName, true);
-            }
-        }
+        $permissionService->routeRegisterUpdate($request);
         return redirect()->back()->with('success', 'Successfully Updated.')->withInput();
     }
 
@@ -232,7 +219,5 @@ class PermissionController extends Controller
         }
         $this->model::where('id',$id)->update(['section_action_route'=>json_encode($actions)]);
     }
-
-
 
 }
