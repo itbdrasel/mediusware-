@@ -63,10 +63,11 @@ class CRUDServices{
     public function getValidationRules($model){
         $data['rules'] = [];
         $data['attribute'] = [];
+        $attribute = $model::$attribute;
         foreach ($model::$required as $key=>$value){
             $data['rules'][$value]  = 'required';
-            if (!empty($value)) {
-                $data['attribute'][$value]  = $value;
+            if (isset($attribute[$value]) && !empty($attribute[$value])) {
+                $data['attribute'][$value]  = $attribute[$value];
             }
         }
         return $data;

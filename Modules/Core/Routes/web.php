@@ -43,16 +43,37 @@ Route::prefix('core')->group(function() {
             Route::post('update', 'update')->name('.update');
             Route::match(['get', 'post'],'section-edit', 'sectionEdit')->name('.section_edit');
             Route::post('section-update', 'sectionUpdate')->name('.section_update');
+
             // Ajax route
             Route::post('add-remove', 'addRemove')->name('.ajax_add_remove');
             Route::post('route-remove', 'routeRemove')->name('.ajax_route_remove');
             Route::post('get-sections', 'getSectionsById')->name('.ajax_get_sections');
         });
+
+        // Role Route
+        Route::group(['prefix'=>'role','as'=>'role','controller'=>'RoleController'], function () {
+            getResourceRoute(['index','create','store','edit']);
+        });
+
     });
 
 
 
 });
+
+
+
+
+// Module Route
+Route::group(['prefix'=>'core/ajax','controller'=>'AjaxJsonController'], function () {
+    Route::post('route-check', 'routeCheck');
+});
+
+Route::controller(Sys\NewAllRoutePermissionController::class)->group(function () {
+    Route::get('new-all-route-permission','store');
+    Route::get('all-routes', 'getAllRoutes');
+});
+
 
 
 Route::get('all/clear', function() {
@@ -64,16 +85,4 @@ Route::get('all/clear', function() {
     Artisan::call('optimize:clear');
     dd("Cache is cleared");
 });
-
-Route::controller(Sys\NewAllRoutePermissionController::class)->group(function () {
-    Route::get('new-all-route-permission','store');
-    Route::get('all-routes', 'getAllRoutes');
-});
-
-
-// Module Route
-Route::group(['prefix'=>'core/ajax','controller'=>'AjaxJsonController'], function () {
-    Route::post('route-check', 'routeCheck');
-});
-
 

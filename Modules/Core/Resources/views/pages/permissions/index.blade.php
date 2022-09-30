@@ -5,15 +5,21 @@
             <div class="card-header">
                 <h2 class="card-title"> {!! $page_icon !!} &nbsp; {{ $title }} </h2>
                 <div class="card-tools">
+                    @if (dAuth()->hasAccess(['core.permissions.section_edit']))
                     <button type="button" class="btn btn-tool" >
                         <a href="{{url($bUrl.'/section-edit')}}" class="btn bg-gradient-secondary btn-sm custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-edit"></i> Section Edit </a>
                     </button>
+                    @endif
+                    @if (dAuth()->hasAccess(['core.permissions.edit']))
                     <button type="button" class="btn btn-tool" >
                         <a href="{{url($bUrl.'/edit')}}" class="btn bg-gradient-primary btn-sm custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-edit"></i> Route Edit </a>
                     </button>
+                    @endif
+                    @if (dAuth()->hasAccess(['core.permissions.create']))
                     <button type="button" class="btn btn-tool" >
                         <a href="{{url($bUrl.'/create')}}" class="btn bg-gradient-info btn-sm custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
                     </button>
+                    @endif
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                         <i class="fas fa-minus"></i>
                     </button>

@@ -25,7 +25,7 @@
                 </li>
 {{--            @endif--}}
 
-{{--            @if (dAuth()->hasAccess(['author.permission']))--}}
+            @if (dAuth()->hasAccess(['core.permissions']))
                 <li class="nav-item">
                     <a href="{{url('core/permissions')}}" class="nav-link {{activeMenu(2, 'permissions')}}">
                         <!-- <i class="nav-icon fas fa-user-alt"></i> -->
@@ -33,7 +33,7 @@
                         <p>Permissions</p>
                     </a>
                 </li>
-{{--            @endif--}}
+            @endif
 {{--            @if (dAuth()->hasAccess(['author.password.change_password']))--}}
                 <li class="nav-item">
                     <a href="{{url('author/change-password')}}" class="nav-link {{activeMenu(2, 'change-password')}}">

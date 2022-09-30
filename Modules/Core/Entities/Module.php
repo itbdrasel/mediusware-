@@ -20,6 +20,8 @@ class Module extends Model
 
     public static $required = ['name', 'slug', 'status'];
 
+    public static $attribute = [];
+
     public static $insertData = ['name', 'slug', 'status'];
 
 }

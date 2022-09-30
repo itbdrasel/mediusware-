@@ -27,65 +27,68 @@ class NewAllRoutePermissionController extends Controller
 
     public function store(){
 //        $this->model::truncate();
-//        Roles::update(['permissions'=>null]);
-        $name = Route::getRoutes();
-        $sl =0;
+//        Roles::updated(['permissions'=>null]);
+        $name   = Route::getRoutes();
+        $sl     = 0;
+        $old_section_name ='';
         foreach ($name as $value) {
-            if (!empty($value->getName())) {
-                $routeName  = $value->getName();
-                $route_names = explode('.',$routeName);
-                if ($route_names[0] !='debugbar' && $route_names[0] !='ignition' && $route_names[0] !='sanctum') {
-                    $module_name = $route_names[0] ?? '';
-                    $sectionName = $route_names[1] ?? '';
-                    if (empty($sectionName)){
-                        $sectionName =  $module_name;
+            $route_name = $value->getName();
+            if (!empty($route_name)) {
+                $route_explode = explode('.', $route_name);
+                if (!empty($route_name) && $route_explode[0] != 'debugbar' && $route_explode[0] != 'ignition' && $route_explode[0] != 'sanctum') {
+                    $sl++;
+                    $module_name = $route_explode[0] ?? '';
+                    $section_name = $route_explode[1] ?? '';
+                    if (empty($section_name)){
+                        $section_name    = $module_name;
                     }
-                    $sectionName = ucwords(str_replace(['_','-'],' ',$sectionName));
-                    $module_name = ucwords(str_replace(['_','-'],' ',$module_name));
-                    $module_id = $this->getModuleNameById($module_name);
-
-                    if ($sectionName != 'Ajax') {
-                        $sl++;
-                        $roles =['1']; // can be multiple [array]
-                        $routeWithRoles = json_encode([$routeName => $roles]);
-                        // check if the section name exist
-                        $data = $this->model::where(['section_name'=> $sectionName])
-                            ->where('section_module_name', $module_id)->first();
-                        if (!empty($data)) {
-                            $getRoutes = $data->section_action_route;
-                            $routeNames = json_decode($getRoutes, true);
-                            if (array_key_exists($routeName, $routeNames)) {
-                                $routeNames[$routeName] = $roles; // update existing route.
-                            } else {
-                                $routeNames += [$routeName => $roles]; // append new route for existing section
+                    $section_name    = ucwords(str_replace(['_','-'],' ',$section_name));
+                    $module_name    = str_replace(['_','-'],' ',$module_name);
+                    if (!empty($section_name) && !empty($module_name)){
+                        $module_id          = $this->getModuleNameById($module_name);
+                        $data               = $this->model::where(['section_name'=> $section_name, 'module_id'=>$module_id])->first();
+                        $roles              = ['1'];
+                        $role               = $this->auth->findRoleById(1);
+                        if (!empty($data)){
+                            $action_route = json_decode($data->section_action_route, true);
+                            if (!isset($action_route[$route_name])) {
+                                if (!empty($old_section_name) && $old_section_name !=$section_name){
+                                    $role_with_route =[];
+                                }
+                                $role_with_route[$route_name] = $roles;
+                                if($role){
+                                $role->addPermission($route_name,true)->save();
+                                }
                             }
-                            $routeWithRoles = $routeNames;
-                        } else {
-                            $roles_permission = trim($this->arrayValue($roles), ',"');
-                            $routeData['section_roles_permission'] = '["' . $roles_permission . '"]';
-                        }
-                        $routeData['section_name'] = $sectionName;
-                        $routeData['section_module_name'] = $module_name;
-                        $routeData['section_action_route'] = $routeWithRoles;
 
-
-                        if (!empty($data)) {
-                            $this->model::where('section_name', $sectionName)->update( $routeData);
                         }else{
-                            $this->model::insert($routeData);
+                            $routeData['section_roles_permission'] = '["1"]';
+                            if (!empty($old_section_name) && $old_section_name !=$section_name){
+                                $role_with_route =[];
+                            }
+                            $role_with_route[$route_name] =  $roles;
                         }
-                        $role = $this->auth->findRoleById(1);
-                        if($role){
-                            $role->addPermission($routeName,true)->save();
+
+                        $routeData['section_name']          = $section_name;
+                        $routeData['module_id']             = $module_id;
+
+                        $old_section_name = $section_name;
+                        if (isset($role_with_route) && !empty($role_with_route)){
+                            $routeData['section_action_route']  = json_encode($role_with_route);
+                            if (!empty($data)) {
+                            $this->model::where('section_name', $section_name)->update( $routeData);
+                            }else{
+                                $this->model::insert($routeData);
+                            }
                         }
 
                     }
                 }
             }
+
         }
         dd('Total Route '.$sl.' Successful. Permission Add');
         return redirect()->back()->with('success', 'Total Route '.$sl.' Successful. Permission Add');
-
     }
 
     public function getModuleNameById($name){
@@ -110,29 +113,15 @@ class NewAllRoutePermissionController extends Controller
             if (!empty($routeName) && $route_names[0] !='debugbar' && $route_names[0] !='ignition' && $route_names[0] !='sanctum') {
                 $sl++;
                 $routeName = $value->getName();
-                echo $rul.' ('.$routeName.')<br><br>';
+                echo '<p style="margin: 10px 40px; font-size: 25px">('.$sl.') '.$rul. ' <spen style="background: #cccccc7a;padding: 0px 6px;
+    border-radius: 5px; color: #2e2c2c;">(' .$routeName.')</spen></p>';
             }
 
         }
-        dd('Total Route '.$sl.' Successful. Permission Add');
+        dd('Total Route '.$sl.' ');
     }
 
-    function array_flatten($array) {
-        $result = array();
-        foreach ($array as $key => $value) {
-            $result[$key] = $value;
-        }
-        return $result;
-    }
-    function arrayValue($array){
-        $data = $this->array_flatten($array);
-        $data = array_unique(array_values($data));
-        $result = '';
-        foreach ($data as $key => $value) {
-            $result .= '"'.(int)$value.'",';
-        }
-        return $result;
-    }
+
 
 
 }

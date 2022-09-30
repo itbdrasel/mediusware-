@@ -95,7 +95,7 @@ class PermissionController extends Controller
     public function create(){
         $this->data = [
             'title'         => $this->title.' Create',
-            'pageUrl'       => $this->bUrl,
+            'pageUrl'       => $this->bUrl.'/create',
             'page_icon'     => '<i class="fas fa-plus"></i>',
             'modules'       =>  Module::where('status',1)->get(),
             'roles'         =>  Roles::get(),
