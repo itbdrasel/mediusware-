@@ -83,7 +83,7 @@ function getResourceRoute($array, $match=true, $match_2=true){
 
 function validation_errors($errors){
     if($errors->any()){
-        echo '<div class="alert alert-danger"><ul>';
+        echo '<div style="padding-left: 0; " class="alert alert-danger"><ul style="margin-bottom: 0">';
         foreach ($errors->all() as $error){
             echo '<li>'.$error.'</li>';
         }

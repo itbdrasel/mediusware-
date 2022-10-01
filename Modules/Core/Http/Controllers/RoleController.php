@@ -129,11 +129,7 @@ class RoleController extends Controller
             $this->model::where($this->tableId, $id)->update($params);
             return redirect($this->bUrl)->with('success', 'Successfully Updated');
         }
-
-
     }
-
-
 
     public function getValidation($request){
         $validationRules = $this->crudServices->getValidationRules($this->model);
