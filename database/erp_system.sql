@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2022 at 08:19 PM
+-- Generation Time: Oct 01, 2022 at 08:23 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -152,7 +152,17 @@ CREATE TABLE `persistences` (
 
 INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
 (4, 1, 'Xp1lOVaE4brMh9VWrTATaEmISvprqcnl', '2022-09-23 05:10:17', '2022-09-23 05:10:17'),
-(5, 1, 'BCJlJO0ekX21EYifUECdxwrH07WKbdWd', '2022-09-23 10:38:05', '2022-09-23 10:38:05');
+(5, 1, 'BCJlJO0ekX21EYifUECdxwrH07WKbdWd', '2022-09-23 10:38:05', '2022-09-23 10:38:05'),
+(6, 1, '8SqRNIoZYSxUtdrAh5Vk7FKHx5qkUCwf', '2022-09-24 09:18:45', '2022-09-24 09:18:45'),
+(7, 1, 'x3Ha0tXMnpSsxG6HzXYWWXWLs3wfQjHK', '2022-09-25 10:40:22', '2022-09-25 10:40:22'),
+(8, 1, 'VdRUD7WLni8PaxyyBpOVtNYxHoFuj5xr', '2022-09-26 09:59:16', '2022-09-26 09:59:16'),
+(9, 1, 'tOfLEoynLjtu2GqbMt75PkCNIByrPKcV', '2022-09-27 12:13:58', '2022-09-27 12:13:58'),
+(10, 1, 'HxVSUEUlDX1MT8O5Kcb0onTLNiFFPnnf', '2022-09-28 09:26:15', '2022-09-28 09:26:15'),
+(11, 1, 'RGu9jDVFWScT80E9BGI95ieGxqXJb0BC', '2022-09-28 11:45:01', '2022-09-28 11:45:01'),
+(12, 1, 'g0xvdpI8pu3tU5Uqi3MEuefgX7Y2EKlN', '2022-09-29 10:25:14', '2022-09-29 10:25:14'),
+(13, 1, 'wKMrtcpWTY5NHg3VrEpx9Gvzt8P439Ok', '2022-09-30 00:54:23', '2022-09-30 00:54:23'),
+(14, 1, 'hDFnag7L1OR0imAGKwlY7GGp0WroYppe', '2022-09-30 04:04:20', '2022-09-30 04:04:20'),
+(15, 1, 'nWToXYqth9F6qe3NjC1UhwUBJaraKg3L', '2022-10-01 10:36:18', '2022-10-01 10:36:18');
 
 -- --------------------------------------------------------
 
@@ -201,6 +211,7 @@ CREATE TABLE `roles` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `permissions` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `redirect_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_by` int(11) DEFAULT NULL,
   `module_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -210,8 +221,8 @@ CREATE TABLE `roles` (
 -- Dumping data for table `roles`
 --
 
-INSERT INTO `roles` (`id`, `slug`, `name`, `permissions`, `redirect_url`, `module_code`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'Administrator', NULL, 'core/dashboard', NULL, '2021-01-15 05:01:15', '2022-06-15 07:15:05');
+INSERT INTO `roles` (`id`, `slug`, `name`, `permissions`, `redirect_url`, `order_by`, `module_code`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'Administrator', '{\"core.dashboard\":true,\"core.settings\":true,\"core.settings.store\":true,\"core.module\":true,\"core.module.store\":true,\"core.module.edit\":true,\"core.settings.logo\":true,\"core.module.delete\":true,\"core.permissions\":true,\"core.permissions.create\":true,\"core.permissions.store\":true,\"core.permissions.update\":true,\"core.permissions.section_edit\":true,\"core.permissions.section_update\":true,\"core.permissions.ajax_add_remove\":true,\"core.permissions.ajax_route_remove\":true,\"core.permissions.ajax_get_sections\":true,\"core.permissions.edit\":true,\"core.role.create\":true,\"core.role.store\":true,\"core.role.edit\":true,\"core.role\":true}', 'core/dashboard', 1, NULL, '2021-01-15 05:01:15', '2022-10-01 10:37:21');
 
 -- --------------------------------------------------------
 
@@ -270,6 +281,17 @@ CREATE TABLE `tbl_module_sections` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_module_sections`
+--
+
+INSERT INTO `tbl_module_sections` (`id`, `section_name`, `module_id`, `section_action_route`, `section_roles_permission`, `created_at`, `updated_at`) VALUES
+(1, 'Dashboard', 1, '{\"core.dashboard\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 10:42:45'),
+(2, 'Settings', 1, '{\"core.settings\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
+(3, 'Module', 1, '{\"core.module\":[\"1\"],\"core.module.edit\":[\"1\"],\"core.module.store\":[\"1\"],\"core.module.delete\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
+(4, 'Permissions', 1, '{\"core.permissions\":[\"1\"],\"core.permissions.create\":[\"1\"],\"core.permissions.store\":[\"1\"],\"core.permissions.edit\":[\"1\"],\"core.permissions.update\":[\"1\"],\"core.permissions.section_edit\":[\"1\"],\"core.permissions.section_update\":[\"1\"],\"core.permissions.ajax_add_remove\":[\"1\"],\"core.permissions.ajax_route_remove\":[\"1\"],\"core.permissions.ajax_get_sections\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
+(5, 'Role', 1, '{\"core.role\":[\"1\"],\"core.role.create\":[\"1\"],\"core.role.store\":[\"1\"],\"core.role.edit\":[\"1\"]}', '[\"1\"]', '2022-10-01 16:37:11', '2022-10-01 10:37:11');
 
 -- --------------------------------------------------------
 
@@ -376,7 +398,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `permissions`, `m_permission`, `password`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-09-23 10:38:05', NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', NULL, NULL, '2021-01-15 06:37:06', '2022-09-23 10:38:05');
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-10-01 10:36:18', NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', NULL, NULL, '2021-01-15 06:37:06', '2022-10-01 10:36:18');
 
 -- --------------------------------------------------------
 
@@ -559,7 +581,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -589,7 +611,7 @@ ALTER TABLE `tbl_modules`
 -- AUTO_INCREMENT for table `tbl_module_sections`
 --
 ALTER TABLE `tbl_module_sections`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_settings`

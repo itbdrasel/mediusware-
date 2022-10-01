@@ -15,8 +15,15 @@ class User extends Authenticatable
 
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $fillable = [
+        'full_name', 'user_name', 'phone', 'email', 'last_login', 'branch_id', 'permissions', 'm_permission', 'password', 'email_verified_at', 'remember_token'
+    ];
+
 
     public static $sortable = ['id' => 'id', 'name' => 'full_name', 'role'=>'roles.name','login'=>'last_login'];
+
+    public static $filters = ['full_name','phone','email'];
+
 
     public function role(){
         return $this->hasOne(RoleUser::class,'user_id', 'id');
@@ -26,9 +33,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'username', 'email', 'password', 'permissions', 'last_login', 'full_name', 'phone', 'verified_code', 'status'
-    ];
+
 
     /**
      * The attributes that should be hidden for arrays.

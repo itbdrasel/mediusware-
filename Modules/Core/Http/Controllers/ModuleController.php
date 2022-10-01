@@ -27,7 +27,7 @@ class ModuleController extends Controller
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
         $this->model            = Module::class;
-        $this->tableId          = $this->model::$sortable['id'];
+        $this->tableId          = 'id';
         $this->moduleName       = 'core';
         $this->bUrl             = $this->moduleName.'/module';
         $this->title            = 'Module';
@@ -56,7 +56,7 @@ class ModuleController extends Controller
             'filters'       => $this->model::$filters
         ];
 
-        $all_data = $this->crudServices->getIndexData($request, $this->model);
+        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
 
         if ($request->filled('filter')) {
             $this->data['filter'] = $filter = $request->get('filter');

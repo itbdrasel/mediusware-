@@ -14,7 +14,7 @@ class Module extends Model
         'name', 'slug', 'status'
     ];
 
-    public static $sortable = ['id'=>'id','name'=>'name','slug'=>'slug'];
+    public static $sortable = ['id','name','slug'];
 
     public static $filters = ['name','slug'];
 

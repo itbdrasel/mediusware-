@@ -1,8 +1,8 @@
 <?php
 namespace Modules\Core\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\Roles;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Validator;
 
-class RoleController extends Controller
+class UserController extends Controller
 {
 
 
@@ -26,11 +26,11 @@ class RoleController extends Controller
     public function __construct(Auth $auth, CRUDServices $crudServices){
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
-        $this->model            = Roles::class;
+        $this->model            = User::class;
         $this->tableId          = 'id';
         $this->moduleName       = 'core';
-        $this->bUrl             = $this->moduleName.'/role';
-        $this->title            = 'Role';
+        $this->bUrl             = $this->moduleName.'/user';
+        $this->title            = 'user';
     }
 
 
@@ -39,7 +39,7 @@ class RoleController extends Controller
         $this->data['bUrl']     =  $this->bUrl;
         $this->data['tableID']  =  $this->tableId;
 
-        echo view($this->moduleName.'::pages.role.'.$pageName.'', $this->data);
+        echo view($this->moduleName.'::pages.user.'.$pageName.'', $this->data);
 
     }
 

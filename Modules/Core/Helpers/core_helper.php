@@ -112,8 +112,12 @@ function getOrder($fields, $default){
 
     // define order by which field
     if(!empty($by) ){
-        if(array_key_exists($by, $fields)){
-            $getOrder['by'] = $fields[$by];
+        if(array_key_exists($by, $fields) || array_search($by,$fields)){
+            if (array_key_exists($by, $fields)){
+                $getOrder['by'] = $fields[$by];
+            }else{
+                $getOrder['by'] =  $by;
+            }
         }else $getOrder['by'] = $default;
 
     }else{

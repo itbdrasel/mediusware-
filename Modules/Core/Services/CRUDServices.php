@@ -22,9 +22,8 @@ class CRUDServices{
      * @return validation message
      */
 
-    public function getIndexData($request, $model){
+    public function getIndexData($request, $model, $tableId){
         $model_sortable = $model::$sortable;
-        $tableId = $model::$sortable['id'];
         $perPage = session('per_page') ?: 10;
 
         //table item serial starting from 0
@@ -63,11 +62,12 @@ class CRUDServices{
     public function getValidationRules($model){
         $data['rules'] = [];
         $data['attribute'] = [];
-        $attribute = $model::$attribute;
         foreach ($model::$required as $key=>$value){
-            $data['rules'][$value]  = 'required';
-            if (isset($attribute[$value]) && !empty($attribute[$value])) {
-                $data['attribute'][$value]  = $attribute[$value];
+            if (is_string($value)){
+                $data['rules'][$key]  = 'required';
+                $data['attribute'][$key]  = $value;
+            }else{
+                $data['rules'][$value]  = 'required';
             }
         }
         return $data;

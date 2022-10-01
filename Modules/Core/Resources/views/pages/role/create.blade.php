@@ -60,6 +60,17 @@
                                 </div>
                             </div>
 
+                        <div class="form-group row">
+                            @php
+                                $input_name = 'order_by';
+                            @endphp
+                            <label class="col-sm-2 col-form-label"> Order By <code>*</code></label>
+                            <div class="col-sm-5">
+                                <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}"  class="form-control @error($input_name) is-invalid @enderror">
+                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                            </div>
+                        </div>
+
                             <div class="form-group row">
                                 @php
                                     $input_name = 'session_key';

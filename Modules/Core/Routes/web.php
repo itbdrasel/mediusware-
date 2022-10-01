@@ -55,6 +55,11 @@ Route::prefix('core')->group(function() {
             getResourceRoute(['index','create','store','edit']);
         });
 
+        // User Route
+        Route::group(['prefix'=>'user','as'=>'user','controller'=>'UserController'], function () {
+            getResourceRoute(['index','create','store','edit','show','delete']);
+        });
+
     });
 
 

@@ -77,6 +77,7 @@
                                     <th class="sort" data-row="name" id="name" >Role Name</th>
                                     <th class="sort" data-row="slug" id="slug" >Role Slug</th>
                                     <th>Redirect</th>
+                                    <th class="text-center">Order By</th>
                                     <th>Session Key</th>
                                     <th>Session Value</th>
                                     <th style="width: 180px" class="text-center">Manage</th>
@@ -94,7 +95,8 @@
                                             <td class="text-center">{{ $c+$serial }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->slug }}</td>
-                                            <td>{{$data->redirect}}</td>
+                                            <td>{{$data->redirect_url}}</td>
+                                            <td class="text-center">{{$data->order_by}}</td>
                                             @php
                                                 $session_key = '';
                                                 $session_value = '';
