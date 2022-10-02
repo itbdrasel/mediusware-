@@ -4,21 +4,21 @@
         <p>Dashboard</p>
     </a>
 </li>
-@if (dAuth()->hasAnyAccess(['core.permissions','core.role','core.module']))
-    <li class="nav-item {{menuOpenActive(2, ['permissions','role','module'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['permissions','role','module'], true)}} ">
+@if (dAuth()->hasAnyAccess(['core.permissions','core.role','core.module','core.user']))
+    <li class="nav-item {{menuOpenActive(2, ['permissions','role','module','user'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['permissions','role','module','user'], true)}} ">
             <i class="nav-icon fas fa-assistive-listening-systems"></i>
             <p>System<i class="right fas fa-angle-down"></i></p>
         </a>
         <ul class="nav nav-treeview">
-{{--            @if (dAuth()->hasAccess(['author.users']))--}}
+            @if (dAuth()->hasAccess(['core.user']))
                 <li class="nav-item">
-                    <a href="{{url('author/users')}}" class="nav-link {{activeMenu(2, 'users')}} ">
+                    <a href="{{url('core/user')}}" class="nav-link {{activeMenu(2, 'user')}} ">
                         <i class="fas fa-circle"></i>
                         <p>User Manager</p>
                     </a>
                 </li>
-{{--            @endif--}}
+            @endif
 
             @if (dAuth()->hasAccess(['core.permissions']))
                 <li class="nav-item">

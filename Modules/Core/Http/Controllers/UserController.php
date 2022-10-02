@@ -33,7 +33,7 @@ class UserController extends Controller
         $this->tableId          = 'id';
         $this->moduleName       = 'core';
         $this->bUrl             = $this->moduleName.'/user';
-        $this->title            = 'user';
+        $this->title            = 'User';
     }
 
 
@@ -119,6 +119,10 @@ class UserController extends Controller
             'page_icon'     => '<i class="fas fa-plus"></i>',
             'objData'       => ''
         ];
+
+        $role = Sentinel::getUser()->roles->first();
+        $order_by = $role->order_by;
+        $this->data['roles'] = Roles::where('order_by','>=',$order_by)->get();
 
         $this->layout('create');
     }

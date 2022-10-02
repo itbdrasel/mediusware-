@@ -15,7 +15,7 @@
         <div class="row">
 
             <div class="col-12">
-                <div class="card">
+                <div class="card card-outline card-primary">
                     <div class="card-header">
                         <h2 class="card-title"> {!! $page_icon !!} &nbsp; {{ $title }} </h2>
                         <div class="card-tools">
