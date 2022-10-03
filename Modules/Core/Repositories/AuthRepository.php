@@ -33,20 +33,7 @@ class AuthRepository implements AuthInterface
         return redirect($role->redirect_url);
     }
 
-    /* * *
-     * roleGroup()
-     * @param $roleGroup name Optional
-     *
-     * @return Array
-    */
 
-    public function roleGroup( $roleGroup = '' ):array
-    {
-        if($roleGroup === 'general' )
-            return ['writer', 'editor', 'subscriber'];
-        else
-            return ['admin', 'manager'];
-    }
 
 
     /* * *
@@ -61,23 +48,9 @@ class AuthRepository implements AuthInterface
     public function register(array $userInfo)
     {
 
-        $credentials = [
-            'email' => $userInfo['email'],
-            'password' => $userInfo['password'],
-            'full_name' => $userInfo['full_name'],
-            'phone'     => $userInfo['phone'] ?: NULL,
-            'status' => 0,
-
-        ];
-
         $role = $userInfo['role'];
-        $registerAndActivate = $userInfo['register_n_activate'] ?? NULL;
 
-        if($registerAndActivate){
-            $user = Sentinel::registerAndActivate($credentials);
-        }else{
-            $user = Sentinel::register($credentials);
-        }
+        $user = Sentinel::registerAndActivate($userInfo);
 
         if($user){
 

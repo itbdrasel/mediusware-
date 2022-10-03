@@ -1,4 +1,4 @@
-@include('layouts.header')
+
 	<div class="modal-content">
 		<div class="modal-header">
 			<input type="hidden" class="datepickerNone">
@@ -32,6 +32,5 @@
 		<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
 	</div>
 
-@include('layouts.footer_script')
 
 

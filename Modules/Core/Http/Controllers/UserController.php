@@ -163,7 +163,7 @@ class UserController extends Controller
             'user_name'     => 'nullable|unique:users',
             'phone'         => 'nullable|unique:users',
             'password'      => 'required|confirmed|min:6',
-            'role'          => 'required|integer|size:10',
+            'role'          => 'required|integer',
 
         ];
 
