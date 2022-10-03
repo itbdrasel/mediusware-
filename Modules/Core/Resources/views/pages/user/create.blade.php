@@ -28,16 +28,20 @@
 								{{ validation_errors($errors) }}
 
 								<div class="form-group row">
-									<label class="col-sm-4 col-form-label">User Name<code>*</code></label>
+                                    @php
+                                        $input_name = 'full_name';
+                                    @endphp
+									<label for="{{$input_name}}" class="col-sm-4 col-form-label">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
 
 									<div class="col-sm-8">
 										<div class="input-group">
-											<input type="text" name="full_name" id="full_name" value="{{ old('full_name')}} " class="form-control" placeholder="Your Name">
+											<input type="text" name="{{$input_name}}" id="{{$input_name}}" value="{{ old($input_name)}} " class="form-control @error($input_name) is-invalid @enderror" placeholder="Your Name">
 											<div class="input-group-append">
 												<div class="input-group-text">
 													<span class="fas fa-user"></span>
 												</div>
 											</div>
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
 										</div>
 
 									</div>
@@ -45,43 +49,115 @@
 
 
 								<div class="form-group row">
-									<label class="col-sm-4 col-form-label">E-mail<code>*</code></label>
+                                    @php
+                                        $input_name = 'email';
+                                    @endphp
+									<label for="{{$input_name}}" class="col-sm-4 col-form-label">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
 
 									<div class="col-sm-8">
 										<div class="input-group ">
-											<input type="email" id="email" name="email" value="{{ old('email')}} " class="form-control" placeholder="Email">
+											<input type="email" id="{{$input_name}}" name="{{$input_name}}" value="{{ old($input_name)}} " class="form-control @error($input_name) is-invalid @enderror" placeholder="Email">
 											<div class="input-group-append">
 												<div class="input-group-text">
 													<span class="fas fa-envelope"></span>
 												</div>
 											</div>
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
 										</div>
 									</div>
 								</div>
 
+                            <div class="form-group row">
+                                @php
+                                    $input_name = 'user_name';
+                                @endphp
+                                <label for="{{$input_name}}" class="col-sm-4 col-form-label">User Name</label>
+
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" id="{{$input_name}}" name="{{$input_name}}" value="{{old($input_name)}}" class="form-control @error($input_name) is-invalid @enderror" >
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user-clock"></span>
+                                            </div>
+                                        </div>
+                                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @php
+                                    $input_name = 'phone';
+                                @endphp
+                                <label for="{{$input_name}}" class="col-sm-4 col-form-label">Phone Number</label>
+
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" name="{{$input_name}}" id="{{$input_name}}" value="{{ old($input_name)}} " class="form-control @error($input_name) is-invalid @enderror" >
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-phone"></span>
+                                            </div>
+                                        </div>
+                                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
 
 								<div class="form-group row">
-									<label class="col-sm-4 col-form-label">Password<code>*</code></label>
+                                    @php
+                                        $input_name = 'password';
+                                    @endphp
+									<label for="{{$input_name}}" class="col-sm-4 col-form-label">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
 
 									<div class="col-sm-8">
 										<div class="input-group ">
-											<input type="password" name="password" id="password" class="form-control" placeholder="Password">
+											<input type="password" name="{{$input_name}}" id="{{$input_name}}" class="form-control @error($input_name) is-invalid @enderror" placeholder="{{ucfirst(str_replace('_',' ',$input_name))}}">
 											<div class="input-group-append">
 												<div class="input-group-text">
 													<span class="fas fa-lock"></span>
 												</div>
 											</div>
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
 										</div>
 									</div>
 
 								</div>
 
+                            <div class="form-group row">
+                                @php
+                                    $input_name = 'password_confirmation';
+                                @endphp
+                                <label for="{{$input_name}}" class="col-sm-4 col-form-label">Confirm Password<code>*</code></label>
+
+                                <div class="col-sm-8">
+                                    <div class="input-group ">
+                                        <input type="password" id="{{$input_name}}" class="form-control @error($input_name) is-invalid @enderror" name="{{$input_name}}" autocomplete="current-password">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
 
 								<div class="form-group row">
-									<label class="col-sm-4 col-form-label">User Role<code>*</code></label>
+                                    @php
+                                        $input_name = 'role';
+                                    @endphp
+									<label for="{{$input_name}}" class="col-sm-4 col-form-label">User Role<code>*</code></label>
 									<div class="col-sm-8">
 										<div class="input-group ">
-											<select id="role" name="role" class="form-control" >
+											<select id="{{$input_name}}" name="{{$input_name}}" class="form-control @error($input_name) is-invalid @enderror" >
                                                 <option value=""> Select User Role </option>
                                                 @if (!empty($roles))
                                                     @foreach ($roles as $role)
@@ -94,10 +170,13 @@
 													<span class="fas fa-user-circle"></span>
 												</div>
 											</div>
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
 										</div>
 									</div>
 								</div>
-						</div>
+
+
+                        </div>
 
 
 					</div>

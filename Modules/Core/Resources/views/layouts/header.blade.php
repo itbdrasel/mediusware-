@@ -8,6 +8,13 @@
     <meta name="robots" content="nofollow">
     <meta name="googlebot" content="noindex">
     <title>{{$title??''}} | Dashboard</title>
+    <script>
+        (function(){
+            window.Laravel = {
+                csrfToken: '{{ csrf_token() }}'
+            };
+        })();
+    </script>
     <noscript>
         <h1>This page needs JavaScript activated to work.</h1>
         <style>div,footer.main-footer { display:none; }</style>

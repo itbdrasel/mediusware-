@@ -120,9 +120,9 @@ class UserController extends Controller
             'objData'       => ''
         ];
 
-        $role = Sentinel::getUser()->roles->first();
-        $order_by = $role->order_by;
-        $this->data['roles'] = Roles::where('order_by','>=',$order_by)->get();
+        $role                   = Sentinel::getUser()->roles->first();
+        $order_by               = $role->order_by;
+        $this->data['roles']    = Roles::where('order_by','>=',$order_by)->get();
 
         $this->layout('create');
     }
@@ -157,20 +157,41 @@ class UserController extends Controller
      */
 
     public function store(Request $request){
-        $id = $request[$this->tableId];
-        $validator = $this->getValidation($request);
+        $rules = [
+            'full_name'     => 'required|string|max:255',
+            'email'         => 'required|email|unique:users',
+            'user_name'     => 'nullable|unique:users',
+            'phone'         => 'nullable|unique:users',
+            'password'      => 'required|confirmed|min:6',
+            'role'          => 'required|integer|size:10',
+
+        ];
+
+        $attribute = [
+            'full_name'     => 'Full Name',
+            'user_name'     => 'User Name',
+        ];
+
+        $customMessages =[];
+
+        $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $params = $this->getInsertData($request);
 
-        if (empty($id) ) {
-            $this->model::create($params);
-            return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
-        }else{
-            $this->model::where($this->tableId, $id)->update($params);
-            return redirect($this->bUrl)->with('success', 'Successfully Updated');
-        }
+        $registerData = [
+            'full_name'             => $request['full_name'],
+            'email'                 => $request['email'],
+            'user_name'             => $request['user_name'] ?: NULL,
+            'phone'                 => $request['phone'] ?: NULL,
+            'password'              => $request['password'],
+            'role'                  => $request['role'],
+        ];
+
+       $this->auth->register($registerData);
+
+        return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
+
     }
 
 

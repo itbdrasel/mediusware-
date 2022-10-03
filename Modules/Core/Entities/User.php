@@ -2,7 +2,6 @@
 
 namespace Modules\Core\Entities;
 
-use Modules\Core\Entities\RoleUser;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

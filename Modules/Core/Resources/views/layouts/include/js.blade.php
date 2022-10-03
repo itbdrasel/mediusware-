@@ -2,7 +2,13 @@
 <input type="hidden" id="db_date_format" value="{{config('settings')['date_format']}}">
 <input type="hidden" id="c_symbol" value="{{config('settings')['c_symbol']}}">
 <input type="hidden" id="c_order" value="{{config('settings')['c_order']}}">
-
+<script>
+    (function(){
+        window.Laravel = {
+            csrfToken: '{{ csrf_token() }}'
+        };
+    })();
+</script>
 <script>var APP_URL = {!! json_encode(url('/')) !!};</script>
 <script>var pageUrl = {!! json_encode(url($pageUrl ?? '')) !!};</script>
 
