@@ -63,7 +63,7 @@ class CRUDServices{
         $data['rules'] = [];
         $data['attribute'] = [];
         foreach ($model::$required as $key=>$value){
-            if (is_string($value)){
+            if (!is_int($key)){
                 $data['rules'][$key]  = 'required';
                 $data['attribute'][$key]  = $value;
             }else{

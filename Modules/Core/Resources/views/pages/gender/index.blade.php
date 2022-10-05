@@ -29,24 +29,14 @@
                             </div>
                             <div class="input-group mb-3">
                                 @php
-                                    $input_name = 'slug';
+                                    $input_name = 'order_by';
                                 @endphp
-                                <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
+                                <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}</label>
                                 <input type="text" value="{{ old($input_name) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
 
                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                             </div>
-                            <div class="input-group mb-3">
-                                @php
-                                    $input_name = 'status';
-                                @endphp
-                                <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
-                                <select name="{{$input_name}}"  class="form-control">
-                                    <option {{(old($input_name) ==1 )?'selected':''}} value="1">Active</option>
-                                    <option {{(old($input_name) =='0' )?'selected':''}} value="0">Inactive</option>
-                                </select>
 
-                            </div>
 
 
 
@@ -85,7 +75,7 @@
 
                                 <div class="form-row">
                                     <div class="col">
-                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter ..." class="form-control float-left search_input"/>
+                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control float-left search_input"/>
                                     </div>
 
                                     <div class="col">
@@ -133,8 +123,7 @@
                                         <tr>
                                             <th class="text-center" style="width: 50px">SL</th>
                                             <th class="sort" data-row="name" id="name" >Name</th>
-                                            <th class="sort" data-row="slug" id="slug" >Slug</th>
-                                            <th class="text-center" >Status</th>
+                                            <th class="sort" data-row="order_by" id="order_by" >order_by</th>
                                             <th style="width: 180px" class="text-center">Manage</th>
                                         </tr>
                                         </thead>
@@ -146,18 +135,10 @@
                                             @endphp
 
                                             @foreach ($allData as $data)
-                                                @php
-
-                                                    $status = '<i class="fa fa-times-circle" aria-hidden="true" style="color:red; font-size:19px"></i>';
-                                                    if ($data->status ==1) {
-                                                        $status = '<i class="fa fa-check-circle" aria-hidden="true" style="color:green;font-size:19px"></i>';
-                                                    }
-                                                @endphp
                                                 <tr>
                                                     <td class="text-center">{{ $c+$serial }}</td>
                                                     <td>{{ $data->name }}</td>
-                                                    <td>{{ $data->slug }}</td>
-                                                    <td class="text-center">{!! $status !!}</td>
+                                                    <td>{{ $data->order_by }}</td>
 
                                                     <td class="text-center">
                                                         <div class="btn-group">

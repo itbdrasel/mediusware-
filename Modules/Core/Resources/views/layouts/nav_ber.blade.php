@@ -4,9 +4,9 @@
         <p>Dashboard</p>
     </a>
 </li>
-@if (dAuth()->hasAnyAccess(['core.permissions','core.role','core.module','core.user']))
-    <li class="nav-item {{menuOpenActive(2, ['permissions','role','module','user'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['permissions','role','module','user'], true)}} ">
+@if (dAuth()->hasAnyAccess(['core.permissions','core.role','core.module','core.user','core.branch','core.gender','core.religion']))
+    <li class="nav-item {{menuOpenActive(2, ['permissions','role','module','user','branch','gender','religion'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['permissions','role','module','user','branch', 'gender','religion'], true)}} ">
             <i class="nav-icon fas fa-assistive-listening-systems"></i>
             <p>System<i class="right fas fa-angle-down"></i></p>
         </a>
@@ -28,6 +28,14 @@
                     </a>
                 </li>
             @endif
+            @if (dAuth()->hasAccess(['core.branch']))
+                <li class="nav-item">
+                    <a href="{{url('core/branch')}}" class="nav-link {{activeMenu(2, 'branch')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Branch Manager</p>
+                    </a>
+                </li>
+            @endif
             @if (dAuth()->hasAccess(['core.role']))
                 <li class="nav-item">
                     <a href="{{url('core/role')}}" class="nav-link {{activeMenu(2, 'role')}}">
@@ -44,6 +52,22 @@
                     </a>
                 </li>
             @endif
+                @if (dAuth()->hasAccess(['core.religion']))
+                    <li class="nav-item">
+                        <a href="{{url('core/religion')}}" class="nav-link {{activeMenu(2, 'religion')}} ">
+                            <i class="fas fa-circle"></i>
+                            <p>Religion Manager</p>
+                        </a>
+                    </li>
+                @endif
+                @if (dAuth()->hasAccess(['core.gender']))
+                    <li class="nav-item">
+                        <a href="{{url('core/gender')}}" class="nav-link {{activeMenu(2, 'gender')}} ">
+                            <i class="fas fa-circle"></i>
+                            <p>Gender Manager</p>
+                        </a>
+                    </li>
+                @endif
         </ul>
     </li>
 @endif

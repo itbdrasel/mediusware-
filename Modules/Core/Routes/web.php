@@ -60,6 +60,21 @@ Route::prefix('core')->group(function() {
             getResourceRoute(['index','create','store','edit','show','delete']);
         });
 
+        // Branch Route
+        Route::group(['prefix'=>'branch','as'=>'branch','controller'=>'BranchController'], function () {
+            getResourceRoute(['index','create','store','edit','delete']);
+        });
+
+        // Gender Route
+        Route::group(['prefix'=>'gender','as'=>'gender','controller'=>'GenderController'], function () {
+            getResourceRoute(['index','edit','store', 'delete']);
+        });
+
+        // Religion Route
+        Route::group(['prefix'=>'religion','as'=>'religion','controller'=>'ReligionController'], function () {
+            getResourceRoute(['index','edit','store', 'delete']);
+        });
+
     });
 
 

@@ -278,7 +278,7 @@ function checkUncheck($id){
 }
 
 function getValue($field, $data, $default=null){
-    return (!empty($data) && !empty($data->$field)) ? old($field,$data->$field) : old($field,$default);
+    return (!empty($data) && isset($data->$field)) ? old($field,$data->$field) : old($field,$default);
 }
 
 function lkc()

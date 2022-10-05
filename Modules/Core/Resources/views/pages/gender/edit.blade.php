@@ -39,9 +39,9 @@
                     </div>
                     <div class="input-group mb-3">
                         @php
-                            $input_name = 'slug';
+                            $input_name = 'order_by';
                         @endphp
-                        <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
+                        <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}</label>
                         <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -50,27 +50,13 @@
                         </div>
                         <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                     </div>
-                    <div class="input-group mb-3">
-                        @php
-                            $input_name = 'status';
-                        @endphp
-                        <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
-                        <select name="{{$input_name}}"  class="form-control">
-                            <option {{(getValue($input_name, $objData) ==1 )?'selected':''}} value="1">Active</option>
-                            <option {{(getValue($input_name, $objData) ==0)?'selected':''}} value="0">Inactive</option>
-                        </select>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user-circle"></span>
-                            </div>
-                        </div>
-                    </div>
 
 
                 </div>
             </div>
         </div>
         <div class="modal-footer">
+
             <button type="submit" id="submit" class="btn btn-primary">Update</button>&nbsp;&nbsp;
             <button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
         </div>

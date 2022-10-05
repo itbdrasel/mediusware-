@@ -4,7 +4,7 @@
 <section class="content ">
 <div class="row frontoffice-body">
 
-    <div class="col-11">
+    <div class="col-12">
 
         <div class="card card-outline card-primary">
             <div class="card-header">
@@ -14,7 +14,7 @@
                         <i class="fas fa-minus"></i>
                     </button>
                     <button type="button" class="btn btn-tool">
-                        <a href="{{url($bUrl.'/create')}}" class="btn btn-info btn-sm"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New Role</a>
+                        <a href="{{url($bUrl.'/create')}}" class="btn btn-info btn-sm"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New</a>
                     </button>
                 </div>
             </div>
@@ -27,7 +27,7 @@
 
                         <div class="form-row">
                             <div class="col">
-                                <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Role Name ..." class="form-control float-left search_input"/>
+                                <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name or Phone..." class="form-control float-left search_input"/>
                             </div>
 
                             <div class="col">
@@ -74,12 +74,12 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center" style="width: 50px">SL</th>
-                                    <th class="sort" data-row="name" id="name" >Role Name</th>
-                                    <th class="sort" data-row="slug" id="slug" >Role Slug</th>
-                                    <th>Redirect</th>
-                                    <th class="text-center">Order By</th>
-                                    <th>Session Key</th>
-                                    <th>Session Value</th>
+                                    <th class="sort" data-row="name" id="name" >Name</th>
+                                    <th width="200" class="sort" data-row="slug" id="slug" >Phone</th>
+                                    <th>E-mail</th>
+                                    <th>Address</th>
+                                    <th width="100" class="text-center">Order by</th>
+                                    <th width="100" class="text-center">Status</th>
                                     <th style="width: 180px" class="text-center">Manage</th>
                                 </tr>
                                 </thead>
@@ -91,31 +91,28 @@
                                     @endphp
 
                                     @foreach ($allData as $data)
+                                        @php
+
+                                            $status = '<i class="fa fa-times-circle" aria-hidden="true" style="color:red; font-size:19px"></i>';
+                                            if ($data->status ==1) {
+                                                $status = '<i class="fa fa-check-circle" aria-hidden="true" style="color:green;font-size:19px"></i>';
+                                            }
+                                        @endphp
                                         <tr>
                                             <td class="text-center">{{ $c+$serial }}</td>
                                             <td>{{ $data->name }}</td>
-                                            <td>{{ $data->slug }}</td>
-                                            <td>{{$data->redirect_url}}</td>
-                                            <td class="text-center">{{$data->order_by}}</td>
-                                            @php
-                                                $session_key = '';
-                                                $session_value = '';
-                                                if (!empty($data->session_data)) {
-                                                    $session_data = json_decode($data->session_data);
-                                                    if (!empty($session_data)) {
-                                                        $session_key = $session_data->session_key;
-                                                        $session_value = $session_data->session_value;
-                                                    }
-                                                }
-                                            @endphp
-                                            <td>{{$session_key}}</td>
-                                            <td>{{$session_value}}</td>
-
-
+                                            <td>{{ $data->phone }}</td>
+                                            <td>{{$data->email}}</td>
+                                            <td>{{$data->address}}</td>
+                                            <td>{{$data->order_by}}</td>
+                                            <td class="text-center">{!! $status !!}</td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-outline-info">
                                                         <a href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-info">
+                                                        <a ata-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
                                                     </button>
                                                 </div>
 
@@ -130,7 +127,7 @@
 
                                 @else
 
-                                    <tr> <td colspan="4">There is nothing found.</td> </tr>
+                                    <tr> <td colspan="7">There is nothing found.</td> </tr>
 
 
                                 @endif
@@ -164,6 +161,7 @@
     </div>
 </div>
 </section>
+@include('core::layouts.include.modal')
     @endsection
 @push('js')
     <script>
