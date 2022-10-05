@@ -294,4 +294,55 @@ class PermissionController extends Controller
         $this->model::where('id',$id)->update(['section_action_route'=>json_encode($actions)]);
     }
 
+    public function userModule(Request $request){
+        $user_id = $request['id'];
+
+        $user =User::find($user_id);
+        $user_s = $this->auth->findUserById($request['id']);
+        $module_name =$request->module_name;
+        $a_value = ($request->value == 1) ? true : false;
+        if($user && $user_s){
+            $modules =   ModuleSection::orderBy('module_id')->where('section_module_name', $module_name)->orderBy('section_name')->orderBy('id')->get();
+            if (!empty($modules)) {
+                foreach ($modules as $module) {
+                    $sectionPermission = json_decode($module->section_roles_permission);
+                    $role_id = $user->role->role_id ?? '';
+                    if (in_array($role_id, $sectionPermission)) {
+                        $route_names = json_decode($module->section_action_route);
+                        foreach ($route_names as $key => $value) {
+                            if (in_array($role_id, $value)) {
+                                $user_s->removePermission($key, $a_value)->save();
+                                $user_s->addPermission($key, $a_value)->save();
+                            }
+                        }
+                    }
+                }
+            }
+            if (!empty($user->m_permission)) {
+                $db_modules = json_decode($user->m_permission);
+                $status =true;
+                if (!empty($db_modules)) {
+                    foreach ($db_modules as $key=>$value){
+                        if ($module_name == $key) {
+                            $value= $a_value;
+                            $status =false;
+                        }
+                        $m_permission[$key] = $value;
+                    }
+                }
+                if ($status) {
+                    $m_permission[$module_name] = $a_value;
+                }
+            }else{
+                $m_permission[$module_name] = $a_value;
+            }
+            $data = [
+                'm_permission' =>json_encode($m_permission),
+            ];
+            User::where('id', $user_id)->update($data);
+        }else{
+            return false;
+        }
+    }
+
 }

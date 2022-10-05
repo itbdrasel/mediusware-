@@ -3,6 +3,7 @@ namespace Modules\Core\Http\Controllers;
 
 
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Core\Entities\ModuleSection;
 use Modules\Core\Entities\Roles;
 use Modules\Core\Entities\User;
 use Modules\Core\Repositories\AuthInterface as Auth;
@@ -120,7 +121,7 @@ class UserController extends Controller
             'objData'       => ''
         ];
 
-        $role                   = Sentinel::getUser()->roles->first();
+        $role                   = $this->auth->getUser()->roles->first();
         $order_by               = $role->order_by;
         $this->data['roles']    = Roles::where('order_by','>=',$order_by)->get();
 
@@ -145,8 +146,55 @@ class UserController extends Controller
             'page_icon'     => '<i class="fas fa-edit"></i>',
             'objData'       => $objData
         ];
+        $role                   = $this->auth->getUser()->roles->first();
+        $order_by               = $role->order_by;
+        $this->data['roles']    = Roles::where('order_by','>=',$order_by)->get();
 
-        $this->layout('create');
+        $this->layout('edit');
+    }
+
+    public function update(Request $request){
+
+        $id = $request['id'];
+
+        if( !$this->auth->userExist($id) ) abort('404');
+
+        $rules = [
+            'full_name'     => 'required',
+            'email'         => 'required|email|unique:users,email,'.$id,
+            'user_name'     => 'nullable|unique:users,user_name,'.$id,
+            'phone'         => 'nullable|unique:users,phone,'.$id,
+            'role'          => 'required|integer',
+            'status'        => 'required|gt:-1|lt:2'
+        ];
+
+        $attribute = [
+            'full_name' => 'Full Name',
+        ];
+
+        $customMessages = [];
+
+        $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
+
+        if ($validator->fails()){
+            return response()->json($validator->messages(), 200);
+        }
+
+        $params = [
+            'full_name'             => $request['full_name'],
+            'email'                 => $request['email'],
+            'user_name'             => $request['user_name'] ?: NULL,
+            'phone'                 => $request['phone'] ?: NULL,
+            'role'                  => $request['role'],
+        ];
+        RoleUser::where('user_id', $id)->update([ 'role_id' => $request['role'] ]);
+
+        $user = $this->auth->findById($id);
+        $this->auth->update($user, $params);
+
+        $this->auth->activateDeactivate($id, $request['status']);
+
+        return 'success';
     }
 
 
@@ -192,6 +240,33 @@ class UserController extends Controller
 
         return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
 
+    }
+
+
+
+
+    public function profile(Request $request, $id){
+
+        $objData    = $this->model::where('users.id', $id)
+            ->leftJoin('role_users', 'users.id', 'role_users.user_id')
+            ->leftJoin('roles', 'role_users.role_id', 'roles.id')
+            ->selectRaw('users.*, roles.name, roles.id as role_id')->first();
+
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if( !$id || empty($objData) ){ exit('Bad Request!'); }
+        $this->data = [
+            'title'         =>  $this->title.' Profile',
+            'page_icon'     => '<i class="fa fa-book"></i>',
+            'objData'       => $objData,
+            'permission'    => $request['permission'],
+            'pageUrl'       => $this->bUrl.'/'.$id,
+        ];
+
+        $this->data['sectionNames'] = ModuleSection::orderBy('module_id')->orderBy('section_name')->orderBy('id')->get();
+
+
+
+        $this->layout('profile');
     }
 
 

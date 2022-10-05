@@ -27,11 +27,11 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <div class="dropdown-divider"></div>
-                    <a href="{{url('author/profile/'. dAuth()->getUser()->id)}}" class="dropdown-item">
+                    <a href="{{url('core/user/profile/'. dAuth()->getUser()->id)}}" class="dropdown-item">
                         <i class="fas fa-user mr-2"></i> Your Profile
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="{{url('author/logout')}}" class="dropdown-item">
+                    <a href="{{url('core/logout')}}" class="dropdown-item">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </a>
                 </div>

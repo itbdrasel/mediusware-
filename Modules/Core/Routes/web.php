@@ -48,6 +48,7 @@ Route::prefix('core')->group(function() {
             Route::post('add-remove', 'addRemove')->name('.ajax_add_remove');
             Route::post('route-remove', 'routeRemove')->name('.ajax_route_remove');
             Route::post('get-sections', 'getSectionsById')->name('.ajax_get_sections');
+            Route::post('user-module', 'userModule')->name('.ajax_user_module');
         });
 
         // Role Route
@@ -57,7 +58,8 @@ Route::prefix('core')->group(function() {
 
         // User Route
         Route::group(['prefix'=>'user','as'=>'user','controller'=>'UserController'], function () {
-            getResourceRoute(['index','create','store','edit','show','delete']);
+            getResourceRoute(['index','create','store','edit','update','delete']);
+            Route::get('profile/{id}', 'profile')->name('.profile');
         });
 
         // Branch Route

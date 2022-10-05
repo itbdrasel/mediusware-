@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2022 at 08:23 PM
+-- Generation Time: Oct 05, 2022 at 07:57 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -162,7 +162,12 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (12, 1, 'g0xvdpI8pu3tU5Uqi3MEuefgX7Y2EKlN', '2022-09-29 10:25:14', '2022-09-29 10:25:14'),
 (13, 1, 'wKMrtcpWTY5NHg3VrEpx9Gvzt8P439Ok', '2022-09-30 00:54:23', '2022-09-30 00:54:23'),
 (14, 1, 'hDFnag7L1OR0imAGKwlY7GGp0WroYppe', '2022-09-30 04:04:20', '2022-09-30 04:04:20'),
-(15, 1, 'nWToXYqth9F6qe3NjC1UhwUBJaraKg3L', '2022-10-01 10:36:18', '2022-10-01 10:36:18');
+(15, 1, 'nWToXYqth9F6qe3NjC1UhwUBJaraKg3L', '2022-10-01 10:36:18', '2022-10-01 10:36:18'),
+(16, 1, 'F8TsPbd39eZrwKP8JZLKahDR9E48gldK', '2022-10-02 09:41:41', '2022-10-02 09:41:41'),
+(17, 1, 'UemZxWC667nXfC0O2XXSvlxvKtkYxpxA', '2022-10-02 11:55:01', '2022-10-02 11:55:01'),
+(18, 1, 'g5yyKLW1ofvWyTSexqKGxaDFGkMbRVd3', '2022-10-03 17:59:51', '2022-10-03 17:59:51'),
+(19, 1, 'LfFQ63j2ZdIjhTYG3VF0YJwbGOPODvcf', '2022-10-05 05:20:54', '2022-10-05 05:20:54'),
+(20, 1, 'RzoseBVgxCI3GkD4NBwbAN6xQI6HOaQ9', '2022-10-05 11:55:14', '2022-10-05 11:55:14');
 
 -- --------------------------------------------------------
 
@@ -222,7 +227,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `slug`, `name`, `permissions`, `redirect_url`, `order_by`, `module_code`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'Administrator', '{\"core.dashboard\":true,\"core.settings\":true,\"core.settings.store\":true,\"core.module\":true,\"core.module.store\":true,\"core.module.edit\":true,\"core.settings.logo\":true,\"core.module.delete\":true,\"core.permissions\":true,\"core.permissions.create\":true,\"core.permissions.store\":true,\"core.permissions.update\":true,\"core.permissions.section_edit\":true,\"core.permissions.section_update\":true,\"core.permissions.ajax_add_remove\":true,\"core.permissions.ajax_route_remove\":true,\"core.permissions.ajax_get_sections\":true,\"core.permissions.edit\":true,\"core.role.create\":true,\"core.role.store\":true,\"core.role.edit\":true,\"core.role\":true}', 'core/dashboard', 1, NULL, '2021-01-15 05:01:15', '2022-10-01 10:37:21');
+(1, 'admin', 'Administrator', '{\"core.dashboard\":true,\"core.settings\":true,\"core.settings.store\":true,\"core.module\":true,\"core.module.store\":true,\"core.module.edit\":true,\"core.settings.logo\":true,\"core.module.delete\":true,\"core.permissions\":true,\"core.permissions.create\":true,\"core.permissions.store\":true,\"core.permissions.update\":true,\"core.permissions.section_edit\":true,\"core.permissions.section_update\":true,\"core.permissions.ajax_add_remove\":true,\"core.permissions.ajax_route_remove\":true,\"core.permissions.ajax_get_sections\":true,\"core.permissions.edit\":true,\"core.role.create\":true,\"core.role.store\":true,\"core.role.edit\":true,\"core.role\":true,\"core.user.create\":true,\"core.user.store\":true,\"core.user.edit\":true,\"core.user.show\":true,\"core.user.delete\":true,\"core.user\":true,\"core.branch.create\":true,\"core.branch.store\":true,\"core.branch.edit\":true,\"core.branch.delete\":true,\"core.branch\":true,\"core.gender.edit\":true,\"core.gender.store\":true,\"core.gender.delete\":true,\"core.gender\":true,\"core.religion.edit\":true,\"core.religion.store\":true,\"core.religion.delete\":true,\"core.religion\":true}', 'core/dashboard', 1, NULL, '2021-01-15 05:01:15', '2022-10-05 07:19:10');
 
 -- --------------------------------------------------------
 
@@ -247,6 +252,57 @@ INSERT INTO `role_users` (`user_id`, `role_id`, `created_at`, `updated_at`) VALU
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_branch`
+--
+
+CREATE TABLE `tbl_branch` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `ssl_store_id` varchar(255) DEFAULT NULL,
+  `ssl_password` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
+  `order_by` int(11) DEFAULT NULL,
+  `status` tinyint(2) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_branch`
+--
+
+INSERT INTO `tbl_branch` (`id`, `name`, `slug`, `phone`, `email`, `address`, `ssl_store_id`, `ssl_password`, `description`, `order_by`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Tast', NULL, '01911054866', 'fdf', 'fdf', NULL, NULL, NULL, NULL, 1, '2022-10-05 06:20:48', '2022-10-05 06:30:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_gender`
+--
+
+CREATE TABLE `tbl_gender` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) DEFAULT NULL,
+  `order_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_gender`
+--
+
+INSERT INTO `tbl_gender` (`id`, `name`, `order_by`, `created_at`, `updated_at`) VALUES
+(1, 'Male', 1, '2022-10-05 07:01:20', '2022-10-05 07:01:20'),
+(2, 'Female', 2, '2022-10-05 07:01:31', '2022-10-05 07:01:31');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_modules`
 --
 
@@ -264,7 +320,7 @@ CREATE TABLE `tbl_modules` (
 --
 
 INSERT INTO `tbl_modules` (`id`, `name`, `slug`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Core', 'core', 1, '2022-09-23 12:13:23', '2022-09-23 12:13:23');
+(1, 'Core', 'core', 1, '2022-09-23 12:13:23', '2022-10-05 06:58:26');
 
 -- --------------------------------------------------------
 
@@ -291,7 +347,32 @@ INSERT INTO `tbl_module_sections` (`id`, `section_name`, `module_id`, `section_a
 (2, 'Settings', 1, '{\"core.settings\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
 (3, 'Module', 1, '{\"core.module\":[\"1\"],\"core.module.edit\":[\"1\"],\"core.module.store\":[\"1\"],\"core.module.delete\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
 (4, 'Permissions', 1, '{\"core.permissions\":[\"1\"],\"core.permissions.create\":[\"1\"],\"core.permissions.store\":[\"1\"],\"core.permissions.edit\":[\"1\"],\"core.permissions.update\":[\"1\"],\"core.permissions.section_edit\":[\"1\"],\"core.permissions.section_update\":[\"1\"],\"core.permissions.ajax_add_remove\":[\"1\"],\"core.permissions.ajax_route_remove\":[\"1\"],\"core.permissions.ajax_get_sections\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
-(5, 'Role', 1, '{\"core.role\":[\"1\"],\"core.role.create\":[\"1\"],\"core.role.store\":[\"1\"],\"core.role.edit\":[\"1\"]}', '[\"1\"]', '2022-10-01 16:37:11', '2022-10-01 10:37:11');
+(5, 'Role', 1, '{\"core.role\":[\"1\"],\"core.role.create\":[\"1\"],\"core.role.store\":[\"1\"],\"core.role.edit\":[\"1\"]}', '[\"1\"]', '2022-10-01 16:37:11', '2022-10-01 10:37:11'),
+(6, 'User', 1, '{\"core.user\":[\"1\"],\"core.user.create\":[\"1\"],\"core.user.store\":[\"1\"],\"core.user.edit\":[\"1\"],\"core.user.show\":[\"1\"],\"core.user.delete\":[\"1\"]}', '[\"1\"]', '2022-10-02 17:56:53', '2022-10-02 11:56:54'),
+(7, 'Branch', 1, '{\"core.branch\":[\"1\"],\"core.branch.create\":[\"1\"],\"core.branch.store\":[\"1\"],\"core.branch.edit\":[\"1\"],\"core.branch.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 06:37:23', '2022-10-05 06:37:23'),
+(8, 'Gender', 1, '{\"core.gender\":[\"1\"],\"core.gender.edit\":[\"1\"],\"core.gender.store\":[\"1\"],\"core.gender.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 06:56:20', '2022-10-05 06:56:20'),
+(9, 'Religion', 1, '{\"core.religion\":[\"1\"],\"core.religion.edit\":[\"1\"],\"core.religion.store\":[\"1\"],\"core.religion.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 07:18:58', '2022-10-05 07:18:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_religion`
+--
+
+CREATE TABLE `tbl_religion` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `order_by` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_religion`
+--
+
+INSERT INTO `tbl_religion` (`id`, `name`, `order_by`, `created_at`, `updated_at`) VALUES
+(1, 'Islam', 1, '2022-10-05 07:17:11', '2022-10-05 07:17:24');
 
 -- --------------------------------------------------------
 
@@ -312,7 +393,7 @@ CREATE TABLE `tbl_settings` (
 
 INSERT INTO `tbl_settings` (`s_id`, `s_name`, `s_value`, `updated_at`) VALUES
 (1, 'appName', 'erp system.', '2022-08-13 15:09:09'),
-(2, 'appTitle', 'erp system', '2022-08-13 15:09:09'),
+(2, 'appTitle', 'ERP System', '2022-08-13 15:09:09'),
 (3, 'url', 'https://erp-system.com', '2022-08-13 15:09:09'),
 (4, 'email', 'help@erp-system.bd', '2022-08-13 15:15:15'),
 (5, 'appAddress', 'House #46, Road #09, PC Culture Housing Society, Mohammadpur, Dhaka 1207.', '2022-08-05 17:37:05'),
@@ -352,8 +433,8 @@ CREATE TABLE `tbl_tax` (
 --
 
 INSERT INTO `tbl_tax` (`tax_id`, `tax_name`, `tax_percent`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Tax1', 5, 1, NULL, '2022-09-04 00:45:03'),
-(2, 'Tax2', 15, 1, NULL, '2022-09-04 00:45:03');
+(1, 'Tax1', 5, 1, NULL, '2022-10-05 12:00:01'),
+(2, 'Tax2', 15, 1, NULL, '2022-10-05 12:00:01');
 
 -- --------------------------------------------------------
 
@@ -398,7 +479,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `permissions`, `m_permission`, `password`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-10-01 10:36:18', NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', NULL, NULL, '2021-01-15 06:37:06', '2022-10-01 10:36:18');
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-10-05 11:55:14', NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', NULL, NULL, '2021-01-15 06:37:06', '2022-10-05 11:55:14');
 
 -- --------------------------------------------------------
 
@@ -503,6 +584,18 @@ ALTER TABLE `role_users`
   ADD PRIMARY KEY (`user_id`);
 
 --
+-- Indexes for table `tbl_branch`
+--
+ALTER TABLE `tbl_branch`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_gender`
+--
+ALTER TABLE `tbl_gender`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_modules`
 --
 ALTER TABLE `tbl_modules`
@@ -514,6 +607,12 @@ ALTER TABLE `tbl_modules`
 ALTER TABLE `tbl_module_sections`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `section_name` (`section_name`);
+
+--
+-- Indexes for table `tbl_religion`
+--
+ALTER TABLE `tbl_religion`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tbl_settings`
@@ -581,7 +680,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -602,6 +701,18 @@ ALTER TABLE `roles`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `tbl_branch`
+--
+ALTER TABLE `tbl_branch`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_gender`
+--
+ALTER TABLE `tbl_gender`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `tbl_modules`
 --
 ALTER TABLE `tbl_modules`
@@ -611,7 +722,13 @@ ALTER TABLE `tbl_modules`
 -- AUTO_INCREMENT for table `tbl_module_sections`
 --
 ALTER TABLE `tbl_module_sections`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tbl_religion`
+--
+ALTER TABLE `tbl_religion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_settings`

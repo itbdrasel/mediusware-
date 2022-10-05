@@ -8,11 +8,11 @@
 		margin-bottom: 0px !important;
 	}
 </style>
-<form method="post" action="{{url('system/core/user/update')}}" enctype="multipart/form-data" id="edit">
+<form method="post" action="{{url($bUrl.'/update')}}" enctype="multipart/form-data" id="edit">
 	@csrf
 	<div class="modal-content">
 		<div class="modal-header">
-			<h5 ><i class="fa fa-edit"></i> {{$title}}</h5>
+            <h4 class="m-0" style="margin: 0 !important; font-size: 19px; font-weight: bold" > <i class="fa fa-edit"></i> {{$title}} </h4>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
@@ -53,13 +53,16 @@
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-4 col-form-label">Select User Group</label>
+						<label class="col-sm-4 col-form-label">User Role <code>*</code></label>
 						<div class="col-sm-8">
 							<div class="input-group">
-								<select id="role" name="role" class="form-control" disabled >
-									@foreach(\App\Roles::get() as $role)
+								<select id="role" name="role" class="form-control"  >
+                                    <option value=""> Select User Role </option>
+                                    @if (!empty($roles))
+                                        @foreach ($roles as $role)
 										<option {{($objData->role->role_id == $role->id )?'selected':''}} value=" {{ $role->id }}"> {{ $role->name }}</option>
 									@endforeach
+                                    @endif
 								</select>
 								<div class="input-group-append">
 									<div class="input-group-text">
@@ -106,7 +109,7 @@
 			$this.find('#submit').on('click', function(event){
 				event.preventDefault();
 				$.ajax({
-					url:"{{url('system/core/user/update')}}",
+					url:"{{url($bUrl.'/update')}}",
 					type : 'POST',
 					data : $this.serialize(),
 					success:function (response) {

@@ -69,7 +69,7 @@
                                         <div class="tab-pane fade  @if($permission =='permission') show active @endif" id="v-pills-permission" role="tabpanel" aria-labelledby="v-pills-permission-tab">
                                             <div id="accordion">
                                                 @php
-                                                    $rolePermissions = Sentinel::findRoleById($objData->role_id);
+                                                    $rolePermissions = dAuth()->findRoleById($objData->role_id);
                                                     $module_name='';
                                                     $end_module ='';
                                                 @endphp
@@ -84,11 +84,11 @@
 
                                                 @if(in_array($objData->role_id, $sectionPermission) )
                                                 @php
-                                                    $m_name = $sectionName->section_module_name;
+                                                    $m_name = $sectionName->module->name;
                                                 @endphp
-                                                @if ($sectionName->section_module_name !=$module_name)
+                                                @if ($sectionName->module->name !=$module_name)
                                                 @php
-                                                    $module_name = $sectionName->section_module_name;
+                                                    $module_name = $sectionName->module->name;
                                                 @endphp
                                                 @if(!empty($end_module) && $module_name !=$end_module)
                                                 </table>
@@ -97,10 +97,10 @@
                                     </div>
                                     @endif
                                     @php
-                                        $end_module = $sectionName->section_module_name;
+                                        $end_module = $sectionName->module->name;
                                     @endphp
                                     <div class="card">
-                                        <div class="card-header" id="{{$sectionName->section_module_name}}">
+                                        <div class="card-header" id="{{$sectionName->module->name}}">
                                             <h5 class="mb-0">
                                                 @if(checkUncheck($objData->id))
                                                     <input onclick="checkAll('{{$m_name}}')"  {{moduleCheck($objData->m_permission, $m_name)?'checked':''}} value="{{$m_name}}" type="checkbox" id="{{$m_name}}">
@@ -177,7 +177,7 @@
                                                                             @php
                                                                                 $for_level = str_replace('.','_',$key);
                                                                             @endphp
-                                                                            @if ($objData->id !=Sentinel::getUser()->id)
+                                                                            @if ($objData->id != dAuth()->getUser()->id)
                                                                                 <input id="{{$m_name.'_'.$for_level}}" type="checkbox" class="role-permission {{$m_name}}" {{$checked}} data-page="{{$key}}" data-action="{{$key}}" data-id="{{$objData->id}}">
                                                                             @else
                                                                                 @if($checked =='checked')
@@ -236,7 +236,7 @@
                 if($(this).is(':checked')){ val = 1; }
                 $.ajax({
                     type: "post",
-                    url: "{{ url('system/core/permissions/user_permission') }}",
+                    url: "{{ url('core/permissions/add-remove') }}",
                     data: {
                         "_token": "{{ csrf_token() }}",
                         id: id,
@@ -262,7 +262,7 @@
             }
             $.ajax({
                 type: "post",
-                url: "{{ url('system/core/permissions/user_module_permission') }}",
+                url: "{{ url('core/permissions/user-module') }}",
                 data: {
                     "_token": "{{ csrf_token() }}",
                     id: "{{$objData->id}}",
