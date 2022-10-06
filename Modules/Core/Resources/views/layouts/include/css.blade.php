@@ -17,6 +17,7 @@
 <!-- materials icon -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!-- Theme style -->
+<link rel="stylesheet" href="{{url('/backend')}}/plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{url('backend')}}/css/adminlte.min.css">
 <link rel="stylesheet" href="{{url('backend')}}/css/style.css">
 <!-- Toaster Css -->

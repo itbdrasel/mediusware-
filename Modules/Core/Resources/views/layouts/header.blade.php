@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head id="header_aria">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <meta charset="utf-8">

@@ -1,3 +1,42 @@
+/*Bootstrap 4 to 5 Update css Start*/
+.form-group{
+    margin-bottom: 1rem;
+}
+
+.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.form-row > .col {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+label {
+    margin-bottom: 0.5rem;
+}
+.invalid-feedback{
+    z-index: 55555;
+}
+.input-group-text{
+    border-top-right-radius: 0.25rem!important;
+    border-bottom-right-radius: 0.25rem!important;
+}
+.form-control:focus{
+    box-shadow: none;
+}
+/*Bootstrap 4 to 5 Update css End*/
+
+
 .frontoffice-body .card-header{}
 .frontoffice-body .card-header .card-title{ font-size: 19px; font-weight:bold}
 .frontoffice-body .table th{ background:#f7f7f7; font-size:14px; color:#444; text-transform:uppercase; padding-top:9px !important; padding-bottom:9px !important;}

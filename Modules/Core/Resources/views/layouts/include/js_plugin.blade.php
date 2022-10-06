@@ -2,8 +2,10 @@
 <script src="{{url('backend')}}/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="{{url('/')}}/backend/plugins/timepicker/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="{{url('/')}}/backend/plugins/datepicker/jquery-ui.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{url('backend/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- Bootstrap 5 -->
+
+<script src="{{url('backend/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
+<script src="{{url('backend/plugins/bootstrap_old/js/bootstrap.bundle.min.js')}}"></script>
 
 <!-- New Added Start -->
 <script src="{{url('backend/plugins/moment/moment.min.js') }}"></script>

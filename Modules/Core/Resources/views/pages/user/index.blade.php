@@ -34,13 +34,13 @@
 
                             <form action="{{url($bUrl)}}" method="get"  class="form-inline">
 
-                                <div class="form-row">
-                                    <div class="col">
+                                <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+                                    <div class="col-sm">
                                         <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter by name & email..." class="form-control float-left search_input"/>
                                     </div>
 
 
-                                    <div class="col">
+                                    <div class="col-sm">
                                         <select class="form-control" name="selected" id="by_loc" class="form-control">
 
                                             <option value=""> Select User Role </option>
