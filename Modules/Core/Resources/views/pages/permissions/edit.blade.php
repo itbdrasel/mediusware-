@@ -46,7 +46,7 @@
                             <div class="form-group row">
                                 <label for="section" class="col-sm-2 col-form-label">Modules <code>*</code></label>
                                 <div class="col-sm-3">
-                                    <select id="module_id" name="module_id" class="form-control" >
+                                    <select id="module_id" name="module_id" class="form-select" >
                                         <option value=""> Select Module </option>
                                         @if (!empty($modules))
                                             @foreach($modules as $module)
@@ -60,7 +60,7 @@
                             <div class="form-group row">
                                 <label for="section_id" class="col-sm-2 col-form-label">Section </label>
                                 <div class="col-sm-3">
-                                    <select id="section_id" name="section_id[]" class="select2" multiple="multiple" data-placeholder="Select Section" style="width: 100%;"  >
+                                    <select id="section_id" name="section_id[]" class="select2 form-select" multiple="multiple" data-placeholder="Select Section"   >
                                         <option value=""> Select Section </option>
                                     @if(!empty($all_sections) && $all_sections->count() > 0)
                                             @foreach($all_sections as $section)

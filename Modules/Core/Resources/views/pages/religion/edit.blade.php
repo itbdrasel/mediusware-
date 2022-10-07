@@ -24,40 +24,33 @@
                     <input type="hidden"  value="{{ getValue($tableID, $objData) }}" id="id" name="{{$tableID}}">
 
 
-                    <div class="input-group mb-3">
-                        @php
-                            $input_name = 'name';
-                        @endphp
-                        <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
-                        <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user-circle"></span>
-                            </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            @php
+                                $input_name = 'name';
+                            @endphp
+                            <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code> </label>
+                            <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
+                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                         </div>
-                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
-                    </div>
-                    <div class="input-group mb-3">
-                        @php
-                            $input_name = 'order_by';
-                        @endphp
-                        <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}</label>
-                        <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user-circle"></span>
-                            </div>
+                        <div class="col-sm-6">
+                            @php
+                                $input_name = 'order_by';
+                            @endphp
+                            <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}} </label>
+                            <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
+
+                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                         </div>
-                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                     </div>
-
-
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-
-            <button type="submit" id="submit" class="btn btn-primary">Update</button>&nbsp;&nbsp;
+            @php
+                $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
+            @endphp
+            <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>&nbsp;&nbsp;
             <button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
         </div>
 </form>
@@ -75,6 +68,8 @@
                     type : 'POST',
                     data : $this.serialize(),
                     success:function (response) {
+                        $('#submit').prop( "disabled", false );
+                        $('#submit').html('<i class="fas fa-sync-alt"></i> Update')
                         if (response == 'success'){
                             $this.find('.alert-success').html('Successfully Updated').hide().slideDown();
                             $this.find('.fbody').hide();

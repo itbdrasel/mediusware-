@@ -26,7 +26,7 @@
                     @endphp
                     <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
                     <div class="col-sm-3">
-                        <select id="{{$input_name}}" name="{{$input_name}}" class="form-control @error($input_name) is-invalid @enderror">
+                        <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror">
                             @if (!empty($modules))
                                 @foreach($modules as $module)
                             <option {{old($input_name) ==$module->id?'selected':''}} value="{{$module->id}}"> {{$module->name}}</option>

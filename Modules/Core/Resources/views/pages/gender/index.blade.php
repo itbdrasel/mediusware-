@@ -48,7 +48,7 @@
                                 @php
                                     $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                 @endphp
-                                <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary">Save</button>&nbsp;&nbsp;
+                                <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>&nbsp;&nbsp;
                                 <a href="{{url($bUrl)}}"  class="btn btn-warning">Cancel</a>
                             </div>
                         </div>
@@ -73,9 +73,9 @@
 
                             <form action="{{url($bUrl)}}" method="get"  class="form-inline">
 
-                                <div class="form-row">
+                                <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
                                     <div class="col">
-                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control float-left search_input"/>
+                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control search_input "/>
                                     </div>
 
                                     <div class="col">
@@ -123,7 +123,7 @@
                                         <tr>
                                             <th class="text-center" style="width: 50px">SL</th>
                                             <th class="sort" data-row="name" id="name" >Name</th>
-                                            <th class="sort" data-row="order_by" id="order_by" >order_by</th>
+                                            <th width="10%" class="sort text-center" data-row="order_by" id="order_by" >order_by</th>
                                             <th style="width: 180px" class="text-center">Manage</th>
                                         </tr>
                                         </thead>
@@ -138,16 +138,16 @@
                                                 <tr>
                                                     <td class="text-center">{{ $c+$serial }}</td>
                                                     <td>{{ $data->name }}</td>
-                                                    <td>{{ $data->order_by }}</td>
+                                                    <td class="text-center">{{ $data->order_by }}</td>
 
                                                     <td class="text-center">
                                                         <div class="btn-group">
-                                                        <button type="button" class="btn btn-outline-info">
+                                                        <button type="button" class="btn btn-outline-info link_btn">
                                                             <a data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                                         </button>
 
-                                                        <button type="button" class="btn btn-outline-info">
-                                                            <a ata-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
+                                                        <button type="button" class="btn btn-outline-info link_btn">
+                                                            <a class="w-100" data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
                                                         </button>
                                                         </div>
 

@@ -31,9 +31,11 @@ label {
     border-top-right-radius: 0.25rem!important;
     border-bottom-right-radius: 0.25rem!important;
 }
-.form-control:focus{
+.form-control:focus, .form-select:focus, .btn:focus-visible, .form-control:focus-visible, .form-select:focus-visible{
     box-shadow: none;
 }
+
+
 /*Bootstrap 4 to 5 Update css End*/
 
 
@@ -1447,4 +1449,14 @@ i.reservations_icon{
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice{
     color: #000!important;
+}
+.link_btn{
+    padding: 0;
+}
+.link_btn a{
+    padding: 1px 10px;
+}
+.dropLeft{
+    top: 25px !important;
+    left: 39px !important;
 }

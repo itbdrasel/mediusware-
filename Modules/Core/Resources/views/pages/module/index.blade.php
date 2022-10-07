@@ -58,7 +58,7 @@
                                 @php
                                     $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                 @endphp
-                                <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary">Save</button>&nbsp;&nbsp;
+                                <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-save"></i>  Save</button>&nbsp;&nbsp;
                                 <a href="{{url($bUrl)}}"  class="btn btn-warning">Cancel</a>
                             </div>
                         </div>
@@ -83,9 +83,9 @@
 
                             <form action="{{url($bUrl)}}" method="get"  class="form-inline">
 
-                                <div class="form-row">
+                                <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
                                     <div class="col">
-                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter ..." class="form-control float-left search_input"/>
+                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter By Name ..." class="form-control search_input"/>
                                     </div>
 
                                     <div class="col">
@@ -161,12 +161,12 @@
 
                                                     <td class="text-center">
                                                         <div class="btn-group">
-                                                        <button type="button" class="btn btn-outline-info">
+                                                        <button type="button" class="btn btn-outline-info link_btn">
                                                             <a data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                                         </button>
 
-                                                        <button type="button" class="btn btn-outline-info">
-                                                            <a ata-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
+                                                        <button type="button" class="btn btn-outline-info link_btn">
+                                                            <a data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
                                                         </button>
                                                         </div>
 

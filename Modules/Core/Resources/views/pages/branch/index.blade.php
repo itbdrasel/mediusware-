@@ -25,9 +25,9 @@
 
                     <form action="{{url($bUrl)}}" method="get"  class="form-inline">
 
-                        <div class="form-row">
+                        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
                             <div class="col">
-                                <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name or Phone..." class="form-control float-left search_input"/>
+                                <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name or Phone..." class="form-control search_input w-100"/>
                             </div>
 
                             <div class="col">
@@ -104,14 +104,14 @@
                                             <td>{{ $data->phone }}</td>
                                             <td>{{$data->email}}</td>
                                             <td>{{$data->address}}</td>
-                                            <td>{{$data->order_by}}</td>
+                                            <td class="text-center">{{$data->order_by}}</td>
                                             <td class="text-center">{!! $status !!}</td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-outline-info">
+                                                    <button type="button" class="btn btn-outline-info link_btn">
                                                         <a href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                                     </button>
-                                                    <button type="button" class="btn btn-outline-info">
+                                                    <button type="button" class="btn btn-outline-info link_btn">
                                                         <a ata-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
                                                     </button>
                                                 </div>

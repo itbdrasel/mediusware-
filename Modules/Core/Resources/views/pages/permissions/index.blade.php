@@ -37,7 +37,7 @@
 
                                 <div class="col-sm-2">
 
-                                    <select id="role" name="role_id" class="form-control" >
+                                    <select id="role" name="role_id" class="form-select" >
                                         <option value=""> Select User</option>
                                         @if (!empty($roles))
                                         @foreach($roles as $role)
@@ -55,7 +55,7 @@
                                 <label for="section" class="col-sm-1 col-form-label">Modules </label>
 
                                 <div class="col-sm-2">
-                                    <select id="module" name="module_id" class="form-control" >
+                                    <select id="module" name="module_id" class="form-select selectpicker" >
                                         <option value=""> Select Module </option>
                                         @if (!empty($modules))
                                         @foreach($modules as $module)
@@ -68,7 +68,7 @@
                                 <label for="section_id" class="col-sm-1 col-form-label">Section </label>
 
                                 <div class="col-sm-3 form-group">
-                                    <select id="section_id" name="section_id" class="form-control" >
+                                    <select id="section_id" name="section_id" class="form-select" >
                                         <option value=""> Select Section </option>
                                         @if (!empty($sections))
 

@@ -22,14 +22,11 @@
 
 
                 <div class="col-md-12">
-
                     <form action="{{url($bUrl)}}" method="get"  class="form-inline">
-
-                        <div class="form-row">
+                        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
                             <div class="col">
-                                <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Role Name ..." class="form-control float-left search_input"/>
+                                <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Role Name ..." class="form-control search_input w-100"/>
                             </div>
-
                             <div class="col">
                                 <input  type="submit" class="btn btn-primary" value="Filter"/>
                                 &nbsp;<a class="btn btn-default" href="{{ url($bUrl) }}"> Reset </a>
@@ -114,7 +111,7 @@
 
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-outline-info">
+                                                    <button type="button" class="btn btn-outline-info link_btn">
                                                         <a href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                                     </button>
                                                 </div>

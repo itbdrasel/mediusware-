@@ -139,5 +139,5 @@
     </section>
     @endsection
 @push('plugin')
-{{--    <script src="{{url('backend/plugins/tinymce/tinymce.min.js')}}"></script>--}}
+    <script src="{{url('backend/plugins/tinymce/tinymce.min.js')}}"></script>
 @endpush

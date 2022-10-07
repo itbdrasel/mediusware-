@@ -145,7 +145,7 @@
 									<label for="{{$input_name}}" class="col-sm-4 col-form-label">User Role<code>*</code></label>
 									<div class="col-sm-8">
 										<div class="input-group ">
-											<select id="{{$input_name}}" name="{{$input_name}}" class="form-control @error($input_name) is-invalid @enderror" >
+											<select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
                                                 <option value=""> Select User Role </option>
                                                 @if (!empty($roles))
                                                     @foreach ($roles as $role)

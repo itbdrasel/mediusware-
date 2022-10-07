@@ -41,7 +41,7 @@
 
 
                                     <div class="col-sm">
-                                        <select class="form-control" name="selected" id="by_loc" class="form-control">
+                                        <select class="form-select" name="selected" id="by_loc" >
 
                                             <option value=""> Select User Role </option>
                                             @php $locationList = [] @endphp
@@ -96,12 +96,12 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th style="width:10px; text-align: center">#</th>
+                                <th style="width:50px; text-align: center">#</th>
                                 <th class="sort" data-row="name" id="name"  >Name</th>
                                 <th class="sort" data-row="email" id="email" >Email</th>
                                 <th data-row="role" id="role"  class="text-center sort">Users Role</th>
                                 <th class="text-center sort" data-row="login" id="login" >Last Login</th>
-                                <th style="width: 40px">Action</th>
+                                <th class="text-center" style="width: 150px">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -111,22 +111,22 @@
                                 @endphp
                                 @foreach($allData as $key=>$user)
                                     <tr>
-                                        <td>{{$c}}</td>
+                                        <td class="text-center">{{$c}}</td>
                                         <td>{{$user->full_name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td class="text-center">{{ucfirst($user->name) }}</td>
                                         <td class="text-center">{{ $user->last_login ? \Carbon\Carbon::createFromTimeStamp(strtotime($user->last_login))->diffForHumans() : 'Not yet login' }}</td>
 
                                         <td class="text-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-outline-info">
-                                                    {{--                                                <a data-toggle="modal" data-target="#windowmodal" href="{{url('system/core/user/show/'.$user->id)}}"><i class="fa fa-table"></i> </a>--}}
+                                            <div class="btn-group dropleft">
+                                                <button type="button" class="btn btn-outline-info link_btn">
                                                     <a  href="{{url($bUrl.'/profile/'.$user->id)}}"><i class="fa fa-table"></i> </a>
                                                 </button>
 
                                                 <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
                                                 </button>
-                                                <div class="dropdown-menu" role="menu" style="">
+
+                                                <div class="dropdown-menu dropLeft" >
                                                     <a class="dropdown-item" data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/'.$user->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a>
                                                     <a class="dropdown-item" href="{{url($bUrl.'/profile/'.$user->id)}}?permission=permission"><i class="fa fa-eye"></i> view Permission</a>
                                                     <div class="dropdown-divider"></div>
@@ -178,8 +178,6 @@
                         window.location.href = '{{ url($bUrl) }}';
                     }
                 });
-
-
             });
 
         });

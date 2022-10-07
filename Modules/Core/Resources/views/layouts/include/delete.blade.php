@@ -22,8 +22,11 @@
                 <div class="form-group" >
                     <label class="col-sm-7 control-label" >Do you want to delete {{ $title }} ? </label>
                     <div class='col-sm-5'>
-                        <input type="submit" value="Yes, Delete This" class="btn btn-danger" id="submit" />
-                        &nbsp;<a class="btn btn-default no" data-dismiss="modal" data-reload="false">No, Go Back</a>
+                        @php
+                            $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
+                        @endphp
+                        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;
+                        &nbsp;<a class="btn btn-default no" data-dismiss="modal" data-reload="false"><i class="fas fa-long-arrow-left"></i> <i class="fas fa-arrow-left"></i> No, Go Back </a>
 
                     </div>
                 </div>
