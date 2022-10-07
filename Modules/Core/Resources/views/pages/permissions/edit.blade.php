@@ -60,7 +60,7 @@
                             <div class="form-group row">
                                 <label for="section_id" class="col-sm-2 col-form-label">Section </label>
                                 <div class="col-sm-3">
-                                    <select id="section_id" name="section_id[]" class="select2 form-select" multiple="multiple" data-placeholder="Select Section"   >
+                                    <select id="section_id" name="section_id[]" class="select2 form-select w-100" multiple="multiple" data-placeholder="Select Section"   >
                                         <option value=""> Select Section </option>
                                     @if(!empty($all_sections) && $all_sections->count() > 0)
                                             @foreach($all_sections as $section)
@@ -83,7 +83,7 @@
                         </form>
                     </div>
                 </div>
-
+                @if(!empty($sections) && $sections->count() > 0)
                 <form method="post" action="{{url($bUrl.'/update')}}" >
 
                     @csrf
@@ -94,14 +94,14 @@
                         $array_key= 0;
                     @endphp
 
-                    @if(!empty($sections) && $sections->count() > 0)
+
                         @foreach($sections as $section)
                             <input type="hidden" name="id[{{$section->id}}]" value="{{$section->id}}">
                     <div class="card">
                         <div class="card-header">
                             <a class="card-title" data-toggle="collapse" data-parent="#accordion" href="#section_{{$section->id}}">{{$section->section_name}}</a>
                         </div>
-                        <div id="section_{{$section->id}}" class="card-body collapse in show">
+                        <div id="section_{{$section->id}}" class="card-body collapse in show table-responsive" >
                             <table class="table table-bordered other_guest">
                                 <thead>
                                 <tr>
@@ -127,7 +127,7 @@
 
                                                         $checked = in_array($role->id, $value) ? "checked" : "";
                                                     @endphp
-                                                    <div class="col-4 mb-2">
+                                                    <div class="col-md-4 form-group">
                                                         <input id="role_{{$sl.'_'.$role->id}}" {{$checked}} value="{{$role->id}}" type="checkbox" name="roles[{{$section->id}}][{{$key}}][]" class="role-permission" >
                                                         <label for="role_{{$sl.'_'.$role->id}}" class="form-check-label">{{ucfirst($role->name)}}</label>&nbsp;
                                                     </div>
@@ -145,7 +145,7 @@
                         </div>
                     </div>
                         @endforeach
-                    @endif
+
                 </div>
 
 
@@ -159,7 +159,7 @@
                         </div>
                     </div>
                 </form>
-
+                @endif
             </div>
 
 

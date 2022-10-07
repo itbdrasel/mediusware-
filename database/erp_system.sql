@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2022 at 07:57 PM
+-- Generation Time: Oct 07, 2022 at 08:20 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -151,23 +151,7 @@ CREATE TABLE `persistences` (
 --
 
 INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
-(4, 1, 'Xp1lOVaE4brMh9VWrTATaEmISvprqcnl', '2022-09-23 05:10:17', '2022-09-23 05:10:17'),
-(5, 1, 'BCJlJO0ekX21EYifUECdxwrH07WKbdWd', '2022-09-23 10:38:05', '2022-09-23 10:38:05'),
-(6, 1, '8SqRNIoZYSxUtdrAh5Vk7FKHx5qkUCwf', '2022-09-24 09:18:45', '2022-09-24 09:18:45'),
-(7, 1, 'x3Ha0tXMnpSsxG6HzXYWWXWLs3wfQjHK', '2022-09-25 10:40:22', '2022-09-25 10:40:22'),
-(8, 1, 'VdRUD7WLni8PaxyyBpOVtNYxHoFuj5xr', '2022-09-26 09:59:16', '2022-09-26 09:59:16'),
-(9, 1, 'tOfLEoynLjtu2GqbMt75PkCNIByrPKcV', '2022-09-27 12:13:58', '2022-09-27 12:13:58'),
-(10, 1, 'HxVSUEUlDX1MT8O5Kcb0onTLNiFFPnnf', '2022-09-28 09:26:15', '2022-09-28 09:26:15'),
-(11, 1, 'RGu9jDVFWScT80E9BGI95ieGxqXJb0BC', '2022-09-28 11:45:01', '2022-09-28 11:45:01'),
-(12, 1, 'g0xvdpI8pu3tU5Uqi3MEuefgX7Y2EKlN', '2022-09-29 10:25:14', '2022-09-29 10:25:14'),
-(13, 1, 'wKMrtcpWTY5NHg3VrEpx9Gvzt8P439Ok', '2022-09-30 00:54:23', '2022-09-30 00:54:23'),
-(14, 1, 'hDFnag7L1OR0imAGKwlY7GGp0WroYppe', '2022-09-30 04:04:20', '2022-09-30 04:04:20'),
-(15, 1, 'nWToXYqth9F6qe3NjC1UhwUBJaraKg3L', '2022-10-01 10:36:18', '2022-10-01 10:36:18'),
-(16, 1, 'F8TsPbd39eZrwKP8JZLKahDR9E48gldK', '2022-10-02 09:41:41', '2022-10-02 09:41:41'),
-(17, 1, 'UemZxWC667nXfC0O2XXSvlxvKtkYxpxA', '2022-10-02 11:55:01', '2022-10-02 11:55:01'),
-(18, 1, 'g5yyKLW1ofvWyTSexqKGxaDFGkMbRVd3', '2022-10-03 17:59:51', '2022-10-03 17:59:51'),
-(19, 1, 'LfFQ63j2ZdIjhTYG3VF0YJwbGOPODvcf', '2022-10-05 05:20:54', '2022-10-05 05:20:54'),
-(20, 1, 'RzoseBVgxCI3GkD4NBwbAN6xQI6HOaQ9', '2022-10-05 11:55:14', '2022-10-05 11:55:14');
+(26, 1, 'zHNCzj7h3RLXBXuPGmkM2KWjNZdgHTKQ', '2022-10-07 17:57:47', '2022-10-07 17:57:47');
 
 -- --------------------------------------------------------
 
@@ -217,7 +201,8 @@ CREATE TABLE `roles` (
   `permissions` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `redirect_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_by` int(11) DEFAULT NULL,
-  `module_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `active_directory` tinyint(2) DEFAULT NULL,
+  `active_branch` tinyint(2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -226,8 +211,8 @@ CREATE TABLE `roles` (
 -- Dumping data for table `roles`
 --
 
-INSERT INTO `roles` (`id`, `slug`, `name`, `permissions`, `redirect_url`, `order_by`, `module_code`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'Administrator', '{\"core.dashboard\":true,\"core.settings\":true,\"core.settings.store\":true,\"core.module\":true,\"core.module.store\":true,\"core.module.edit\":true,\"core.settings.logo\":true,\"core.module.delete\":true,\"core.permissions\":true,\"core.permissions.create\":true,\"core.permissions.store\":true,\"core.permissions.update\":true,\"core.permissions.section_edit\":true,\"core.permissions.section_update\":true,\"core.permissions.ajax_add_remove\":true,\"core.permissions.ajax_route_remove\":true,\"core.permissions.ajax_get_sections\":true,\"core.permissions.edit\":true,\"core.role.create\":true,\"core.role.store\":true,\"core.role.edit\":true,\"core.role\":true,\"core.user.create\":true,\"core.user.store\":true,\"core.user.edit\":true,\"core.user.show\":true,\"core.user.delete\":true,\"core.user\":true,\"core.branch.create\":true,\"core.branch.store\":true,\"core.branch.edit\":true,\"core.branch.delete\":true,\"core.branch\":true,\"core.gender.edit\":true,\"core.gender.store\":true,\"core.gender.delete\":true,\"core.gender\":true,\"core.religion.edit\":true,\"core.religion.store\":true,\"core.religion.delete\":true,\"core.religion\":true}', 'core/dashboard', 1, NULL, '2021-01-15 05:01:15', '2022-10-05 07:19:10');
+INSERT INTO `roles` (`id`, `slug`, `name`, `permissions`, `redirect_url`, `order_by`, `active_directory`, `active_branch`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'Administrator', NULL, 'core/dashboard', 1, NULL, 1, '2021-01-15 05:01:15', '2022-10-07 18:13:02');
 
 -- --------------------------------------------------------
 
@@ -276,7 +261,7 @@ CREATE TABLE `tbl_branch` (
 --
 
 INSERT INTO `tbl_branch` (`id`, `name`, `slug`, `phone`, `email`, `address`, `ssl_store_id`, `ssl_password`, `description`, `order_by`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Tast', NULL, '01911054866', 'fdf', 'fdf', NULL, NULL, NULL, NULL, 1, '2022-10-05 06:20:48', '2022-10-05 06:30:13');
+(1, 'Tast', NULL, '01911054866', 'fdf', 'fdf', NULL, NULL, NULL, 1, 1, '2022-10-05 06:20:48', '2022-10-07 10:40:11');
 
 -- --------------------------------------------------------
 
@@ -298,7 +283,7 @@ CREATE TABLE `tbl_gender` (
 
 INSERT INTO `tbl_gender` (`id`, `name`, `order_by`, `created_at`, `updated_at`) VALUES
 (1, 'Male', 1, '2022-10-05 07:01:20', '2022-10-05 07:01:20'),
-(2, 'Female', 2, '2022-10-05 07:01:31', '2022-10-05 07:01:31');
+(2, 'Female', 2, '2022-10-05 07:01:31', '2022-10-07 08:07:43');
 
 -- --------------------------------------------------------
 
@@ -320,7 +305,7 @@ CREATE TABLE `tbl_modules` (
 --
 
 INSERT INTO `tbl_modules` (`id`, `name`, `slug`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Core', 'core', 1, '2022-09-23 12:13:23', '2022-10-05 06:58:26');
+(1, 'Core', 'core', 1, '2022-09-23 12:13:23', '2022-10-07 08:55:48');
 
 -- --------------------------------------------------------
 
@@ -343,15 +328,15 @@ CREATE TABLE `tbl_module_sections` (
 --
 
 INSERT INTO `tbl_module_sections` (`id`, `section_name`, `module_id`, `section_action_route`, `section_roles_permission`, `created_at`, `updated_at`) VALUES
-(1, 'Dashboard', 1, '{\"core.dashboard\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 10:42:45'),
-(2, 'Settings', 1, '{\"core.settings\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
-(3, 'Module', 1, '{\"core.module\":[\"1\"],\"core.module.edit\":[\"1\"],\"core.module.store\":[\"1\"],\"core.module.delete\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
-(4, 'Permissions', 1, '{\"core.permissions\":[\"1\"],\"core.permissions.create\":[\"1\"],\"core.permissions.store\":[\"1\"],\"core.permissions.edit\":[\"1\"],\"core.permissions.update\":[\"1\"],\"core.permissions.section_edit\":[\"1\"],\"core.permissions.section_update\":[\"1\"],\"core.permissions.ajax_add_remove\":[\"1\"],\"core.permissions.ajax_route_remove\":[\"1\"],\"core.permissions.ajax_get_sections\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-09-30 04:42:45'),
-(5, 'Role', 1, '{\"core.role\":[\"1\"],\"core.role.create\":[\"1\"],\"core.role.store\":[\"1\"],\"core.role.edit\":[\"1\"]}', '[\"1\"]', '2022-10-01 16:37:11', '2022-10-01 10:37:11'),
-(6, 'User', 1, '{\"core.user\":[\"1\"],\"core.user.create\":[\"1\"],\"core.user.store\":[\"1\"],\"core.user.edit\":[\"1\"],\"core.user.show\":[\"1\"],\"core.user.delete\":[\"1\"]}', '[\"1\"]', '2022-10-02 17:56:53', '2022-10-02 11:56:54'),
-(7, 'Branch', 1, '{\"core.branch\":[\"1\"],\"core.branch.create\":[\"1\"],\"core.branch.store\":[\"1\"],\"core.branch.edit\":[\"1\"],\"core.branch.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 06:37:23', '2022-10-05 06:37:23'),
-(8, 'Gender', 1, '{\"core.gender\":[\"1\"],\"core.gender.edit\":[\"1\"],\"core.gender.store\":[\"1\"],\"core.gender.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 06:56:20', '2022-10-05 06:56:20'),
-(9, 'Religion', 1, '{\"core.religion\":[\"1\"],\"core.religion.edit\":[\"1\"],\"core.religion.store\":[\"1\"],\"core.religion.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 07:18:58', '2022-10-05 07:18:59');
+(1, 'Dashboard', 1, '{\"core.dashboard\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-10-07 10:47:34'),
+(2, 'Settings', 1, '{\"core.settings\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-10-07 10:47:35'),
+(3, 'Module', 1, '{\"core.module\":[\"1\"],\"core.module.edit\":[\"1\"],\"core.module.store\":[\"1\"],\"core.module.delete\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-10-07 10:47:35'),
+(4, 'Permissions', 1, '{\"core.permissions\":[\"1\"],\"core.permissions.create\":[\"1\"],\"core.permissions.store\":[\"1\"],\"core.permissions.edit\":[\"1\"],\"core.permissions.update\":[\"1\"],\"core.permissions.section_edit\":[\"1\"],\"core.permissions.section_update\":[\"1\"],\"core.permissions.ajax_add_remove\":[\"1\"],\"core.permissions.ajax_route_remove\":[\"1\"],\"core.permissions.ajax_get_sections\":[\"1\"]}', '[\"1\"]', '2022-09-30 10:42:45', '2022-10-07 10:47:35'),
+(5, 'Role', 1, '{\"core.role\":[\"1\"],\"core.role.create\":[\"1\"],\"core.role.store\":[\"1\"],\"core.role.edit\":[\"1\"]}', '[\"1\"]', '2022-10-01 16:37:11', '2022-10-07 10:47:35'),
+(6, 'User', 1, '{\"core.user\":[\"1\"],\"core.user.create\":[\"1\"],\"core.user.store\":[\"1\"],\"core.user.edit\":[\"1\"],\"core.user.delete\":[\"1\"]}', '[\"1\"]', '2022-10-02 17:56:53', '2022-10-07 10:47:35'),
+(7, 'Branch', 1, '{\"core.branch\":[\"1\"],\"core.branch.create\":[\"1\"],\"core.branch.store\":[\"1\"],\"core.branch.edit\":[\"1\"],\"core.branch.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 06:37:23', '2022-10-07 10:47:34'),
+(8, 'Gender', 1, '{\"core.gender\":[\"1\"],\"core.gender.edit\":[\"1\"],\"core.gender.store\":[\"1\"],\"core.gender.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 06:56:20', '2022-10-07 10:47:35'),
+(9, 'Religion', 1, '{\"core.religion\":[\"1\"],\"core.religion.edit\":[\"1\"],\"core.religion.store\":[\"1\"],\"core.religion.delete\":[\"1\"]}', '[\"1\"]', '2022-10-05 07:18:58', '2022-10-07 10:47:35');
 
 -- --------------------------------------------------------
 
@@ -372,7 +357,7 @@ CREATE TABLE `tbl_religion` (
 --
 
 INSERT INTO `tbl_religion` (`id`, `name`, `order_by`, `created_at`, `updated_at`) VALUES
-(1, 'Islam', 1, '2022-10-05 07:17:11', '2022-10-05 07:17:24');
+(1, 'Islam', 1, '2022-10-05 07:17:11', '2022-10-07 08:32:13');
 
 -- --------------------------------------------------------
 
@@ -479,7 +464,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `permissions`, `m_permission`, `password`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-10-05 11:55:14', NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', NULL, NULL, '2021-01-15 06:37:06', '2022-10-05 11:55:14');
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-10-07 17:57:47', NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', NULL, NULL, '2021-01-15 06:37:06', '2022-10-07 17:57:47');
 
 -- --------------------------------------------------------
 
@@ -680,7 +665,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`

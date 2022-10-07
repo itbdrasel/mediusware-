@@ -84,7 +84,7 @@
                                     <option value=""> Select User Role </option>
                                     @if (!empty($roles))
                                         @foreach ($roles as $role)
-										<option {{($objData->role->role_id == $role->id )?'selected':''}} value=" {{ $role->id }}"> {{ $role->name }}</option>
+										<option {{($objData->role->role_id == $role->id )?'selected':''}} data-branch="{{$role->active_branch}}"  value=" {{ $role->id }}"> {{ $role->name }}</option>
 									@endforeach
                                     @endif
 								</select>
@@ -109,6 +109,28 @@
 							</div>
 						</div>
 					</div>
+                    <div class="form-group row d-none" id="branch_aria">
+                        @php
+                            $input_name = 'branch_id';
+                        @endphp
+                        <label for="{{$input_name}}" class="col-sm-4 col-form-label">Branch<code>*</code></label>
+                        <div class="col-sm-8">
+                            <div class="input-group ">
+                                <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
+                                    <option value=""> Select User Branch </option>
+                                    @if (!empty($allBranch))
+                                        @foreach ($allBranch as $branch)
+                                            <option {{$objData->branch_id==$branch->id?'selected':''}}  value="{{$branch->id}}"> {{$branch->name}} </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                <div class="input-group-text">
+                                    <span class="fas fa-user-circle"></span>
+                                </div>
+                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                            </div>
+                        </div>
+                    </div>
 
 
 				</div>
@@ -157,4 +179,24 @@
 			});
 		});
 	});
+    $(document).ready(function () {
+        activeBranch();
+    })
+    $('#role').on('change', function () {
+        activeBranch();
+    });
+    function activeBranch() {
+        let role = $('#role').val();
+        if (role !=''){
+            let activeBranch = $('#role').find(':selected').data('branch');
+            if (activeBranch ==1){
+                $('#branch_aria').removeClass('d-none');
+            }else{
+                $('#branch_aria').addClass('d-none');
+            }
+
+        }else{
+            $('#branch_aria').addClass('d-none');
+        }
+    }
 </script>

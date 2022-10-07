@@ -48,6 +48,7 @@ class RoleController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
+
         $this->data = [
             'title'         => $this->title.' Manager',
             'pageUrl'       => $this->bUrl,
@@ -120,7 +121,8 @@ class RoleController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $params = $this->getInsertData($request);
-
+        $params['active_directory'] = $request['active_directory']??NULL;
+        $params['active_branch']    = $request['active_branch']??NULL;
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');

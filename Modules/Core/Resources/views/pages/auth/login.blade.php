@@ -1,10 +1,6 @@
 @extends("core::master_auth")
 @section("content")
-	<style>
-		.login-box, .register-box {
-			width: 370px !important;
-		}
-	</style>
+
 	<body>
 	<section class="login-section">
 		<div class="container-fluid pl-0">
@@ -40,15 +36,19 @@
 									@csrf
 									<div class="row">
 										<div class="col-12">
-											<div class="form-group mb-3">
+											<div class="input-group mb-3">
 												<input type="email"  id="email" name="email" value="{{old('email')}}" class="form-control" placeholder="Email">
-												<span class="fas fa-envelope"></span>
+                                                <div class="input-group-text ">
+                                                    <span class="fas fa-envelope"></span>
+                                                </div>
 											</div>
 										</div>
 										<div class="col-12">
-											<div class="form-group mb-3">
+											<div class="input-group mb-3">
 												<input type="password" id="password" name="password" class="form-control" placeholder="Password">
-												<span class="fas fa-lock"></span>
+                                                <div class="input-group-text ">
+                                                    <span class="fas fa-lock"></span>
+                                                </div>
 											</div>
 										</div>
 {{--										<div class="col-12 text-left">--}}
@@ -59,8 +59,10 @@
 {{--												</label>--}}
 {{--											</div>--}}
 {{--										</div>--}}
-										<div class="col-12">
-											<button type="submit" class="btn btn-block">Sign In</button>
+										<div class="col-md-12 ">
+                                            <div class="d-grid gap-2">
+                                                <button type="submit" class="btn btn-block">Sign In</button>
+                                            </div>
 										</div>
 										<div class="col-12 login-link">
 											<a href="{{url($bUrl.'/forgot-password')}}">Forget Password?</a>

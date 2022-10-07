@@ -3,6 +3,7 @@ namespace Modules\Core\Http\Controllers;
 
 
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Core\Entities\Branch;
 use Modules\Core\Entities\ModuleSection;
 use Modules\Core\Entities\Roles;
 use Modules\Core\Entities\User;
@@ -121,9 +122,10 @@ class UserController extends Controller
             'objData'       => ''
         ];
 
-        $role                   = $this->auth->getUser()->roles->first();
-        $order_by               = $role->order_by;
-        $this->data['roles']    = Roles::where('order_by','>=',$order_by)->get();
+        $role                       = $this->auth->getUser()->roles->first();
+        $order_by                   = $role->order_by;
+        $this->data['roles']        = Roles::where('order_by','>=',$order_by)->orderBY('order_by')->get();
+        $this->data['allBranch']    = Branch::orderBY('order_by')->get();
 
         $this->layout('create');
     }
@@ -146,9 +148,10 @@ class UserController extends Controller
             'page_icon'     => '<i class="fas fa-edit"></i>',
             'objData'       => $objData
         ];
-        $role                   = $this->auth->getUser()->roles->first();
-        $order_by               = $role->order_by;
-        $this->data['roles']    = Roles::where('order_by','>=',$order_by)->get();
+        $role                       = $this->auth->getUser()->roles->first();
+        $order_by                   = $role->order_by;
+        $this->data['roles']        = Roles::where('order_by','>=',$order_by)->orderBY('order_by')->get();
+        $this->data['allBranch']    = Branch::orderBY('order_by')->get();
 
         $this->layout('edit');
     }

@@ -29,7 +29,12 @@ class AuthRepository implements AuthInterface
      */
     public function roleRedirect()
     {
-        $role = $this->getUser()->roles[0];
+        $user = $this->getUser();
+        $role = $user->roles->first();
+        if (!empty($role->branch_id)){
+            session()->put('user_branch_id', $role->branch_id);
+        }
+
         return redirect($role->redirect_url);
     }
 
@@ -53,24 +58,21 @@ class AuthRepository implements AuthInterface
         $user = Sentinel::registerAndActivate($userInfo);
 
         if($user){
-
             //role assign
             $role = $this->findRoleByID($role); // subscriber role always 2;
-            $role->users()->attach($user);
-
-            if($role !== 'admin'){
+            if($role->active_directory ==1){
                 $userDir = $user->id.'-'.time();
                 Storage::makeDirectory($userDir);
             }else $userDir = NULL;
 
             // Profile Update
-            $profile =  [
-                'full_name' => $userInfo['full_name'],
-                'p_uid'     => $user->id,
-                'directory' => $userDir,
-            ];
-
-            $this->createProfile($profile);
+//            $profile =  [
+//                'full_name' => $userInfo['full_name'],
+//                'p_uid'     => $user->id,
+//                'directory' => $userDir,
+//            ];
+//
+//            $this->createProfile($profile);
             return $user;
 
         }else{
@@ -194,6 +196,7 @@ class AuthRepository implements AuthInterface
     public function logout()
     {
         //Sentinel::disableCheckpoints();
+        session()->forget(['user_branch_id']);
         return Sentinel::logout(null, true);
     }
 

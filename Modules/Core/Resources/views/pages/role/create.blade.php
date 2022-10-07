@@ -4,7 +4,7 @@
 
     <section class="content ">
         <div class="row frontoffice-body">
-            <div class="col-8">
+            <div class="col-md-8 col-sm-12">
                 <div class="card card-outline card-primary">
                     <div class="card-header">
                         <h3 class="card-title">  <i class="fa fa-book"></i> {{$title}}</h3>
@@ -70,25 +70,21 @@
                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"> </label>
+                            <div class="col-sm-5">
+                                <div class="icheck-success">
+                                    <input id="active_directory" {{getValue('active_directory', $objData) ==1?'checked':''}}  type="checkbox" class="role-permission" value="1" name="active_directory">
+                                    <label for="active_directory" class="form-check-label">Active Directory</label>&nbsp;
+                                </div>
+                                <div class="icheck-success">
+                                    <input id="active_branch" {{getValue('active_branch', $objData) ==1?'checked':''}}  type="checkbox" class="role-permission" value="1" name="active_branch">
+                                    <label for="active_branch" class="form-check-label">Active Branch</label>&nbsp;
+                                </div>
+                            </div>
+                        </div>
 
-                            <div class="form-group row">
-                                @php
-                                    $input_name = 'session_key';
-                                @endphp
-                                <label class="col-sm-2 col-form-label"> Session Key </label>
-                                <div class="col-sm-5">
-                                    <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}"  class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @php
-                                    $input_name = 'session_value';
-                                @endphp
-                                <label  class="col-sm-2 col-form-label"> Session Value </label>
-                                <div class="col-sm-5">
-                                    <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}"  class="form-control">
-                                </div>
-                            </div>
+
                             <!-- /.card-body -->
 
                     </div>

@@ -1460,3 +1460,10 @@ i.reservations_icon{
     top: 25px !important;
     left: 39px !important;
 }
+
+@media only screen and (max-width: 600px) {
+    .frontoffice-body .card-tools .btn-tool{
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+}

@@ -16,7 +16,7 @@
                     </button>
                     @endif
                     @if (dAuth()->hasAccess(['core.permissions.create']))
-                    <button type="button" class="btn btn-tool" >
+                    <button type="button" class="btn btn-tool form-group-sm" >
                         <a href="{{url($bUrl.'/create')}}" class="btn bg-gradient-info btn-sm custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
                     </button>
                     @endif
@@ -94,7 +94,7 @@
                 </div>
                 @if(!empty($sectionNames) && $sectionNames->count() > 0)
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <table class="table table-bordered">
                             <tr>
                                 <th width="15%">User Role</th>
@@ -138,7 +138,7 @@
                                                                 $actionName = substr($key, strrpos($key, '.') );
                                                                 $actionName = trim($actionName,'.');
                                                             @endphp
-                                                            <div class="col-4">
+                                                            <div class="col-md-4">
                                                                 <div class="icheck-success">
                                                                     <input id="per_{{$sl}}" type="checkbox" class="role-permission" {{$checked}} data-page="{{$key}}" data-section="{{$sectionName->section_name }}" data-name="{{ ucfirst(str_replace('_',' ',$actionName))  }}" data-action="{{$key}}" data-role="{{$rolePermissions->name}}">
                                                                     <label for="per_{{$sl}}" class="form-check-label">{{ ucfirst(str_replace('_',' ',$actionName))  }}</label>&nbsp;

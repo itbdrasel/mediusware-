@@ -4,7 +4,7 @@
 <section class="content ">
 <div class="row frontoffice-body">
 
-    <div class="col-11">
+    <div class="col-md-11 col-sm-12">
 
         <div class="card card-outline card-primary">
             <div class="card-header">
@@ -23,16 +23,14 @@
 
                 <div class="col-md-12">
                     <form action="{{url($bUrl)}}" method="get"  class="form-inline">
-                        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-                            <div class="col">
+                        <div class="row">
+                            <div class="col-sm-3 form-group ">
                                 <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Role Name ..." class="form-control search_input w-100"/>
                             </div>
-                            <div class="col">
+                            <div class="col-sm-4 form-group ">
                                 <input  type="submit" class="btn btn-primary" value="Filter"/>
                                 &nbsp;<a class="btn btn-default" href="{{ url($bUrl) }}"> Reset </a>
                             </div>
-
-
                         </div>
 
 
@@ -65,9 +63,9 @@
                 <div class="col-md-12 mt-4">
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 table-responsive">
 
-                            <table class="table table-bordered">
+                            <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th class="text-center" style="width: 50px">SL</th>
@@ -75,8 +73,8 @@
                                     <th class="sort" data-row="slug" id="slug" >Role Slug</th>
                                     <th>Redirect</th>
                                     <th class="text-center">Order By</th>
-                                    <th>Session Key</th>
-                                    <th>Session Value</th>
+                                    <th class="text-center">Directory</th>
+                                    <th class="text-center">Branch</th>
                                     <th style="width: 180px" class="text-center">Manage</th>
                                 </tr>
                                 </thead>
@@ -88,25 +86,19 @@
                                     @endphp
 
                                     @foreach ($allData as $data)
+                                        @php
+                                            $directory  = $data->active_directory==1?'<span class="badge bg-info">Yes</span>':'<span class="badge bg-warning">No</span>';
+                                            $branch     = $data->active_branch==1?'<span class="badge bg-primary">Yes</span>':'<span class="badge bg-warning">No</span>';
+                                        @endphp
                                         <tr>
                                             <td class="text-center">{{ $c+$serial }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->slug }}</td>
                                             <td>{{$data->redirect_url}}</td>
                                             <td class="text-center">{{$data->order_by}}</td>
-                                            @php
-                                                $session_key = '';
-                                                $session_value = '';
-                                                if (!empty($data->session_data)) {
-                                                    $session_data = json_decode($data->session_data);
-                                                    if (!empty($session_data)) {
-                                                        $session_key = $session_data->session_key;
-                                                        $session_value = $session_data->session_value;
-                                                    }
-                                                }
-                                            @endphp
-                                            <td>{{$session_key}}</td>
-                                            <td>{{$session_value}}</td>
+                                            <td class="text-center">{!! $directory !!}</td>
+                                            <td class="text-center">{!! $branch !!}</td>
+
 
 
                                             <td class="text-center">

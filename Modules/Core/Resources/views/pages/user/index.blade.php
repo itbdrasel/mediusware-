@@ -34,20 +34,19 @@
 
                             <form action="{{url($bUrl)}}" method="get"  class="form-inline">
 
-                                <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-                                    <div class="col-sm">
-                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter by name & email..." class="form-control float-left search_input"/>
+                                <div class="row ">
+                                    <div class="col-sm-3 form-group ">
+                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter by name & email..." class="form-control search_input w-100"/>
                                     </div>
 
 
-                                    <div class="col-sm">
+                                    <div class="col-sm-3 form-group ">
                                         <select class="form-select" name="selected" id="by_loc" >
 
                                             <option value=""> Select User Role </option>
                                             @php $locationList = [] @endphp
                                             @if (!empty($roles))
                                                 @foreach ($roles as $key => $role)
-
                                                     @php $locationList += [$role->id => $role->name] @endphp
 
                                                     <option value="{{ $role->id }}"  {{ $selected == $role->id ? 'selected' : '' }} >{{ $role->name }}</option>
@@ -57,10 +56,11 @@
 
                                     </div>
 
-                                    <div class="col">
+                                    <div class="col-sm-4 form-group ">
                                         <input type="submit" class="btn btn-primary" value="Filter"/>
                                         &nbsp;<a class="btn btn-default" href="{{ url($bUrl) }}"> Reset </a>
                                     </div>
+
 
 
                                 </div>
@@ -93,55 +93,58 @@
 
 
                         </div>
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th style="width:50px; text-align: center">#</th>
-                                <th class="sort" data-row="name" id="name"  >Name</th>
-                                <th class="sort" data-row="email" id="email" >Email</th>
-                                <th data-row="role" id="role"  class="text-center sort">Users Role</th>
-                                <th class="text-center sort" data-row="login" id="login" >Last Login</th>
-                                <th class="text-center" style="width: 150px">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if (!empty($allData))
-                                @php
-                                    $c = 1;
-                                @endphp
-                                @foreach($allData as $key=>$user)
-                                    <tr>
-                                        <td class="text-center">{{$c}}</td>
-                                        <td>{{$user->full_name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td class="text-center">{{ucfirst($user->name) }}</td>
-                                        <td class="text-center">{{ $user->last_login ? \Carbon\Carbon::createFromTimeStamp(strtotime($user->last_login))->diffForHumans() : 'Not yet login' }}</td>
-
-                                        <td class="text-center">
-                                            <div class="btn-group dropleft">
-                                                <button type="button" class="btn btn-outline-info link_btn">
-                                                    <a  href="{{url($bUrl.'/profile/'.$user->id)}}"><i class="fa fa-table"></i> </a>
-                                                </button>
-
-                                                <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
-                                                </button>
-
-                                                <div class="dropdown-menu dropLeft" >
-                                                    <a class="dropdown-item" data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/'.$user->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a>
-                                                    <a class="dropdown-item" href="{{url($bUrl.'/profile/'.$user->id)}}?permission=permission"><i class="fa fa-eye"></i> view Permission</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" id="action" data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$user->id)}}"><i class="fa fa-trash"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                        <div class="table-responsive-sm">
+                            <table class="table table-bordered  table-hover">
+                                <thead>
+                                <tr>
+                                    <th style="width:50px; text-align: center">#</th>
+                                    <th class="sort" data-row="name" id="name"  >Name</th>
+                                    <th class="sort" data-row="email" id="email" >Email</th>
+                                    <th data-row="role" id="role"  class="text-center sort">Users Role</th>
+                                    <th class="text-center sort" data-row="login" id="login" >Last Login</th>
+                                    <th class="text-center" style="width: 150px">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if (!empty($allData))
                                     @php
-                                        $c++;
+                                        $c = 1;
                                     @endphp
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
+                                    @foreach($allData as $key=>$user)
+                                        <tr>
+                                            <td class="text-center">{{$c}}</td>
+                                            <td>{{$user->full_name}}</td>
+                                            <td>{{$user->email}}</td>
+                                            <td class="text-center">{{ucfirst($user->name) }}</td>
+                                            <td class="text-center">{{ $user->last_login ? \Carbon\Carbon::createFromTimeStamp(strtotime($user->last_login))->diffForHumans() : 'Not yet login' }}</td>
+
+                                            <td class="text-center">
+                                                <div class="btn-group dropleft">
+                                                    <button type="button" class="btn btn-outline-info link_btn">
+                                                        <a  href="{{url($bUrl.'/profile/'.$user->id)}}"><i class="fa fa-table"></i> </a>
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
+                                                    </button>
+
+                                                    <div class="dropdown-menu dropLeft" >
+                                                        <a class="dropdown-item" data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/'.$user->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a class="dropdown-item" href="{{url($bUrl.'/profile/'.$user->id)}}?permission=permission"><i class="fa fa-eye"></i> view Permission</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" id="action" data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$user->id)}}"><i class="fa fa-trash"></i> Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $c++;
+                                        @endphp
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="row mt-4">
                             @include('core::layouts.include.per_page')
                             <div class="col-md-9">

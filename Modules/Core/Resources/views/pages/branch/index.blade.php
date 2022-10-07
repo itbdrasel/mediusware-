@@ -25,12 +25,12 @@
 
                     <form action="{{url($bUrl)}}" method="get"  class="form-inline">
 
-                        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-                            <div class="col">
+                        <div class="row">
+                            <div class="col-sm-3 form-group ">
                                 <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name or Phone..." class="form-control search_input w-100"/>
                             </div>
 
-                            <div class="col">
+                            <div class="col-sm-4 form-group ">
                                 <input  type="submit" class="btn btn-primary" value="Filter"/>
                                 &nbsp;<a class="btn btn-default" href="{{ url($bUrl) }}"> Reset </a>
                             </div>
@@ -68,9 +68,9 @@
                 <div class="col-md-12 mt-4">
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 table-responsive">
 
-                            <table class="table table-bordered">
+                            <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th class="text-center" style="width: 50px">SL</th>

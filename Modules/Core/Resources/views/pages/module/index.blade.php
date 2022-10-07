@@ -4,7 +4,7 @@
     <section class="content frontoffice-body">
         <!-- Default box -->
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-4 col-sm-12">
                 <form action="{{url($bUrl.'/store')}}" method="post">
                     @csrf()
                     <div class="card card-outline card-primary">
@@ -65,7 +65,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-8">
+            <div class="col-md-8 col-sm-12">
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h2 class="card-title"> {!! $page_icon !!} &nbsp; {{ $title }} </h2>
@@ -83,12 +83,12 @@
 
                             <form action="{{url($bUrl)}}" method="get"  class="form-inline">
 
-                                <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-                                    <div class="col">
-                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter By Name ..." class="form-control search_input"/>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-12 form-group ">
+                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter By Name ..." class="form-control search_input w-100"/>
                                     </div>
 
-                                    <div class="col">
+                                    <div class="col-md-4 form-group ">
                                         <input  type="submit" class="btn btn-primary" value="Filter"/>
                                         &nbsp;<a class="btn btn-default" href="{{ url($bUrl) }}"> Reset </a>
                                     </div>
@@ -126,9 +126,9 @@
                         <div class="col-md-12 mt-4">
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 table-responsive">
 
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
                                             <th class="text-center" style="width: 50px">SL</th>
