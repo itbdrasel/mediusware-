@@ -76,12 +76,12 @@
                         </div>
                     </div>
 
-					<div class="form-group row">
+					<div class="form-group row" id="role_aria">
 						<label class="col-sm-4 col-form-label">User Role <code>*</code></label>
 						<div class="col-sm-8">
 							<div class="input-group">
 								<select id="role" name="role" class="form-select"  >
-                                    <option value=""> Select User Role </option>
+                                    <option value="" data-branch=""> Select User Role </option>
                                     @if (!empty($roles))
                                         @foreach ($roles as $role)
 										<option {{($objData->role->role_id == $role->id )?'selected':''}} data-branch="{{$role->active_branch}}"  value=" {{ $role->id }}"> {{ $role->name }}</option>
@@ -95,21 +95,8 @@
 						</div>
 					</div>
 
-					<div class="form-group row">
-						<label class="col-sm-4 col-form-label">User Status</label>
-						<div class="col-sm-8">
-							<div class="input-group">
-								<select name="status" class="form-control"  >
-									<option {{$objData->status==1?'selected':''}} value="1">Active</option>
-									<option  {{$objData->status=='0'?'selected':''}}  value="0">Inactive</option>
-								</select>
-                                <div class="input-group-text">
-                                    <span class="fas fa-ban"></span>
-                                </div>
-							</div>
-						</div>
-					</div>
-                    <div class="form-group row d-none" id="branch_aria">
+
+                    <div class="form-group row {{$objData->role->roleName->active_branch !=1?'d-none':''}} " id="branch_aria">
                         @php
                             $input_name = 'branch_id';
                         @endphp
@@ -125,9 +112,23 @@
                                     @endif
                                 </select>
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-circle"></span>
+                                    <span class="fas fa-code-branch"></span>
                                 </div>
                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">User Status <code>*</code></label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <select name="status" class="form-select"  >
+                                    <option {{$objData->status==1?'selected':''}} value="1">Active</option>
+                                    <option  {{$objData->status=='0'?'selected':''}}  value="0">Inactive</option>
+                                </select>
+                                <div class="input-group-text">
+                                    <span class="fas fa-ban"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -140,17 +141,21 @@
             @php
                 $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
             @endphp
-            <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>&nbsp;&nbsp;
+{{--            <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();"  id="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>&nbsp;&nbsp;--}}
+            <button type="submit"  id="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>&nbsp;&nbsp;
 			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
 		</div>
 	</div>
 </form>
 
-
 <script>
+
+
+
 	$(function(){
 		$('form#edit').each(function(){
 			$this = $(this);
+
 			$this.find('#submit').on('click', function(event){
 				event.preventDefault();
 				$.ajax({
@@ -174,29 +179,23 @@
 							$('.alert-success').hide();
 						}
 					}
-				})
+				});
+                $this.find('#role').on('change', function (e) {
+                    e.preventDefault();
+                    let activeBranch = $this.find('#role').find(':selected').data('branch');
+                    if (activeBranch ==1){
+                        $('#branch_aria').removeClass('d-none');
+                    }else{
+                        $('#branch_aria').addClass('d-none');
+                    }
+                });
 
 			});
 		});
-	});
-    $(document).ready(function () {
-        activeBranch();
-    })
-    $('#role').on('change', function () {
-        activeBranch();
-    });
-    function activeBranch() {
-        let role = $('#role').val();
-        if (role !=''){
-            let activeBranch = $('#role').find(':selected').data('branch');
-            if (activeBranch ==1){
-                $('#branch_aria').removeClass('d-none');
-            }else{
-                $('#branch_aria').addClass('d-none');
-            }
 
-        }else{
-            $('#branch_aria').addClass('d-none');
-        }
-    }
+
+	});
+
+
+
 </script>

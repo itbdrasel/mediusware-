@@ -54,8 +54,8 @@ class AuthRepository implements AuthInterface
     {
 
         $role = $userInfo['role'];
+        $user = Sentinel::register($userInfo);
 
-        $user = Sentinel::registerAndActivate($userInfo);
 
         if($user){
             //role assign

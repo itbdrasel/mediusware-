@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Modules\Core\Entities\Branch;
 use Modules\Core\Entities\ModuleSection;
 use Modules\Core\Entities\Roles;
+use Modules\Core\Entities\RoleUser;
 use Modules\Core\Entities\User;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
@@ -157,7 +158,6 @@ class UserController extends Controller
     }
 
     public function update(Request $request){
-
         $id = $request['id'];
 
         if( !$this->auth->userExist($id) ) abort('404');
@@ -173,8 +173,19 @@ class UserController extends Controller
 
         $attribute = [
             'full_name' => 'Full Name',
+            'role'      => 'User Role',
+            'status'    => 'User Status',
+            'phone'     => 'Phone Number',
+            'user_name' => 'User Name',
+            'branch_id' => 'Branch',
         ];
 
+        if (!empty($request['role'])) {
+            $role = $this->auth->findRoleByID($request['role']);
+            if ($role->active_branch ==1) {
+                $rules['branch_id'] = 'required';
+            }
+        }
         $customMessages = [];
 
         $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
@@ -188,8 +199,9 @@ class UserController extends Controller
             'email'                 => $request['email'],
             'user_name'             => $request['user_name'] ?: NULL,
             'phone'                 => $request['phone'] ?: NULL,
-            'role'                  => $request['role'],
+            'branch_id'             => $request['branch_id'],
         ];
+
         RoleUser::where('user_id', $id)->update([ 'role_id' => $request['role'] ]);
 
         $user = $this->auth->findById($id);
@@ -219,9 +231,20 @@ class UserController extends Controller
         ];
 
         $attribute = [
-            'full_name'     => 'Full Name',
-            'user_name'     => 'User Name',
+            'full_name' => 'Full Name',
+            'role'      => 'User Role',
+            'status'    => 'User Status',
+            'phone'     => 'Phone Number',
+            'user_name' => 'User Name',
+            'branch_id' => 'Branch',
         ];
+        if (!empty($request['role'])) {
+            $role = $this->auth->findRoleByID($request['role']);
+            if ($role->active_branch ==1) {
+                $rules['branch_id'] = 'required';
+            }
+        }
+
 
         $customMessages =[];
 
@@ -238,6 +261,7 @@ class UserController extends Controller
             'password'              => $request['password'],
             'role'                  => $request['role'],
         ];
+
 
        $this->auth->register($registerData);
 

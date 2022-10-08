@@ -176,7 +176,7 @@
                                             @endif
                                         </select>
                                         <div class="input-group-text">
-                                            <span class="fas fa-user-circle"></span>
+                                            <span class="fas fa-code-branch"></span>
                                         </div>
                                         <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                     </div>
