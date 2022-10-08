@@ -18,5 +18,5 @@ class Roles extends Model
 
     public static $required = ['name'=>'Role Name', 'slug'=>'Role Slug','redirect_url'=>'Redirect','order_by'];
 
-    public static $insertData = ['slug', 'name', 'permissions', 'redirect_url','order_by'];
+    public static $insertData = ['slug', 'name', 'redirect_url','order_by'];
 }
