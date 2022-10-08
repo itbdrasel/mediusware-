@@ -54,15 +54,17 @@ class AuthRepository implements AuthInterface
     {
 
         $role = $userInfo['role'];
-        $user = Sentinel::register($userInfo);
-
-
+        $user = $this->registerAndActivate($userInfo);
+        $role = $this->findRoleByID($role);
+        $role->users()->attach($user);
+        unset($userInfo['role']);
+        \Modules\Core\Entities\User::where('id', $user->id)->update($userInfo);
         if($user){
             //role assign
-            $role = $this->findRoleByID($role); // subscriber role always 2;
+//            $role = $this->findRoleByID($role); // subscriber role always 2;
             if($role->active_directory ==1){
                 $userDir = $user->id.'-'.time();
-                Storage::makeDirectory($userDir);
+//                Storage::makeDirectory($userDir);
             }else $userDir = NULL;
 
             // Profile Update
@@ -202,7 +204,10 @@ class AuthRepository implements AuthInterface
 
     public function update($user, array $credentials)
     {
-        return Sentinel::update($user, $credentials);
+
+         Sentinel::update($user, $credentials);
+        unset($credentials['role']);
+        return \Modules\Core\Entities\User::where('id', $user->id)->update($credentials);
     }
 
     public function disableCheckpoints()

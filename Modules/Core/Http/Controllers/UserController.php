@@ -60,7 +60,8 @@ class UserController extends Controller
             'page_icon'     => '<i class="fas fa-tasks"></i>',
             'objData'       => [],
         ];
-        $role = Sentinel::getUser()->roles->first();
+        $role = $this->auth->getUser()->roles->first();
+
         $order_by = $role->order_by;
         $this->data['roles'] = Roles::where('order_by','>=',$order_by)->get();
 
@@ -260,6 +261,7 @@ class UserController extends Controller
             'phone'                 => $request['phone'] ?: NULL,
             'password'              => $request['password'],
             'role'                  => $request['role'],
+            'branch_id'             => $request['branch_id'],
         ];
 
 
