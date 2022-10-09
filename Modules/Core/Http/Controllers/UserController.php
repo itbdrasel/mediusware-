@@ -4,6 +4,7 @@ namespace Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Core\Entities\Branch;
+use Modules\Core\Entities\Module;
 use Modules\Core\Entities\ModuleSection;
 use Modules\Core\Entities\Roles;
 use Modules\Core\Entities\RoleUser;
@@ -290,6 +291,8 @@ class UserController extends Controller
             'permission'    => $request['permission'],
             'pageUrl'       => $this->bUrl.'/'.$id,
         ];
+
+        $this->data['modules'] = Module::orderBy('id')->with('sections')->where('status',1)->get(['name','slug','id']);
 
         $this->data['sectionNames'] = ModuleSection::orderBy('module_id')->orderBy('section_name')->orderBy('id')->get();
 

@@ -345,4 +345,18 @@ class PermissionController extends Controller
         }
     }
 
+
+    public function userPermission(Request $request){
+        $user = $this->auth->findUserById($request['id']);
+        $action = $request->action;
+        $value = ($request->value == 1) ? true : false;
+        if($user){
+            $user->removePermission($action,$value)->save();
+            $user->addPermission($action,$value)->save();
+        }else{
+            return false;
+        }
+
+    }
+
 }

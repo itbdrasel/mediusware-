@@ -24,4 +24,8 @@ class Module extends Model
 
     public static $insertData = ['name', 'slug', 'status'];
 
+    public function sections(){
+        return $this->hasMany(ModuleSection::class, 'module_id','id');
+    }
+
 }

@@ -48,7 +48,8 @@ Route::prefix('core')->group(function() {
             Route::post('add-remove', 'addRemove')->name('.ajax_add_remove');
             Route::post('route-remove', 'routeRemove')->name('.ajax_route_remove');
             Route::post('get-sections', 'getSectionsById')->name('.ajax_get_sections');
-            Route::post('user-module', 'userModule')->name('.ajax_user_module');
+            Route::post('user-module-permission', 'userModule')->name('.ajax_user_module_permission');
+            Route::post('user-permission', 'userPermission')->name('.ajax_user_permission');
         });
 
         // Role Route
@@ -81,6 +82,25 @@ Route::prefix('core')->group(function() {
 
 
 
+});
+
+
+//Route::group(['middleware' => ['admin'], 'prefix' => 'author'], function (){
+Route::group([ 'prefix' => 'core/mediamanager','controller'=>'MediaManagerController','as'=>'core.mediamanager'], function (){
+
+    Route::get('container','container')->name('.container');
+    Route::get('/links','content_links')->name('.links');
+    Route::get('/','index')->name('');
+    Route::post('/create',  'create')->name('.create');
+    Route::post('/rename', 'rename')->name('.rename');
+    Route::post('/delete',  'delete')->name('.delete ');
+    Route::match(['get', 'post'], '/upload','upload')->name('.upload');
+
+    //route fallback. when post route requested
+    // by get route.
+    Route::fallback(function () {
+        abort('404');
+    });
 });
 
 

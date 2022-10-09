@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="card-body frontoffice-body">
-                        <div class="col-10">
+                        <div class="col-md-{{$permission =='permission'?'12':'10'}} col-sm-12">
                             <div class="row">
                                 <div class="col-md-3 mb-3">
                                     <div class="guest-profile-box">
@@ -46,30 +46,71 @@
                                         <div class="tab-pane fade @if($permission !='permission') show active @endif" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                             <div class="guest_info mb-4">
                                                 <h2>User Information</h2>
-                                                <div class="row p-2">
-                                                    <div class="col-md-6 mb-2">
-                                                        <p class="label">Name</p>
-                                                        <p>{{$objData->full_name}}</p>
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <p class="label">Email</p>
-                                                        <p>{{$objData->email}}</p>
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <p class="label">Last Login</p>
-                                                        <p>{{$objData->last_login}}</p>
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <p class="label">User Role</p>
-                                                        <p>{{$objData->name}}</p>
-                                                    </div>
+                                                <div class="card-body">
+                                                    <table class="table table-striped border">
+                                                        <tbody><tr>
+                                                            <th width="30%">Name </th>
+                                                            <td> {{$objData->full_name}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>User Role </th>
+                                                            <td> {{$objData->name}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>E-mail </th>
+                                                            <td> {{$objData->email}}</td>
+                                                        </tr>
+                                                        @if(!empty($objData->phone))
+                                                            <tr>
+                                                                <th>Phone </th>
+                                                                <td>{{$objData->phone}}</td>
+                                                            </tr>
+                                                        @endif
+                                                        @if(!empty($objData->user_name))
+                                                            <tr>
+                                                                <th>User Name </th>
+                                                                <td>{{$objData->user_name}}</td>
+                                                            </tr>
+                                                        @endif
+                                                        @if(!empty($objData->branch_id) && !empty($objData->branch))
+                                                            <tr>
+                                                                <th>Branch </th>
+                                                                <td>{{$objData->branch->name??''}}</td>
+                                                            </tr>
+                                                        @endif
+                                                        @if(!empty($objData->activation))
+                                                            <tr>
+                                                                <th>Status </th>
+                                                                <td>
+                                                                    {!! $objData->activation->completed==1?'<span class="badge bg-success">Active</span>':'<span class="badge bg-danger">Inactive</span>' !!}
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                        </tbody>
+                                                    </table>
                                                 </div>
+
                                             </div>
                                         </div>
                                         <div class="tab-pane fade  @if($permission =='permission') show active @endif" id="v-pills-permission" role="tabpanel" aria-labelledby="v-pills-permission-tab">
                                             <div id="accordion">
                                                 @php
                                                     $rolePermissions = dAuth()->findRoleById($objData->role_id);
+                                                @endphp
+                                                @if(!empty($sectionNames ) && count($sectionNames) >0)
+                                                    @foreach($sectionNames as $section)
+                                                        @php
+                                                            $sectionPermission = json_decode($section->section_roles_permission);
+                                                        @endphp
+                                                        @if(in_array($objData->role_id, $sectionPermission))
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+
+
+                                                @php
+                                                    $rolePermissions = dAuth()->findRoleById($objData->role_id);
+
                                                     $module_name='';
                                                     $end_module ='';
                                                 @endphp
@@ -91,7 +132,7 @@
                                                     $module_name = $sectionName->module->id;
                                                 @endphp
                                                 @if(!empty($end_module) && $module_name !=$end_module)
-                                                </table>
+
                                             </div>
                                         </div>
                                     </div>
@@ -103,7 +144,7 @@
                                         <div class="card-header" id="{{$sectionName->module->id}}">
                                             <h5 class="mb-0">
                                                 @if(checkUncheck($objData->id))
-                                                    <input onclick="checkAll('{{$m_name}}')"  {{moduleCheck($objData->m_permission, $m_name)?'checked':''}} value="{{$m_name}}" type="checkbox" id="{{$m_name}}">
+                                                    <input onclick="checkAll('{{$m_name}}')"  {{moduleCheck($objData->m_permission, $m_name)?'checked':''}} class="module_{{$m_name}}" value="{{$m_name}}" type="checkbox" id="{{$m_name}}">
                                                 @else
                                                     @if(moduleCheck($objData->m_permission, $m_name))
                                                         <i style="color: #0075ff" class="fas fa-check-square"></i>
@@ -178,7 +219,7 @@
                                                                                 $for_level = str_replace('.','_',$key);
                                                                             @endphp
                                                                             @if ($objData->id != dAuth()->getUser()->id)
-                                                                                <input id="{{$m_name.'_'.$for_level}}" type="checkbox" class="role-permission {{$m_name}}" {{$checked}} data-page="{{$key}}" data-action="{{$key}}" data-id="{{$objData->id}}">
+                                                                                <input id="{{$m_name.'_'.$for_level}}" type="checkbox" class="role-permission role_{{$m_name}}" {{$checked}} data-page="{{$key}}" data-action="{{$key}}" data-id="{{$objData->id}}">
                                                                             @else
                                                                                 @if($checked =='checked')
                                                                                     <i style="color: #0075ff" class="fas fa-check-square"></i>
@@ -216,11 +257,10 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                {{$title}}
-            </div>
         </div>
-
+        <div class="card-footer">
+            {{$title}}
+        </div>
         </div>
         </div>
     </section>
@@ -236,7 +276,7 @@
                 if($(this).is(':checked')){ val = 1; }
                 $.ajax({
                     type: "post",
-                    url: "{{ url('core/permissions/add-remove') }}",
+                    url: "{{ url('core/permissions/user-permission') }}",
                     data: {
                         "_token": "{{ csrf_token() }}",
                         id: id,
@@ -254,15 +294,15 @@
         });
         function checkAll(id) {
             var val = 0;
-            if ($('input#'+id).is(':checked')) {
-                $('.'+id).prop('checked', 'checked');
+            if ($('.module_'+id).is(':checked')) {
+                $('.role_'+id).prop('checked', 'checked');
                 val = 1;
             }else{
-                $('.'+id).prop('checked', '');
+                $('.role_'+id).prop('checked', '');
             }
             $.ajax({
                 type: "post",
-                url: "{{ url('core/permissions/user-module') }}",
+                url: "{{ url('core/permissions/user-module-permission') }}",
                 data: {
                     "_token": "{{ csrf_token() }}",
                     id: "{{$objData->id}}",
@@ -277,19 +317,7 @@
                 }
             });
         }
+
     </script>
 @endpush
-@push('css')
-    <style>
-        table.blueTable {
-            margin: 10px;
-            border: 1px solid #1C6EA4;
-            text-align: left;
-        }
-        table.blueTable td, table.blueTable th {
-            border: 1px solid #AAAAAA;
-            padding: 5px 5px;
-        }
 
-    </style>
-@endpush

@@ -102,6 +102,7 @@
                                     <th class="sort" data-row="email" id="email" >Email</th>
                                     <th data-row="role" id="role"  class="text-center sort">Users Role</th>
                                     <th class="text-center sort" data-row="login" id="login" >Last Login</th>
+                                    <th class="text-center"  >Status</th>
                                     <th class="text-center" style="width: 150px">Action</th>
                                 </tr>
                                 </thead>
@@ -111,12 +112,19 @@
                                         $c = 1;
                                     @endphp
                                     @foreach($allData as $key=>$user)
+                                        @php
+                                        $status = '<span class="badge bg-danger">Inactive</span>';
+                                        if (!empty($user->activation) && $user->activation->completed){
+                                             $status = '<span class="badge bg-success">Active</span>';
+                                        }
+                                        @endphp
                                         <tr>
                                             <td class="text-center">{{$c}}</td>
                                             <td>{{$user->full_name}}</td>
                                             <td>{{$user->email}}</td>
                                             <td class="text-center">{{ucfirst($user->name) }}</td>
                                             <td class="text-center">{{ $user->last_login ? \Carbon\Carbon::createFromTimeStamp(strtotime($user->last_login))->diffForHumans() : 'Not yet login' }}</td>
+                                            <td class="text-center">{!! $status !!}</td>
 
                                             <td class="text-center">
                                                 <div class="btn-group dropleft">

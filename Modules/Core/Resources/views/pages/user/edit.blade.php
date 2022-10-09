@@ -54,7 +54,7 @@
                         <label for="{{$input_name}}" class="col-sm-4 col-form-label">User Name</label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input type="text" id="{{$input_name}}" name="{{$input_name}}" readonly value="{{getValue($input_name, $objData) }}" class="form-control" placeholder="{{ucfirst(str_replace('_',' ',$input_name))}} ">
+                                <input type="text" id="{{$input_name}}" name="{{$input_name}}" value="{{getValue($input_name, $objData) }}" class="form-control" placeholder="{{ucfirst(str_replace('_',' ',$input_name))}} ">
                                 <div class="input-group-text">
                                     <span class="fas fa-user-clock"></span>
                                 </div>
@@ -68,7 +68,7 @@
                         <label for="{{$input_name}}" class="col-sm-4 col-form-label">Phone Number</label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input type="text" id="{{$input_name}}" name="{{$input_name}}" readonly value="{{getValue($input_name, $objData) }}" class="form-control" placeholder="{{ucfirst(str_replace('_',' ',$input_name))}} ">
+                                <input type="text" id="{{$input_name}}" name="{{$input_name}}"  value="{{getValue($input_name, $objData) }}" class="form-control" placeholder="{{ucfirst(str_replace('_',' ',$input_name))}} ">
                                 <div class="input-group-text">
                                     <span class="fas fa-user-clock"></span>
                                 </div>
@@ -123,8 +123,8 @@
                         <div class="col-sm-8">
                             <div class="input-group">
                                 <select name="status" class="form-select"  >
-                                    <option {{$objData->status==1?'selected':''}} value="1">Active</option>
-                                    <option  {{$objData->status=='0'?'selected':''}}  value="0">Inactive</option>
+                                    <option {{$objData->activation->completed==1?'selected':''}} value="1">Active</option>
+                                    <option  {{$objData->activation->completed=='0'?'selected':''}}  value="0">Inactive</option>
                                 </select>
                                 <div class="input-group-text">
                                     <span class="fas fa-ban"></span>
@@ -141,16 +141,13 @@
             @php
                 $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
             @endphp
-{{--            <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();"  id="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>&nbsp;&nbsp;--}}
-            <button type="submit"  id="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>&nbsp;&nbsp;
+            <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();"  id="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>&nbsp;&nbsp;
 			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
 		</div>
 	</div>
 </form>
 
 <script>
-
-
 
 	$(function(){
 		$('form#edit').each(function(){
