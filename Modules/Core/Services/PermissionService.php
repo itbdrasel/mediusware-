@@ -65,14 +65,25 @@ class PermissionService
                 $id                 = $value;
                 $routeNames         = $request['route_name'][$key];
                 $routeWithRoles     = [];
+                $section_roles      = [];
                 if (!empty($routeNames) && count($routeNames) >0) {
                     foreach ($routeNames as $rKey=>$routeName){
                         $roles = $request['roles'][$key][$rKey];
+                        if(!in_array($roles, $section_roles) ){
+                            if (count($section_roles) >0){
+                                $section_roles = array_unique(array_merge($section_roles,$roles));
+                            }else{
+                                $section_roles = $roles;
+                            }
+
+                        }
+
                         $routeWithRoles[$routeName] = $roles;
                         $this->rolePermission($roles, $routeName);
                     }
                 }
                 $routeData['section_action_route']  = json_encode($routeWithRoles);
+                $routeData['section_roles_permission']  = json_encode($section_roles);
                 $this->model::where('id', $id)->update($routeData);
             }
         }

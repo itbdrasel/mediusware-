@@ -84,11 +84,11 @@
 
                                                 @if(in_array($objData->role_id, $sectionPermission) )
                                                 @php
-                                                    $m_name = $sectionName->module->name;
+                                                    $m_name = $sectionName->module->id;
                                                 @endphp
-                                                @if ($sectionName->module->name !=$module_name)
+                                                @if ($sectionName->module->id !=$module_name)
                                                 @php
-                                                    $module_name = $sectionName->module->name;
+                                                    $module_name = $sectionName->module->id;
                                                 @endphp
                                                 @if(!empty($end_module) && $module_name !=$end_module)
                                                 </table>
@@ -97,10 +97,10 @@
                                     </div>
                                     @endif
                                     @php
-                                        $end_module = $sectionName->module->name;
+                                        $end_module = $sectionName->module->id;
                                     @endphp
                                     <div class="card">
-                                        <div class="card-header" id="{{$sectionName->module->name}}">
+                                        <div class="card-header" id="{{$sectionName->module->id}}">
                                             <h5 class="mb-0">
                                                 @if(checkUncheck($objData->id))
                                                     <input onclick="checkAll('{{$m_name}}')"  {{moduleCheck($objData->m_permission, $m_name)?'checked':''}} value="{{$m_name}}" type="checkbox" id="{{$m_name}}">
@@ -112,7 +112,7 @@
                                                     @endif
                                                 @endif
                                                 {{--                                                                            <label for="{{$m_name}}">{{$m_name}} Modules</label>--}}
-                                                <label class="text-capitalize form-check-label" for="{{$m_name}}" >{{$m_name}} Modules</label>
+                                                <label class="text-capitalize form-check-label" for="{{$m_name}}" >{{$sectionName->module->name}} Modules</label>
                                                 {{--                                                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse_{{$m_name}}" aria-expanded="true" aria-controls="collapse_{{$m_name}}">--}}
                                                 {{--                                                                                {{$m_name}} Modules--}}
                                                 {{--                                                                            </button>--}}

@@ -3,6 +3,7 @@ namespace Modules\Core\Http\Controllers;
 
 use Modules\Core\Entities\Module;
 use Modules\Core\Entities\Roles;
+use Modules\Core\Entities\User;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Modules\Core\Entities\ModuleSection;
@@ -296,13 +297,12 @@ class PermissionController extends Controller
 
     public function userModule(Request $request){
         $user_id = $request['id'];
-
-        $user =User::find($user_id);
+        $user = User::where('id',$user_id)->first();
         $user_s = $this->auth->findUserById($request['id']);
-        $module_name =$request->module_name;
+        $module_name = $request['module_name'];
         $a_value = ($request->value == 1) ? true : false;
         if($user && $user_s){
-            $modules =   ModuleSection::orderBy('module_id')->where('section_module_name', $module_name)->orderBy('section_name')->orderBy('id')->get();
+            $modules =   ModuleSection::orderBy('module_id')->where('module_id', $module_name)->orderBy('section_name')->orderBy('id')->get();
             if (!empty($modules)) {
                 foreach ($modules as $module) {
                     $sectionPermission = json_decode($module->section_roles_permission);
