@@ -48,7 +48,7 @@ class AuthCredentialController extends Controller
         }
 
         $this->data = [
-            'title'         => 'Administrator - '.config('appTitle'),
+            'title'         => 'Login - '.config('appTitle'),
             'pageUrl'       => $this->bUrl.'/login'
         ];
 
