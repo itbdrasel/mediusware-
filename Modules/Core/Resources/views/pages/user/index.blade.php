@@ -29,7 +29,7 @@
 
                         </div>
                     </div>
-                    <div class="card-body frontoffice-body">
+                    <div class="card-body data-body">
                         <div class="col-md-10">
 
                             <form action="{{url($bUrl)}}" method="get"  class="form-inline">

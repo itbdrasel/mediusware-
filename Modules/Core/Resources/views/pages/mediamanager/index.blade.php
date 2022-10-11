@@ -1,5 +1,4 @@
 @push('css')
-
     <style>
         .overlay {
             position: absolute; background-color: white; top: 0; bottom: 0; left: 0; right: 0; margin: auto; z-index: 10;
@@ -32,7 +31,25 @@
         .mediadata .files .file .fa{ height: 10px;}
         input.form-control.float-left.search_input{width:165px}
         .breadcrump-mediamanager .breadcrumb{ padding: 5px 10px; margin-bottom: .5rem;}
-
+        .breadcrumb {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            list-style: none;
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+        }
+        @media only screen and (max-width: 600px) {
+            .custom_btn{
+                margin: 5px;
+            }
+            .search_input{
+                margin: 10px 0;
+            }
+        }
     </style>
 @endpush
 @extends("core::pages.mediamanager.layout")
@@ -49,178 +66,148 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-
-        <div class="row">
-        <div class="col-8">
-                    <button type="button" class="btn btn-tool" >
-                    <a href="{{url($bUrl.'/upload')}}" id="action" data-toggle="modal" data-target="#uploadmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-upload"></i> Upload </a>
-
-                    <!-- <a href="{{url($bUrl.'/upload')}}" id="action" data-toggle="modal" data-target="#windowmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-upload"></i> Upload </a> -->
-
-                    <a href="{{url($bUrl.'/folder')}}" id="action" data-toggle="modal" data-target="#itemmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-folder"></i> Create Folder </a>
-
-                    <a href="{{url($bUrl.'/links')}}"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-file"></i> Content Lists </a>
-            </div>
-
-             <div class="col-4">
-
-                        <div class="form-row">
-                            <!-- <div class="col-2">
-                                @if($path)
-                                    <a class="btn btn-default bold" onclick="history.back()"> &larr; </a>
-                                @endif
-                            </div> -->
-                            <form action="{{url($bUrl)}}" method="get"  class="form-inline">
-                            <div class="col">
-                                <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Search..." class="form-control float-left search_input"/>
-
-                                <input type="hidden" name="path" value="{{$path}}"/>
-
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12">
+                        <button type="button" class="btn btn-tool" >
+                            <a href="{{url($bUrl.'/upload')}}" id="action" data-toggle="modal" data-target="#uploadmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-upload"></i> Upload </a>
+                            <a href="{{url($bUrl.'/folder')}}" id="action" data-toggle="modal" data-target="#itemmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-folder"></i> Create Folder </a>
+                            <a href="{{url($bUrl.'/links')}}"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-file"></i> Content Lists </a>
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <form action="{{url($bUrl)}}" method="get"  class="form-inline">
+                        <div class="row mb-0">
+                            <div class="col-sm-5 form-group mb-0">
+                                <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Search..." class="form-control search_input w-100"/>
                             </div>
-                            <div class="col">
+                            <div class="col-sm-4 form-group mb-0">
                                 <input  type="submit" class="btn btn-primary" value="Search"/>
-                                &nbsp;<a class="btn btn-default" href="{{ url($bUrl).'?path='.Request::query('path') }}"> Reset </a>
+                                <a class="btn btn-default" href="{{ url($bUrl).'?path='.Request::query('path') }}"> Reset </a>
                             </div>
-                            </form>
                         </div>
+                            @if( !empty( Request::query() ) )
+                                @if( array_key_exists( 'filter', Request::query() ) )
+                                    Showing results for
+                                    @if(!empty($filter) )
+                                        '{{ $filter }}'
+                                    @endif
+                                @endif
 
-
-                @if( !empty( Request::query() ) )
-
-                @if( array_key_exists( 'filter', Request::query() ) )
-
-                    Showing results for
-
-                    @if(!empty($filter) )
-                        '{{ $filter }}'
-                    @endif
-                @endif
-
-                @endif
-
+                            @endif
+                        </form>
+                    </div>
                 </div>
-        </div>
-
-        </div>
-
-        <div class="card-body" id="">
-
-        <div class="col-md-12">
-
-            <div class="row">
-
-                <div class="col-12 breadcrump-mediamanager">
-                       <div class="breadcrumb">{!!$breadcrumb!!}</div>
-                </div>
-
             </div>
         </div>
-        </div>
+        <div class="card-body">
+            <div class="col-12 breadcrump-mediamanager">
+                <div class="breadcrumb">{!!$breadcrumb!!}</div>
+            </div>
+            <div class="col-md-12">
+
+                <div class="mediadata">
+                    <div class="row">
+
+                        @php
+
+                            if( isset($filter) && !empty($filter) ):
+                                $dirContents = collect(Storage::listContents($path))->filter( function($item) use ($filter) {
+                                    return stripos($item['basename'], $filter) !== false;
+                                });
+                            else:
+                                $dirContents = collect(Storage::listContents('d'))->sortBy('type')->toArray();
+                            endif;
+
+                        @endphp
+
+                        @forelse( $dirContents as $file)
+
+                            @if($file['type'] === 'file')
+                                <div class="col-sm-1">
+                                    <div class="card insertable files">
+                                        <?php
+                                        //dd($file);
+                                        ?>
+
+                                        @if($file['extension'] === 'jpg' || $file['extension'] === 'png')
+
+                                            <img data-path="{{Storage::url($file['path'])}}" src="{{Storage::url('.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
+
+                                        @elseif($file['extension'] === 'pdf')
+                                            <a data-path="{{Storage::url($file['path'])}}" class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-pdf" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
+                                        @else($file['extension'] === 'txt')
+                                            <a data-path="{{Storage::url($file['path'])}}"  class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-alt" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
+                                        @endif
+
+                                        <div class="card-body file-details">
+                                            <p class="card-text mb-0 text-center file-name">{{basename($file['basename'])}}</p>
+                                            <p class="card-text text-muted text-center file-size">{{round(Storage::size($file['path'])/1024, 2)}} KB</p>
+                                        </div>
+
+                                        <div class="dropdown media-action">
+                                            <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="#">View</a>
+
+                                                <a class="dropdown-item" data-name="{{$file['filename']}}" data-ext="{{$file['extension']}}" data-toggle="modal" data-target="#renamemodal"  >Rename</a>
+
+                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#deletemodal"  >Delete</a>
+                                            </div>
+                                        </div>
 
 
-		<div class="col-md-12">
+                                    </div>
+                                </div>
+                            @elseif($file['type'] === 'dir' && $file['basename'] !== '.tmp')
+                                <div class="col-sm-1">
+                                    <div class="card directory">
+                                        <a data-dir="{{$file['path']}}" href="{{url($bUrl.'?path='.urlencode($file['path']))}}" class="text-center folder"><i class="fa fa-folder" style="font-size:50px; text-align:center; color:#009ad7; padding-top:8px;"> </i></a>
 
-        <div class="mediadata">
-			<div class="row">
+                                        <div class="card-body file-details">
+                                            <p class="card-text mb-0 text-center file-name">{{basename($file['basename'])}}</p>
+                                        </div>
 
-                @php
-                    if( isset($filter) && !empty($filter) ):
-                        $dirContents = collect(Storage::listContents($path))->filter( function($item) use ($filter) {
-                            return stripos($item['basename'], $filter) !== false;
-                        });
-                    else:
-                        $dirContents = collect(Storage::listContents($path))->sortBy('type')->toArray();
-                    endif;
+                                        <div class="dropdown media-action">
+                                            <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 
-                    //dd($dirContents);
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-                @endphp
+                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#renamemodal"  >Rename</a>
 
-                @forelse( $dirContents as $file)
+                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#deletemodal"  >Delete</a>
+                                            </div>
+                                        </div>
 
-                        @if($file['type'] === 'file')
-                        <div class="col-sm-1">
-                        <div class="card insertable files">
-                            <?php
-                                //dd($file);
-                            ?>
 
-                            @if($file['extension'] === 'jpg' || $file['extension'] === 'png')
-
-                                <img data-path="{{Storage::url($file['path'])}}" src="{{Storage::url('.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
-
-                            @elseif($file['extension'] === 'pdf')
-                                <a data-path="{{Storage::url($file['path'])}}" class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-pdf" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
-                            @else($file['extension'] === 'txt')
-                                <a data-path="{{Storage::url($file['path'])}}"  class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-alt" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
+                                    </div>
+                                </div>
                             @endif
 
-                            <div class="card-body file-details">
-                                <p class="card-text mb-0 text-center file-name">{{basename($file['basename'])}}</p>
-                                <p class="card-text text-muted text-center file-size">{{round(Storage::size($file['path'])/1024, 2)}} KB</p>
-                            </div>
 
-                            <div class="dropdown media-action">
-                                <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">View</a>
-
-                                    <a class="dropdown-item" data-name="{{$file['filename']}}" data-ext="{{$file['extension']}}" data-toggle="modal" data-target="#renamemodal"  >Rename</a>
-
-                                    <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#deletemodal"  >Delete</a>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        </div>
-                        @elseif($file['type'] === 'dir' && $file['basename'] !== '.tmp')
-                        <div class="col-sm-1">
-                        <div class="card directory">
-                            <a data-dir="{{$file['path']}}" href="{{url($bUrl.'?path='.urlencode($file['path']))}}" class="text-center folder"><i class="fa fa-folder" style="font-size:50px; text-align:center; color:#009ad7; padding-top:8px;"> </i></a>
-
-                            <div class="card-body file-details">
-                                <p class="card-text mb-0 text-center file-name">{{basename($file['basename'])}}</p>
-                            </div>
-
-                            <div class="dropdown media-action">
-                                <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-                                    <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#renamemodal"  >Rename</a>
-
-                                    <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#deletemodal"  >Delete</a>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        </div>
-                        @endif
-
-
-                    @empty
-                    <div class="col"><p> No File Available in this Directory </p></div>
-                    @endforelse
+                        @empty
+                            <div class="col"><p> No File Available in this Directory </p></div>
+                        @endforelse
 
 
 
 
-		 </div><!-- /row -->
+                    </div><!-- /row -->
 
-         </div><!-- /mediadata -->
-	  </div>
+                </div><!-- /mediadata -->
+            </div>
 
         </div>
+
         <!-- /.card-body -->
         <div class="card-footer">
-
+            Media Manager
         </div>
         <!-- /.card-footer-->
     </div>
     <!-- /.card -->
+
 </section>
 <!-- /.content -->
 

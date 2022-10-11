@@ -12,7 +12,7 @@
         td{
             vertical-align: middle !important;
         }
-        .frontoffice-body .table td{ background: transparent !important;}
+        .data-body .table td{ background: transparent !important;}
 
     </style>
 @endpush
@@ -22,7 +22,7 @@
 @extends('core::master')
 
 @section('content')
-    <section class="content frontoffice-body">
+    <section class="content data-body">
         <div class="card card-outline card-info">
             <div class="card-header">
                 <h2 class="card-title"> {!! $page_icon !!} &nbsp; {{ $title }} </h2>

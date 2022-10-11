@@ -1,7 +1,7 @@
 @extends('core::master')
 
 @section('content')
-    <section class="content frontoffice-body">
+    <section class="content data-body">
         <!-- Default box -->
         <div class="row">
             <div class="col-md-4 col-sm-12">

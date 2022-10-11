@@ -12,25 +12,10 @@
         <style>div,footer.main-footer { display:none; }</style>
     </noscript>
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    @stack('css')
-    <link rel="stylesheet" href="{{url('backend')}}/plugins/fontawesome-free/css/all.min.css">
-    <!-- Flaticon -->
-    <link rel="stylesheet" href="{{url('backend')}}/fonts/flaticon.css">
-    <!-- materials icon -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{url('backend')}}/css/adminlte.min.css">
-    <link rel="stylesheet" href="{{url('backend')}}/css/style.css">
-    <!-- Toaster Css -->
-    <link rel="stylesheet" href="{{url('/')}}/backend/plugins/timepicker/jquery.timepicker.min.css">
-    <link rel="stylesheet" href="{{url('/')}}/backend/plugins/datepicker/jquery-ui.css">
-    <link href="{{asset('backend/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
 
-    <!-- New Added Start -->
-    <link rel="stylesheet" href="{{asset('backend/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{asset('backend/plugins/date_range_picker/daterangepicker.css') }}">
+
+@include('core::layouts.include.css')
     <!-- New Added End -->
     <style>
         @media print {
@@ -44,14 +29,13 @@
 @yield('content')
 
 
-
     </body>
 </html>
 <!-- jQuery -->
 <script src="{{url('backend')}}/plugins/jquery/jquery.min.js"></script>
 
 <!-- Bootstrap 4 -->
-<script src="{{url('backend/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{url('backend/plugins/bootstrap_old/js/bootstrap.bundle.min.js')}}"></script>
 
 <!-- New Added End -->
 
@@ -63,18 +47,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{url('backend/js/demo.js')}}"></script>
 
-
 <script src="{{url('backend/js/app-helper.js')}}"></script>
 <!-- <script src="{{url('backend/js/admin-scripts.js')}}"></script> -->
-<script>
-    $(function() {
 
 
-    });
-</script>
-@stack('js')
-
-@stack('data_table')
 <script src="{{asset('backend/plugins/toastr/toastr.min.js')}}" ></script>
 <!--Show Toaster Notification -->
 @if((Session::has('success')) || (Session::has('error')) || Session::has('message')))
@@ -93,3 +69,4 @@
     </script>
 @endif
 
+@stack('js')

@@ -57,8 +57,7 @@ class AuthRepository implements AuthInterface
         $user = $this->registerAndActivate($userInfo);
         $role = $this->findRoleByID($role);
         $role->users()->attach($user);
-        unset($userInfo['role']);
-        \Modules\Core\Entities\User::where('id', $user->id)->update($userInfo);
+
         if($user){
             //role assign
 //            $role = $this->findRoleByID($role); // subscriber role always 2;
@@ -205,9 +204,7 @@ class AuthRepository implements AuthInterface
     public function update($user, array $credentials)
     {
 
-         Sentinel::update($user, $credentials);
-        unset($credentials['role']);
-        return \Modules\Core\Entities\User::where('id', $user->id)->update($credentials);
+        return Sentinel::update($user, $credentials);
     }
 
     public function disableCheckpoints()

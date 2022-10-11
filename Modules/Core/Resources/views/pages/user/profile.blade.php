@@ -18,7 +18,7 @@
                             {{--                            </button>--}}
                         </div>
                     </div>
-                    <div class="card-body frontoffice-body">
+                    <div class="card-body data-body">
                         <div class="col-md-{{$permission =='permission'?'12':'10'}} col-sm-12">
                             <div class="row">
                                 <div class="col-md-3 mb-3">

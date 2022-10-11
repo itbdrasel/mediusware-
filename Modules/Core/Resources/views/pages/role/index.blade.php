@@ -2,7 +2,7 @@
 @section('content')
 <!-- Main content -->
 <section class="content ">
-<div class="row frontoffice-body">
+<div class="row data-body">
 
     <div class="col-md-11 col-sm-12">
 

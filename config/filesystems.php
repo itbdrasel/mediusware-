@@ -28,18 +28,20 @@ return [
     |
     */
 
+
     'disks' => [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => public_path('uploads/media_manager'),
+            'url' => env('APP_URL').'uploads/media_manager/',
             'throw' => false,
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path('app'),
+            'url' => env('APP_URL').'/app/',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -70,7 +72,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path('uploads/media_manager') => public_path('uploads/media_manager'),
     ],
 
 ];

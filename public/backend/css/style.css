@@ -37,26 +37,23 @@ label {
 
 
 /*Bootstrap 4 to 5 Update css End*/
-
-
-.frontoffice-body .card-header{}
-.frontoffice-body .card-header .card-title{ font-size: 19px; font-weight:bold}
-.frontoffice-body .table th{ background:#f7f7f7; font-size:14px; color:#444; text-transform:uppercase; padding-top:9px !important; padding-bottom:9px !important;}
-.frontoffice-body .table th.sort{ cursor:pointer}
-.frontoffice-body .table .sort .fa{ font-size:10px; color:#666;}
-.frontoffice-body .table td{ padding-top:8px; padding-bottom:8px; font-size:15px; color:#000; background: #fff;}
-.frontoffice-body .table td .btn{ padding-top:0px; padding-bottom:0px;}
-.frontoffice-body .next-action{}
-.frontoffice-body .next-action a{ color:#fff; text-transform:uppercase; font-weight:bold; font-size:13px;}
-.frontoffice-body .table .checkin{ background:#0ac986;}
-.frontoffice-body .table .checkout{ background:#01B3B6;}
-.frontoffice-body .checkin:hover{ background:#1ede9b}
-.frontoffice-body .checkout:hover{ background:#fe976b}
-.frontoffice-body .btn{ text-transform:uppercase}
-.frontoffice-body .flaticon-reception:before{ margin-left:0}
-.frontoffice-body .form-header{ background:#dde2e3; padding:10px 10px 4px 10px; margin-bottom:15px; border-radius:4px;}
-.frontoffice-body .form-header  h3{ font-size:22px; text-transform:uppercase; }
-.frontoffice-body .report-table th{ border:1px solid #ddd; font-size:13px;}
+.data-body .card-header .card-title{ font-size: 19px; font-weight:bold}
+.data-body .table th{ background:#f7f7f7; font-size:14px; color:#444; text-transform:uppercase; padding-top:9px !important; padding-bottom:9px !important;}
+.data-body .table th.sort{ cursor:pointer}
+.data-body .table .sort .fa{ font-size:10px; color:#666;}
+.data-body .table td{ padding-top:8px; padding-bottom:8px; font-size:15px; color:#000; background: #fff;}
+.data-body .table td .btn{ padding-top:0px; padding-bottom:0px;}
+.data-body .next-action{}
+.data-body .next-action a{ color:#fff; text-transform:uppercase; font-weight:bold; font-size:13px;}
+.data-body .table .checkin{ background:#0ac986;}
+.data-body .table .checkout{ background:#01B3B6;}
+.data-body .checkin:hover{ background:#1ede9b}
+.data-body .checkout:hover{ background:#fe976b}
+.data-body .btn{ text-transform:uppercase}
+.data-body .flaticon-reception:before{ margin-left:0}
+.data-body .form-header{ background:#dde2e3; padding:10px 10px 4px 10px; margin-bottom:15px; border-radius:4px;}
+.data-body .form-header  h3{ font-size:22px; text-transform:uppercase; }
+.data-body .report-table th{ border:1px solid #ddd; font-size:13px;}
 
 
 
@@ -390,7 +387,7 @@ th.text-center.sorting {
         overflow-x: scroll;
     }
 
-    .frontoffice-body .card-header .card-title{
+    .data-body .card-header .card-title{
         font-size: 14px;
     }
     .content-header h1{
@@ -496,7 +493,7 @@ rooom list modal
     background-size: cover;
     background-attachment: fixed;
 }
-.frontoffice-body .container{
+.data-body .container{
     background: #fff;
     padding: 20px;
 }
@@ -1462,7 +1459,7 @@ i.reservations_icon{
 }
 
 @media only screen and (max-width: 600px) {
-    .frontoffice-body .card-tools .btn-tool{
+    .data-body .card-tools .btn-tool{
         margin-bottom: 2px;
         margin-top: 2px;
     }

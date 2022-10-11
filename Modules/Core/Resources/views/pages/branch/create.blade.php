@@ -3,7 +3,7 @@
 
 @section('content')
     <section class="content ">
-        <div class="row frontoffice-body">
+        <div class="row data-body">
             <div class="col-12">
                 <div class="card card-outline card-primary">
                     <div class="card-header">

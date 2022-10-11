@@ -43,7 +43,6 @@ class MediaManagerController extends Controller
     public function index(Request $request, MediaServices $mediaServices)
     {
 
-
         $this->data = [
             'title'         => 'Media Manager',
             'pageUrl'         => $this->bUrl,
@@ -57,17 +56,17 @@ class MediaManagerController extends Controller
         //dd( $mediaServices->authorizeDirectory($path) );
 
         //send to the right dir by user
-        if( !$mediaServices->verifyPath($path) ){
+//        if( !$mediaServices->verifyPath($path) ){
 //            $userPath = Auth::userProfile()->directory;
-            $userPath ='';
+//            dd($userPath);
 //            return redirect($this->bUrl.'?path='.$userPath);
-        }
+//        }
 
         // check for true path;
-//        if( $mediaServices->isPath($path) ) $this->data['path'] = $path;
-//        else abort('404');
 
-        $this->data['path'] = '';
+        if( $mediaServices->isPath($path) ) $this->data['path'] = $path;
+        else abort('404');
+
         $this->data['breadcrumb'] =  $mediaServices->breadcrumb(request()->path, $this->bUrl);
 
         $this->layout('index');
