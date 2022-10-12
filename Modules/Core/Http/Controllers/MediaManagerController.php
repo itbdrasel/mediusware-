@@ -53,6 +53,7 @@ class MediaManagerController extends Controller
 
         $path = $request->get('path');
 
+
         //dd( $mediaServices->authorizeDirectory($path) );
 
         //send to the right dir by user
@@ -63,6 +64,7 @@ class MediaManagerController extends Controller
 //        }
 
         // check for true path;
+
 
         if( $mediaServices->isPath($path) ) $this->data['path'] = $path;
         else abort('404');

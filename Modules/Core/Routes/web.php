@@ -88,9 +88,9 @@ Route::prefix('core')->group(function() {
 //Route::group(['middleware' => ['admin'], 'prefix' => 'author'], function (){
 Route::group([ 'prefix' => 'core/mediamanager','controller'=>'MediaManagerController','as'=>'core.mediamanager'], function (){
 
+    Route::get('/','index')->name('');
     Route::get('container','container')->name('.container');
     Route::get('/links','content_links')->name('.links');
-    Route::get('/','index')->name('');
     Route::post('/create',  'create')->name('.create');
     Route::post('/rename', 'rename')->name('.rename');
     Route::post('/delete',  'delete')->name('.delete ');

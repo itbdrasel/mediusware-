@@ -116,7 +116,7 @@
                                     return stripos($item['basename'], $filter) !== false;
                                 });
                             else:
-                                $dirContents = collect(Storage::listContents('d'))->sortBy('type')->toArray();
+                                $dirContents = collect(Storage::listContents('media_manager'))->sortBy('type')->toArray();
                             endif;
 
                         @endphp
