@@ -110,14 +110,14 @@
                     <div class="row">
 
                         @php
-
                             if( isset($filter) && !empty($filter) ):
-                                $dirContents = collect(Storage::listContents($path))->filter( function($item) use ($filter) {
+                                $dirContents = collect(Storage::listContents($path??''))->filter( function($item) use ($filter) {
                                     return stripos($item['basename'], $filter) !== false;
                                 });
                             else:
-                                $dirContents = collect(Storage::listContents('media_manager'))->sortBy('type')->toArray();
+                                $dirContents = collect(Storage::listContents($path??''))->sortBy('type')->toArray();
                             endif;
+                            dd($dirContents);
 
                         @endphp
 
@@ -195,7 +195,9 @@
 
                     </div><!-- /row -->
 
-                </div><!-- /mediadata -->
+                </div>
+
+                <!-- /mediadata -->
             </div>
 
         </div>

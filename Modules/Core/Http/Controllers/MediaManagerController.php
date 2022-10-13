@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Validator;
 
 
 use Modules\Core\Services\MediaServices;
+use Modules\Core\Facades\Auth;
 use Storage;
-use Auth;
 
 class MediaManagerController extends Controller
 {
@@ -44,9 +44,9 @@ class MediaManagerController extends Controller
     {
 
         $this->data = [
-            'title'         => 'Media Manager',
-            'pageUrl'         => $this->bUrl,
-            'page_icon'     => '<i class="fa fa-book"></i>',
+            'title'             => 'Media Manager',
+            'pageUrl'           => $this->bUrl,
+            'page_icon'         => '<i class="fa fa-book"></i>',
         ];
 
         $this->data['filter'] = $request->get('filter');
@@ -57,11 +57,10 @@ class MediaManagerController extends Controller
         //dd( $mediaServices->authorizeDirectory($path) );
 
         //send to the right dir by user
-//        if( !$mediaServices->verifyPath($path) ){
-//            $userPath = Auth::userProfile()->directory;
-//            dd($userPath);
+        if( !$mediaServices->verifyPath($path) ){
+            $userPath = Auth::getUser()->directory;
 //            return redirect($this->bUrl.'?path='.$userPath);
-//        }
+        }
 
         // check for true path;
 
