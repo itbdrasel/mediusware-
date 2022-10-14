@@ -78,30 +78,24 @@ $(function(){
 		var formData = new FormData($(this)[0]);
 		// Check file selected or not
 		if(files.length > 0 ){
-		   $.ajax({
-			  url: '{{ url($pageUrl) }}',
-			  type: 'post',
-			  data: formData,
-              // dataType: "json",
-			  cache: false,
-			  contentType: false,
-			  processData: false,
-			  headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			  beforeSend: function() {
-					// $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
-           		},
-			  success: function(response){
-			      alert(response);
-			      console.log(response);
-                  if (response.fail == false){
-                      $this.find('.alert-success').html(response.messages).hide().slideDown();
-                      $this.find('.fbody, .preloader').hide();
-                  }else{
-                      $this.find('.alert-danger').html(response.messages).hide().slideDown();
-                      $this.find(".preloader").hide();
-                  }
-			  }
-		   });
+            $.ajax({
+                url     :"{{ url($pageUrl) }}",
+                type    : 'POST',
+                data    : JSON.stringify({formData}),
+                dataType: "json",
+                contentType: "application/json",
+                processData: false,
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                success:function (response) {
+                    if (response.fail == false) {
+                        $this.find('.alert-success').html(response.messages).hide().slideDown();
+                        $this.find('.fbody, .preloader').hide();
+                    } else {
+                        $this.find('.alert-danger').html(response.messages).hide().slideDown();
+                        $this.find(".preloader").hide();
+                    }
+                }
+            });
 
 		}else{
 		   alert("Please select a file.");

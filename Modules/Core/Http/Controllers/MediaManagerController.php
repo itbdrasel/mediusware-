@@ -175,7 +175,7 @@ class MediaManagerController extends Controller
             $validator = Validator::make($request->all(), $rules, [],  $attributes);
 
             if($validator->fails()){
-                echo json_encode(['fail' => TRUE, 'messages' => $validator->errors()->first() ]);
+//                echo json_encode(['fail' => TRUE, 'messages' => $validator->errors()->first() ]);
             }else{
 
                 $fileData = $request->file('file');
@@ -187,11 +187,11 @@ class MediaManagerController extends Controller
                 $path =  $path ? $path.'/' : $path;
                 $dirName = Storage::path($path??'');
 
-//                $fileData->move($dirName, $fileName);
+                $fileData->move($dirName, $fileName);
 //                dd($dirName);
 
                 //processing image file
-//                $mediaservices->generateThumbnail($path.$fileName, '.tmp/', 90, 55, 50);
+                $mediaservices->generateThumbnail($path.$fileName, '.tmp/', 90, 55, 50);
                 //$mediaservices->generateThumbnail($path.$fileName, '', 200, 150);
 
                 echo json_encode(['fail' => FALSE, 'messages' => "File Upload Successful."]);

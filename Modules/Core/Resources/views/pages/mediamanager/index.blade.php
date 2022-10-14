@@ -407,18 +407,18 @@
 <script>
 
 
-$(window).on('load', function(){
-  $( ".overlay" ).fadeOut(100, function() {
-      $( ".overlay" ).remove();
-  });
-});
+    $(window).on('load', function(){
+        $( ".overlay" ).fadeOut(100, function() {
+            $( ".overlay" ).remove();
+        });
+    });
 
-$(document).on('hidden.bs.modal', function (e) {
-    $(this).removeData('bs.modal');
-    window.location.reload();
-})
+    $(document).on('hidden.bs.modal', function (e) {
+        $(this).removeData('bs.modal');
+        window.location.reload();
+    })
 
- 	$(document).ready(function(){
+    $(document).ready(function(){
 
         //
         // New Directory
@@ -437,8 +437,8 @@ $(document).on('hidden.bs.modal', function (e) {
                 processData: false,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 beforeSend: function() {
-					$this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
-           		},
+                    $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+                },
                 success: function(response){
                     try{
                         var jsonObj = $.parseJSON(response);
@@ -462,65 +462,74 @@ $(document).on('hidden.bs.modal', function (e) {
         });
 
 
-    /** *
-     * File Upload
-    */
+        /** *
+         * File Upload
+         */
 
-    $("#add_file").on('submit', function(e) {
-		e.preventDefault();
-		$this = $(this);
+        $("#add_file").on('submit', function(e) {
+            e.preventDefault();
+            $this = $(this);
 
-		var files = $('#upload_file')[0].files;
+            var files = $('#upload_file')[0].files;
 
-		var formData = new FormData($(this)[0]);
+            var formData = new FormData($(this)[0]);
 
-        $.ajax({
-            url: '{{ url($pageUrl."/upload") }}',
-            type: 'post',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            beforeSend: function() {
-					// $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
-           		},
-            success: function(response){
-                alert(response);
-                console.log(response);
-                if (response.fail == false){
-                    $this.find('.alert-success').html(response.messages).hide().slideDown();
-                    $this.find('.fbody, .preloader').hide();
-                }else{
-                    $this.find('.alert-danger').html(response.messages).hide().slideDown();
-                    $this.find(".preloader").hide();
-                }
-            },
+            $.ajax({
+                url: '{{ url($pageUrl."/upload") }}',
+                type: 'post',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                beforeSend: function() {
+                    // $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+                },
+                success: function(response){
+                    alert(response);
+                    console.log(response)
+                    try{
+                        var jsonObj = $.parseJSON(response);
+                        if (jsonObj.fail == false){
+                            $this.find('.alert-success').html(jsonObj.messages).hide().slideDown();
+                            $this.find('.fbody, .preloader').hide();
+                        }else{
+                            $this.find('.alert-danger').html(jsonObj.messages).hide().slideDown();
+                            $this.find(".preloader").hide();
+                        }
+
+                    }catch(e){
+                        alert('Invalid Json!');
+                    }
+                },
+                error: function(xhr, textStatus) {
+                    alert(xhr.statusText);
+                },
+            });
+
+            //return false;
         });
 
-		//return false;
-    });
-
-    // preview logo
-    $("#upload_file").change(function(){
+        // preview logo
+        $("#upload_file").change(function(){
             preview(this, '#image_preview');
-    });
+        });
 
 
-    //
-    // rename file or directory
-    //
-    $('#renamemodal').on('show.bs.modal', function(e) {
+        //
+        // rename file or directory
+        //
+        $('#renamemodal').on('show.bs.modal', function(e) {
 
-        var name = $(e.relatedTarget).data('name');
-        var ext = $(e.relatedTarget).data('ext');
+            var name = $(e.relatedTarget).data('name');
+            var ext = $(e.relatedTarget).data('ext');
 
-        $(e.currentTarget).find('input[name="name"]').val(name);
-        if(ext !== undefined)  $(e.currentTarget).find('input[name="oldname"]').val(name+'.'+ext);
-        else $(e.currentTarget).find('input[name="oldname"]').val(name);
-    });
+            $(e.currentTarget).find('input[name="name"]').val(name);
+            if(ext !== undefined)  $(e.currentTarget).find('input[name="oldname"]').val(name+'.'+ext);
+            else $(e.currentTarget).find('input[name="oldname"]').val(name);
+        });
 
-    $("#rename").on('submit', function(e) {
+        $("#rename").on('submit', function(e) {
             e.preventDefault();
             $this = $(this);
             var formData = new FormData($(this)[0]);
@@ -533,8 +542,8 @@ $(document).on('hidden.bs.modal', function (e) {
                 processData: false,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 beforeSend: function() {
-					$this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
-           		},
+                    $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+                },
                 success: function(response){
                     try{
                         var jsonObj = $.parseJSON(response);
@@ -558,57 +567,57 @@ $(document).on('hidden.bs.modal', function (e) {
         });
 
 
-    //
-    // delete file or directory
-    //
-    $('#deletemodal').on('show.bs.modal', function(e) {
-        var name = $(e.relatedTarget).data('name');
-        $(e.currentTarget).find('input[name="name"]').val(name);
-    });
-
-    $("#delete").on('submit', function(e) {
-        e.preventDefault();
-        $this = $(this);
-        var formData = new FormData($(this)[0]);
-        $.ajax({
-            url: '{{ url($pageUrl."/delete") }}',
-            type: 'post',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            beforeSend: function() {
-					$this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
-           		},
-            success: function(response){
-                try{
-                    var jsonObj = $.parseJSON(response);
-                    if (jsonObj.fail == false){
-                        $this.find('.alert-success').html(jsonObj.messages).hide().slideDown();
-                        $this.find('.fbody, .preloader').hide();
-                    }else{
-                        $this.find('.alert-danger').html(jsonObj.messages).hide().slideDown();
-                        $this.find(".preloader").hide();
-                    }
-
-                }catch(e){
-                    alert('Invalid Json!');
-                }
-            },
-            error: function(xhr, textStatus) {
-                alert(xhr.statusText);
-            },
+        //
+        // delete file or directory
+        //
+        $('#deletemodal').on('show.bs.modal', function(e) {
+            var name = $(e.relatedTarget).data('name');
+            $(e.currentTarget).find('input[name="name"]').val(name);
         });
 
-    });
+        $("#delete").on('submit', function(e) {
+            e.preventDefault();
+            $this = $(this);
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: '{{ url($pageUrl."/delete") }}',
+                type: 'post',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                beforeSend: function() {
+                    $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+                },
+                success: function(response){
+                    try{
+                        var jsonObj = $.parseJSON(response);
+                        if (jsonObj.fail == false){
+                            $this.find('.alert-success').html(jsonObj.messages).hide().slideDown();
+                            $this.find('.fbody, .preloader').hide();
+                        }else{
+                            $this.find('.alert-danger').html(jsonObj.messages).hide().slideDown();
+                            $this.find(".preloader").hide();
+                        }
+
+                    }catch(e){
+                        alert('Invalid Json!');
+                    }
+                },
+                error: function(xhr, textStatus) {
+                    alert(xhr.statusText);
+                },
+            });
+
+        });
 
 
         //media manager to editor
-		$('.insertable img, .insertable a').on("dblclick", function(e) {
+        $('.insertable img, .insertable a').on("dblclick", function(e) {
             e.preventDefault();
-			var path =  $(this).data('path');
-             window.parent.postMessage({
+            var path =  $(this).data('path');
+            window.parent.postMessage({
                 mceAction: 'mceGeturl',
                 url: path
             }, '*');
@@ -616,12 +625,12 @@ $(document).on('hidden.bs.modal', function (e) {
             //window.opener.postMessage('abcd', '*');
 
             //set value in the filed from window.opner popup
-           if (window.opener != null && !window.opener.closed) {
+            if (window.opener != null && !window.opener.closed) {
                 field = window.opener.setValue(path);
                 window.close();
-           }
+            }
 
-		});
+        });
 
 
 
