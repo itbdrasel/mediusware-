@@ -72,7 +72,7 @@
                         <button type="button" class="btn btn-tool" >
                             <a href="{{url($bUrl.'/upload')}}" id="action" data-toggle="modal" data-target="#uploadmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-upload"></i> Upload </a>
                             <a href="{{url($bUrl.'/folder')}}" id="action" data-toggle="modal" data-target="#itemmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-folder"></i> Create Folder </a>
-                            <a href="{{url($bUrl.'/links')}}"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-file"></i> Content Lists </a>
+{{--                            <a href="{{url($bUrl.'/links')}}"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-file"></i> Content Lists </a>--}}
                         </button>
                     </div>
                     <div class="col-md-4 col-sm-12">
@@ -117,19 +117,18 @@
                             else:
                                 $dirContents = collect(Storage::listContents($path??''))->sortBy('type')->toArray();
                             endif;
-                            dd($dirContents);
+                            //dd($dirContents);
 
                         @endphp
 
                         @forelse( $dirContents as $file)
-
+                            @php
+                                $file = getFileInfo($file);
+                                //dd($file);
+                            @endphp
                             @if($file['type'] === 'file')
                                 <div class="col-sm-1">
                                     <div class="card insertable files">
-                                        <?php
-                                        //dd($file);
-                                        ?>
-
                                         @if($file['extension'] === 'jpg' || $file['extension'] === 'png')
 
                                             <img data-path="{{Storage::url($file['path'])}}" src="{{Storage::url('.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
@@ -236,27 +235,31 @@
    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="deletemodal" aria-hidden="true">
         <div class="modal-dialog"  role="document">
             <div class="modal-content">
-                <div class="modal-header"> Are you sure you want to delete?</div>
+                <div class="modal-header">
+                    <h4 class="m-0" style="margin: 0 !important; font-size: 19px; font-weight: bold" ><i class="fa fa-trash"></i> Are you sure you want to delete? </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
                 <div class="modal-body">
-
                     <form method="post" class="form" action="{{url($bUrl.'/delete')}}" id="delete" >
                             @csrf
                             {!! validation_errors($errors) !!}
 
                     <div class="alert alert-danger" role="alert">&nbsp;</div>
                     <div class="alert alert-success" role="alert">&nbsp;</div>
-
-                    <div class="fbody">
-
-                        <div class="form-group row" >
-                        <input type="hidden" name="path" value="{{$path}}">
-                        <input type="hidden" name="name" />
-                            <label class="col-sm-8 control-label" > </label>
-                            <div class='col-sm-4'>
-                                <input type="submit" value="Delete" class="btn btn-primary" id="submit" />			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
+                        <div class="fbody">
+                            <div class="form-group row" >
+                                <input type="hidden" name="path" value="{{$path}}">
+                                <input type="hidden" name="name" />
+                                <label class="col-sm-12 control-label" > </label>
+                                <div class='col-sm-12'>
+                                    @php
+                                        $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
+                                    @endphp
+                                    <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;
+                                    &nbsp;<a class="btn btn-default no" data-dismiss="modal" data-reload="false"><i class="fas fa-long-arrow-left"></i> <i class="fas fa-arrow-left"></i> No, Go Back </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </form>
                 </div>
 
@@ -480,25 +483,18 @@ $(document).on('hidden.bs.modal', function (e) {
             processData: false,
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             beforeSend: function() {
-					$this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+					// $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
            		},
             success: function(response){
-            try{
-                var jsonObj = $.parseJSON(response);
-                if (jsonObj.fail == false){
-                    $this.find('.alert-success').html(jsonObj.messages).hide().slideDown();
+                alert(response);
+                console.log(response);
+                if (response.fail == false){
+                    $this.find('.alert-success').html(response.messages).hide().slideDown();
                     $this.find('.fbody, .preloader').hide();
                 }else{
-                    $this.find('.alert-danger').html(jsonObj.messages).hide().slideDown();
+                    $this.find('.alert-danger').html(response.messages).hide().slideDown();
                     $this.find(".preloader").hide();
                 }
-
-            }catch(e){
-                alert('Invalid Json!');
-            }
-            },
-            error: function(xhr, textStatus) {
-                alert(xhr.statusText);
             },
         });
 

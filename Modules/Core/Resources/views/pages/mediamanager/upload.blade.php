@@ -76,38 +76,31 @@ $(function(){
 		var files = $('#upload_file')[0].files;
 
 		var formData = new FormData($(this)[0]);
-
 		// Check file selected or not
 		if(files.length > 0 ){
 		   $.ajax({
 			  url: '{{ url($pageUrl) }}',
 			  type: 'post',
 			  data: formData,
+              // dataType: "json",
 			  cache: false,
 			  contentType: false,
 			  processData: false,
 			  headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			  beforeSend: function() {
-					$this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+					// $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
            		},
 			  success: function(response){
-				try{
-					var jsonObj = $.parseJSON(response);
-					if (jsonObj.fail == false){
-						$this.find('.alert-success').html(jsonObj.messages).hide().slideDown();
-						$this.find('.fbody, .preloader').hide();
-                    }else{
-                        $this.find('.alert-danger').html(jsonObj.messages).hide().slideDown();
-						$this.find(".preloader").hide();
-                    }
-
-				}catch(e){
-					alert('Invalid Json!');
-				}
-			  },
-			  error: function(xhr, textStatus) {
-                    alert(xhr.statusText);
-            	},
+			      alert(response);
+			      console.log(response);
+                  if (response.fail == false){
+                      $this.find('.alert-success').html(response.messages).hide().slideDown();
+                      $this.find('.fbody, .preloader').hide();
+                  }else{
+                      $this.find('.alert-danger').html(response.messages).hide().slideDown();
+                      $this.find(".preloader").hide();
+                  }
+			  }
 		   });
 
 		}else{
@@ -118,9 +111,9 @@ $(function(){
   });
 
   // preview logo
-  $("#upload_file").change(function(){
-        preview(this, '#image_preview');
-  });
+  // $("#upload_file").change(function(){
+  //       preview(this, '#image_preview');
+  // });
 
 
 });

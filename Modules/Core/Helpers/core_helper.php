@@ -324,3 +324,31 @@ function lkc()
 }
 
 
+function getFileInfo($file){
+    $fileInfo =[
+        "type" => "",
+        "path" => "",
+        "timestamp" => Null,
+        "size" => Null,
+        "dirname" => "",
+        "basename" => "",
+        "filename" => "",
+        "extension" => "",
+    ];
+
+    if (!empty($file) && isset($file['path'])){
+        $fileInfo =[
+            "type" => $file['type'],
+            "path" => $file['path'],
+            "timestamp" => Null,
+            "dirname" => trim(pathinfo(Storage::url($file['path']), PATHINFO_DIRNAME), Storage::url('/')),
+            "basename" => pathinfo(Storage::url($file['path']), PATHINFO_BASENAME),
+            "filename" => pathinfo(Storage::url($file['path']), PATHINFO_FILENAME),
+            'extension' => ''
+        ];
+        if ($file['type'] =='file'){
+            $fileInfo['extension'] = pathinfo(Storage::url($file['path']), PATHINFO_EXTENSION);
+        }
+    }
+    return $fileInfo;
+}

@@ -58,7 +58,7 @@ class MediaManagerController extends Controller
 
         //send to the right dir by user
         if( !$mediaServices->verifyPath($path) ){
-            $userPath = Auth::getUser()->directory;
+//            $userPath = Auth::getUser()->directory;
 //            return redirect($this->bUrl.'?path='.$userPath);
         }
 
@@ -179,25 +179,25 @@ class MediaManagerController extends Controller
             }else{
 
                 $fileData = $request->file('file');
+
                 $fileName = $mediaservices->cleanName($fileData->getClientOriginalName(), $fileData->extension());
 
                 $mimeType = $fileData->getMimeType();
-
                 $path = $request->path;
                 $path =  $path ? $path.'/' : $path;
-                $dirName = Storage::path($path);
+                $dirName = Storage::path($path??'');
 
-
-                $fileData->move($dirName, $fileName);
+//                $fileData->move($dirName, $fileName);
+//                dd($dirName);
 
                 //processing image file
-                $mediaservices->generateThumbnail($path.$fileName, '.tmp/', 90, 55, 50);
+//                $mediaservices->generateThumbnail($path.$fileName, '.tmp/', 90, 55, 50);
                 //$mediaservices->generateThumbnail($path.$fileName, '', 200, 150);
 
                 echo json_encode(['fail' => FALSE, 'messages' => "File Upload Successful."]);
             }
         }else{
-           echo view('core::mediamanager.upload', $this->data);
+           $this->layout('upload');
         }
     }
 

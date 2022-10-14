@@ -33,17 +33,18 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => public_path('uploads/media_manager'),
-            'url' => env('APP_URL').'uploads/media_manager/',
-            'throw' => false,
+            'root' => public_path('/uploads/media_manager'),
+            'url' => env('APP_URL').'/uploads/media_manager/',
+            'throw' => true,
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => public_path('app'),
-            'url' => env('APP_URL').'/app/',
+            'root' => public_path('uploads'),
+            'url' => env('APP_URL').'/uploads/',
             'visibility' => 'public',
-            'throw' => false,
+            'throw' => true,
+            'basename'=> true
         ],
 
         's3' => [
@@ -55,10 +56,11 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
+            'throw' => true,
         ],
 
     ],
+
 
     /*
     |--------------------------------------------------------------------------

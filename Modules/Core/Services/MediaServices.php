@@ -210,6 +210,7 @@ class MediaServices{
         }else $fileName = $pathInfo['filename'].'-'.$width.'x'.$height.'.'.$pathInfo['extension'];
 
         if($this->isImage($sourcFile)) {
+
             $imageData = Image::make(Storage::path($sourcFile))->resize($width, $height);
             $imageData->save(Storage::path($desPath.$fileName), $quality);
         }
