@@ -103,9 +103,12 @@ class MediaServices{
             if(is_file(Storage::path($namePath))) {
 
                 //for image file delete from temp first
-                if($this->isImage($namePath)) Storage::delete('.tmp/'.base64_encode($namePath));
-
-                $delete = Storage::delete($namePath);
+                if($this->isImage($namePath))
+                    $extension  = pathinfo(Storage::url($namePath), PATHINFO_EXTENSION);
+                    $filename   = pathinfo(Storage::url($namePath), PATHINFO_FILENAME);
+                    $temFile    = '.tmp/'.base64_encode($filename).'.'.$extension;
+                    Storage::delete($temFile);
+                    $delete = Storage::delete($namePath);
 
             }else $delete = Storage::deleteDirectory( $namePath);
 

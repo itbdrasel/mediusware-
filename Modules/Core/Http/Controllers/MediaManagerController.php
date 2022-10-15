@@ -258,7 +258,6 @@ class MediaManagerController extends Controller
                 if( $mediaservices->isPath($path) ){
                     $path = $path ? $path.'/' : $path;
                     $mediaservices->delete($path.$name);
-
                     echo json_encode([
                         'fail' => FALSE, 'messages' => "The ".$name." was Deleted."
                     ]);

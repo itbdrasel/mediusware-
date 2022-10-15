@@ -124,14 +124,16 @@
                         @forelse( $dirContents as $file)
                             @php
                                 $file = getFileInfo($file);
-                                //dd($file);
                             @endphp
                             @if($file['type'] === 'file')
+                                @php
+                                    //dd($file);
+                                @endphp
                                 <div class="col-sm-1">
                                     <div class="card insertable files">
                                         @if($file['extension'] === 'jpg' || $file['extension'] === 'png')
 
-                                            <img data-path="{{Storage::url($file['path'])}}" src="{{Storage::url('.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
+                                            <img data-path="{{Storage::url($file['path'])}}" data-file_name="{{$file['filename']}}" src="{{Storage::url('.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
 
                                         @elseif($file['extension'] === 'pdf')
                                             <a data-path="{{Storage::url($file['path'])}}" class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-pdf" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
@@ -253,9 +255,10 @@
                                 <label class="col-sm-12 control-label" > </label>
                                 <div class='col-sm-12'>
                                     @php
-                                        $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
+                                        //$spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                     @endphp
-                                    <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;
+{{--                                    <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;--}}
+                                    <button type="submit" id="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;
                                     &nbsp;<a class="btn btn-default no" data-dismiss="modal" data-reload="false"><i class="fas fa-long-arrow-left"></i> <i class="fas fa-arrow-left"></i> No, Go Back </a>
                                 </div>
                             </div>
@@ -486,8 +489,6 @@
                     // $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
                 },
                 success: function(response){
-                    alert(response);
-                    console.log(response)
                     try{
                         var jsonObj = $.parseJSON(response);
                         if (jsonObj.fail == false){
