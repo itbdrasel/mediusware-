@@ -19,9 +19,9 @@
 
         .drag_drop{width:100%; height: 100px; border: 1px dashed #003bff; vertical-align: middle}
         .drag_drop p{text-align: center;}
-        .mediadata .media-action{ display: none;}
+        .mediadata .media-action{  position: absolute; top:10px; right: 10px; display: none}
         .mediadata .media-action .btn{ padding: 1px 6px}
-        .mediadata .card:hover .media-action{ display:inline; position: absolute; top:10px; right: 10px;}
+        .mediadata .card:hover .media-action{ display:inline;}
         .mediadata .image{ height: 60px;}
         .mediadata .file-details{ font-size: 14px; text-overflow: clip; }
         .mediadata .files .file-details{padding: 5px 5px!important;}
@@ -43,11 +43,15 @@
             border-radius: 0.25rem;
         }
         @media only screen and (max-width: 600px) {
+            .mediadata .media-action{ display:inline; !important;}
             .custom_btn{
                 margin: 5px;
             }
             .search_input{
                 margin: 10px 0;
+            }
+            .mobileMedia{
+                width: auto !important;
             }
         }
     </style>
@@ -111,7 +115,9 @@
 
                         @php
                             if( isset($filter) && !empty($filter) ):
+
                                 $dirContents = collect(Storage::listContents($path??''))->filter( function($item) use ($filter) {
+                                    $item = getFileInfo($item);
                                     return stripos($item['basename'], $filter) !== false;
                                 });
                             else:
@@ -129,7 +135,7 @@
                                 @php
                                     //dd($file);
                                 @endphp
-                                <div class="col-sm-1">
+                                <div class="col-sm-1 mobileMedia">
                                     <div class="card insertable files">
                                         @if($file['extension'] === 'jpg' || $file['extension'] === 'png')
 
@@ -150,7 +156,7 @@
                                             <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item" href="#">View</a>
+                                                <a class="dropdown-item imageView" data-toggle="modal" data-target="#imagemodal"  data-image="{{Storage::url($file['path'])}}" href="#">View</a>
 
                                                 <a class="dropdown-item" data-name="{{$file['filename']}}" data-ext="{{$file['extension']}}" data-toggle="modal" data-target="#renamemodal"  >Rename</a>
 
@@ -257,8 +263,8 @@
                                     @php
                                         //$spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                     @endphp
-{{--                                    <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;--}}
-                                    <button type="submit" id="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;
+{{--                                    <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="deleteSubmit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;--}}
+                                    <button type="submit" id="deleteSubmit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;
                                     &nbsp;<a class="btn btn-default no" data-dismiss="modal" data-reload="false"><i class="fas fa-long-arrow-left"></i> <i class="fas fa-arrow-left"></i> No, Go Back </a>
                                 </div>
                             </div>
@@ -299,7 +305,7 @@
                         <div class="form-group row" >
                             <label class="col-sm-4 control-label" > </label>
                             <div class='col-sm-5'>
-                                <input type="submit" value="Rename" class="btn btn-primary" id="submit" />			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
+                                <input type="submit" value="Rename" class="btn btn-primary" id="renameSubmit" />			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -354,51 +360,62 @@
 
 
   <!-- Create Item/Folder Modal -->
-  <div class="modal fade" id="uploadmodal" tabindex="-1" role="dialog" aria-labelledby="uploadmodal" aria-hidden="true">
-        <div class="modal-dialog"  role="document">
-            <div class="modal-content">
-                <div class="modal-header"> File Upload</div>
-                <div class="modal-body">
-
-                <form method="post" action="{{url($bUrl.'/upload')}}" id="add_file" enctype="multipart/form-data" >
+<div class="modal fade" id="uploadmodal" tabindex="-1" role="dialog" aria-labelledby="uploadmodal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header"> File Upload</div>
+            <div class="modal-body">
+                <form method="post" action="{{url($bUrl.'/upload')}}" id="add_file" enctype="multipart/form-data">
                     @csrf
-
-					{!! validation_errors($errors) !!}
-
-					<div class="alert alert-danger" role="alert">&nbsp;</div>
-					<div class="alert alert-success" role="alert">&nbsp;</div>
-
-					<div class="fbody">
-					<small>Allowed file type jpeg, bmp, png. Maximum file size 1MB. Maximum resolution 1000x1000.</small>
-                      <div class="form-group text-center">
-
-					  	<div class="col-sm-12 col-form-label drag_drop mb-4">
-								<p>Drop your files here to upload</p>
-						  </div>
-
-					  	<div class="col-sm-12 m-auto">
-                          <input type="hidden" name="path" value="{{$path}}">
+                    {!! validation_errors($errors) !!}
+                    <div class="alert alert-danger" role="alert">&nbsp;</div>
+                    <div class="alert alert-success" role="alert">&nbsp;</div>
+                    <div class="fbody">
+                        <small>Allowed file type jpeg, bmp, png. Maximum file size 1MB. Maximum resolution
+                            1000x1000.</small>
+                        <div class="form-group text-center">
+                            <div class="col-sm-12 col-form-label drag_drop mb-4">
+                                <p>Drop your files here to upload</p>
+                            </div>
+                            <div class="col-sm-12 m-auto">
+                                <input type="hidden" name="path" value="{{$path}}">
                                 <div class="custom-file">
-                                   <input type="hidden" name="MAX_FILE_SIZE" />
-								    <input type="file" id="upload_file" name="file" class="custom-file-input" >
-                                    <label class="custom-file-label" for="upload_file">Choose file<code> *</code></label>
+                                    <input type="hidden" name="MAX_FILE_SIZE"/>
+                                    <input type="file" id="upload_file" name="file" class="custom-file-input">
+                                    <label class="custom-file-label" for="upload_file">Choose file<code>
+                                            *</code></label>
                                 </div>
-
-                           </div>
-                       </div>
-				<div class="form-group row" >
-					<label class="col-sm-5 control-label" > </label>
-					<div class='col-sm-5'>
-						<input type="submit" value="Upload" class="btn btn-primary" id="submit" />						<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			    </from>
-                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-5 control-label"> </label>
+                            <div class='col-sm-5'>
+                                <input type="submit" value="Upload" class="btn btn-primary" id="uploadSubmit"/>
+                                <button type="button" data-reload="true" class="btn btn-secondary dismiss"
+                                        data-dismiss="modal">Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 
+
+
+  <div class="modal modal-xl fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="imagemodal" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-body">
+                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                      <img src="" class="imagePreview" style="width: 100%;" >
+                  </div>
+              </div>
+          </div>
+      </div>
 
 @endsection
 
@@ -408,6 +425,7 @@
 <script src="{{url('backend/plugins/tinymce/tinymce.min.js')}}"></script>
 
 <script>
+
 
 
     $(window).on('load', function(){
@@ -486,7 +504,7 @@
                 processData: false,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 beforeSend: function() {
-                    // $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+                    // $this.find('#uploadSubmit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
                 },
                 success: function(response){
                     try{
@@ -543,7 +561,7 @@
                 processData: false,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 beforeSend: function() {
-                    $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+                    $this.find('#renameSubmit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
                 },
                 success: function(response){
                     try{
@@ -589,7 +607,7 @@
                 processData: false,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 beforeSend: function() {
-                    $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+                    $this.find('#deleteSubmit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
                 },
                 success: function(response){
                     try{
@@ -637,6 +655,13 @@
 
     }); /* Jquery end */
 
+
+    $(function() {
+        $('.imageView').on('click', function() {
+            $('.imagePreview').attr('src', $(this).data('image'));
+            $('#imagemodal').modal('show');
+        });
+    });
 
 </script>
 
