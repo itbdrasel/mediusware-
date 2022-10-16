@@ -139,7 +139,7 @@
                                     <div class="card insertable files">
                                         @if($file['extension'] === 'jpg' || $file['extension'] === 'png')
 
-                                            <img data-path="{{Storage::url($file['path'])}}" data-file_name="{{$file['filename']}}" src="{{Storage::url('.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
+                                            <img data-path="{{Storage::url($file['path'])}}" data-file_name="{{$file['filename']}}" src="{{Storage::url($path.'/.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
 
                                         @elseif($file['extension'] === 'pdf')
                                             <a data-path="{{Storage::url($file['path'])}}" class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-pdf" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
@@ -191,8 +191,6 @@
                                     </div>
                                 </div>
                             @endif
-
-
                         @empty
                             <div class="col"><p> No File Available in this Directory </p></div>
                         @endforelse

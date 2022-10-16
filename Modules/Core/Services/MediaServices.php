@@ -123,29 +123,29 @@ class MediaServices{
     /***
      * Rename file or directory
      **/
-    public function rename($newName, $oldName){
+    public function rename($newName, $oldName, $path){
 
-        if( Storage::exists($oldName) ){
+        if( Storage::exists($path.$oldName) ){
 
-            if(is_file(Storage::path($oldName))){
-                $extension = pathinfo($oldName, PATHINFO_EXTENSION);
-                $reName = Storage::move($oldName, $newName.'.'.$extension);
+            if(is_file(Storage::path($path.$oldName))){
+                $extension = pathinfo($path.$oldName, PATHINFO_EXTENSION);
+                $reName = Storage::move($path.$oldName, $path.$newName.'.'.$extension);
 
                 //manage thumbnail
-                if($this->isImage($newName.'.'.$extension)){
-                    $this->removeThumbnail($oldName, '.tmp/');
-                    $this->generateThumbnail($newName.'.'.$extension, '.tmp/', 80, 50);
+                if($this->isImage($path.$newName.'.'.$extension)){
+                    $this->removeThumbnail($oldName, $path, $path.'.tmp/');
+                    $this->generateThumbnail($newName.'.'.$extension, $path,$path.'.tmp/', 80, 50);
                 }
 
             }else{
-                $reName = Storage::move($oldName, $newName);
+                $reName = Storage::move($path.$oldName, $path.$newName);
             }
 
             if( !$reName ){
-                throw new Exception('Directory not created for '.$newName.' name.');
+                throw new Exception('Directory not created for '.$path.$newName.' name.');
             }
         }else{
-            throw new Exception('The directory '.$oldName.' is not exist.');
+            throw new Exception('The directory '.$path.$oldName.' is not exist.');
         }
         return $reName;
     }
@@ -199,17 +199,14 @@ class MediaServices{
      * @param $desPath without file name
      */
 
-    public function generateThumbnail($sourcFile, $desPath, $width, $height, $quality = ''){
+    public function generateThumbnail($sourcFile, $path, $desPath, $width, $height, $quality = ''){
 
         $pathInfo = pathinfo($sourcFile);
         $quality = $quality ? $quality : 100;
-
-        if($desPath == '.tmp/'){
+        if($desPath == $path.'.tmp/'){
             //tmp not exist, create one.
             if(!Storage::exists($desPath)) Storage::makeDirectory($desPath);
-
             $fileName = base64_encode($pathInfo['filename']).'.'.$pathInfo['extension'];
-
         }else $fileName = $pathInfo['filename'].'-'.$width.'x'.$height.'.'.$pathInfo['extension'];
 
         if($this->isImage($sourcFile)) {
@@ -226,11 +223,11 @@ class MediaServices{
      * @param $dir without file name
      */
 
-    public function removeThumbnail($filePath, $dir){
+    public function removeThumbnail($filePath,$path, $dir){
 
         //$pathInfo = pathinfo($filePath);
 
-        if($dir == '.tmp/') $filePath = '.tmp/'.base64_encode($filePath);
+        if($dir == $path.'.tmp/') $filePath = $path.'.tmp/'.base64_encode($filePath);
         else $filePath = $dir.$filePath;
 
         //if($this->isImage($filePath)) {

@@ -14,7 +14,7 @@
                 aria-hidden="true">&times;</span></button>
     </div>
     <div class="modal-body">
-        <from method="post" action="{{url($pageUrl)}}" id="add_file" enctype="multipart/form-data">
+        <form method="post" action="{{url($pageUrl)}}" id="add_file" enctype="multipart/form-data">
             @csrf
             {!! validation_errors($errors) !!}
             <div class="alert alert-danger" role="alert">&nbsp;</div>
@@ -37,68 +37,76 @@
                     <label class="col-sm-5 control-label"> </label>
                     <div class='col-sm-5'>
                         <input type="submit" value="Upload" class="btn btn-primary" id="submit"/>
-                        &nbsp;
                         <button type="button" data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">
                             Close
                         </button>
                     </div>
                 </div>
             </div>
-        </from>
+        </form>
     </div>
 </div>
 
 @include('core::layouts.include.js')
 @push('js')
-<script>
-$(function(){
-    $("#add_file").on('submit', function(e) {
-        e.preventDefault();
-        $this = $(this);
+    <script>
+       /* $(function(){
+            $("#add_file").on('submit', function(e) {
+                e.preventDefault();
+                $this = $(this);
 
-        var files = $('#upload_file')[0].files;
+                var files = $('#upload_file')[0].files;
 
-        var formData = new FormData($(this)[0]);
+                var formData = new FormData($(this)[0]);
 
-        $.ajax({
-            url: '{{ url($pageUrl."/upload") }}',
-            type: 'post',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            beforeSend: function() {
-                // $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
-            },
-            success: function(response){
-                try{
-                    var jsonObj = $.parseJSON(response);
-                    if (jsonObj.fail == false){
-                        $this.find('.alert-success').html(jsonObj.messages).hide().slideDown();
-                        $this.find('.fbody, .preloader').hide();
-                    }else{
-                        $this.find('.alert-danger').html(jsonObj.messages).hide().slideDown();
-                        $this.find(".preloader").hide();
-                    }
+                // Check file selected or not
+                if(files.length > 0 ){
+                    $.ajax({
+                        url: '{{ url($pageUrl) }}',
+                        type: 'post',
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        beforeSend: function() {
+                            $this.find('#submit').before(' <span class="preloader"><i class="fas fa-spinner fa-spin" ></i></span> ');
+                        },
+                        success: function(response){
+                            try{
+                                var jsonObj = $.parseJSON(response);
+                                if (jsonObj.fail == false){
+                                    $this.find('.alert-success').html(jsonObj.messages).hide().slideDown();
+                                    $this.find('.fbody, .preloader').hide();
+                                }else{
+                                    $this.find('.alert-danger').html(jsonObj.messages).hide().slideDown();
+                                    $this.find(".preloader").hide();
+                                }
 
-                }catch(e){
-                    alert('Invalid Json!');
+                            }catch(e){
+                                alert('Invalid Json!');
+                            }
+                        },
+                        error: function(xhr, textStatus) {
+                            alert(xhr.statusText);
+                        },
+                    });
+
+                }else{
+                    alert("Please select a file.");
                 }
-            },
-            error: function(xhr, textStatus) {
-                alert(xhr.statusText);
-            },
-        });
 
-        //return false;
-    });
- // preview logo
-  $("#upload_file").change(function(){
-        preview(this, '#image_preview');
-  });
-});
-</script>
+                //return false;
+            });
+
+            // preview logo
+            $("#upload_file").change(function(){
+                preview(this, '#image_preview');
+            });
+
+
+        });*/
+
+    </script>
+
 @endpush
-
-
