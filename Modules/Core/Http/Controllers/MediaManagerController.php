@@ -11,6 +11,9 @@ use Modules\Core\Services\MediaServices;
 use Modules\Core\Facades\Auth;
 use Storage;
 
+use Illuminate\Support\Facades\File;
+use function PHPUnit\Framework\fileExists;
+
 class MediaManagerController extends Controller
 {
     //private $model;
@@ -177,21 +180,20 @@ class MediaManagerController extends Controller
             if($validator->fails()){
                 echo json_encode(['fail' => TRUE, 'messages' => $validator->errors()->first() ]);
             }else{
-
                 $fileData = $request->file('file');
-
                 $fileName = $mediaservices->cleanName($fileData->getClientOriginalName(), $fileData->extension());
-
                 $mimeType = $fileData->getMimeType();
                 $path = $request->path;
                 $path =  $path ? $path.'/' : $path;
                 $dirName = Storage::path($path??'');
-                $fileData->move($dirName, $fileName);
-                //processing image file
-                $mediaservices->generateThumbnail($path.$fileName, $path, $path.'.tmp/', 90, 55, 50);
-                //$mediaservices->generateThumbnail($path.$fileName, '', 200, 150);
-
-                echo json_encode(['fail' => FALSE, 'messages' => "File Upload Successful."]);
+                if (!File::exists($dirName.$fileName)){
+                    $fileData->move($dirName, $fileName);
+                    //processing image file
+                    $mediaservices->generateThumbnail($path.$fileName, $path, $path.'.tmp/', 90, 55, 50);
+                    echo json_encode(['fail' => FALSE, 'messages' => "File Upload Successful."]);
+                }else{
+                    echo json_encode(['fail' => true, 'messages' => "File Already Upload."]);
+                }
             }
         }else{
            $this->layout('upload');
@@ -224,8 +226,10 @@ class MediaManagerController extends Controller
                 if( $mediaservices->isPath($path) ){
                     $mediaservices->rename($newName, $oldName, $path);
                     echo json_encode([
-                        'fail' => FALSE, 'messages' => "Folder Rename Successful"
+                        'fail' => FALSE, 'messages' => "Rename Successful"
                     ]);
+                }else{
+                    echo json_encode(['fail'=> true, 'message'=> 'The directory is not exist']);
                 }
 
             }catch(\Exception $exception){
@@ -253,7 +257,7 @@ class MediaManagerController extends Controller
             try{
                 if( $mediaservices->isPath($path) ){
                     $path = $path ? $path.'/' : $path;
-                    $mediaservices->delete($path.$name);
+                    $mediaservices->delete($path,$name);
                     echo json_encode([
                         'fail' => FALSE, 'messages' => "The ".$name." was Deleted."
                     ]);

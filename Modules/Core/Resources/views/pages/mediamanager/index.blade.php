@@ -4,7 +4,6 @@
             position: absolute; background-color: white; top: 0; bottom: 0; left: 0; right: 0; margin: auto; z-index: 10;
         }
         .overlay div{ position: relative; z-index: 10; top:30%; left: 50%;}
-
         input.form-control.float-left.search_input{
             width: 250px;
         }

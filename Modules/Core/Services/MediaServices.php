@@ -96,8 +96,9 @@ class MediaServices{
     /***
      * Delete file or directory
      **/
-    public function delete($namePath){
+    public function delete($path, $name){
         //dd($namePath);
+        $namePath = $path.$name;
         if( Storage::exists($namePath) ){
 
             if(is_file(Storage::path($namePath))) {
@@ -106,7 +107,7 @@ class MediaServices{
                 if($this->isImage($namePath))
                     $extension  = pathinfo(Storage::url($namePath), PATHINFO_EXTENSION);
                     $filename   = pathinfo(Storage::url($namePath), PATHINFO_FILENAME);
-                    $temFile    = '.tmp/'.base64_encode($filename).'.'.$extension;
+                    $temFile    = $path.'.tmp/'.base64_encode($filename).'.'.$extension;
                     Storage::delete($temFile);
                     $delete = Storage::delete($namePath);
 
@@ -120,6 +121,8 @@ class MediaServices{
     }
 
 
+
+
     /***
      * Rename file or directory
      **/
@@ -130,11 +133,12 @@ class MediaServices{
             if(is_file(Storage::path($path.$oldName))){
                 $extension = pathinfo($path.$oldName, PATHINFO_EXTENSION);
                 $reName = Storage::move($path.$oldName, $path.$newName.'.'.$extension);
-
                 //manage thumbnail
                 if($this->isImage($path.$newName.'.'.$extension)){
-                    $this->removeThumbnail($oldName, $path, $path.'.tmp/');
-                    $this->generateThumbnail($newName.'.'.$extension, $path,$path.'.tmp/', 80, 50);
+                    $temFile = '.tmp/'.base64_encode($oldName).'.'.$extension;
+//                    dd($temFile);
+                    Storage::delete($temFile);
+                    $this->generateThumbnail($path.$newName.'.'.$extension, $path,$path.'.tmp/', 80, 50);
                 }
 
             }else{
@@ -161,16 +165,16 @@ class MediaServices{
 
         if($path) $folders = array_filter(explode('/', $path), 'strlen');
 
-        $breadcrumb = "<li><a href='".url($baseUrl)."'><span class='fa fa-home'></span> </a> </a></li>";
+        $breadcrumb = "<li><a style='text-decoration: none!important;' href='".url($baseUrl)."'><span class='fa fa-home'></span>  </a> </a></li>";
         $counter = 1;
         foreach($folders as $dir){
 
            if($counter == count($folders) ){
             $newPath .= $dir;
-            $breadcrumb .= "<li> &rarr; ".$dir."</li>";
+            $breadcrumb .= "<li> <li> <i class=\"fa fa-angle-double-right\"></i> ".$dir."</li>";
            }else{
             $newPath .= $dir.'/';
-            $breadcrumb .= "<li> &rarr; <a href='".url($baseUrl)."?path=".urlencode($newPath)."'>".$dir."</a> </li>";
+            $breadcrumb .= "<li> <i class=\"fa fa-angle-double-right\"></i> <a href='".url($baseUrl)."?path=".urlencode($newPath)."'>  ".$dir."</a> </li>";
            }
            $counter++;
         }
