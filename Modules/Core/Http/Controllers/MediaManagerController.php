@@ -61,12 +61,11 @@ class MediaManagerController extends Controller
 
         //send to the right dir by user
         if( !$mediaServices->verifyPath($path) ){
-//            $userPath = Auth::getUser()->directory;
-//            return redirect($this->bUrl.'?path='.$userPath);
+            $userPath = Auth::getUser()->directory;
+            return redirect($this->bUrl.'?path='.$userPath);
         }
 
         // check for true path;
-
 
         if( $mediaServices->isPath($path) ) $this->data['path'] = $path;
         else abort('404');
@@ -224,7 +223,12 @@ class MediaManagerController extends Controller
 
             try{
                 if( $mediaservices->isPath($path) ){
-                    $mediaservices->rename($newName, $oldName, $path);
+                    $dirName = Storage::path($path??'');
+                    $extension = pathinfo($path.$oldName, PATHINFO_EXTENSION);
+                    $ineImageFullName = $dirName.$newName.'.'.$extension;
+                    if (File::exists($ineImageFullName)){
+                        return  json_encode(['fail' => true, 'messages' => "A Name with the same name already exists."]);
+                    }
                     echo json_encode([
                         'fail' => FALSE, 'messages' => "Rename Successful"
                     ]);

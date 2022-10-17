@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Storage;
-use Auth;
+use Modules\Core\Facades\Auth;
 
 
 class MediaServices{
@@ -38,20 +38,15 @@ class MediaServices{
     {
         $userBasePath[0] =0;
         if($path) $userBasePath = explode('/', urldecode($path));
-
-
-//        $profileDir = Auth::userProfile()->directory;
-        $profileDir = '';
-//        $role = Auth::getUser()->roles[0]->slug;
-        $role = '';
-
-        if($role === 'admin'){
-            //admin access anywhere.
+        $user = Auth::getUser();
+        $profileDir = $user->directory;
+        $role = $user->roles->first();
+        if ($role->active_directory == 1 && ($profileDir != $userBasePath[0])){
+            return false;
+        }else{
             return true;
-        }elseif($profileDir === $userBasePath[0]){
-            return true;
+        }
 
-        }else return false;
 
     }
 
@@ -132,11 +127,11 @@ class MediaServices{
 
             if(is_file(Storage::path($path.$oldName))){
                 $extension = pathinfo($path.$oldName, PATHINFO_EXTENSION);
+                $filename   = pathinfo(Storage::url($oldName), PATHINFO_FILENAME);
                 $reName = Storage::move($path.$oldName, $path.$newName.'.'.$extension);
                 //manage thumbnail
                 if($this->isImage($path.$newName.'.'.$extension)){
-                    $temFile = '.tmp/'.base64_encode($oldName).'.'.$extension;
-//                    dd($temFile);
+                    $temFile = $path.'.tmp/'.base64_encode($filename).'.'.$extension;
                     Storage::delete($temFile);
                     $this->generateThumbnail($path.$newName.'.'.$extension, $path,$path.'.tmp/', 80, 50);
                 }
