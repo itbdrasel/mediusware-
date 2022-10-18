@@ -19,6 +19,7 @@
     toastr.options = {
         "closeButton": true,
         "progressBar": true,
+        "escapeHtml" : true,
     }
     @if (Session::has('success'))
     toastr.success('{{ Session::get('success') }}');

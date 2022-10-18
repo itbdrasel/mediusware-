@@ -63,7 +63,8 @@ class AuthRepository implements AuthInterface
 //            $role = $this->findRoleByID($role); // subscriber role always 2;
             if($role->active_directory ==1){
                 $userDir = $user->id.'-'.time();
-//                Storage::makeDirectory($userDir);
+                Storage::makeDirectory($userDir);
+                $this->update($user, ['directory'=>$userDir]);
             }else $userDir = NULL;
 
             // Profile Update

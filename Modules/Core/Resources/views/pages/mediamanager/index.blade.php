@@ -84,7 +84,7 @@
                             <div class="col-sm-5 form-group mb-0">
                                 <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Search..." class="form-control search_input w-100"/>
                             </div>
-                            <div class="col-sm-4 form-group mb-0">
+                            <div class="col-sm-7 form-group mb-0">
                                 <input  type="submit" class="btn btn-primary" value="Search"/>
                                 <a class="btn btn-default" href="{{ url($bUrl).'?path='.Request::query('path') }}"> Reset </a>
                             </div>
