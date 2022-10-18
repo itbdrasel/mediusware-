@@ -122,8 +122,8 @@ $(document).ready(function(){
 		paste_data_images: true,
 		automatic_uploads: true,
 		valid_children : "+a[div], +body[style]",
-		extended_valid_elements : "i[id|class|style],em,span[*]",		
-		
+		extended_valid_elements : "i[id|class|style],em,span[*]",
+
 		file_picker_callback: filePicker,
 
 	});
@@ -137,15 +137,15 @@ $(document).ready(function(){
 
 	switch(meta.filetype){
 		case 'image':
-			fmUrl = APP_URL + '/author/mediamanager/';
+			fmUrl = APP_URL + '/core/mediamanager/';
 			title = 'Media Manager'
 			break;
 		case 'file':
-			fmUrl = APP_URL + '/author/mediamanager';
+			fmUrl = APP_URL + '/core/mediamanager';
 			title = "Link Picker"
-			break;			
+			break;
 		default:
-			fmUrl = APP_URL + '/author/mediamanager/';
+			fmUrl = APP_URL + '/core/mediamanager/';
 	}
 
 	tinyMCE.activeEditor.windowManager.openUrl({
@@ -159,8 +159,8 @@ $(document).ready(function(){
 			if (data.mceAction === 'mceGeturl') {
 			  callback(data.url);
 			  api.close();
-		  }				  
-		}			
+		  }
+		}
 	});
 
 }
@@ -169,14 +169,14 @@ $(document).ready(function(){
 
 if($('#featured').length ) {
 
-	$('#featured').on( 'click', function(){ 
+	$('#featured').on( 'click', function(){
 		var newWindow;
 		var theTop=(screen.height/2)-(500/2);
 		var theLeft=(screen.width/2)-(1100/2);
 
-		newWindow = window.open("http://127.0.0.1:8000/author/mediamanager", '_blank', 'location=0,height=400,width=1100,scrollbars=no,status=no,top='+theTop+',left='+theLeft+'');
+		newWindow = window.open(APP_URL + "/core/mediamanager", '_blank', 'location=0,height=400,width=1100,scrollbars=no,status=no,top='+theTop+',left='+theLeft+'');
 		newWindow.focus();
-	}); 
+	});
 
 	//feature image link to the featuredimage field;
 	function setValue(val) {
@@ -186,7 +186,7 @@ if($('#featured').length ) {
 		if(fieldValue.length) inputField.value = fieldValue+'|'+val;
 		else inputField.value = val;
 
-		processFile(inputField.value);		
+		processFile(inputField.value);
 	}
 
 /***
@@ -196,36 +196,36 @@ if($('#featured').length ) {
 	function processFile(imagePath){
 		var imgPathArr = new Array();
 		imgPathArr = imagePath.split('|');
-		if(imgPathArr.length <= 4){			
+		if(imgPathArr.length <= 4){
 			var preview = '';
 			for(var i = 0; i < imgPathArr.length; i++ ){
 				preview += '<span class="m"><span class="x">x</span><img src="'+imgPathArr[i]+ '" width=55 height=45 /></span>';
 			}
 		}else alert("Maximam 4 images can be used!");
-		
-		$('.preview').html(preview);	
-	}	
+
+		$('.preview').html(preview);
+	}
 
 
 } //end featured
 
 $(document).on("click",'.preview .x',function(){
 	var s; var im; var imgs;
-	s = $(this).next().attr('src');				
+	s = $(this).next().attr('src');
 	im = $('#featuredimage').val();
-	imgs = im.split('|');										
-	if(imgs.length > 1){				
+	imgs = im.split('|');
+	if(imgs.length > 1){
 		if(imgs[0] == s){
 			im = im.replace(s+'|','');
 		}else{
 			im = im.replace('|'+s,'');
-		}					
+		}
 	}else{ im = im.replace(s,'');}
-			
+
 	$('#featuredimage').val(im);
 	$(this).siblings().remove();
-	$(this).unwrap().remove();												  
-});		
+	$(this).unwrap().remove();
+});
 
 
 if( $('#metades').length){
@@ -392,7 +392,7 @@ if ($('#title').length ) {
 
 function getAlias(title) {
 	$.ajax({
-		url: APP_URL +"/author/get-alias",
+		url: APP_URL +"/core/get-alias",
 		type: "get",
 		data: {title: title},
 		success: function (data) {

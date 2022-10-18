@@ -10,7 +10,7 @@ class User extends SentinelUser
 {
 
     protected $fillable = [
-        'full_name', 'user_name', 'phone', 'email', 'last_login', 'branch_id', 'permissions', 'm_permission', 'password', 'email_verified_at', 'remember_token'
+        'full_name', 'user_name', 'phone', 'email', 'last_login', 'branch_id', 'permissions', 'm_permission', 'password','directory','email_verified_at', 'remember_token'
     ];
 
     public static $sortable = ['id' => 'id', 'name' => 'full_name', 'role'=>'roles.name','login'=>'last_login'];

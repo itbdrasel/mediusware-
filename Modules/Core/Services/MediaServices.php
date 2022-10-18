@@ -41,13 +41,11 @@ class MediaServices{
         $user = Auth::getUser();
         $profileDir = $user->directory;
         $role = $user->roles->first();
-        if ($role->active_directory == 1 && ($profileDir != $userBasePath[0])){
+        if ($role->active_directory == 1 && ($profileDir != $userBasePath[0]) || ($role->active_directory == 1 && empty($profileDir))){
             return false;
         }else{
             return true;
         }
-
-
     }
 
 

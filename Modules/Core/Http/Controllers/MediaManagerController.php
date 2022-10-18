@@ -57,12 +57,14 @@ class MediaManagerController extends Controller
         $path = $request->get('path');
 
 
-        //dd( $mediaServices->authorizeDirectory($path) );
-
         //send to the right dir by user
         if( !$mediaServices->verifyPath($path) ){
             $userPath = Auth::getUser()->directory;
-            return redirect($this->bUrl.'?path='.$userPath);
+            if (!empty($userPath)) {
+                return redirect($this->bUrl.'?path='.$userPath);
+            }else{
+                return abort(404);
+            }
         }
 
         // check for true path;
