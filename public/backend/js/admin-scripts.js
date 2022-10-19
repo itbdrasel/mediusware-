@@ -167,13 +167,12 @@ $(document).ready(function(){
 
 
 
-if($('#featured').length ) {
+if($('.featured_image').length ) {
 
-	$('#featured').on( 'click', function(){
+	$('.featured_image').on( 'click', function(){
 		var newWindow;
 		var theTop=(screen.height/2)-(500/2);
 		var theLeft=(screen.width/2)-(1100/2);
-
 		newWindow = window.open(APP_URL + "/core/mediamanager", '_blank', 'location=0,height=400,width=1100,scrollbars=no,status=no,top='+theTop+',left='+theLeft+'');
 		newWindow.focus();
 	});
@@ -258,7 +257,7 @@ $.ajaxPrefilter(function( options, original_Options, jqXHR ) {
 });
 
 
-if ( $('.datepicker, .dateOfBirth, .toDayDatePicker, .checkoutDatePicker').length) {
+if ( $('.datepicker, .dateOfBirth').length) {
 
 }
 
@@ -287,47 +286,11 @@ if ( $('.dateOfBirth').length){
 	});
 }
 
-if ( $('.toDayDatePicker').length){
-	$(function () {
-		var date = new Date();
-		var hours = date.getHours();
-		var day = '0';
-		if (hours >=0 && hours <11){
-			day = '-1'
-		}
-		$(".toDayDatePicker").datepicker({
-			showAnim: "slide",
-			dateFormat: 'yy-mm-dd',
-			minDate: day
-		});
-	});
-}
-
-if ( $('.tomorrowDatePicker').length){
-	$(function () {
-		$(".tomorrowDatePicker").datepicker({
-			showAnim: "slide",
-			dateFormat: 'yy-mm-dd',
-			minDate: 1
-		});
-	});
-}
 
 
-if ( $('.checkoutDatePicker').length){
-	$(function () {	var date = new Date();
-		var hours = date.getHours();
-		var day = '1';
-		if (hours >=0 && hours <11){
-			day = '0'
-		}
-		$(".checkoutDatePicker").datepicker({
-			showAnim: "slide",
-			dateFormat: 'yy-mm-dd',
-			minDate: day
-		});
-	});
-}
+
+
+
 
 
 if ($('#display-btn').length) {
