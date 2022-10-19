@@ -76,6 +76,7 @@
                             <a href="{{url($bUrl.'/upload')}}" id="action" data-toggle="modal" data-target="#uploadmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-upload"></i> Upload </a>
                             <a href="{{url($bUrl.'/folder')}}" id="action" data-toggle="modal" data-target="#itemmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-folder"></i> Create Folder </a>
 {{--                            <a href="{{url($bUrl.'/links')}}"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-file"></i> Content Lists </a>--}}
+                            <input type="hidden" id="featured_image_id" value="">
                         </button>
                     </div>
                     <div class="col-md-4 col-sm-12">
@@ -633,6 +634,8 @@
         $('.insertable img, .insertable a').on("dblclick", function(e) {
             e.preventDefault();
             var path =  $(this).data('path');
+            let image_id = $('#featured_image_id').val();
+
             window.parent.postMessage({
                 mceAction: 'mceGeturl',
                 url: path
@@ -642,7 +645,7 @@
 
             //set value in the filed from window.opner popup
             if (window.opener != null && !window.opener.closed) {
-                field = window.opener.setValue(path);
+                field = window.opener.setValue(path, image_id);
                 window.close();
             }
 

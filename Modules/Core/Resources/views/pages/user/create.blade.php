@@ -164,12 +164,12 @@
                                 <label for="" class="col-sm-4 col-form-label">User Image </label>
                                 <div class="col-sm-5 position-relative">
                                     <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" value="{{getValue('featuredimg', $objData)}}" name="featuredimage"  class="form-control featured_image">
+                                        <input type="text" value="Test" id="user_image" name="featuredimage"  class="form-control featured_image">
                                         <div class="input-group-text">
-                                            <a class="featured_tag" style="cursor: pointer" ><span class="fa fa-image"></span></a>
+                                            <a class="featured_tag"  data-id="user_image" style="cursor: pointer" ><span class="fa fa-image"></span></a>
                                         </div>
                                     </div>
-                                    <span style="position:absolute; top:0%; left:102%; width:250px" class="preview"></span>
+                                    <span id="user_image_preview" style="position:absolute; top:0%; left:102%; width:250px" class="preview"></span>
                                 </div>
 
 

@@ -167,19 +167,24 @@ $(document).ready(function(){
 
 
 
-if($('.featured_image').length ) {
+if($('.featured_tag').length ) {
 
-	$('.featured_image').on( 'click', function(){
-		var newWindow;
+	$('.featured_tag').on( 'click', function(){
+	    let data_id = $(this).data('id');
+        let newWindow;
 		var theTop=(screen.height/2)-(500/2);
 		var theLeft=(screen.width/2)-(1100/2);
-		newWindow = window.open(APP_URL + "/core/mediamanager", '_blank', 'location=0,height=400,width=1100,scrollbars=no,status=no,top='+theTop+',left='+theLeft+'');
+		 newWindow = window.open(APP_URL + "/core/mediamanager", '_blank', 'location=0,height=400,width=1100,scrollbars=no,status=no,top='+theTop+',left='+theLeft+'', '');
+        newWindow.onload = function() {
+          newWindow.document.getElementById('featured_image_id').value= data_id;
+        };
 		newWindow.focus();
 	});
 
 	//feature image link to the featuredimage field;
-	function setValue(val) {
-		inputField = document.getElementById("featuredimage");
+	function setValue(val, image_id) {
+		inputField = document.getElementById(image_id);
+		document.getElementById("modal_hidden").value;
 		fieldValue = inputField.value;
 
 		if(fieldValue.length) inputField.value = fieldValue+'|'+val;
@@ -192,7 +197,7 @@ if($('.featured_image').length ) {
  * create selected image preview
  * as well as validate max number of image input.
 */
-	function processFile(imagePath){
+	function processFile(imagePath, image_id){
 		var imgPathArr = new Array();
 		imgPathArr = imagePath.split('|');
 		if(imgPathArr.length <= 4){
@@ -202,7 +207,7 @@ if($('.featured_image').length ) {
 			}
 		}else alert("Maximam 4 images can be used!");
 
-		$('.preview').html(preview);
+		$('#'+image_id+'_preview').html(preview);
 	}
 
 
