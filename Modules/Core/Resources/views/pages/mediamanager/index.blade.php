@@ -21,7 +21,7 @@
         .mediadata .media-action{  position: absolute; top:10px; right: 10px; display: none}
         .mediadata .media-action .btn{ padding: 1px 6px}
         .mediadata .card:hover .media-action{ display:inline;}
-        .mediadata .image{ height: 60px;}
+        .mediadata .image{ height: 60px; cursor: pointer}
         .mediadata .file-details{ font-size: 14px; text-overflow: clip; }
         .mediadata .files .file-details{padding: 5px 5px!important;}
         .mediadata .file-details .file-name{ height: 20px; overflow: hidden;}
@@ -41,6 +41,11 @@
             background-color: #e9ecef;
             border-radius: 0.25rem;
         }
+        @media only screen and (max-width: 1500px) {
+            .mobileMedia{
+                width: 15%;
+            }
+        }
         @media only screen and (max-width: 600px) {
             .mediadata .media-action{ display:inline; !important;}
             .custom_btn{
@@ -50,7 +55,7 @@
                 margin: 10px 0;
             }
             .mobileMedia{
-                width: auto !important;
+                width: 50%;
             }
         }
     </style>
@@ -168,7 +173,7 @@
                                     </div>
                                 </div>
                             @elseif($file['type'] === 'dir' && $file['basename'] !== '.tmp')
-                                <div class="col-sm-1">
+                                <div class="col-sm-1 mobileMedia">
                                     <div class="card directory">
                                         <a data-dir="{{$file['path']}}" href="{{url($bUrl.'?path='.urlencode($file['path']))}}" class="text-center folder"><i class="fa fa-folder" style="font-size:50px; text-align:center; color:#009ad7; padding-top:8px;"> </i></a>
 
@@ -638,7 +643,8 @@
 
             window.parent.postMessage({
                 mceAction: 'mceGeturl',
-                url: path
+                url: path,
+                image_id: image_id
             }, '*');
 
             //window.opener.postMessage('abcd', '*');

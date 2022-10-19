@@ -184,13 +184,12 @@ if($('.featured_tag').length ) {
 	//feature image link to the featuredimage field;
 	function setValue(val, image_id) {
 		inputField = document.getElementById(image_id);
-		document.getElementById("modal_hidden").value;
-		fieldValue = inputField.value;
+        fieldValue = inputField.value;
+        let multiple = $('#'+image_id).data('multiple');
+        if(fieldValue.length && multiple !='no') inputField.value = fieldValue+'|'+val;
+        else inputField.value = val;
 
-		if(fieldValue.length) inputField.value = fieldValue+'|'+val;
-		else inputField.value = val;
-
-		processFile(inputField.value);
+        processFile(inputField.value, image_id);
 	}
 
 /***
@@ -200,10 +199,15 @@ if($('.featured_tag').length ) {
 	function processFile(imagePath, image_id){
 		var imgPathArr = new Array();
 		imgPathArr = imagePath.split('|');
+		let multiple = $('#'+image_id).data('multiple');
 		if(imgPathArr.length <= 4){
 			var preview = '';
 			for(var i = 0; i < imgPathArr.length; i++ ){
-				preview += '<span class="m"><span class="x">x</span><img src="'+imgPathArr[i]+ '" width=55 height=45 /></span>';
+			    if (multiple =='no'){
+                    preview = '<span class="m"><span style="cursor: pointer"  class="x"><i class="fas fa-trash-alt img-thumbnail text-danger" style="margin-right: -4px;vertical-align: middle;"></i> </span><img style="margin-right: 2px" class="img-thumbnail" src="'+imgPathArr[i]+ '" width=55 height=55 /></span>';
+                }else {
+                    preview += '<span class="m"><span style="cursor: pointer"  class="x"><i class="fas fa-trash-alt img-thumbnail text-danger" style="margin-right: -4px;vertical-align: middle;"></i> </span><img style="margin-right: 2px" class="img-thumbnail" src="'+imgPathArr[i]+ '" width=55 height=55 /></span>';
+                }
 			}
 		}else alert("Maximam 4 images can be used!");
 
@@ -216,7 +220,8 @@ if($('.featured_tag').length ) {
 $(document).on("click",'.preview .x',function(){
 	var s; var im; var imgs;
 	s = $(this).next().attr('src');
-	im = $('#featuredimage').val();
+	let idName = $(this).parent().parent().data('input_id');
+	im = $('#'+idName).val();
 	imgs = im.split('|');
 	if(imgs.length > 1){
 		if(imgs[0] == s){
@@ -226,7 +231,7 @@ $(document).on("click",'.preview .x',function(){
 		}
 	}else{ im = im.replace(s,'');}
 
-	$('#featuredimage').val(im);
+	$('#'+idName).val(im);
 	$(this).siblings().remove();
 	$(this).unwrap().remove();
 });
