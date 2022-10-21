@@ -33,8 +33,8 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => public_path('/uploads/media_manager'),
-            'url' => env('APP_URL').'/uploads/media_manager/',
+            'root' => public_path('/media_manager'),
+            'url' => env('APP_URL').'/media_manager/',
             'throw' => true,
         ],
 
@@ -74,7 +74,7 @@ return [
     */
 
     'links' => [
-        public_path('uploads/media_manager') => public_path('uploads/media_manager'),
+        public_path('media_manager') => public_path('media_manager'),
     ],
 
 ];

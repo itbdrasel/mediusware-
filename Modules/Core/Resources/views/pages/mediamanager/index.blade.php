@@ -144,12 +144,12 @@
                                     <div class="card insertable files">
                                         @if($file['extension'] === 'jpg' || $file['extension'] === 'png')
 
-                                            <img data-path="{{Storage::url($file['path'])}}" data-file_name="{{$file['filename']}}" src="{{Storage::url($path.'/.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
+                                            <img data-path="/media_manager/{{$file['path']}}" data-file_name="{{$file['filename']}}" src="{{Storage::url($path.'/.tmp/'.base64_encode($file['filename']).'.'.$file['extension']) }}" class="image" title="{{$file['basename']}}" />
 
                                         @elseif($file['extension'] === 'pdf')
-                                            <a data-path="{{Storage::url($file['path'])}}" class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-pdf" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
+                                            <a data-path="/media_manager/{{$file['path']}}" class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-pdf" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
                                         @else($file['extension'] === 'txt')
-                                            <a data-path="{{Storage::url($file['path'])}}"  class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-alt" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
+                                            <a data-path="/media_manager/{{$file['path']}}"  class="text-center file" title="{{$file['basename']}}"><i class="fa fa-file-alt" style="font-size:50px; text-align:center; color:#009ad7"> </i></a>
                                         @endif
 
                                         <div class="card-body file-details">
