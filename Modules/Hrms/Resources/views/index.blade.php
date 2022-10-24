@@ -1,4 +1,4 @@
-@extends('hrms::layouts.master')
+@extends('hrms::master')
 
 @section('content')
     <h1>Hello World</h1>

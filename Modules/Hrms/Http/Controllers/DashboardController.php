@@ -25,7 +25,7 @@ class DashboardController extends Controller
     public function layout($pageName){
         $this->data['tableID']  = $this->tableId;
         $this->data['bUrl']     = $this->bUrl;
-        echo view($this->moduleName.'::pages.'.$pageName.'', $this->data);
+        echo view($this->moduleName.'::'.$pageName.'', $this->data);
     }
 
     /**
