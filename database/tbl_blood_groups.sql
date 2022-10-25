@@ -40,7 +40,7 @@ CREATE TABLE `tbl_blood_groups` (
 --
 
 INSERT INTO `tbl_blood_groups` (`id`, `name`, `order_by`,`created_at`, `updated_at`) VALUES
-(1, 'AB', 1,'2022-04-09 01:54:55', '2022-04-09 01:54:55'),
+(1, 'AB+', 1,'2022-04-09 01:54:55', '2022-04-09 01:54:55');
 
 
 --
