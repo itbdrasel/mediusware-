@@ -78,6 +78,11 @@ Route::prefix('core')->group(function() {
             getResourceRoute(['index','edit','store', 'delete']);
         });
 
+        // Blood Group Route
+        Route::group(['prefix'=>'blood-group','as'=>'blood_group','controller'=>'BloodGroupController'], function () {
+            getResourceRoute(['index','edit','store', 'delete']);
+        });
+
     });
 
 

@@ -98,7 +98,8 @@ class NewAllRoutePermissionController extends Controller
 
     public function allModuleName(){
         return [
-            'core'=>1
+            'core'=>1,
+            'Hrms'=>2
         ];
     }
 

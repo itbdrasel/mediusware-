@@ -2,7 +2,7 @@
 namespace Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\Gender;
+use Modules\Core\Entities\BloodGroup;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Validator;
 
-class GenderController extends Controller
+class BloodFroupController extends Controller
 {
 
 
@@ -26,11 +26,11 @@ class GenderController extends Controller
     public function __construct(Auth $auth, CRUDServices $crudServices){
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
-        $this->model            = Gender::class;
+        $this->model            = BloodGroup::class;
         $this->tableId          = 'id';
         $this->moduleName       = 'core';
-        $this->bUrl             = $this->moduleName.'/gender';
-        $this->title            = 'Gender';
+        $this->bUrl             = $this->moduleName.'/blood-group';
+        $this->title            = 'Blood Group';
     }
 
 
@@ -39,7 +39,7 @@ class GenderController extends Controller
         $this->data['bUrl']     =  $this->bUrl;
         $this->data['tableID']  =  $this->tableId;
 
-        echo view($this->moduleName.'::pages.gender.'.$pageName.'', $this->data);
+        echo view($this->moduleName.'::pages.blood_group.'.$pageName.'', $this->data);
 
     }
 

@@ -9,7 +9,7 @@
                     @csrf()
                     <div class="card card-outline card-primary">
                         <div class="card-header">
-                            <h2 class="card-title"><i class="fa fa-plus"></i> Add New Module</h2>
+                            <h2 class="card-title"><i class="fa fa-plus"></i> Add New Religion</h2>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                     <i class="fas fa-minus"></i>
