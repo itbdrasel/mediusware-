@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Validator;
 
-class BloodFroupController extends Controller
+class BloodGroupController extends Controller
 {
 
 
