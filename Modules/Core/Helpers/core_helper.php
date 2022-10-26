@@ -352,3 +352,9 @@ function getFileInfo($file){
     }
     return $fileInfo;
 }
+
+
+function getModuleName($className){
+    $arr_class              = explode("\\", $className);
+    return count($arr_class) >0?strtolower($arr_class[1]):'';
+}

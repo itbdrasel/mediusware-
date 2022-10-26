@@ -3,6 +3,7 @@
 namespace Modules\Hrms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\Roles;
 
 class Department extends Model
 {
@@ -10,7 +11,7 @@ class Department extends Model
     protected $table = 'hrms_departments';
 
     protected $fillable = [
-        'name', 'order_by'
+        'name','role_id', 'order_by'
     ];
 
     public static $sortable = ['id','name','order_by'];
@@ -19,5 +20,9 @@ class Department extends Model
 
     public static $required = ['name'];
 
-    public static $insertData = ['name','order_by'];
+    public static $insertData = ['name','role_id','order_by'];
+
+    public function role(){
+        return $this->hasOne(Roles::class, 'id','role_id');
+    }
 }

@@ -26,8 +26,8 @@ class NewAllRoutePermissionController extends Controller
     }
 
     public function store(){
-//        $this->model::truncate();
-//        Roles::updated(['permissions'=>null]);
+        $this->model::truncate();
+        Roles::updated(['permissions'=>null]);
         $name   = Route::getRoutes();
         $sl     = 0;
         $old_section_name ='';
@@ -99,7 +99,7 @@ class NewAllRoutePermissionController extends Controller
     public function allModuleName(){
         return [
             'core'=>1,
-            'Hrms'=>2
+            'hrms'=>2
         ];
     }
 

@@ -2,6 +2,7 @@
 namespace Modules\Hrms\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Core\Entities\Roles;
 use Modules\Hrms\Entities\Department;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
@@ -24,11 +25,11 @@ class DepartmentController extends Controller
     private $crudServices;
 
     public function __construct(Auth $auth, CRUDServices $crudServices){
+        $this->moduleName       = getModuleName(get_called_class());
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
         $this->model            = Department::class;
         $this->tableId          = 'id';
-        $this->moduleName       = 'core';
         $this->bUrl             = $this->moduleName.'/department';
         $this->title            = 'Department';
     }
@@ -36,10 +37,11 @@ class DepartmentController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
-        $this->data['tableID']  =  $this->tableId;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
 
-        echo view($this->moduleName.'::pages.department.'.$pageName.'', $this->data);
+        echo view($this->moduleName.'::department.'.$pageName.'', $this->data);
 
     }
 
@@ -64,6 +66,9 @@ class DepartmentController extends Controller
         $this->data['allData']  = $all_data['allData']; // paginate
         $this->data['serial']   = $all_data['serial'];
 
+        $role                       = $this->auth->getUser()->roles->first();
+        $order_by                   = $role->order_by;
+        $this->data['roles']        = Roles::where('order_by','>=',$order_by)->orderBY('order_by')->get();
 
         $this->layout('index');
     }
@@ -87,6 +92,9 @@ class DepartmentController extends Controller
             'objData'       => $objData
         ];
 
+        $role                       = $this->auth->getUser()->roles->first();
+        $order_by                   = $role->order_by;
+        $this->data['roles']        = Roles::where('order_by','>=',$order_by)->orderBY('order_by')->get();
         $this->layout('edit');
     }
 

@@ -42,6 +42,20 @@
 
                             <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                         </div>
+                        <div class="col-sm-6">
+                            @php
+                                $input_name = 'role_id';
+                            @endphp
+                            <label for="{{$input_name}}" class="col-sm-12 col-form-label"> Role </label>
+                            <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
+                                <option value=""> Select Role </option>
+                                @if (!empty($roles))
+                                    @foreach ($roles as $role)
+                                        <option {{getValue($input_name, $objData)==$role->id?'selected':''}}  value="{{$role->id}}"> {{$role->name}} </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>

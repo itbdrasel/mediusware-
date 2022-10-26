@@ -15,16 +15,18 @@ class DashboardController extends Controller
     private $title;
 
     public function __construct(){
-        $this->tableId      = 'id';
-        $this->model        = '';
-        $this->moduleName   = 'hrms';
-        $this->bUrl         = $this->moduleName.'/dashboard';
-        $this->title        = 'Dashboard';
+        $this->moduleName       = getModuleName(get_called_class());
+        $this->tableId          = 'id';
+        $this->model            = '';
+        $this->bUrl             = $this->moduleName.'/dashboard';
+        $this->title            = 'Dashboard';
     }
 
     public function layout($pageName){
-        $this->data['tableID']  = $this->tableId;
-        $this->data['bUrl']     = $this->bUrl;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
+
         echo view($this->moduleName.'::'.$pageName.'', $this->data);
     }
 

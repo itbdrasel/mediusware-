@@ -1,4 +1,4 @@
-@extends('hrms::master')
+@extends($moduleName.'::master')
 
 @section('content')
     <section class="content data-body">
@@ -22,7 +22,7 @@
                                 @php
                                     $input_name = 'name';
                                 @endphp
-                                <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
+                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
                                 <input type="text" value="{{ old($input_name) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
 
                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
@@ -31,10 +31,24 @@
                                 @php
                                     $input_name = 'order_by';
                                 @endphp
-                                <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}</label>
+                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}</label>
                                 <input type="text" value="{{ old($input_name) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
 
                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                            </div>
+                            <div class="input-group mb-3">
+                                @php
+                                    $input_name = 'role_id';
+                                @endphp
+                                <label for="{{$input_name}}" class="w-100">Role</label>
+                                <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
+                                    <option value=""> Select Role </option>
+                                @if (!empty($roles))
+                                    @foreach ($roles as $role)
+                                        <option {{old($input_name)==$role->id?'selected':''}}  value="{{$role->id}}"> {{$role->name}} </option>
+                                    @endforeach
+                                @endif
+                                </select>
                             </div>
 
 
@@ -123,6 +137,7 @@
                                         <tr>
                                             <th class="text-center" style="width: 50px">SL</th>
                                             <th class="sort" data-row="name" id="name" >Name</th>
+                                            <th>Role</th>
                                             <th class="sort text-center" width="10%" data-row="order_by" id="order_by" >order_by</th>
                                             <th style="width: 180px" class="text-center">Manage</th>
                                         </tr>
@@ -138,6 +153,7 @@
                                                 <tr>
                                                     <td class="text-center">{{ $c+$serial }}</td>
                                                     <td>{{ $data->name }}</td>
+                                                    <td>{{ $data->role->name??'' }}</td>
                                                     <td class="text-center">{{ $data->order_by }}</td>
 
                                                     <td class="text-center">

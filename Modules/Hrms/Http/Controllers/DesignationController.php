@@ -24,11 +24,11 @@ class DesignationController extends Controller
     private $crudServices;
 
     public function __construct(Auth $auth, CRUDServices $crudServices){
+        $this->moduleName       = getModuleName(get_called_class());
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
         $this->model            = Designation::class;
         $this->tableId          = 'id';
-        $this->moduleName       = 'core';
         $this->bUrl             = $this->moduleName.'/designation';
         $this->title            = 'Designation';
     }
@@ -36,10 +36,11 @@ class DesignationController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
-        $this->data['tableID']  =  $this->tableId;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
 
-        echo view($this->moduleName.'::pages.designation.'.$pageName.'', $this->data);
+        echo view($this->moduleName.'::designation.'.$pageName.'', $this->data);
 
     }
 

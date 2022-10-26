@@ -22,7 +22,7 @@
                                 @php
                                     $input_name = 'name';
                                 @endphp
-                                <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
+                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
                                 <input type="text" value="{{ old($input_name) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
 
                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
@@ -31,7 +31,7 @@
                                 @php
                                     $input_name = 'slug';
                                 @endphp
-                                <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
+                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}<code>*</code></label>
                                 <input type="text" value="{{ old($input_name) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
 
                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
@@ -40,7 +40,7 @@
                                 @php
                                     $input_name = 'status';
                                 @endphp
-                                <label for="guest_type_title" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
+                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code></label>
                                 <select name="{{$input_name}}"  class="form-control">
                                     <option {{(old($input_name) ==1 )?'selected':''}} value="1">Active</option>
                                     <option {{(old($input_name) =='0' )?'selected':''}} value="0">Inactive</option>
