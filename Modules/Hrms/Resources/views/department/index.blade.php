@@ -1,4 +1,4 @@
-@extends($moduleName.'::master')
+@extends('core::master')
 
 @section('content')
     <section class="content data-body">
@@ -190,11 +190,6 @@
                                 @include('core::layouts.include.per_page')
 
 
-                                <div class="col-md-9">
-                                    <div class="pagination_table">
-                                        {!! $allData->render() !!}
-                                    </div>
-                                </div>
 
 
                             </div><!-- /row -->

@@ -24,7 +24,7 @@ class SettingsController extends Controller
     public function __construct(Auth $auth){
         $this->auth         = $auth;
         $this->model        = Settings::class;
-        $this->moduleName   = 'core';
+        $this->moduleName   = getModuleName(get_called_class());
         $this->bUrl         = $this->moduleName.'/settings';
         $this->title        = 'Setting';
     }
@@ -33,7 +33,9 @@ class SettingsController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['moduleName']   =  $this->moduleName;
+
         echo view($this->moduleName.'::pages.settings.'.$pageName.'', $this->data);
 
     }
@@ -114,7 +116,7 @@ class SettingsController extends Controller
             'social'            => json_encode($social),
             'analytics'         => $request['analytics'],
             'language'          => $request['language'],
-            'payment'            => json_encode($payments),
+            'payment'           => json_encode($payments),
         ];
 
         foreach ($data as $key=>$value){

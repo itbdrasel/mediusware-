@@ -17,12 +17,10 @@ class NewAllRoutePermissionController extends Controller
     private $auth;
 
     public function __construct(Auth $auth){
-        $this->auth = $auth;
-
-        $this->tableId = 'roles';
-        $this->moduleName = 'system/core';
-        $this->model        = ModuleSection::class;
-        $this->bUrl = $this->moduleName.'/permissions';
+        $this->auth             = $auth;
+        $this->moduleName       = getModuleName(get_called_class());
+        $this->model            = ModuleSection::class;
+        $this->bUrl             = $this->moduleName.'/permissions';
     }
 
     public function store(){

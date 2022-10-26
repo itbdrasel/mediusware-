@@ -28,7 +28,7 @@ class BloodGroupController extends Controller
         $this->crudServices     = $crudServices;
         $this->model            = BloodGroup::class;
         $this->tableId          = 'id';
-        $this->moduleName       = 'core';
+        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/blood-group';
         $this->title            = 'Blood Group';
     }
@@ -36,8 +36,9 @@ class BloodGroupController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
-        $this->data['tableID']  =  $this->tableId;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
 
         echo view($this->moduleName.'::pages.blood_group.'.$pageName.'', $this->data);
 
@@ -55,7 +56,7 @@ class BloodGroupController extends Controller
             'objData'       => [],
             'filters'       => $this->model::$filters
         ];
-
+        $this->data['add_title'] = 'Add New '.$this->title;
         $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
 
         if ($request->filled('filter')) {

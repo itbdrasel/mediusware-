@@ -1,8 +1,0 @@
-@include('core::layouts.header')
-@include('core::layouts.top_ber')
-@include('core::layouts.sidebar_top')
-@yield('nav_ber')
-@include('core::layouts.sidebar_footer')
-@include('core::layouts.breadcrumb')
-@yield('content')
-@include('core::layouts.footer')

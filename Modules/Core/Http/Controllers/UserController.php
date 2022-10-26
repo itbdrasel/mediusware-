@@ -35,7 +35,7 @@ class UserController extends Controller
         $this->crudServices     = $crudServices;
         $this->model            = User::class;
         $this->tableId          = 'id';
-        $this->moduleName       = 'core';
+        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/user';
         $this->title            = 'User';
     }
@@ -43,8 +43,9 @@ class UserController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
-        $this->data['tableID']  =  $this->tableId;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
 
         echo view($this->moduleName.'::pages.user.'.$pageName.'', $this->data);
 

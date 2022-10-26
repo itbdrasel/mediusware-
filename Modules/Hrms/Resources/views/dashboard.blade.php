@@ -1,4 +1,4 @@
-@extends('hrms::master')
+@extends('core::master')
 @section('content')
     <section class="content">
         <div class="card card-outline card-info">

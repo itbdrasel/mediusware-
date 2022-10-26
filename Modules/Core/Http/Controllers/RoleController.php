@@ -28,7 +28,7 @@ class RoleController extends Controller
         $this->crudServices     = $crudServices;
         $this->model            = Roles::class;
         $this->tableId          = 'id';
-        $this->moduleName       = 'core';
+        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/role';
         $this->title            = 'Role';
     }
@@ -36,8 +36,9 @@ class RoleController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
-        $this->data['tableID']  =  $this->tableId;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
 
         echo view($this->moduleName.'::pages.role.'.$pageName.'', $this->data);
 

@@ -28,7 +28,7 @@ class BranchController extends Controller
         $this->crudServices     = $crudServices;
         $this->model            = Branch::class;
         $this->tableId          = 'id';
-        $this->moduleName       = 'core';
+        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/branch';
         $this->title            = 'Branch';
     }
@@ -36,8 +36,9 @@ class BranchController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
-        $this->data['tableID']  =  $this->tableId;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
 
         echo view($this->moduleName.'::pages.branch.'.$pageName.'', $this->data);
 

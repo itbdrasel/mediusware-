@@ -29,7 +29,7 @@ class ReligionController extends Controller
         $this->crudServices     = $crudServices;
         $this->model            = Religion::class;
         $this->tableId          = 'id';
-        $this->moduleName       = 'core';
+        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/religion';
         $this->title            = 'Religion';
     }
@@ -37,9 +37,9 @@ class ReligionController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
-        $this->data['tableID']  =  $this->tableId;
-
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
         echo view($this->moduleName.'::pages.religion.'.$pageName.'', $this->data);
 
     }
@@ -56,6 +56,8 @@ class ReligionController extends Controller
             'objData'       => [],
             'filters'       => $this->model::$filters
         ];
+
+        $this->data['add_title'] = 'Add New '.$this->title;
 
         $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
 

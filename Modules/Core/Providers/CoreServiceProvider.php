@@ -3,6 +3,7 @@
 namespace Modules\Core\Providers;
 
 use Illuminate\Database\Query\Builder;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Core\Entities\Settings;
@@ -26,7 +27,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        Paginator::useBootstrap();
 
         config()->set('settings', Settings::pluck('s_value', 's_name')->all());
 

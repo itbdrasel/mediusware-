@@ -28,7 +28,7 @@ class GenderController extends Controller
         $this->crudServices     = $crudServices;
         $this->model            = Gender::class;
         $this->tableId          = 'id';
-        $this->moduleName       = 'core';
+        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/gender';
         $this->title            = 'Gender';
     }
@@ -36,9 +36,9 @@ class GenderController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
-        $this->data['tableID']  =  $this->tableId;
-
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
         echo view($this->moduleName.'::pages.gender.'.$pageName.'', $this->data);
 
     }
@@ -55,6 +55,8 @@ class GenderController extends Controller
             'objData'       => [],
             'filters'       => $this->model::$filters
         ];
+
+        $this->data['add_title'] = 'Add New '.$this->title;
 
         $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
 

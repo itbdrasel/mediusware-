@@ -15,21 +15,25 @@ class AuthCredentialController extends Controller
     private $data;
     private $bUrl;
     private $title;
+    private $moduleName;
 
     private $auth;
 
     public function __construct(Auth $auth){
-        $this->auth         = $auth;
+        $this->auth             = $auth;
 
-        $this->moduleName   = 'core';
-        $this->bUrl         = $this->moduleName;
-        $this->title        = 'Login';
+        $this->moduleName       = getModuleName(get_called_class());
+        $this->bUrl             = $this->moduleName;
+        $this->title            = 'Login';
     }
 
 
 
     public function layout($pageName){
-        $this->data['bUrl']     = $this->bUrl;
+
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['moduleName']   =  $this->moduleName;
+
         echo view($this->moduleName.'::pages.auth.'.$pageName.'', $this->data);
 
     }

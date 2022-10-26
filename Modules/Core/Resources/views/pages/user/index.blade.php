@@ -155,11 +155,6 @@
 
                         <div class="row mt-4">
                             @include('core::layouts.include.per_page')
-                            <div class="col-md-9">
-                                <div class="pagination_table">
-                                    {!! $allData->render() !!}
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

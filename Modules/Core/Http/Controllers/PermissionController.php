@@ -30,7 +30,7 @@ class PermissionController extends Controller
     public function __construct(Auth $auth){
         $this->auth         = $auth;
         $this->model        = ModuleSection::class;
-        $this->moduleName   = 'core';
+        $this->moduleName   = getModuleName(get_called_class());
         $this->bUrl         = $this->moduleName.'/permissions';
         $this->title        = 'User Permission';
     }
@@ -38,7 +38,9 @@ class PermissionController extends Controller
 
     public function layout($pageName){
 
-        $this->data['bUrl']     =  $this->bUrl;
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['moduleName']   =  $this->moduleName;
+
         echo view($this->moduleName.'::pages.permissions.'.$pageName.'', $this->data);
 
     }
