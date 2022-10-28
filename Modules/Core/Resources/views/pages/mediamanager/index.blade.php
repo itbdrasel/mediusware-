@@ -78,8 +78,8 @@
                 <div class="row">
                     <div class="col-md-8 col-sm-12">
                         <button type="button" class="btn btn-tool" >
-                            <a href="{{url($bUrl.'/upload')}}" id="action" data-toggle="modal" data-target="#uploadmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-upload"></i> Upload </a>
-                            <a href="{{url($bUrl.'/folder')}}" id="action" data-toggle="modal" data-target="#itemmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-folder"></i> Create Folder </a>
+                            <a data-bs-toggle="modal" data-bs-target="#uploadmodal"  href="{{url($bUrl.'/upload')}}" id="action"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-upload"></i> Upload </a>
+                            <a href="{{url($bUrl.'/folder')}}" id="action" data-bs-toggle="modal" data-bs-target="#itemmodal"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-folder"></i> Create Folder </a>
 {{--                            <a href="{{url($bUrl.'/links')}}"  class="btn bg-gradient-info btn-sm custom_btn"> <i class="fa fa-file"></i> Content Lists </a>--}}
                             <input type="hidden" id="featured_image_id" value="">
                         </button>
@@ -158,14 +158,14 @@
                                         </div>
 
                                         <div class="dropdown media-action">
-                                            <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                            <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item imageView" data-toggle="modal" data-target="#imagemodal"  data-image="{{Storage::url($file['path'])}}" href="#">View</a>
+                                                <a class="dropdown-item imageView" data-bs-toggle="modal" data-bs-target="#imagemodal"  data-image="{{Storage::url($file['path'])}}" href="#">View</a>
 
-                                                <a class="dropdown-item" data-name="{{$file['filename']}}" data-ext="{{$file['extension']}}" data-toggle="modal" data-target="#renamemodal"  >Rename</a>
+                                                <a class="dropdown-item" data-name="{{$file['filename']}}" data-ext="{{$file['extension']}}" data-bs-toggle="modal" data-bs-target="#renamemodal"  >Rename</a>
 
-                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#deletemodal"  >Delete</a>
+                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-bs-toggle="modal" data-bs-target="#deletemodal"  >Delete</a>
                                             </div>
                                         </div>
 
@@ -182,13 +182,13 @@
                                         </div>
 
                                         <div class="dropdown media-action">
-                                            <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                            <a class="btn btn-default dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#renamemodal"  >Rename</a>
+                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-bs-toggle="modal" data-bs-target="#renamemodal"  >Rename</a>
 
-                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-toggle="modal" data-target="#deletemodal"  >Delete</a>
+                                                <a class="dropdown-item" data-name="{{$file['basename']}}" data-bs-toggle="modal" data-bs-target="#deletemodal"  >Delete</a>
                                             </div>
                                         </div>
 
@@ -248,7 +248,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="m-0" style="margin: 0 !important; font-size: 19px; font-weight: bold" ><i class="fa fa-trash"></i> Are you sure you want to delete? </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form method="post" class="form" action="{{url($bUrl.'/delete')}}" id="delete" >
@@ -268,7 +268,7 @@
                                     @endphp
 {{--                                    <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="deleteSubmit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;--}}
                                     <button type="submit" id="deleteSubmit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Yes, Delete This</button>&nbsp;&nbsp;
-                                    &nbsp;<a class="btn btn-default no" data-dismiss="modal" data-reload="false"><i class="fas fa-long-arrow-left"></i> <i class="fas fa-arrow-left"></i> No, Go Back </a>
+                                    &nbsp;<a class="btn btn-default no" data-bs-dismiss="modal" data-reload="false"><i class="fas fa-long-arrow-left"></i> <i class="fas fa-arrow-left"></i> No, Go Back </a>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +308,7 @@
                         <div class="form-group row" >
                             <label class="col-sm-4 control-label" > </label>
                             <div class='col-sm-5'>
-                                <input type="submit" value="Rename" class="btn btn-primary" id="renameSubmit" />			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
+                                <input type="submit" value="Rename" class="btn btn-primary" id="renameSubmit" />			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -349,7 +349,7 @@
                         <div class="form-group row" >
                             <label class="col-sm-4 control-label" > </label>
                             <div class='col-sm-5'>
-                                <input type="submit" value="Create" class="btn btn-primary" id="submit" />			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">Close</button>
+                                <input type="submit" value="Create" class="btn btn-primary" id="submit" />			<button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -363,7 +363,7 @@
 
 
   <!-- Create Item/Folder Modal -->
-<div class="modal fade" id="uploadmodal" tabindex="-1" role="dialog" aria-labelledby="uploadmodal" aria-hidden="true">
+<div class="modal fade" id="uploadmodal" tabindex="-1" role="dialog" aria   -labelledby="uploadmodal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header"> File Upload</div>
@@ -395,7 +395,7 @@
                             <div class='col-sm-5'>
                                 <input type="submit" value="Upload" class="btn btn-primary" id="uploadSubmit"/>
                                 <button type="button" data-reload="true" class="btn btn-secondary dismiss"
-                                        data-dismiss="modal">Close
+                                        data-bs-dismiss="modal">Close
                                 </button>
                             </div>
                         </div>
@@ -413,7 +413,7 @@
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-body">
-                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                      <button type="button" class="close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                       <img src="" class="imagePreview" style="width: 100%;" >
                   </div>
               </div>

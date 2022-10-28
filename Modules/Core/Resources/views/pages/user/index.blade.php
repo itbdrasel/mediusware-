@@ -127,19 +127,28 @@
                                             <td class="text-center">{!! $status !!}</td>
 
                                             <td class="text-center">
+
+
                                                 <div class="btn-group dropleft">
-                                                    <button type="button" class="btn btn-outline-info link_btn">
+                                                    <button type="button" class="btn btn-outline-primary link_btn">
                                                         <a  href="{{url($bUrl.'/profile/'.$user->id)}}"><i class="fa fa-table"></i> </a>
                                                     </button>
-
-                                                    <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
+{{--                                                    <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-hover dropdown-icon" data-bs-toggle="dropdown">--}}
+{{--                                                    </button>--}}
+                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                     </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$user->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a></li>
+                                                        <li><a class="dropdown-item" href="{{url($bUrl.'/profile/'.$user->id)}}?permission=permission"><i class="fa fa-eye"></i> view Permission</a></li>
+                                                        <li> <div class="dropdown-divider"></div></li>
+                                                        <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$user->id)}}"><i class="fa fa-trash"></i> Delete</a></li>
+                                                    </ul>
 
                                                     <div class="dropdown-menu dropLeft" >
-                                                        <a class="dropdown-item" data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/'.$user->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a>
-                                                        <a class="dropdown-item" href="{{url($bUrl.'/profile/'.$user->id)}}?permission=permission"><i class="fa fa-eye"></i> view Permission</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" id="action" data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$user->id)}}"><i class="fa fa-trash"></i> Delete</a>
+
+
+
+
                                                     </div>
                                                 </div>
                                             </td>
@@ -169,6 +178,7 @@
 @endsection
 
 @push('js')
+
     <script>
         $(document).ready(function(){
             $('form').submit(function() {
@@ -187,5 +197,6 @@
             });
 
         });
+
     </script>
 @endpush

@@ -9,9 +9,8 @@
 
 <div class="modal-content">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel"> {{$title}} </h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
+        <h4 class="m-0" style="margin: 0 !important; font-size: 19px; font-weight: bold" > <i class="fa fa-edit"></i> {{$title}} </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
         <form method="post" action="{{url($pageUrl)}}" id="add_file" enctype="multipart/form-data">
@@ -37,7 +36,7 @@
                     <label class="col-sm-5 control-label"> </label>
                     <div class='col-sm-5'>
                         <input type="submit" value="Upload" class="btn btn-primary" id="submit"/>
-                        <button type="button" data-reload="true" class="btn btn-secondary dismiss" data-dismiss="modal">
+                        <button type="button" data-reload="true" class="btn btn-secondary dismiss" data-bs-dismiss="modal">
                             Close
                         </button>
                     </div>

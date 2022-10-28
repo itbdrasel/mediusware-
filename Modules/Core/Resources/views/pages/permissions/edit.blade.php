@@ -99,9 +99,9 @@
                             <input type="hidden" name="id[{{$section->id}}]" value="{{$section->id}}">
                     <div class="card">
                         <div class="card-header">
-                            <a class="card-title" data-toggle="collapse" data-parent="#accordion" href="#section_{{$section->id}}">{{$section->section_name}}</a>
+                            <a class="card-title" data-bs-toggle="collapse" data-parent="#accordion" href="#section_{{$section->id}}">{{$section->section_name}}</a>
                         </div>
-                        <div id="section_{{$section->id}}" class="card-body collapse in show table-responsive" >
+                        <div id="section_{{$section->id}}" class="card-body collapse  table-responsive" >
                             <table class="table table-bordered other_guest">
                                 <thead>
                                 <tr>

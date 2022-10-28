@@ -21,7 +21,7 @@
                 }
             </style>
             <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
+                <a class="nav-link" data-bs-toggle="dropdown" href="#">
                     <i class="nav-icon fas fa-user-circle"></i> <span class="d-none d-sm-inline-block">{{dAuth()->getUser()->full_name}} ({{dAuth()->getUser()->roles->first()->name}})</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">

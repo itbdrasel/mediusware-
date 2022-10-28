@@ -1464,3 +1464,16 @@ i.reservations_icon{
         margin-top: 2px;
     }
 }
+.btn-close:focus{
+    box-shadow: none;
+}
+
+/*****************************************************************************
+            Bootstrap 5 Modal Design Box shadow add to Bootstrap 4
+****************************************************************************/
+.modal-content {
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 50%);
+}
+/*****************************************************************************
+            Bootstrap 5 Modal Design End Box shadow add to Bootstrap 4
+****************************************************************************/

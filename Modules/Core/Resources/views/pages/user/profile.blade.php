@@ -159,7 +159,7 @@
                                                 {{--                                                                            </button>--}}
 
                                                 <button type="button" style="float: right;
-    line-height: 45px;" class="btn btn-tool pull-right"  data-card-widget="collapse" data-toggle="collapse" title="Collapse" data-target="#collapse_{{$m_name}}" aria-expanded="true" aria-controls="collapse_{{$m_name}}">
+    line-height: 45px;" class="btn btn-tool pull-right"  data-card-widget="collapse" data-bs-toggle="collapse" title="Collapse" data-bs-target="#collapse_{{$m_name}}" aria-expanded="true" aria-controls="collapse_{{$m_name}}">
                                                     <i class="fas fa-minus"></i>
                                                 </button>
                                             </h5>

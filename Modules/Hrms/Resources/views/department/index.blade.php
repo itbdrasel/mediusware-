@@ -159,11 +159,11 @@
                                                     <td class="text-center">
                                                         <div class="btn-group">
                                                         <button type="button" class="btn btn-outline-info link_btn">
-                                                            <a data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
+                                                            <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                                         </button>
 
                                                         <button type="button" class="btn btn-outline-info link_btn">
-                                                            <a data-toggle="modal" data-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
+                                                            <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
                                                         </button>
                                                         </div>
 
