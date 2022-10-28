@@ -271,7 +271,7 @@ function moduleCheck($permission, $module){
 
 
 function checkUncheck($id){
-    if ($id !=Sentinel::getUser()->id){
+    if ($id !=dAuth()->getUser()->id){
         return true;
     }
     return false;

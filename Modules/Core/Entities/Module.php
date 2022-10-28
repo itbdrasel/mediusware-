@@ -28,4 +28,9 @@ class Module extends Model
         return $this->hasMany(ModuleSection::class, 'module_id','id');
     }
 
+    public function getFeaturedSections($role_id)
+    {
+        return $this->sections()->orderBy('section_name')->orderBy('id')->whereJsonContains('section_roles_permission', [(string)$role_id])->get();
+    }
+
 }

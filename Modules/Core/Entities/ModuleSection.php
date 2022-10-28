@@ -16,7 +16,6 @@ class ModuleSection extends Model
         'section_name', 'module_id', 'section_action_route', 'section_roles_permission'
     ];
 
-
 	public function module(){
 	    return $this->belongsTo(Module::class);
     }

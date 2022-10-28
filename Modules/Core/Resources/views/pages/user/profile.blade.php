@@ -94,172 +94,102 @@
                                         </div>
                                         <div class="tab-pane fade  @if($permission =='permission') show active @endif" id="v-pills-permission" role="tabpanel" aria-labelledby="v-pills-permission-tab">
                                             <div id="accordion">
-                                                @php
-                                                    $rolePermissions = dAuth()->findRoleById($objData->role_id);
-                                                @endphp
-                                                @if(!empty($sectionNames ) && count($sectionNames) >0)
-                                                    @foreach($sectionNames as $section)
-                                                        @php
-                                                            $sectionPermission = json_decode($section->section_roles_permission);
-                                                        @endphp
-                                                        @if(in_array($objData->role_id, $sectionPermission))
+                                                @if(!empty($modules) && count($modules) >0)
+                                                    @foreach($modules as $module)
+                                                        @if(!empty($module->getFeaturedSections($objData->role_id)) && count($module->getFeaturedSections($objData->role_id)) >0)
+                                                            <div class="card">
+                                                                <div class="card-header" id="{{$module->name}}">
+                                                                    <h5 class="mb-0">
+                                                                        @if(checkUncheck($objData->id))
+                                                                            <input onclick="checkAll('{{$module->name}}')"  {{moduleCheck($objData->m_permission, $module->id)?'checked':''}} class="module_{{$module->name}}" value="{{$module->name}}" type="checkbox" id="{{$module->name}}">
+                                                                        @else
+                                                                            @if(moduleCheck($objData->m_permission, $module->id))
+                                                                                <i style="color: #0075ff" class="fas fa-check-square"></i>
+                                                                            @else
+                                                                                <i style="color: red"  class="fas fa-window-close"></i>
+                                                                            @endif
+                                                                        @endif
+                                                                        {{--                                                                            <label for="{{$m_name}}">{{$m_name}} Modules</label>--}}
+                                                                        <label class="text-capitalize form-check-label" for="{{$module->name}}" >{{$module->name}} Modules</label>
+                                                                        {{--                                                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse_{{$m_name}}" aria-expanded="true" aria-controls="collapse_{{$m_name}}">--}}
+                                                                        {{--                                                                                {{$m_name}} Modules--}}
+                                                                        {{--                                                                            </button>--}}
+
+                                                                        <button type="button" style="float: right;
+    line-height: 45px;" class="btn btn-tool pull-right"  data-card-widget="collapse" data-bs-toggle="collapse" title="Collapse" data-bs-target="#collapse_{{$module->name}}" aria-expanded="true" aria-controls="collapse_{{$module->name}}">
+                                                                            <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                    </h5>
+                                                                </div>
+                                                                <div id="collapse_{{$module->name}}" class="collapse" aria-labelledby="{{$module->name}}" data-parent="#accordion">
+                                                                    <div class="card-body">
+                                                                        <table class="table table-bordered">
+                                                                            <tr>
+                                                                                <th width="15%" >Section Name</th>
+                                                                                <th>Permissions</th>
+                                                                            </tr>
+                                                                            @foreach($module->getFeaturedSections($objData->role_id) as $section)
+                                                                                <tr>
+                                                                                    <td><strong>{{$section->section_name}}</strong></td>
+                                                                                    <td>
+                                                                                        @php
+                                                                                            $action_route = json_decode($section->section_action_route);
+                                                                                            $sl =0;
+                                                                                        @endphp
+                                                                                        <div class="row">
+                                                                                            @foreach($action_route as $key => $value)
+                                                                                                @php
+                                                                                                    $roleUser = $objData->roles->first()
+                                                                                                @endphp
+                                                                                                @if($roleUser->hasAccess($key))
+                                                                                                @php
+                                                                                                    $for_level = str_replace('.','_',$key);
+                                                                                                    $checked = $objData->hasAccess($key)?'checked':'';
+                                                                                                @endphp
+                                                                                                <div class="col-4 mb-2">
+                                                                                                    @if ($objData->id != dAuth()->getUser()->id)
+                                                                                                        <input id="{{$module->name.'_'.$for_level}}" type="checkbox" class="role-permission role_{{$module->name}}" {{$checked}} data-page="{{$key}}" data-action="{{$key}}" data-id="{{$objData->id}}">
+                                                                                                    @else
+                                                                                                        @if($checked =='checked')
+                                                                                                            <i style="color: #0075ff" class="fas fa-check-square"></i>
+                                                                                                        @else
+                                                                                                            <i style="color: red"  class="fas fa-window-close"></i>
+                                                                                                        @endif
+                                                                                                    @endif
+                                                                                                    @php
+                                                                                                        $actionName = substr($key, strrpos($key, '.'));
+                                                                                                    @endphp
+                                                                                                    <label for="{{$module->name.'_'.$for_level}}" class="form-check-label">{{ ucfirst(str_replace(['_','.'],[' ',''],$actionName))  }}</label>&nbsp;
+                                                                                                </div>
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         @endif
                                                     @endforeach
                                                 @endif
 
-
-                                                @php
-                                                    $rolePermissions = dAuth()->findRoleById($objData->role_id);
-
-                                                    $module_name='';
-                                                    $end_module ='';
-                                                @endphp
-                                                @if( $sectionNames->count() > 0)
-
-                                                @foreach($sectionNames as $sectionName)
-
-                                                @php
-                                                    $sectionPermission = json_decode($sectionName->section_roles_permission);
-                                                    //see($sectionPermission);
-                                                @endphp
-
-                                                @if(in_array($objData->role_id, $sectionPermission) )
-                                                @php
-                                                    $m_name = $sectionName->module->id;
-                                                @endphp
-                                                @if ($sectionName->module->id !=$module_name)
-                                                @php
-                                                    $module_name = $sectionName->module->id;
-                                                @endphp
-                                                @if(!empty($end_module) && $module_name !=$end_module)
-
                                             </div>
                                         </div>
                                     </div>
-                                    @endif
-                                    @php
-                                        $end_module = $sectionName->module->id;
-                                    @endphp
-                                    <div class="card">
-                                        <div class="card-header" id="{{$sectionName->module->id}}">
-                                            <h5 class="mb-0">
-                                                @if(checkUncheck($objData->id))
-                                                    <input onclick="checkAll('{{$m_name}}')"  {{moduleCheck($objData->m_permission, $m_name)?'checked':''}} class="module_{{$m_name}}" value="{{$m_name}}" type="checkbox" id="{{$m_name}}">
-                                                @else
-                                                    @if(moduleCheck($objData->m_permission, $m_name))
-                                                        <i style="color: #0075ff" class="fas fa-check-square"></i>
-                                                    @else
-                                                        <i style="color: red"  class="fas fa-window-close"></i>
-                                                    @endif
-                                                @endif
-                                                {{--                                                                            <label for="{{$m_name}}">{{$m_name}} Modules</label>--}}
-                                                <label class="text-capitalize form-check-label" for="{{$m_name}}" >{{$sectionName->module->name}} Modules</label>
-                                                {{--                                                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse_{{$m_name}}" aria-expanded="true" aria-controls="collapse_{{$m_name}}">--}}
-                                                {{--                                                                                {{$m_name}} Modules--}}
-                                                {{--                                                                            </button>--}}
-
-                                                <button type="button" style="float: right;
-    line-height: 45px;" class="btn btn-tool pull-right"  data-card-widget="collapse" data-bs-toggle="collapse" title="Collapse" data-bs-target="#collapse_{{$m_name}}" aria-expanded="true" aria-controls="collapse_{{$m_name}}">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                            </h5>
-                                        </div>
-
-                                        <div id="collapse_{{$m_name}}" class="collapse" aria-labelledby="{{$m_name}}" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <table class="table table-bordered">
-                                                    <tr>
-                                                        <th width="15%" >Section Name</th>
-                                                        <th>Permissions</th>
-                                                    </tr>
-                                                    @endif
-                                                    <tr>
-
-                                                        <td>{{ $sectionName->section_name }} </td>
-
-                                                        @php
-
-                                                            $actions = json_decode($sectionName->section_action_route);
-                                                            $permission = json_decode($objData->permissions, true);
-                                                            $sl =0;
-
-                                                        @endphp
-
-                                                        <td>
-                                                            <div class="row">
-                                                            @foreach($actions as $key => $value)
-
-                                                                @php
-                                                                    $sl++;
-                                                                        $checked = '';
-
-                                                                @endphp
-
-                                                                @if(in_array($objData->role_id, $value))
-
-                                                                    <!-- check whether permission exist and is it set true  -->
-
-                                                                        @if($rolePermissions->permissions)
-
-                                                                            @if(array_key_exists($key, $rolePermissions->permissions))
-                                                                                @php
-                                                                                    $checked = $rolePermissions->permissions[$key] ? "checked" : "";
-                                                                                @endphp
-                                                                            @endif
-                                                                        @endif
-                                                                        @if(!empty($permission) && array_key_exists($key, $permission))
-                                                                            @php
-                                                                                $checked = $permission[$key]?'checked':'';
-                                                                            @endphp
-                                                                        @endif
-
-
-                                                                        <div class="col-4 mb-2">
-                                                                            @php
-                                                                                $for_level = str_replace('.','_',$key);
-                                                                            @endphp
-                                                                            @if ($objData->id != dAuth()->getUser()->id)
-                                                                                <input id="{{$m_name.'_'.$for_level}}" type="checkbox" class="role-permission role_{{$m_name}}" {{$checked}} data-page="{{$key}}" data-action="{{$key}}" data-id="{{$objData->id}}">
-                                                                            @else
-                                                                                @if($checked =='checked')
-                                                                                    <i style="color: #0075ff" class="fas fa-check-square"></i>
-                                                                                @else
-                                                                                    <i style="color: red"  class="fas fa-window-close"></i>
-                                                                                @endif
-                                                                            @endif
-                                                                            @php
-                                                                                $actionName = substr($key, strrpos($key, '.'));
-                                                                            @endphp
-
-                                                                            <label for="{{$m_name.'_'.$for_level}}" class="form-check-label">{{ ucfirst(str_replace(['_','.'],[' ',''],$actionName))  }}</label>&nbsp;
-                                                                        </div>
-
-
-                                                                    @endif
-
-                                                                @endforeach
-                                                            </div>
-                                                        </td>
-
-                                                    </tr>
-
-                                                    @endif
-                                                    @endforeach
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
 
                     </div>
+                    <div class="card-footer">
+                        {{$title}}
+                    </div>
                 </div>
+
             </div>
-        </div>
-        <div class="card-footer">
-            {{$title}}
+
         </div>
         </div>
         </div>
