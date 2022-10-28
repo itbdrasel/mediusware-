@@ -1467,7 +1467,9 @@ i.reservations_icon{
 .btn-close:focus{
     box-shadow: none;
 }
-
+.link_btn:hover a{
+    color: #fff;
+}
 /*****************************************************************************
             Bootstrap 5 Modal Design Box shadow add to Bootstrap 4
 ****************************************************************************/

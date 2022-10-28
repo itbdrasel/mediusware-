@@ -142,11 +142,11 @@
 
                                                     <td class="text-center">
                                                         <div class="btn-group">
-                                                        <button type="button" class="btn btn-outline-info link_btn">
+                                                        <button type="button" class="btn btn-outline-primary link_btn">
                                                             <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                                         </button>
 
-                                                        <button type="button" class="btn btn-outline-info link_btn">
+                                                        <button type="button" class="btn btn-outline-primary link_btn">
                                                             <a class="w-100" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
                                                         </button>
                                                         </div>

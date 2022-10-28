@@ -35,27 +35,27 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" id="settingsTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="general-tab" data-toggle="tab" data-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true"> General </button>
+                            <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true"> General </button>
                         </li>
 
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="true"> Contact Information </button>
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="true"> Contact Information </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tax-tab" data-toggle="tab" data-target="#tax" type="button" role="tab" aria-controls="tax" aria-selected="false">Tax</button>
+                            <button class="nav-link" id="tax-tab" data-bs-toggle="tab" data-bs-target="#tax" type="button" role="tab" aria-controls="tax" aria-selected="false">Tax</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="meta-tab" data-toggle="tab" data-target="#meta" type="button" role="tab" aria-controls="meta" aria-selected="false">Meta Settings</button>
+                            <button class="nav-link" id="meta-tab" data-bs-toggle="tab" data-bs-target="#meta" type="button" role="tab" aria-controls="meta" aria-selected="false">Meta Settings</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="payment-tab" data-toggle="tab" data-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="false">Payment</button>
+                            <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="false">Payment</button>
                         </li>
 
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="social-tab" data-toggle="tab" data-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social Networks</button>
+                            <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social Networks</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="logo-tab" data-toggle="tab" data-target="#logo" type="button" role="tab" aria-controls="logo" aria-selected="false">Logo Upload</button>
+                            <button class="nav-link" id="logo-tab" data-bs-toggle="tab" data-bs-target="#logo" type="button" role="tab" aria-controls="logo" aria-selected="false">Logo Upload</button>
                         </li>
                     </ul>
 
@@ -375,17 +375,17 @@
                 $(this).tab('show');
             });
 
-            $("#settingsTab button[data-toggle='tab']").on("shown.bs.tab", function(e) {
+            $("#settingsTab button[data-bs-toggle='tab']").on("shown.bs.tab", function(e) {
 
                 if($(e.target).attr('id') === 'logo-tab') $('.card-footer').hide();
                 else $('.card-footer').show();
-                localStorage.setItem('activeTab', $(e.target).attr('data-target'));
+                localStorage.setItem('activeTab', $(e.target).attr('data-bs-target'));
             });
 
             var activeTab = localStorage.getItem('activeTab');
 
             if (activeTab) {
-                $('#settingsTab button[data-target="'+activeTab+'"]').tab('show');
+                $('#settingsTab button[data-bs-target="'+activeTab+'"]').tab('show');
             }
         });
     </script>
