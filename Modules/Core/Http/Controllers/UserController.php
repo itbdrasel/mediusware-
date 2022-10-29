@@ -276,7 +276,7 @@ class UserController extends Controller
 
 
 
-    public function profile(Request $request, $id){
+    public function profile($id){
 
         $objData    = $this->model::where('users.id', $id)
             ->leftJoin('role_users', 'users.id', 'role_users.user_id')
@@ -289,11 +289,28 @@ class UserController extends Controller
             'title'         =>  $this->title.' Profile',
             'page_icon'     => '<i class="fa fa-book"></i>',
             'objData'       => $objData,
-            'permission'    => $request['permission'],
+            'pageUrl'       => $this->bUrl.'/'.$id,
+        ];
+        $this->layout('profile');
+    }
+
+    public function permission($id){
+
+        $objData    = $this->model::where('users.id', $id)
+            ->leftJoin('role_users', 'users.id', 'role_users.user_id')
+            ->leftJoin('roles', 'role_users.role_id', 'roles.id')
+            ->selectRaw('users.*, roles.name, roles.id as role_id')->first();
+
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if( !$id || empty($objData) ){ exit('Bad Request!'); }
+        $this->data = [
+            'title'         =>  $this->title.' Profile',
+            'page_icon'     => '<i class="fa fa-book"></i>',
+            'objData'       => $objData,
             'pageUrl'       => $this->bUrl.'/'.$id,
         ];
         $this->data['modules']      = Module::orderBy('id')->with('sections')->where('status',1)->get();
-        $this->layout('profile');
+        $this->layout('permission');
     }
 
 

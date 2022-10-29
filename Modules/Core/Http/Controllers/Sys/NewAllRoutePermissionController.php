@@ -24,8 +24,8 @@ class NewAllRoutePermissionController extends Controller
     }
 
     public function store(){
-        $this->model::truncate();
-        Roles::updated(['permissions'=>null]);
+//        $this->model::truncate();
+//        Roles::updated(['permissions'=>null]);
         $name   = Route::getRoutes();
         $sl     = 0;
         $old_section_name ='';
@@ -48,6 +48,10 @@ class NewAllRoutePermissionController extends Controller
                         $roles              = ['1'];
                         $role               = $this->auth->findRoleById(1);
                         if (!empty($data)){
+                            $user = $this->auth->findRoleById(1);
+                            if ($user->hasAccess($route_name)) {
+
+                            }
                             $action_route = json_decode($data->section_action_route, true);
                             if (!isset($action_route[$route_name])) {
                                 if (!empty($old_section_name) && $old_section_name !=$section_name){

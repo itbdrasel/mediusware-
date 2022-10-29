@@ -139,7 +139,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$user->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a></li>
-                                                        <li><a class="dropdown-item" href="{{url($bUrl.'/profile/'.$user->id)}}?permission=permission"><i class="fa fa-eye"></i> view Permission</a></li>
+                                                        <li><a class="dropdown-item" href="{{url($bUrl.'/permission/'.$user->id)}}"><i class="fa fa-eye"></i> view Permission</a></li>
                                                         <li> <div class="dropdown-divider"></div></li>
                                                         <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$user->id)}}"><i class="fa fa-trash"></i> Delete</a></li>
                                                     </ul>

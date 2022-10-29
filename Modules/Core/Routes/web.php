@@ -61,6 +61,7 @@ Route::prefix('core')->group(function() {
         Route::group(['prefix'=>'user','as'=>'user','controller'=>'UserController'], function () {
             getResourceRoute(['index','create','store','edit','update','delete']);
             Route::get('profile/{id}', 'profile')->name('.profile');
+            Route::get('permission/{id}', 'permission')->name('.permission');
         });
 
         // Branch Route
