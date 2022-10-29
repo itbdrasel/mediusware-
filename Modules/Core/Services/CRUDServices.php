@@ -22,7 +22,7 @@ class CRUDServices{
      * @return validation message
      */
 
-    public function getIndexData($request, $model, $tableId){
+    public function getIndexData($request, $model, $tableId, $with=''){
         $model_sortable = $model::$sortable;
         $perPage = session('per_page') ?: 10;
 
@@ -35,6 +35,9 @@ class CRUDServices{
 
         //model query...
         $queryData = $model::orderBy( getOrder($model_sortable, $tableId)['by'], getOrder($model_sortable, $tableId)['order']);
+        if (!empty($with)){
+            $queryData->with($with);
+        }
         //filter by text.....
         $data['filter'] ='';
         if( $request->filled('filter') ){
@@ -73,8 +76,7 @@ class CRUDServices{
         return $data;
     }
 
-    public function getInsertData($model, $request){
-        $data = [];
+    public function getInsertData($model, $request, $data = []){
         $array= $model::$insertData;
         for ($i=0; $i<count( $array); $i++){
             $data[$array[$i]]= $request[$array[$i]];
