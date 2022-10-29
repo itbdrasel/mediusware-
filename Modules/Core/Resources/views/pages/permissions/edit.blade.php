@@ -124,7 +124,6 @@
                                             <div class="row">
                                                 @foreach($roles as $role_key=>$role)
                                                     @php
-
                                                         $checked = in_array($role->id, $value) ? "checked" : "";
                                                     @endphp
                                                     <div class="col-md-4 form-group">

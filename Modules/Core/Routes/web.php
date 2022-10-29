@@ -97,7 +97,7 @@ Route::group([ 'prefix' => 'core/mediamanager','controller'=>'MediaManagerContro
 //    Route::get('/links','content_links')->name('.links');
     Route::post('/create',  'create')->name('.create');
     Route::post('/rename', 'rename')->name('.rename');
-    Route::post('/delete',  'delete')->name('.delete ');
+    Route::post('/delete',  'delete')->name('.delete');
     Route::match(['get', 'post'], '/upload','upload')->name('.upload');
 
     //route fallback. when post route requested
