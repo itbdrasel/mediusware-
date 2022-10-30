@@ -358,3 +358,7 @@ function getModuleName($className){
     $arr_class              = explode("\\", $className);
     return count($arr_class) >0?strtolower($arr_class[1]):'';
 }
+
+function getPlaceholderDate(){
+    return str_replace(["Y",'d','m'],["YY",'DD','MM'],config('settings')['date_format']);
+}

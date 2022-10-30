@@ -3,11 +3,16 @@ namespace Modules\Hrms\Http\Controllers;
 
 
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Core\Entities\BloodGroup;
+use Modules\Core\Entities\Gender;
+use Modules\Core\Entities\Religion;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
+use Modules\Hrms\Entities\Department;
+use Modules\Hrms\Entities\Designation;
 use Modules\Hrms\Entities\Employee;
 use Validator;
 use Sentinel;
@@ -58,7 +63,7 @@ class EmployeeController extends Controller
         ];
 
 
-        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
+        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId, ['department','designation']);
 
         if ($request->filled('filter')) {
             $this->data['filter'] = $filter = $request->get('filter');
@@ -84,6 +89,12 @@ class EmployeeController extends Controller
             'objData'       => ''
         ];
 
+        $this->data['genders']      = Gender::orderBy('order_by')->orderBy('id')->get();
+        $this->data['religions']    = Religion::orderBy('order_by')->orderBy('id')->get();
+        $this->data['blood_groups'] = BloodGroup::orderBy('order_by')->orderBy('id')->get();
+        $this->data['departments']  = Department::orderBy('order_by')->orderBy('id')->get();
+        $this->data['designation']  = Designation::orderBy('order_by')->orderBy('id')->get();
+
 
         $this->layout('create');
     }
@@ -107,7 +118,11 @@ class EmployeeController extends Controller
             'objData'       => $objData
         ];
 
-        $this->layout('edit');
+        $this->layout('create');
+    }
+
+    public function show($id){
+
     }
 
 

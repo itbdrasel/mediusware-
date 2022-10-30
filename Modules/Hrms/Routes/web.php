@@ -15,6 +15,11 @@
 Route::group(['prefix'=>'hrms','as'=>'hrms.'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
+    // Employee Route
+    Route::group(['prefix'=>'employee','as'=>'employee','controller'=>'EmployeeController'], function () {
+        getResourceRoute(['index','create','edit','store','show','delete']);
+    });
+
     // Department Route
     Route::group(['prefix'=>'department','as'=>'department','controller'=>'DepartmentController'], function () {
         getResourceRoute(['index','edit','store', 'delete']);

@@ -373,3 +373,18 @@ function getAlias(title) {
 		}
 	});
 }
+
+if ( $('.onlyNumber').length) {
+    $('.onlyNumber').on('keyup', function (e) {
+        if (/\D/g.test(this.value)) {
+            this.value = this.value.replace(/\D/g, '');
+        }
+    });
+}
+if ( $('.number').length) {
+    $('.number').keypress(function(event) {
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+}
