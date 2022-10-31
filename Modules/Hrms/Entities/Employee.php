@@ -17,7 +17,7 @@ class Employee extends Model
 
     public static $filters = ['name','id_no','mobile'];
 
-    public static $required = ['name',['department_id'=>'department'], ['basic_salary'=>'Basic salary'], 'email'];
+    public static $required = ['name','id_number','mobile','gender_id'=>'Gender','department_id'=>'department', 'basic_salary'=>'Basic salary', 'email'];
 
     public static $insertData = ['id_number', 'name', 'department_id', 'designation_id', 'father_name', 'mother_name', 'gender_id', 'religion_id', 'marital_state', 'mobile', 'email', 'nid', 'tin', 'basic_salary', 'total_salary', 'present_address', 'permanent_address', 'seniority', 'blood_group_id', 'increment_status', 'salary_status', 'is_website', 'status'];
 

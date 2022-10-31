@@ -223,57 +223,76 @@
                                     <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                @php
+                                    $input_name = 'picture';
+                                @endphp
+                                <label  class="col-sm-2 col-form-label text-capitalize">Profile Picture </label>
 
+                                <div class="col-sm-3 position-relative">
+                                    <div class="input-group mb-2 mr-sm-2">
+                                        <input type="text"   readonly value="{{ getValue($input_name, $objData)}}" data-multiple="no" id="{{$input_name}}" name="{{$input_name}}"  class="form-control featured_image">
+                                        <div class="input-group-text">
+                                            <a class="featured_tag" data-id="{{$input_name}}" style="cursor: pointer" ><span class="fa fa-image"></span></a>
+                                        </div>
+                                    </div>
+                                    <span id="{{$input_name}}_preview" data-input_id="{{$input_name}}" style="position:absolute; top:0%; left:102%; width:250px" class="preview"></span>
+                                </div>
+                                <div class="col-sm-1"></div>
+                                @php
+                                    $input_name = 'document';
+                                @endphp
+                                <label class="col-sm-2 col-form-label">{{str_replace(['_','id'],' ',$input_name)}}</label>
 
-
-
-
-
-
-
-
-
-
-
-
-
+                                <div class="col-sm-4">
+                                    <input type="text" name="{{$input_name}}" id="{{$input_name}}" value="{{ getValue($input_name, $objData)}} " class="form-control @error($input_name) is-invalid @enderror"
+                                    <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                </div>
+                            </div>
 
                             <div class="form-group row">
-                                <label for="" class="col-sm-4 col-form-label">User Image </label>
-                                <div class="col-sm-5 position-relative">
-                                    <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" readonly value="" data-multiple="no" id="user_image" name="featuredimage"  class="form-control featured_image">
-                                        <div class="input-group-text">
-                                            <a class="featured_tag" data-id="user_image" style="cursor: pointer" ><span class="fa fa-image"></span></a>
-                                        </div>
-                                    </div>
-                                    <span id="user_image_preview" data-input_id="user_image" style="position:absolute; top:0%; left:102%; width:250px" class="preview"></span>
-                                </div>
-
-
-                            </div>
-                            <div class="form-group row d-none" id="branch_aria">
                                 @php
-                                    $input_name = 'branch_id';
+                                    $input_name = 'present_address';
                                 @endphp
-                                <label for="{{$input_name}}" class="col-sm-4 col-form-label">Branch<code>*</code></label>
-                                <div class="col-sm-8">
-                                    <div class="input-group ">
-                                        <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
-                                            <option value=""> Select User Branch </option>
-{{--                                            @if (!empty($allBranch))--}}
-{{--                                                @foreach ($allBranch as $branch)--}}
-{{--                                                    <option {{getValue($input_name, $objData)==$branch->id?'selected':''}}  value="{{$branch->id}}"> {{$branch->name}} </option>--}}
-{{--                                                @endforeach--}}
-{{--                                            @endif--}}
-                                        </select>
-                                        <div class="input-group-text">
-                                            <span class="fas fa-code-branch"></span>
-                                        </div>
-                                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
-                                    </div>
+                                <label  class="col-sm-2 col-form-label text-capitalize">{{str_replace(['_','id'],' ',$input_name)}} </label>
+
+                                <div class="col-sm-4">
+                                    <textarea name="{{$input_name}}" id="{{$input_name}}" class="form-control @error($input_name) is-invalid @enderror" rows="2" placeholder="Enter ..." style="margin-top: 0px; margin-bottom: 0px; height: 100px;">{{ getValue($input_name, $objData) }}</textarea>
+                                    <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                </div>
+                                @php
+                                    $input_name = 'permanent_address';
+                                @endphp
+                                <div class="col-sm-2">
+                                    <label class="col-sm-12 col-form-label">{{str_replace(['_','id'],' ',$input_name)}}</label>
+                                    <input type="checkbox" id="address_equity" onclick="check_address_equity(this.value)" name="address_equity" value="0" {{ old('address_equity') == 1 ? 'checked' : '' }} style="position: absolute; width: 20px; height: 20px; margin-top: 5px">
+                                    <label for="address_equity" style="margin-left: 23px">
+                                        Same as Present Address
+                                    </label>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <textarea name="{{$input_name}}" id="{{$input_name}}" class="form-control @error($input_name) is-invalid @enderror" rows="2" placeholder="Enter ..." style="margin-top: 0px; margin-bottom: 0px; height: 100px;">{{ getValue($input_name, $objData) }}</textarea>
+                                    <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                 </div>
                             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                         </div>
@@ -286,7 +305,7 @@
                             @php
                                 $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                             @endphp
-							<button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-save"></i> Register User</button>&nbsp;
+							<button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-save"></i> Save </button>&nbsp;
 							<a href="{{url($bUrl)}}" class="btn btn-warning">Cancel</a>
 						</div>
 					</div>
@@ -297,27 +316,19 @@
 </section>
 
 @endsection
+
 @push('js')
     <script>
-        $(document).ready(function () {
-            activeBranch();
-        })
-        $('#role').on('change', function () {
-            activeBranch();
-        });
-        function activeBranch() {
-           let role = $('#role').val();
-           if (role !=''){
-               let activeBranch = $('#role').find(':selected').data('branch');
-               if (activeBranch ==1){
-                $('#branch_aria').removeClass('d-none');
-               }else{
-                   $('#branch_aria').addClass('d-none');
-               }
-
-           }else{
-               $('#branch_aria').addClass('d-none');
-           }
+        /// Address Equity ///
+        function check_address_equity(value) {
+            if(value == 0) {
+                let present_address = $("#present_address").val();
+                $("#permanent_address").val(present_address);
+                $("#address_equity").val(1);
+            } else {
+                $("#permanent_address").val('');
+                $("#address_equity").val(0);
+            }
         }
     </script>
 @endpush

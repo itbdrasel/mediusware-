@@ -62,9 +62,9 @@ class CRUDServices{
 
     }
 
-    public function getValidationRules($model){
-        $data['rules'] = [];
-        $data['attribute'] = [];
+    public function getValidationRules($model, $rules=[], $attribute=[]){
+        $data['rules'] = $rules;
+        $data['attribute'] = $attribute;
         foreach ($model::$required as $key=>$value){
             if (!is_int($key)){
                 $data['rules'][$key]  = 'required';
