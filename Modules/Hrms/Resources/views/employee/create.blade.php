@@ -25,6 +25,7 @@
 						<div class="pl-3 col-11">
 
                             @csrf
+                            <input type="hidden" id="" name="id" value="{{getValue('id', $objData)}}">
 								{{ validation_errors($errors) }}
 
 								<div class="form-group row">
@@ -80,19 +81,13 @@
                                     <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                 </div>
                                 @php
-                                    $input_name = 'gender_id';
+                                    $input_name = 'email';
                                 @endphp
                                 <label for="{{$input_name}}" class="col-sm-2 col-form-label">{{str_replace(['_','id'],' ',$input_name)}}<code> *</code></label>
 
+
                                 <div class="col-sm-4">
-                                    <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
-                                        <option value=""> Select Gender </option>
-                                @if (!empty($genders))
-                                    @foreach ($genders as $gender)
-                                        <option {{getValue($input_name, $objData)==$gender->id?'selected':''}}  value="{{$gender->id}}"> {{$gender->name}} </option>
-                                    @endforeach
-                                @endif
-                                    </select>
+                                    <input type="email" name="{{$input_name}}" id="{{$input_name}}" value="{{ getValue($input_name, $objData)}} " class="form-control @error($input_name) is-invalid @enderror" >
                                     <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                 </div>
                             </div>
@@ -160,12 +155,19 @@
                                     <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                 </div>
                                 @php
-                                    $input_name = 'tin';
+                                    $input_name = 'gender_id';
                                 @endphp
-                                <label for="{{$input_name}}" class="col-sm-2 col-form-label">{{str_replace(['_','id'],' ',$input_name)}}</label>
+                                <label for="{{$input_name}}" class="col-sm-2 col-form-label">{{str_replace(['_','id'],' ',$input_name)}}<code> *</code></label>
 
                                 <div class="col-sm-4">
-                                    <input type="text" name="{{$input_name}}" id="{{$input_name}}" value="{{ getValue($input_name, $objData)}} " class="form-control @error($input_name) is-invalid @enderror"
+                                    <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
+                                        <option value=""> Select Gender </option>
+                                        @if (!empty($genders))
+                                            @foreach ($genders as $gender)
+                                                <option {{getValue($input_name, $objData)==$gender->id?'selected':''}}  value="{{$gender->id}}"> {{$gender->name}} </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                     <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                 </div>
                             </div>
@@ -281,7 +283,7 @@
                             <div class="form-group row">
 
                                 @php
-                                    $input_name = 'social_network';
+                                    $input_name = 'social_media';
                                 @endphp
                                 @php
                                     $social_all = json_decode(getValue($input_name, $objData));
@@ -291,10 +293,10 @@
                                 <div id="social_aria" class="col-sm-4">
                                     <div class="row mb-3">
                                         <div class="col-sm-4">
-                                            <input type="text" placeholder="Network Name" value="{{$social_all[0]->network_name??''}}" name="network_name[]" class="form-control">
+                                            <input type="text" placeholder="Media Name" value="{{$social_all[0]->media_name??''}}" name="media_name[]" class="form-control">
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" value="{{$social_all[0]->network_link??''}}" placeholder="Network Link" name="network_link[]" class="form-control">
+                                            <input type="text" value="{{$social_all[0]->media_link??''}}" placeholder="Media Link" name="media_link[]" class="form-control">
                                         </div>
                                         <div class="col-sm-1">
                                             <a style="cursor: pointer" class="input_add btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
@@ -308,10 +310,10 @@
                                             @if($sl++ >0)
                                                 <div class="row mb-3" id="remove_div_{{$sl}}">
                                                     <div class="col-sm-4">
-                                                        <input type="text" placeholder="Network Name" value="{{$value->network_name??''}}" name="network_name[]" class="form-control">
+                                                        <input type="text" placeholder="Media Name" value="{{$value->media_name??''}}" name="media_name[]" class="form-control">
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <input type="text" value="{{$value->network_link??''}}" placeholder="Network Link" name="network_link[]" class="form-control">
+                                                        <input type="text" value="{{$value->media_link??''}}" placeholder="Media Link" name="media_link[]" class="form-control">
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <a style="cursor: pointer" onclick="removeSocialDiv({{$sl}})"  class="input_remove btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></a>
@@ -367,10 +369,10 @@
             var html ='' +
                 '<div class="row mb-3" id="remove_div_'+count+'">' +
                 '<div class="col-sm-4">' +
-                '<input type="text" placeholder="Network Name" value="" name="network_name[]" class="form-control">' +
+                '<input type="text" placeholder="Media Name" value="" name="media_name[]" class="form-control">' +
                 '</div>' +
                 '<div class="col-sm-6">' +
-                ' <input type="text" value="" placeholder="Network Link" name="network_link[]" class="form-control">' +
+                ' <input type="text" value="" placeholder="Media Link" name="media_link[]" class="form-control">' +
                 '</div>' +
                 '<div class="col-sm-1">' +
                 '<a style="cursor: pointer" onclick="removeSocialDiv('+count+')"  class="input_remove btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></a>' +

@@ -79,7 +79,9 @@ class CRUDServices{
     public function getInsertData($model, $request, $data = []){
         $array= $model::$insertData;
         for ($i=0; $i<count( $array); $i++){
-            $data[$array[$i]]= $request[$array[$i]];
+            if (!empty($request[$array[$i]])){
+                $data[$array[$i]]= $request[$array[$i]];
+            }
         }
         return $data;
     }

@@ -2,6 +2,7 @@
 namespace Modules\Hrms\Http\Controllers;
 
 
+use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Core\Entities\BloodGroup;
 use Modules\Core\Entities\Gender;
@@ -118,6 +119,12 @@ class EmployeeController extends Controller
             'objData'       => $objData
         ];
 
+        $this->data['genders']      = Gender::orderBy('order_by')->orderBy('id')->get();
+        $this->data['religions']    = Religion::orderBy('order_by')->orderBy('id')->get();
+        $this->data['blood_groups'] = BloodGroup::orderBy('order_by')->orderBy('id')->get();
+        $this->data['departments']  = Department::orderBy('order_by')->orderBy('id')->get();
+        $this->data['designation']  = Designation::orderBy('order_by')->orderBy('id')->get();
+
         $this->layout('create');
     }
 
@@ -141,13 +148,14 @@ class EmployeeController extends Controller
         }
         $params = $this->getInsertData($request);
         if (empty($id) ) {
-            $this->model::create($params);
+            $employee_id = $this->model::create($params)->id;
+            $this->createUser($request, $employee_id);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
         }else{
             $this->model::where($this->tableId, $id)->update($params);
+            $this->createUser($request, $id);
             return redirect($this->bUrl)->with('success', 'Successfully Updated');
         }
-
 
     }
 
@@ -177,7 +185,56 @@ class EmployeeController extends Controller
     }
 
     public function getInsertData($request){
-        return $this->crudServices->getInsertData($this->model, $request);
+        $params = $this->crudServices->getInsertData($this->model, $request);
+        $media_name = $request['media_name'];
+        $social = [];
+        if (!empty($media_name)) {
+            foreach ($media_name as $key=>$value){
+                if (!empty($value)) {
+                    $social[]=  [
+                        'media_name'=>$value,
+                        'media_link'=>$request['media_link'][$key],
+                    ];
+                }
+            }
+        }
+        $params['social_media']     =  json_encode($social);
+        $params['birth_date']       =  dbDateFormat($request['birth_date']);
+        $params['joining_date']     =  dbDateFormat($request['joining_date']);
+
+        return $params;
+    }
+
+    public function createUser($request, $id){
+        $department_id = $request['department_id'];
+        $department = Department::where(['id'=>$department_id])->first();
+        if (!empty($department)){
+            if (!empty($department->role_id)){
+                $user = User::where('employee_id', $id)->first();
+                if (empty($user)){
+                    $rules = ['email'=>'required|email|unique:users'];
+                    $attribute =[];
+                    $customMessages =[];
+                    $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
+                    if ($validator->fails()){
+                        return redirect($this->bUrl.'/'.$id.'/edit')->withErrors($validator)->withInput();
+                    }
+                    $registerData = [
+                        'full_name'             => $request['name'],
+                        'email'                 => $request['email'],
+                        'phone'                 => $request['mobile'] ?: NULL,
+                        'password'              =>'12346',
+                        'role'                  => $department->role_id,
+                        'employee_id'           => $id
+                    ];
+                    $this->auth->register($registerData);
+                }
+
+            }else{
+                User::where(['employee_id', $department_id])->delete();
+            }
+        }
+
     }
 
 

@@ -94,29 +94,18 @@
                                                     <td class="text-center">
                                                         <div class="btn-group dropleft">
                                                             <button type="button" class="btn btn-outline-primary link_btn">
-                                                                <a  href="{{url($bUrl.'/'.$user->id)}}"><i class="fa fa-table"></i> </a>
+                                                                <a  href="{{url($bUrl.'/'.$data->id)}}"><i class="fa fa-table"></i> </a>
                                                             </button>
                                                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                             </button>
                                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$user->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a></li>
+                                                                <li><a class="dropdown-item"  href="{{url($bUrl.'/'.$data->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a></li>
                                                                 <li> <div class="dropdown-divider"></div></li>
-                                                                <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$user->id)}}"><i class="fa fa-trash"></i> Delete</a></li>
+                                                                <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->id)}}"><i class="fa fa-trash"></i> Delete</a></li>
                                                             </ul>
                                                         </div>
                                                     </td>
-                                                    <td class="text-center">
-                                                        <div class="btn-group">
-                                                        <button type="button" class="btn btn-outline-primary link_btn">
-                                                            <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
-                                                        </button>
 
-                                                        <button type="button" class="btn btn-outline-primary link_btn">
-                                                            <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
-                                                        </button>
-                                                        </div>
-
-                                                    </td>
                                                 </tr>
 
                                                 @php
