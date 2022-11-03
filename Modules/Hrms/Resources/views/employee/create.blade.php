@@ -278,20 +278,50 @@
                             </div>
 
 
+                            <div class="form-group row">
 
+                                @php
+                                    $input_name = 'social_network';
+                                @endphp
+                                @php
+                                    $social_all = json_decode(getValue($input_name, $objData));
+                                @endphp
+                                <label for="{{$input_name}}" class="col-sm-2 col-form-label text-capitalize">{{str_replace(['_','_id'],' ',$input_name)}}</label>
 
-
-
-
-
-
-
-
-
-
-
-
-
+                                <div id="social_aria" class="col-sm-4">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <input type="text" placeholder="Network Name" value="{{$social_all[0]->network_name??''}}" name="network_name[]" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" value="{{$social_all[0]->network_link??''}}" placeholder="Network Link" name="network_link[]" class="form-control">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a style="cursor: pointer" class="input_add btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                    @if (!empty($social_all))
+                                        @php
+                                            $sl =0;
+                                        @endphp
+                                        @foreach($social_all as $key=>$value )
+                                            @if($sl++ >0)
+                                                <div class="row mb-3" id="remove_div_{{$sl}}">
+                                                    <div class="col-sm-4">
+                                                        <input type="text" placeholder="Network Name" value="{{$value->network_name??''}}" name="network_name[]" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" value="{{$value->network_link??''}}" placeholder="Network Link" name="network_link[]" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <a style="cursor: pointer" onclick="removeSocialDiv({{$sl}})"  class="input_remove btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
 
 
 
@@ -329,6 +359,28 @@
                 $("#permanent_address").val('');
                 $("#address_equity").val(0);
             }
+        }
+    </script>
+    <script type="text/javascript">
+        count = {{count($social_all??[])}};
+        $('.input_add').on('click', function () {
+            var html ='' +
+                '<div class="row mb-3" id="remove_div_'+count+'">' +
+                '<div class="col-sm-4">' +
+                '<input type="text" placeholder="Network Name" value="" name="network_name[]" class="form-control">' +
+                '</div>' +
+                '<div class="col-sm-6">' +
+                ' <input type="text" value="" placeholder="Network Link" name="network_link[]" class="form-control">' +
+                '</div>' +
+                '<div class="col-sm-1">' +
+                '<a style="cursor: pointer" onclick="removeSocialDiv('+count+')"  class="input_remove btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></a>' +
+                '</div>' +
+                '</div>';
+            $('#social_aria').append(html);
+            count++;
+        })
+        function removeSocialDiv(id) {
+            $('#remove_div_'+id).remove();
         }
     </script>
 @endpush
