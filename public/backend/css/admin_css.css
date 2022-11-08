@@ -1,0 +1,42 @@
+/********************************** left nav ber code start ***********************/
+.main-sidebar,  .top_title{
+    background: #274E88 !important;
+}
+
+[class*=sidebar-dark] .brand-link {
+    border-bottom: 1px solid #ffffff !important;
+}
+
+.menu-open{
+    background-color: rgba(255,255,255,.05);!important;
+    border-radius: 5px;
+}
+/********************************** left nav ber code end ***********************/
+
+.content-wrapper>.content{
+    padding: 1rem;
+}
+
+
+.content-wrapper{
+    position: relative;
+}
+.content-wrapper:before{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 160px;
+    background: #274E88 !important;
+}
+.content-header, .content-header ol li,  .content-header ol li a, .content-header div{
+    color: #fff!important;
+}
+.content-header div{
+    z-index: 11;
+  }
+
+.breadcrumb-item+.breadcrumb-item::before {
+    display: none;
+}

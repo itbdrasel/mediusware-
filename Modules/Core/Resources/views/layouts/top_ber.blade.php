@@ -1,6 +1,6 @@
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
         <!-- Left navbar links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin-left: 10px">
             <li class="nav-item">

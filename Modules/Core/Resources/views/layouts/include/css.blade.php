@@ -28,6 +28,7 @@
 <!-- New Added Start -->
 <link rel="stylesheet" href="{{asset('backend/plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{asset('backend/plugins/date_range_picker/daterangepicker.css') }}">
+<link rel="stylesheet" href="{{url('backend')}}/css/admin_css.css">
 <!-- New Added End -->
 <style>
     @media print {

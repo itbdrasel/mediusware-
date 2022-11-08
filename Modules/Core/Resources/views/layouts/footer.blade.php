@@ -1,6 +1,6 @@
 </div>
 <!-- /.content-wrapper -->
-<footer class="main-footer">
+<footer class="main-footer text-sm">
     <strong>Copyright &copy; 2022-{{date('Y')}} <a href="{{$url}}">{{$appName}}</a>.</strong> All rights reserved.
 </footer>
 

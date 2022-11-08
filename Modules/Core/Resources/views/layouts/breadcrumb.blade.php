@@ -10,9 +10,9 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="#">{{$appTitle}}</a></li>
-                        <li class="breadcrumb-item active">{!! config('core.name') !!}</li>
+                        <li class="breadcrumb-item active text-capitalize"><i class="fa fa-angle-double-right"></i> {{$moduleName}}</li>
                         @if(!empty($title))
-                        <li class="breadcrumb-item active">{{$title}}</li>
+                        <li class="breadcrumb-item active"><i class="fa fa-angle-double-right"></i> {{$title}}</li>
                         @endif
                     </ol>
                 </div>
