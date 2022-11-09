@@ -3,6 +3,8 @@
 namespace Modules\Hrms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Entities\BloodGroup;
+use Modules\Core\Entities\Gender;
 
 class Employee extends Model
 {
@@ -15,9 +17,9 @@ class Employee extends Model
 
     public static $sortable = ['id','name','id_number'];
 
-    public static $filters = ['name','id_no','mobile'];
+    public static $filters = ['name','id_number','mobile'];
 
-    public static $required = ['name','id_number','mobile','gender_id'=>'Gender','department_id'=>'department', 'basic_salary'=>'Basic salary', 'email'];
+    public static $required = ['name','mobile','gender_id'=>'Gender','department_id'=>'department', 'basic_salary'=>'Basic salary', 'email'];
 
     public static $insertData = ['id_number', 'name', 'department_id', 'designation_id', 'father_name', 'mother_name', 'gender_id', 'religion_id', 'marital_state', 'mobile', 'email', 'nid', 'tin', 'basic_salary', 'total_salary', 'present_address', 'permanent_address', 'seniority', 'blood_group_id', 'increment_status', 'salary_status', 'is_website', 'status'];
 
@@ -27,6 +29,14 @@ class Employee extends Model
 
     public function designation(){
         return $this->hasOne(Designation::class, 'id','designation_id');
+    }
+
+    public function bloodGroup(){
+        return $this->hasOne(BloodGroup::class, 'id','blood_group_id');
+    }
+
+    public function gender(){
+        return $this->hasOne(Gender::class, 'id','gender_id');
     }
 
 

@@ -10,9 +10,9 @@
                         <i class="fas fa-minus"></i>
                     </button>
                     <button type="button" class="btn btn-tool">
-                        <a href="{{url($bUrl.'/'.$objData->id.'/edit')}}" class="btn btn-info btn-sm"><i class="mdi mdi-plus"></i>
+                        <a href="{{url($bUrl.'/'.$objData->id.'/edit')}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i>
                             <i class="fa fa-edit"></i> Edit</a>
-                        <a href="{{url($bUrl)}}" class="btn btn-info btn-sm"><i class="mdi mdi-plus"></i> <i
+                        <a href="{{url($bUrl)}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i> <i
                                 class="fa fa-arrow-left"></i> Back</a>
                     </button>
 
@@ -21,6 +21,9 @@
             <style>
                 .guest-profile-box, .guest_info{
                     border: none !important;
+                }
+                .general_info{
+                    padding: 20px;
                 }
                 .general_info label{
                     margin-bottom: 15px !important;
@@ -54,11 +57,7 @@
                             <div class="card">
                                 <div class="guest-profile-box">
                                     <div class="guest-profile-pic">
-                                        @if(\Storage::exists($objData->picture))
-                                            <img src="{{url('/').'/'.$objData->picture}}" alt="">
-                                        @else
-                                            <img src="{{url('/backend/images')}}/default-avatar.png">
-                                        @endif
+                                        <img src="{{url('/backend/images')}}/default-avatar.png">
                                     </div>
                                     <div class="text-center">
                                         <h4>{{$objData->name}}</h4>
@@ -98,7 +97,7 @@
                                         </div>
                                         <label class="col-sm-2 label font-weight-bold h6">Date Of Birth</label>
                                         <div class="col-sm-4">
-                                            : {{userDateFormat($objData->birth_date)}}
+                                            : {{dateFormat($objData->birth_date)}}
                                         </div>
 {{--                                        <label class="col-sm-2 label font-weight-bold h6">Employee Type</label>--}}
 {{--                                        <div class="col-sm-4">--}}
@@ -106,7 +105,7 @@
 {{--                                        </div>--}}
                                         <label class="col-sm-2 label font-weight-bold h6">Joining Date</label>
                                         <div class="col-sm-4">
-                                            : {{userDateFormat($objData->joining_date)}}
+                                            : {{dateFormat($objData->joining_date)}}
                                         </div>
                                         <label class="col-sm-2 label font-weight-bold h6">Mobile No</label>
                                         <div class="col-sm-4">
@@ -122,12 +121,12 @@
                                         </div>
                                         <label class="col-sm-2 label font-weight-bold h6">Tin Number</label>
                                         <div class="col-sm-4">
-                                            : {{$objData->in }}
+                                            : {{$objData->tin }}
                                         </div>
 
                                         <label class="col-sm-2 label font-weight-bold h6">Gender</label>
                                         <div class="col-sm-4">
-                                            : {{$objData->employee_sex }}
+                                            : {{$objData->gender->name??'' }}
                                         </div>
                                         <label class="col-sm-2 label font-weight-bold h6">Religion</label>
                                         <div class="col-sm-4">
@@ -137,15 +136,15 @@
 
                                         <label class="col-sm-2 label font-weight-bold h6">Basic Salary</label>
                                         <div class="col-sm-4">
-                                            : {{$objData->basic_salary }}
+                                            : {{ currency($objData->basic_salary, true) }}
                                         </div>
                                         <label class="col-sm-2 label font-weight-bold h6">Gross Salary</label>
                                         <div class="col-sm-4">
-                                            : {{$objData->basic_salary }}
+                                            : {{currency($objData->basic_salary, true) }}
                                         </div>
                                         <label class="col-sm-2 label font-weight-bold h6">Blood Group</label>
                                         <div class="col-sm-4">
-                                            : {{$objData->blood_group }}
+                                            : {{$objData->bloodGroup->name??'' }}
                                         </div>
                                         <label class="col-sm-2 label font-weight-bold h6">Father's Name</label>
                                         <div class="col-sm-4">
@@ -163,81 +162,10 @@
                                         <div class="col-sm-4">
                                             : {{$objData->permanent_address }}
                                         </div>
-                                        <div class="col-sm-6"></div>
+
 
                                     </div>
-                                    <h2 class="pl-4 other_label"><span>Educational Information</span></h2>
-                                    <div class="pl-4 pr-4" >
-                                        <table class="table table-bordered text-center" id="eduTable">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col" >Institute</th>
-                                                <th scope="col" >Subject</th>
-                                                <th scope="col" >Degree</th>
-                                                <th scope="col" >Passing Year</th>
-                                                <th scope="col" >Result</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @php
-                                                $education_array =[];
-                                                  if (!empty($objData->employee_education)) {
-                                                      $education_array= json_decode($objData->employee_education, true);
-                                                  }
-                                            @endphp
-                                            @if(count($education_array) >0)
-                                                @foreach($education_array as $key=>$value)
-                                                    <tr>
-                                                        <td>{{$value['ins_name']}}</td>
-                                                        <td>{{$value['subject']}}</td>
-                                                        <td>{{$value['degree']}}</td>
-                                                        <td>{{$value['passing_year']}}</td>
-                                                        <td>{{$value['result']}}</td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
 
-                                    <h2 class="pl-4 other_label"><span>Language Information</span></h2>
-                                    <div class="pl-4 pr-4" >
-                                        <table class="table table-bordered text-center language" >
-                                            <thead>
-                                            <tr>
-                                                <th scope="col" >Language</th>
-                                                <th scope="col" >Read</th>
-                                                <th scope="col" >Write</th>
-                                                <th scope="col" >Speak</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @php
-                                                $language_array =[];
-                                                if (!empty($objData->employee_language)) {
-                                                     $language_array= json_decode($objData->employee_language, true);
-                                                    }
-                                            @endphp
-                                            @if(count($language_array) >0)
-                                                @foreach($language_array as $sl=>$language_a)
-                                                    <tr>
-                                                        <td>{{$language_a['lang_name']}}</td>
-                                                        <td>{!!  ($language_a['readLang']  == "Y") ? '<i class="fa fa-check-circle" aria-hidden="true"></i>': '<i class="fa fa-times-circle" aria-hidden="true"></i>'  !!}</td>
-                                                        <td>{!!  ($language_a['writeLang']  == "Y") ? '<i class="fa fa-check-circle" aria-hidden="true"></i>': '<i class="fa fa-times-circle" aria-hidden="true"></i>'  !!}</td>
-                                                        <td>{!!  ($language_a['speakLang']  == "Y") ? '<i class="fa fa-check-circle" aria-hidden="true"></i>': '<i class="fa fa-times-circle" aria-hidden="true"></i>'  !!}</td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                            </tbody>
-                                        </table>
-                                        @if(\Storage::exists($objData->employee_document))
-                                            <label class="col-sm-2 label font-weight-bold h6">Document</label>
-                                            <div class="col-sm-12">
-                                                <embed src="{{url('/').'/'.$objData->employee_document}}" alt="" height="500px" width="100%"></embed><br>
-                                                <a class="btn btn-sm btn-primary" target="_blank" href="{{url('/').'/'.$objData->employee_document}}">View</a>
-                                            </div>
-                                        @endif
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -249,10 +177,6 @@
             </div>
         </div>
     </section>
-
-
-
-
 
 
 @include('core::layouts.include.modal')

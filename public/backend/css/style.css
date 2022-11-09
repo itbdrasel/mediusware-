@@ -1365,3 +1365,10 @@ a:hover.hotel-btn-single{
     font-size: 14px;
 }
 
+.link_btn:hover a{
+    color: #fff !important;
+}
+.dropdown_toggle{
+    background: #31acc0;
+    border: 1px solid #31acc0;
+}

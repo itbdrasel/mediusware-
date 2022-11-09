@@ -16,7 +16,6 @@ use Modules\Hrms\Entities\Department;
 use Modules\Hrms\Entities\Designation;
 use Modules\Hrms\Entities\Employee;
 use Validator;
-use Sentinel;
 
 class EmployeeController extends Controller
 {
@@ -130,6 +129,18 @@ class EmployeeController extends Controller
 
     public function show($id){
 
+        $objData = $this->model::where($this->tableId, $id)->first();
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if( !$id || empty($objData) ){ exit('Bad Request!'); }
+
+        $this->data = [
+            'title'         => $this->title.' Information',
+            'pageUrl'       => $this->bUrl.'/'.$id,
+            'page_icon'     => '<i class="fas fa-edit"></i>',
+            'objData'       => $objData
+        ];
+
+        $this->layout('view');
     }
 
 
@@ -142,7 +153,7 @@ class EmployeeController extends Controller
 
     public function store(Request $request){
         $id = $request[$this->tableId];
-        $validator = $this->getValidation($request);
+        $validator = $this->getValidation($request, $id);
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -176,8 +187,11 @@ class EmployeeController extends Controller
 
     }
 
-    public function getValidation($request){
-        $validationRules = $this->crudServices->getValidationRules($this->model);
+    public function getValidation($request, $id=''){
+        $rules = [
+            'id_number'=>'required|unique:hrms_employees,id_number,'.$id,
+        ];
+        $validationRules = $this->crudServices->getValidationRules($this->model, $rules);
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];
         $customMessages = [];

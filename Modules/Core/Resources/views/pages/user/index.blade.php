@@ -135,7 +135,7 @@
                                                     </button>
 {{--                                                    <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-hover dropdown-icon" data-bs-toggle="dropdown">--}}
 {{--                                                    </button>--}}
-                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-primary dropdown-toggle dropdown_toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$user->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a></li>
