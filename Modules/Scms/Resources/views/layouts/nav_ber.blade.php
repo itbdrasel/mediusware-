@@ -4,27 +4,20 @@
         <p>Dashboard</p>
     </a>
 </li>
-@if (dAuth()->hasAccess(['hrms.department']))
+@if (dAuth()->hasAccess(['hrms.designation']))
     <li class="nav-item">
-        <a href="{{url('hrms/employee')}}" class="nav-link {{activeMenu(2, 'employee')}}">
-            <i class="nav-icon fas fa-users"></i>
-            <p>Employee</p>
+        <a href="{{url('scms/group')}}" class="nav-link {{activeMenu(2, 'group')}}">
+            <i class="nav-icon fas fa-layer-group"></i>
+            <p>Group</p>
         </a>
     </li>
 @endif
-@if (dAuth()->hasAccess(['hrms.department']))
-<li class="nav-item">
-    <a href="{{url('hrms/department')}}" class="nav-link {{activeMenu(2, 'department')}}">
-        <i class="nav-icon fas fa-building"></i>
-        <p>Department</p>
-    </a>
-</li>
-@endif
+
 @if (dAuth()->hasAccess(['hrms.designation']))
 <li class="nav-item">
-    <a href="{{url('hrms/designation')}}" class="nav-link {{activeMenu(2, 'designation')}}">
-        <i class="nav-icon fas fa-level-up-alt"></i>
-        <p>Designation</p>
+    <a href="{{url('scms/shift')}}" class="nav-link {{activeMenu(2, 'shift')}}">
+        <i class="nav-icon fas fa-arrows"></i>
+        <p>Shift</p>
     </a>
 </li>
 @endif
