@@ -7,6 +7,11 @@ Route::group(['prefix'=>'scms','as'=>'scms.'], function () {
         getResourceRoute(['index','edit','store', 'delete']);
     });
 
+    // Section Route
+    Route::group(['prefix'=>'section','as'=>'section','controller'=>'Backend\SectionController'], function () {
+        getResourceRoute(['index','edit','store', 'delete']);
+    });
+
     // Group Route
     Route::group(['prefix'=>'group','as'=>'group','controller'=>'Backend\GroupController'], function () {
         getResourceRoute(['index','edit','store', 'delete']);

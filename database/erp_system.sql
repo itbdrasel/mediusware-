@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2022 at 08:05 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Nov 12, 2022 at 07:31 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rasel_erp_system`
+-- Database: `erp_system`
 --
 
 -- --------------------------------------------------------
@@ -282,7 +282,8 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (50, 1, 'HZxhXVDazrxEzss7wQaxl90ldgDO2rNa', '2022-11-09 16:07:20', '2022-11-09 16:07:20'),
 (51, 1, 'mXJbjlXONi4m8QgJKBVFkjIMLvHBGevo', '2022-11-09 17:44:33', '2022-11-09 17:44:33'),
 (52, 1, '0ospuFYBBozkCH6hzX93fIMseEcLoRMm', '2022-11-11 13:21:00', '2022-11-11 13:21:00'),
-(53, 1, 'GvHykHqAtXwOoFWakyHnadBW8zeWwGJO', '2022-11-12 05:00:19', '2022-11-12 05:00:19');
+(53, 1, 'GvHykHqAtXwOoFWakyHnadBW8zeWwGJO', '2022-11-12 05:00:19', '2022-11-12 05:00:19'),
+(54, 1, '3vJcXvmkDHTJyaRGeWvrKASMJORa8zIp', '2022-11-12 17:51:34', '2022-11-12 17:51:34');
 
 -- --------------------------------------------------------
 
@@ -415,6 +416,24 @@ INSERT INTO `scms_groups` (`id`, `name`, `order_by`, `created_at`, `updated_at`)
 (1, 'Humanities', 1, '2022-10-05 07:17:11', '2022-11-12 05:54:04'),
 (2, 'Science', 2, '2022-11-11 14:09:15', '2022-11-11 14:09:15'),
 (3, 'Business Studies', 3, '2022-11-11 14:09:23', '2022-11-11 14:09:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scms_sections`
+--
+
+CREATE TABLE `scms_sections` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `teacher_id` int(11) DEFAULT NULL,
+  `nick_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `class_id` int(11) DEFAULT NULL,
+  `shift_id` int(11) DEFAULT NULL,
+  `order_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -716,7 +735,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `employee_id`, `permissions`, `m_permission`, `password`, `directory`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-12 05:00:19', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-12 05:00:19'),
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-12 17:51:34', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-12 17:51:34'),
 (2, 'Rasel', 'rasel', '01911054866', 'rasel@gmail.com', '2022-10-09 16:25:43', 1, NULL, '{\"core.blood_group\":true}', NULL, '$2y$10$GHiH2cpMTxJQoSITYzVZJefwBnqhaWFyJwkPmV9r9waThGVEwmmqC', NULL, NULL, NULL, '2022-10-09 16:22:04', '2022-10-28 19:05:57'),
 (3, 'test', 'test@mail.com', '01911', 'test@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$sDMW30a2ML6q2H3/RkRLkuzVYOxtLe/nGSo3taJ1Pp/yLdq6dQAr.', NULL, NULL, NULL, '2022-10-18 09:47:31', '2022-10-18 09:47:31'),
 (4, 'ruble', 'ruble', '455', 'ruble@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$WyF/vbAD0w4xEbfGa8t8BuJursb6aPOXzLhPaCGqUa/roN/tF8/hK', '4-1666086791', NULL, NULL, '2022-10-18 09:53:10', '2022-10-18 09:53:11');
@@ -854,6 +873,12 @@ ALTER TABLE `scms_groups`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `scms_sections`
+--
+ALTER TABLE `scms_sections`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `scms_shift`
 --
 ALTER TABLE `scms_shift`
@@ -979,7 +1004,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1010,6 +1035,12 @@ ALTER TABLE `scms_class`
 --
 ALTER TABLE `scms_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `scms_sections`
+--
+ALTER TABLE `scms_sections`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `scms_shift`

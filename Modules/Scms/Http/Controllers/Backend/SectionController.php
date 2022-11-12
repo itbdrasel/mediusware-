@@ -8,9 +8,10 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Entities\ClassModel;
+use Modules\Scms\Entities\Section;
 use Validator;
 
-class ClassController extends Controller
+class SectionController extends Controller
 {
 
 
@@ -27,10 +28,10 @@ class ClassController extends Controller
         $this->moduleName       = getModuleName(get_called_class());
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
-        $this->model            = ClassModel::class;
+        $this->model            = Section::class;
         $this->tableId          = 'id';
-        $this->bUrl             = $this->moduleName.'/class';
-        $this->title            = 'Class';
+        $this->bUrl             = $this->moduleName.'/section';
+        $this->title            = 'Section';
     }
 
 
@@ -40,7 +41,7 @@ class ClassController extends Controller
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
 
-        echo view($this->moduleName.'::backend.class.'.$pageName.'', $this->data);
+        echo view($this->moduleName.'::backend.section.'.$pageName.'', $this->data);
 
     }
 

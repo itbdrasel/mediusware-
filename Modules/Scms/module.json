@@ -7,5 +7,7 @@
     "providers": [
         "Modules\\Scms\\Providers\\ScmsServiceProvider"
     ],
-    "files": []
+    "files": [
+        "Helpers/scms_helper.php"
+    ]
 }
