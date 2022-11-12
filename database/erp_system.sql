@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2022 at 06:58 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Nov 12, 2022 at 08:05 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `erp_system`
+-- Database: `rasel_erp_system`
 --
 
 -- --------------------------------------------------------
@@ -74,6 +74,7 @@ CREATE TABLE `hrms_departments` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role_id` int(11) DEFAULT NULL,
   `order_by` int(11) DEFAULT NULL,
+  `is_teacher` tinyint(2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -82,11 +83,12 @@ CREATE TABLE `hrms_departments` (
 -- Dumping data for table `hrms_departments`
 --
 
-INSERT INTO `hrms_departments` (`id`, `name`, `role_id`, `order_by`, `created_at`, `updated_at`) VALUES
-(1, 'Web Developer', 2, 1, '2022-04-09 01:54:55', '2022-10-29 17:28:02'),
-(2, 'Content Writer', NULL, 2, '2022-04-09 01:55:08', '2022-04-09 01:55:08'),
-(3, 'Digital Marketing', NULL, 3, '2022-04-09 01:55:18', '2022-04-09 01:55:18'),
-(4, 'Networking', NULL, 4, '2022-04-09 01:55:35', '2022-10-26 05:52:12');
+INSERT INTO `hrms_departments` (`id`, `name`, `role_id`, `order_by`, `is_teacher`, `created_at`, `updated_at`) VALUES
+(1, 'Web Developer', 2, 1, NULL, '2022-04-09 01:54:55', '2022-10-29 17:28:02'),
+(2, 'Content Writer', NULL, 2, NULL, '2022-04-09 01:55:08', '2022-04-09 01:55:08'),
+(3, 'Digital Marketing', NULL, 3, NULL, '2022-04-09 01:55:18', '2022-04-09 01:55:18'),
+(4, 'Networking', NULL, 4, NULL, '2022-04-09 01:55:35', '2022-10-26 05:52:12'),
+(5, 'Teacher', 2, 5, 1, '2022-11-12 05:25:47', '2022-11-12 05:25:47');
 
 -- --------------------------------------------------------
 
@@ -167,8 +169,8 @@ INSERT INTO `hrms_employees` (`id`, `id_number`, `name`, `department_id`, `desig
 (1, '123456', 'Rasel Hossain', 1, NULL, NULL, NULL, '1994-04-04', NULL, NULL, 1, 1, NULL, '01911', 'rasel@gmail.com', NULL, NULL, '40000', '40000', NULL, NULL, NULL, 1, NULL, NULL, NULL, '[]', NULL, NULL, NULL, '2022-11-03 19:47:49', '2022-11-03 19:47:49'),
 (2, '123456', 'Rasel Hossain', 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '01911', 'rasel@gmail.com', NULL, NULL, '40000', '40000', NULL, NULL, NULL, 1, NULL, 1, NULL, '[]', 1, 1, NULL, '2022-11-03 19:50:54', '2022-11-03 19:50:54'),
 (3, '123456', 'Rasel Hossain', 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '01911', 'rasel@gmail.com', NULL, NULL, '40000', '40000', NULL, NULL, NULL, 1, NULL, 1, NULL, '[]', 1, 1, NULL, '2022-11-03 19:51:31', '2022-11-03 19:51:31'),
-(4, '123456', 'Rasel Hossain', 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '01911', 'rasel@gmail.com', NULL, NULL, '40000', '40000', NULL, NULL, NULL, 1, NULL, 1, NULL, '[{\"media_name\":\"facebook\",\"media_link\":null}]', 1, 1, NULL, '2022-11-03 19:56:38', '2022-11-03 19:56:38'),
-(5, '1234567', 'Rasel Hossain', 1, 6, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '01911', 'rasel@gmail.com', NULL, NULL, '40000', '40000', NULL, NULL, NULL, 1, NULL, 1, NULL, '[{\"media_name\":\"facebook\",\"media_link\":null}]', 1, 1, NULL, '2022-11-03 19:56:53', '2022-11-09 16:25:45');
+(4, '1234568', 'Rasel Hossain', 5, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '01911', 'rasel@gmail.com', NULL, NULL, '40000', '40000', NULL, NULL, NULL, 1, NULL, 1, NULL, '[{\"media_name\":\"facebook\",\"media_link\":null}]', 1, 1, NULL, '2022-11-03 19:56:38', '2022-11-12 05:28:06'),
+(5, '1234567', 'Rasel Hossain', 5, 6, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '01911', 'rasel@gmail.com', NULL, NULL, '40000', '40000', NULL, NULL, NULL, 1, NULL, 1, NULL, '[{\"media_name\":\"facebook\",\"media_link\":null}]', 1, 1, NULL, '2022-11-03 19:56:53', '2022-11-12 05:27:32');
 
 -- --------------------------------------------------------
 
@@ -279,7 +281,8 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (49, 1, 'B05IOCjTftQwm5DPJKEGuJWM6VcwkW2a', '2022-11-03 17:49:10', '2022-11-03 17:49:10'),
 (50, 1, 'HZxhXVDazrxEzss7wQaxl90ldgDO2rNa', '2022-11-09 16:07:20', '2022-11-09 16:07:20'),
 (51, 1, 'mXJbjlXONi4m8QgJKBVFkjIMLvHBGevo', '2022-11-09 17:44:33', '2022-11-09 17:44:33'),
-(52, 1, '0ospuFYBBozkCH6hzX93fIMseEcLoRMm', '2022-11-11 13:21:00', '2022-11-11 13:21:00');
+(52, 1, '0ospuFYBBozkCH6hzX93fIMseEcLoRMm', '2022-11-11 13:21:00', '2022-11-11 13:21:00'),
+(53, 1, 'GvHykHqAtXwOoFWakyHnadBW8zeWwGJO', '2022-11-12 05:00:19', '2022-11-12 05:00:19');
 
 -- --------------------------------------------------------
 
@@ -340,7 +343,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `slug`, `name`, `permissions`, `redirect_url`, `order_by`, `active_directory`, `active_branch`, `created_at`, `updated_at`) VALUES
-(1, 'administrator', 'Administrator', '{\"core.permissions.ajax_user_module\":true,\"core.role.create\":true,\"core.role.store\":true,\"core.role.edit\":true,\"core.user.create\":true,\"core.user.store\":true,\"core.user.edit\":true,\"core.user.update\":true,\"core.user.delete\":true,\"core.user.profile\":true,\"core.branch.create\":true,\"core.branch.store\":true,\"core.branch.edit\":true,\"core.branch.delete\":true,\"core.gender.edit\":true,\"core.gender.store\":true,\"core.gender.delete\":true,\"core.religion.edit\":true,\"core.religion.store\":true,\"core.religion.delete\":true,\"core.module\":true,\"core.module.delete\":true,\"core.module.edit\":true,\"core.module.store\":true,\"core.settings\":true,\"core.settings.store\":true,\"core.settings.logo\":true,\"core.dashboard\":true,\"core.permissions.create\":true,\"core.permissions.store\":true,\"core.permissions.edit\":true,\"core.permissions.update\":true,\"core.permissions.section_edit\":true,\"core.permissions.section_update\":true,\"core.permissions.ajax_add_remove\":true,\"core.permissions.ajax_route_remove\":true,\"core.permissions.ajax_get_sections\":true,\"core.branch\":true,\"core.gender\":true,\"core.permissions\":true,\"core.religion\":true,\"core.role\":true,\"core.user\":true,\"core.permissions.ajax_user_module_permission\":true,\"core.permissions.ajax_user_permission\":true,\"core.blood_group.edit\":true,\"core.blood_group.store\":true,\"core.blood_group.delete\":true,\"core.mediamanager.create\":true,\"core.mediamanager.rename\":true,\"core.mediamanager.delete \":true,\"core.mediamanager.upload\":true,\"core.mediamanager\":true,\"hrms.department.edit\":true,\"hrms.department.store\":true,\"hrms.department.delete\":true,\"hrms.designation.edit\":true,\"hrms.designation.store\":true,\"hrms.designation.delete\":true,\"core.blood_group\":true,\"hrms.dashboard\":true,\"hrms.department\":true,\"hrms.designation\":true,\"core.mediamanager.delete\":true}', 'core/dashboard', 1, NULL, NULL, '2021-01-15 05:01:15', '2022-10-28 10:52:38'),
+(1, 'administrator', 'Administrator', '{\"core.permissions.ajax_user_module\":true,\"core.role.create\":true,\"core.role.store\":true,\"core.role.edit\":true,\"core.user.create\":true,\"core.user.store\":true,\"core.user.edit\":true,\"core.user.update\":true,\"core.user.delete\":true,\"core.user.profile\":true,\"core.branch.create\":true,\"core.branch.store\":true,\"core.branch.edit\":true,\"core.branch.delete\":true,\"core.gender.edit\":true,\"core.gender.store\":true,\"core.gender.delete\":true,\"core.religion.edit\":true,\"core.religion.store\":true,\"core.religion.delete\":true,\"core.module\":true,\"core.module.delete\":true,\"core.module.edit\":true,\"core.module.store\":true,\"core.settings\":true,\"core.settings.store\":true,\"core.settings.logo\":true,\"core.dashboard\":true,\"core.permissions.create\":true,\"core.permissions.store\":true,\"core.permissions.edit\":true,\"core.permissions.update\":true,\"core.permissions.section_edit\":true,\"core.permissions.section_update\":true,\"core.permissions.ajax_add_remove\":true,\"core.permissions.ajax_route_remove\":true,\"core.permissions.ajax_get_sections\":true,\"core.branch\":true,\"core.gender\":true,\"core.permissions\":true,\"core.religion\":true,\"core.role\":true,\"core.user\":true,\"core.permissions.ajax_user_module_permission\":true,\"core.permissions.ajax_user_permission\":true,\"core.blood_group.edit\":true,\"core.blood_group.store\":true,\"core.blood_group.delete\":true,\"core.mediamanager.create\":true,\"core.mediamanager.rename\":true,\"core.mediamanager.delete \":true,\"core.mediamanager.upload\":true,\"core.mediamanager\":true,\"hrms.department.edit\":true,\"hrms.department.store\":true,\"hrms.department.delete\":true,\"hrms.designation.edit\":true,\"hrms.designation.store\":true,\"hrms.designation.delete\":true,\"core.blood_group\":true,\"hrms.dashboard\":true,\"hrms.department\":true,\"hrms.designation\":true,\"core.mediamanager.delete\":true,\"core.user.permission\":true,\"hrms.employee.create\":true,\"hrms.employee.edit\":true,\"hrms.employee.store\":true,\"hrms.employee.show\":true,\"hrms.employee.delete\":true,\"scms.group.edit\":true,\"scms.group.store\":true,\"scms.group.delete\":true,\"scms.shift.edit\":true,\"scms.shift.store\":true,\"scms.shift.delete\":true,\"scms.dashboard\":true,\"scms.group\":true,\"scms.shift\":true,\"scms.class.edit\":true,\"scms.class.store\":true,\"scms.class.delete\":true,\"scms.class\":true}', 'core/dashboard', 1, NULL, NULL, '2021-01-15 05:01:15', '2022-11-12 06:49:38'),
 (2, 'admin', 'Admin', '{\"core.branch\":true,\"core.branch.create\":true,\"core.branch.store\":true,\"core.branch.edit\":true,\"core.branch.delete\":true,\"core.dashboard\":true,\"core.permissions.update\":true,\"core.gender.edit\":true,\"core.blood_group.store\":true,\"core.blood_group.delete\":true,\"core.blood_group\":false,\"core.blood_group.edit\":true}', 'core/dashboard', 2, 1, 1, '2022-10-09 06:28:52', '2022-10-28 19:34:08');
 
 -- --------------------------------------------------------
@@ -369,6 +372,30 @@ INSERT INTO `role_users` (`user_id`, `role_id`, `created_at`, `updated_at`) VALU
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `scms_class`
+--
+
+CREATE TABLE `scms_class` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `teacher_id` int(11) DEFAULT NULL,
+  `order_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `scms_class`
+--
+
+INSERT INTO `scms_class` (`id`, `name`, `teacher_id`, `order_by`, `created_at`, `updated_at`) VALUES
+(1, 'Nursary', 4, '1', '2022-10-05 07:17:11', '2022-11-12 06:35:45'),
+(2, 'One', 4, '1', '2022-11-11 14:09:15', '2022-11-12 06:34:44'),
+(3, 'Class Two', 4, '2', '2022-11-11 14:09:23', '2022-11-12 06:36:36');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `scms_groups`
 --
 
@@ -385,7 +412,7 @@ CREATE TABLE `scms_groups` (
 --
 
 INSERT INTO `scms_groups` (`id`, `name`, `order_by`, `created_at`, `updated_at`) VALUES
-(1, 'Humanities', 1, '2022-10-05 07:17:11', '2022-11-11 14:08:55'),
+(1, 'Humanities', 1, '2022-10-05 07:17:11', '2022-11-12 05:54:04'),
 (2, 'Science', 2, '2022-11-11 14:09:15', '2022-11-11 14:09:15'),
 (3, 'Business Studies', 3, '2022-11-11 14:09:23', '2022-11-11 14:09:23');
 
@@ -528,20 +555,27 @@ CREATE TABLE `tbl_module_sections` (
 --
 
 INSERT INTO `tbl_module_sections` (`id`, `section_name`, `module_id`, `section_action_route`, `section_roles_permission`, `created_at`, `updated_at`) VALUES
-(1, 'Dashboard', 1, '{\"core.dashboard\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:51', '2022-10-28 18:37:12'),
-(2, 'Settings', 1, '{\"core.settings\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:51', '2022-10-28 18:37:12'),
-(3, 'Module', 1, '{\"core.module\":[\"1\"],\"core.module.edit\":[\"1\"],\"core.module.store\":[\"1\"],\"core.module.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:51', '2022-10-28 18:37:12'),
-(4, 'Permissions', 1, '{\"core.permissions\":[\"1\"],\"core.permissions.create\":[\"1\"],\"core.permissions.store\":[\"1\"],\"core.permissions.edit\":[\"1\"],\"core.permissions.update\":[\"1\"],\"core.permissions.section_edit\":[\"1\"],\"core.permissions.section_update\":[\"1\"],\"core.permissions.ajax_add_remove\":[\"1\"],\"core.permissions.ajax_route_remove\":[\"1\"],\"core.permissions.ajax_get_sections\":[\"1\"],\"core.permissions.ajax_user_module_permission\":[\"1\"],\"core.permissions.ajax_user_permission\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:51', '2022-10-28 18:37:12'),
-(5, 'Role', 1, '{\"core.role\":[\"1\"],\"core.role.create\":[\"1\"],\"core.role.store\":[\"1\"],\"core.role.edit\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:52', '2022-10-28 18:37:12'),
-(6, 'User', 1, '{\"core.user\":[\"1\"],\"core.user.create\":[\"1\"],\"core.user.store\":[\"1\"],\"core.user.edit\":[\"1\"],\"core.user.update\":[\"1\"],\"core.user.delete\":[\"1\"],\"core.user.profile\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:52', '2022-10-28 18:37:12'),
-(7, 'Branch', 1, '{\"core.branch\":[\"1\"],\"core.branch.create\":[\"1\"],\"core.branch.store\":[\"1\"],\"core.branch.edit\":[\"1\"],\"core.branch.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:52', '2022-10-28 18:37:12'),
-(8, 'Gender', 1, '{\"core.gender\":[\"1\"],\"core.gender.edit\":[\"1\"],\"core.gender.store\":[\"1\"],\"core.gender.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:52', '2022-10-28 18:37:12'),
-(9, 'Religion', 1, '{\"core.religion\":[\"1\"],\"core.religion.edit\":[\"1\"],\"core.religion.store\":[\"1\"],\"core.religion.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-10-28 18:37:12'),
-(10, 'Blood Group', 1, '{\"core.blood_group\":[\"1\"],\"core.blood_group.edit\":[\"1\",\"2\"],\"core.blood_group.store\":[\"1\",\"2\"],\"core.blood_group.delete\":[\"1\",\"2\"]}', '[\"1\",\"2\"]', '2022-10-26 05:55:53', '2022-10-28 19:15:08'),
-(11, 'Mediamanager', 1, '{\"core.mediamanager\":[\"1\"],\"core.mediamanager.create\":[\"1\"],\"core.mediamanager.rename\":[\"1\"],\"core.mediamanager.delete\":[\"1\"],\"core.mediamanager.upload\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-10-28 18:37:12'),
-(12, 'Dashboard', 2, '{\"hrms.dashboard\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-10-26 05:55:53'),
-(13, 'Department', 2, '{\"hrms.department\":[\"1\"],\"hrms.department.edit\":[\"1\"],\"hrms.department.store\":[\"1\"],\"hrms.department.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-10-26 05:55:53'),
-(14, 'Designation', 2, '{\"hrms.designation\":[\"1\"],\"hrms.designation.edit\":[\"1\"],\"hrms.designation.store\":[\"1\"],\"hrms.designation.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-10-26 05:55:53');
+(1, 'Dashboard', 2, '{\"hrms.dashboard\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:51', '2022-11-12 06:49:06'),
+(2, 'Settings', 1, '{\"core.dashboard\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:51', '2022-11-12 06:49:05'),
+(3, 'Module', 1, '{\"core.dashboard\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"],\"core.module.edit\":[\"1\"],\"core.module.store\":[\"1\"],\"core.module.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:51', '2022-11-12 06:49:05'),
+(4, 'Permissions', 1, '{\"core.dashboard\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"],\"core.module.edit\":[\"1\"],\"core.module.store\":[\"1\"],\"core.module.delete\":[\"1\"],\"core.permissions.create\":[\"1\"],\"core.permissions.store\":[\"1\"],\"core.permissions.edit\":[\"1\"],\"core.permissions.update\":[\"1\"],\"core.permissions.section_edit\":[\"1\"],\"core.permissions.section_update\":[\"1\"],\"core.permissions.ajax_add_remove\":[\"1\"],\"core.permissions.ajax_route_remove\":[\"1\"],\"core.permissions.ajax_get_sections\":[\"1\"],\"core.permissions.ajax_user_module_permission\":[\"1\"],\"core.permissions.ajax_user_permission\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:51', '2022-11-12 06:49:05'),
+(5, 'Role', 1, '{\"core.dashboard\":[\"1\"],\"core.settings.store\":[\"1\"],\"core.settings.logo\":[\"1\"],\"core.module.edit\":[\"1\"],\"core.module.store\":[\"1\"],\"core.module.delete\":[\"1\"],\"core.permissions.create\":[\"1\"],\"core.permissions.store\":[\"1\"],\"core.permissions.edit\":[\"1\"],\"core.permissions.update\":[\"1\"],\"core.permissions.section_edit\":[\"1\"],\"core.permissions.section_update\":[\"1\"],\"core.permissions.ajax_add_remove\":[\"1\"],\"core.permissions.ajax_route_remove\":[\"1\"],\"core.permissions.ajax_get_sections\":[\"1\"],\"core.permissions.ajax_user_module_permission\":[\"1\"],\"core.permissions.ajax_user_permission\":[\"1\"],\"core.role.create\":[\"1\"],\"core.role.store\":[\"1\"],\"core.role.edit\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:52', '2022-11-12 06:49:05'),
+(6, 'User', 1, '{\"core.user\":[\"1\"],\"core.user.create\":[\"1\"],\"core.user.store\":[\"1\"],\"core.user.edit\":[\"1\"],\"core.user.update\":[\"1\"],\"core.user.delete\":[\"1\"],\"core.user.profile\":[\"1\"],\"core.user.permission\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:52', '2022-11-12 06:49:05'),
+(7, 'Branch', 1, '{\"core.branch\":[\"1\"],\"core.branch.create\":[\"1\"],\"core.branch.store\":[\"1\"],\"core.branch.edit\":[\"1\"],\"core.branch.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:52', '2022-11-12 06:49:06'),
+(8, 'Gender', 1, '{\"core.gender\":[\"1\"],\"core.gender.edit\":[\"1\"],\"core.gender.store\":[\"1\"],\"core.gender.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:52', '2022-11-12 06:49:06'),
+(9, 'Religion', 1, '{\"core.religion\":[\"1\"],\"core.religion.edit\":[\"1\"],\"core.religion.store\":[\"1\"],\"core.religion.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-11-12 06:49:06'),
+(10, 'Blood Group', 1, '{\"core.blood_group\":[\"1\"],\"core.blood_group.edit\":[\"1\"],\"core.blood_group.store\":[\"1\"],\"core.blood_group.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-11-12 06:49:06'),
+(11, 'Mediamanager', 1, '{\"core.blood_group\":[\"1\"],\"core.blood_group.edit\":[\"1\"],\"core.blood_group.store\":[\"1\"],\"core.blood_group.delete\":[\"1\"],\"core.mediamanager.create\":[\"1\"],\"core.mediamanager.rename\":[\"1\"],\"core.mediamanager.delete\":[\"1\"],\"core.mediamanager.upload\":[\"1\"],\"core.mediamanager\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-11-12 06:49:06'),
+(12, 'Dashboard', 2, '{\"hrms.dashboard\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-11-12 06:49:06'),
+(13, 'Department', 2, '{\"hrms.department\":[\"1\"],\"hrms.department.edit\":[\"1\"],\"hrms.department.store\":[\"1\"],\"hrms.department.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-11-12 06:49:07'),
+(14, 'Designation', 2, '{\"hrms.designation\":[\"1\"],\"hrms.designation.edit\":[\"1\"],\"hrms.designation.store\":[\"1\"],\"hrms.designation.delete\":[\"1\"]}', '[\"1\"]', '2022-10-26 05:55:53', '2022-11-12 06:49:07'),
+(15, 'Employee', 2, '{\"hrms.dashboard\":[\"1\"],\"hrms.employee.create\":[\"1\"],\"hrms.employee.edit\":[\"1\"],\"hrms.employee.store\":[\"1\"],\"hrms.employee.show\":[\"1\"],\"hrms.employee.delete\":[\"1\"]}', '[\"1\"]', '2022-11-12 05:00:17', '2022-11-12 06:49:06'),
+(16, 'Dashboard', 2, '{\"hrms.dashboard\":[\"1\"]}', '[\"1\"]', '2022-11-12 05:00:18', '2022-11-12 06:49:06'),
+(17, 'Group', 3, '{\"scms.class\":[\"1\"],\"scms.class.edit\":[\"1\"],\"scms.class.store\":[\"1\"],\"scms.class.delete\":[\"1\"],\"scms.group.edit\":[\"1\"],\"scms.group.store\":[\"1\"],\"scms.group.delete\":[\"1\"]}', '[\"1\"]', '2022-11-12 05:00:18', '2022-11-12 06:49:07'),
+(18, 'Shift', 3, '{\"scms.class\":[\"1\"],\"scms.class.edit\":[\"1\"],\"scms.class.store\":[\"1\"],\"scms.class.delete\":[\"1\"],\"scms.group.edit\":[\"1\"],\"scms.group.store\":[\"1\"],\"scms.group.delete\":[\"1\"],\"scms.shift.edit\":[\"1\"],\"scms.shift.store\":[\"1\"],\"scms.shift.delete\":[\"1\"]}', '[\"1\"]', '2022-11-12 05:00:18', '2022-11-12 06:49:07'),
+(19, 'Dashboard', 2, '{\"hrms.dashboard\":[\"1\"]}', '[\"1\"]', '2022-11-12 06:49:05', '2022-11-12 06:49:06'),
+(20, 'Dashboard', 3, '{\"scms.dashboard\":[\"1\"]}', '[\"1\"]', '2022-11-12 06:49:07', '2022-11-12 06:49:07'),
+(21, 'Class', 3, '{\"scms.class\":[\"1\"],\"scms.class.edit\":[\"1\"],\"scms.class.store\":[\"1\"],\"scms.class.delete\":[\"1\"]}', '[\"1\"]', '2022-11-12 06:49:07', '2022-11-12 06:49:07');
 
 -- --------------------------------------------------------
 
@@ -682,7 +716,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `employee_id`, `permissions`, `m_permission`, `password`, `directory`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-11 13:21:00', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-11 13:21:00'),
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-12 05:00:19', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-12 05:00:19'),
 (2, 'Rasel', 'rasel', '01911054866', 'rasel@gmail.com', '2022-10-09 16:25:43', 1, NULL, '{\"core.blood_group\":true}', NULL, '$2y$10$GHiH2cpMTxJQoSITYzVZJefwBnqhaWFyJwkPmV9r9waThGVEwmmqC', NULL, NULL, NULL, '2022-10-09 16:22:04', '2022-10-28 19:05:57'),
 (3, 'test', 'test@mail.com', '01911', 'test@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$sDMW30a2ML6q2H3/RkRLkuzVYOxtLe/nGSo3taJ1Pp/yLdq6dQAr.', NULL, NULL, NULL, '2022-10-18 09:47:31', '2022-10-18 09:47:31'),
 (4, 'ruble', 'ruble', '455', 'ruble@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$WyF/vbAD0w4xEbfGa8t8BuJursb6aPOXzLhPaCGqUa/roN/tF8/hK', '4-1666086791', NULL, NULL, '2022-10-18 09:53:10', '2022-10-18 09:53:11');
@@ -808,6 +842,12 @@ ALTER TABLE `role_users`
   ADD PRIMARY KEY (`user_id`);
 
 --
+-- Indexes for table `scms_class`
+--
+ALTER TABLE `scms_class`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `scms_groups`
 --
 ALTER TABLE `scms_groups`
@@ -909,7 +949,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `hrms_departments`
 --
 ALTER TABLE `hrms_departments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `hrms_designations`
@@ -939,7 +979,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -958,6 +998,12 @@ ALTER TABLE `reminders`
 --
 ALTER TABLE `roles`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `scms_class`
+--
+ALTER TABLE `scms_class`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `scms_groups`
@@ -999,7 +1045,7 @@ ALTER TABLE `tbl_modules`
 -- AUTO_INCREMENT for table `tbl_module_sections`
 --
 ALTER TABLE `tbl_module_sections`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_religion`

@@ -100,7 +100,7 @@
                                 <label for="{{$input_name}}" class="col-sm-3 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}} </label>
 
                                 <div class="col-sm-4">
-                                    <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control @error($input_name) is-invalid @enderror">
+                                    <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
                                     <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                 </div>
                                 @php

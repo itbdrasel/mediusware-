@@ -58,7 +58,7 @@ class GenderController extends Controller
 
         $this->data['add_title'] = 'Add New '.$this->title;
 
-        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
+        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by');
 
         if ($request->filled('filter')) {
             $this->data['filter'] = $filter = $request->get('filter');

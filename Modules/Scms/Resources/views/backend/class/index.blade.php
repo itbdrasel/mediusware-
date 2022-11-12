@@ -1,5 +1,4 @@
 @extends('core::master')
-
 @section('content')
     <section class="content data-body">
         <!-- Default box -->
@@ -9,7 +8,7 @@
                     @csrf()
                     <div class="card card-outline card-primary">
                         <div class="card-header">
-                            <h2 class="card-title"><i class="fa fa-plus"></i> {{$add_title}}</h2>
+                            <h2 class="card-title"><i class="fa fa-plus"></i> Add New Designation</h2>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                     <i class="fas fa-minus"></i>
@@ -31,9 +30,24 @@
                                 @php
                                     $input_name = 'order_by';
                                 @endphp
-                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}</label>
+                                <label for="{{$input_name}}" class="w-100">Name Numeric</label>
                                 <input type="text" value="{{ old($input_name) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror ">
 
+                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                            </div>
+                            <div class="input-group mb-3">
+                                @php
+                                    $input_name = 'teacher_id';
+                                @endphp
+                                <label for="{{$input_name}}" class="w-100">Teacher</label>
+                                <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
+                                    <option value=""> Select Teacher </option>
+                                    @if (!empty($teachers))
+                                        @foreach ($teachers as $teacher)
+                                            <option {{old($input_name)==$teacher->id?'selected':''}}  value="{{$teacher->id}}"> {{$teacher->name}} </option>
+                                        @endforeach
+                                    @endif
+                                </select>
                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                             </div>
 
@@ -48,7 +62,7 @@
                                 @php
                                     $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                 @endphp
-                                <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>&nbsp;&nbsp;
+                                <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"> <i class="fas fa-save"></i>  Save</button>&nbsp;&nbsp;
                                 <a href="{{url($bUrl)}}"  class="btn btn-warning">Cancel</a>
                             </div>
                         </div>
@@ -74,11 +88,11 @@
                             <form action="{{url($bUrl)}}" method="get"  class="form-inline">
 
                                 <div class="row">
-                                    <div class="col-md-3 form-group ">
-                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control search_input  w-100"/>
+                                    <div class="col-md-3 form-group">
+                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control search_input w-100"/>
                                     </div>
 
-                                    <div class="col-md-4 form-group ">
+                                    <div class="col-md-4 form-group">
                                         <input  type="submit" class="btn btn-primary" value="Filter"/>
                                         &nbsp;<a class="btn btn-default" href="{{ url($bUrl) }}"> Reset </a>
                                     </div>
@@ -123,7 +137,8 @@
                                         <tr>
                                             <th class="text-center" style="width: 50px">SL</th>
                                             <th class="sort" data-row="name" id="name" >Name</th>
-                                            <th width="10%" class="sort text-center" data-row="order_by" id="order_by" >order_by</th>
+                                            <th class="sort text-center" data-row="order_by" id="order_by" >Name Numeric</th>
+                                            <th>Teacher</th>
                                             <th style="width: 180px" class="text-center">Manage</th>
                                         </tr>
                                         </thead>
@@ -139,7 +154,7 @@
                                                     <td class="text-center">{{ $c+$serial }}</td>
                                                     <td>{{ $data->name }}</td>
                                                     <td class="text-center">{{ $data->order_by }}</td>
-
+                                                    <td>{{ $data->teacher->name??'' }}</td>
                                                     <td class="text-center">
                                                         <div class="btn-group">
                                                         <button type="button" class="btn btn-outline-primary link_btn">
@@ -147,7 +162,7 @@
                                                         </button>
 
                                                         <button type="button" class="btn btn-outline-primary link_btn">
-                                                            <a class="w-100" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
+                                                            <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
                                                         </button>
                                                         </div>
 
@@ -169,13 +184,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-
-
                                 @include('core::layouts.include.per_page')
-
-
-
-
                             </div><!-- /row -->
 
 

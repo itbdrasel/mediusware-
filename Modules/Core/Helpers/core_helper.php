@@ -102,7 +102,12 @@ function validation_errors($errors){
 function getOrder($fields, $default){
 
     $getOrder = [];
-    $order = Request::get('order') ?? 2; // OrderStatus asc or desc;
+    if (empty(Request::get('order')) && $default=='order_by') {
+        $order =1;
+    }else{
+        $order = Request::get('order') ?? 2;
+    }
+  // OrderStatus asc or desc;
     $by = Request::get('by'); // by field name;
 
     //define ASC or DESC
@@ -123,6 +128,7 @@ function getOrder($fields, $default){
     }else{
         $getOrder['by'] = $default;
     }
+
     return $getOrder;
 }
 

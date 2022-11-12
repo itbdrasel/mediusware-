@@ -7,10 +7,11 @@ use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\Group;
+use Modules\Hrms\Entities\Employee;
+use Modules\Scms\Entities\ClassModel;
 use Validator;
 
-class GroupController extends Controller
+class ClassController extends Controller
 {
 
 
@@ -27,10 +28,10 @@ class GroupController extends Controller
         $this->moduleName       = getModuleName(get_called_class());
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
-        $this->model            = Group::class;
+        $this->model            = ClassModel::class;
         $this->tableId          = 'id';
-        $this->bUrl             = $this->moduleName.'/group';
-        $this->title            = 'Group';
+        $this->bUrl             = $this->moduleName.'/class';
+        $this->title            = 'Class';
     }
 
 
@@ -40,7 +41,7 @@ class GroupController extends Controller
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
 
-        echo view($this->moduleName.'::backend.group.'.$pageName.'', $this->data);
+        echo view($this->moduleName.'::backend.class.'.$pageName.'', $this->data);
 
     }
 
@@ -56,8 +57,10 @@ class GroupController extends Controller
             'objData'       => [],
             'filters'       => $this->model::$filters
         ];
+        $this->data['teachers'] = Employee::rightJoin('hrms_departments', 'hrms_employees.department_id', '=', 'hrms_departments.id')
+            ->where('is_teacher',1)->select('hrms_employees.name', 'hrms_employees.id')->get();
+        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by', 'teacher');
 
-        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by');
 
         if ($request->filled('filter')) {
             $this->data['filter'] = $filter = $request->get('filter');
@@ -88,6 +91,8 @@ class GroupController extends Controller
             'objData'       => $objData
         ];
 
+        $this->data['teachers'] = Employee::rightJoin('hrms_departments', 'hrms_employees.department_id', '=', 'hrms_departments.id')
+            ->where('is_teacher',1)->select('hrms_employees.name', 'hrms_employees.id')->get();
         $this->layout('edit');
     }
 

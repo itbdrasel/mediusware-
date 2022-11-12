@@ -37,7 +37,7 @@
                                 $input_name = 'order_by';
                             @endphp
                             <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}} </label>
-                            <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
+                            <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control onlyNumber  @error($input_name) is-invalid @enderror ">
 
                             <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                         </div>
@@ -86,6 +86,11 @@
                 })
 
             });
+        });
+        $('.onlyNumber').on('keyup', function (e) {
+            if (/\D/g.test(this.value)) {
+                this.value = this.value.replace(/\D/g, '');
+            }
         });
     });
 </script>

@@ -57,7 +57,7 @@ class DesignationController extends Controller
             'filters'       => $this->model::$filters
         ];
 
-        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
+        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by');
 
         if ($request->filled('filter')) {
             $this->data['filter'] = $filter = $request->get('filter');

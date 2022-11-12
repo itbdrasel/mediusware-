@@ -29,15 +29,6 @@
                             </div>
                             <div class="input-group mb-3">
                                 @php
-                                    $input_name = 'order_by';
-                                @endphp
-                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}</label>
-                                <input type="text" value="{{ old($input_name) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
-
-                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
-                            </div>
-                            <div class="input-group mb-3">
-                                @php
                                     $input_name = 'role_id';
                                 @endphp
                                 <label for="{{$input_name}}" class="w-100">Role</label>
@@ -50,6 +41,25 @@
                                 @endif
                                 </select>
                             </div>
+                            <div class="input-group mb-3">
+                                @php
+                                    $input_name = 'order_by';
+                                @endphp
+                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace('_',' ',$input_name))}}</label>
+                                <input type="text" value="{{ old($input_name) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control onlyNumber  @error($input_name) is-invalid @enderror ">
+
+                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                            </div>
+                            <div class="input-group mb-3">
+                                @php
+                                    $input_name = 'is_teacher';
+                                @endphp
+                                <div class="icheck-success">
+                                    <input id="{{$input_name}}" name="{{$input_name}}" value="1" type="checkbox" class="role-permission" >
+                                    <label for="{{$input_name}}" class="">Teacher</label>&nbsp;
+                                </div>
+                            </div>
+
 
 
 
