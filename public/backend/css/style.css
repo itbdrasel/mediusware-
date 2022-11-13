@@ -1397,6 +1397,9 @@ a:hover.hotel-btn-single{
 .school_body .tabs-vertical > li {
     border-bottom: 1px solid #ebebeb;
 }
+.school_body .tabs-vertical > li:last-child{
+    border-bottom: none;
+}
 .school_body .nav > li {
     position: relative;
     display: block;

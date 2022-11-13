@@ -137,16 +137,13 @@ class SectionController extends Controller
         $validator = $this->getValidation($request);
 
         if ($validator->fails()){
-            if (!empty($id)) {
-                return response()->json($validator->messages(), 200);
-            }
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json($validator->messages(), 200);
         }
         $params = $this->getInsertData($request);
 
         if (empty($id) ) {
             $this->model::create($params);
-            return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
+            return 'success';
         }else{
             $this->model::where($this->tableId, $id)->update($params);
             return 'success';

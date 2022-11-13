@@ -1,15 +1,16 @@
 @extends('core::master')
 @section('content')
-    <section class="content data-body school_body">
+    <section class="content data-body">
         <!-- Default box -->
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card-outline card-info">
                     <div class="card-header">
+                        <h2 class="card-title"> {!! $page_icon !!} &nbsp; {{ $title }} </h2>
                         <div class="card-tools">
 
                             <button type="button" class="btn btn-tool" >
-                                <a href="{{url($bUrl.'/create')}}" data-bs-toggle="modal" data-bs-target="#windowmodal" class="btn bg-gradient-info custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
+                                <a href="{{url($bUrl.'/create')}}" class="btn bg-gradient-info custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
                             </button>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                 <i class="fas fa-minus"></i>
@@ -21,14 +22,14 @@
                         <div class="row">
                             <div class="col-xl-2 col-sm-3 col-md-2">
                                 @if (count($allClass) >0)
-                                <ul class="card w-100 nav tabs-vertical">
-                                    @foreach($allClass as $class)
-                                    <li class="{{$id ==$class->id?'active':''}}">
-                                        <a href="{{url($bUrl.'/'.$class->id)}}"><i class="fas fa-circle"></i>{{$class->name}}</a>
-                                    </li>
-                                    @endforeach
+                                    <ul class="card w-100 nav tabs-vertical">
+                                        @foreach($allClass as $class)
+                                            <li class="{{$id ==$class->id?'active':''}}">
+                                                <a href="{{url($bUrl.'/'.$class->id)}}"><i class="fas fa-circle"></i>{{$class->name}}</a>
+                                            </li>
+                                        @endforeach
 
-                                </ul>
+                                    </ul>
                                 @endif
                             </div>
                             <div class="col-xl-10 col-sm-9 col-md-10">
@@ -83,10 +84,11 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center" style="width: 50px">SL</th>
+                                                            <th class="sort text-center" data-row="id_no" id="id_no" >Id No</th>
+                                                            <th class="text-center">Photo</th>
                                                             <th class="sort" data-row="name" id="name" >Name</th>
-                                                            <th class="sort" data-row="nick_name" id="nick_name" >Nick Name</th>
-                                                            <th>Teacher</th>
-                                                            <th>Shift</th>
+                                                            <th>Phone</th>
+                                                            <th>E-mail</th>
                                                             <th style="width: 180px" class="text-center">Manage</th>
                                                         </tr>
                                                         </thead>
@@ -105,16 +107,18 @@
                                                                     <td>{{ $data->teacher->name??'' }}</td>
                                                                     <td>{{ $data->shift->name??'' }}</td>
                                                                     <td class="text-center">
-                                                                        <div class="btn-group">
+                                                                        <div class="btn-group dropleft">
                                                                             <button type="button" class="btn btn-outline-primary link_btn">
-                                                                                <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
+                                                                                <a  href="{{url($bUrl.'/'.$data->id)}}"><i class="fa fa-table"></i> </a>
                                                                             </button>
-
-                                                                            <button type="button" class="btn btn-outline-primary link_btn">
-                                                                                <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
+                                                                            <button class="btn btn-primary dropdown-toggle dropdown_toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                                             </button>
+                                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                                                <li><a class="dropdown-item"  href="{{url($bUrl.'/'.$data->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a></li>
+                                                                                <li> <div class="dropdown-divider"></div></li>
+                                                                                <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->id)}}"><i class="fa fa-trash"></i> Delete</a></li>
+                                                                            </ul>
                                                                         </div>
-
                                                                     </td>
                                                                 </tr>
 
@@ -126,7 +130,7 @@
 
                                                         @else
 
-                                                            <tr> <td colspan="6">There is nothing found.</td> </tr>
+                                                            <tr> <td colspan="5">There is nothing found.</td> </tr>
 
 
                                                         @endif
@@ -146,10 +150,13 @@
                         </div>
 
                     </div>
+                    <!-- /.card-body -->
                     <div class="card-footer">
                         {{$title}}
                     </div>
+                    <!-- /.card-footer-->
                 </div>
+
             </div>
         </div>
     </section>
