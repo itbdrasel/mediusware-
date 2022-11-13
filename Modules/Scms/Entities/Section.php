@@ -25,4 +25,8 @@ class Section extends Model
     public function teacher(){
         return $this->hasOne(Employee::class, 'id','teacher_id');
     }
+
+    public function shift(){
+        return $this->hasOne(Shift::class, 'id','shift_id');
+    }
 }

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Entities\ClassModel;
 use Modules\Scms\Entities\Section;
+use Modules\Scms\Entities\Shift;
 use Validator;
 
 class SectionController extends Controller
@@ -49,26 +50,53 @@ class SectionController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index(Request $request){
+    public function index(Request $request, $id=''){
         $this->data = [
             'title'         => $this->title.' Manager',
             'pageUrl'       => $this->bUrl,
             'page_icon'     => '<i class="fas fa-tasks"></i>',
-            'objData'       => [],
-            'filters'       => $this->model::$filters
         ];
-        $this->data['teachers'] = getTeacher();
-        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by', 'teacher');
+        $this->data['add_title'] = 'Add New '.$this->title;
+        $class = getClass();
+        $this->data['allClass'] = $class;
 
-
+        if (empty($id)) {
+            $id = $class[0]->id??'';
+        }
         if ($request->filled('filter')) {
+            $id ='';
             $this->data['filter'] = $filter = $request->get('filter');
         }
+
+        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by', ['teacher', 'shift'], ['class_id'=>$id]);
+
         $this->data['allData']  = $all_data['allData']; // paginate
         $this->data['serial']   = $all_data['serial'];
+        $this->data['id']       = $id;
 
 
         $this->layout('index');
+    }
+
+
+    /**
+     * Show the form for create the specified resource.
+     * @return Renderable
+     */
+    public function create(){
+
+        $this->data = [
+            'title'         => 'Add '.$this->title,
+            'pageUrl'       => $this->bUrl,
+            'page_icon'     => '<i class="fas fa-plus"></i>',
+            'objData'       => ''
+        ];
+
+        $this->data['teachers'] = getTeacher();
+        $this->data['allClass'] = getClass();
+        $this->data['shifts']   = Shift::orderBy('order_by')->get();
+
+        $this->layout('edit');
     }
 
 
@@ -91,6 +119,8 @@ class SectionController extends Controller
         ];
 
         $this->data['teachers'] = getTeacher();
+        $this->data['allClass'] = getClass();
+        $this->data['shifts']   = Shift::orderBy('order_by')->get();
 
         $this->layout('edit');
     }

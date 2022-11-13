@@ -1372,3 +1372,87 @@ a:hover.hotel-btn-single{
     background: #31acc0;
     border: 1px solid #31acc0;
 }
+
+
+
+/*******************************************************************************
+                School Collage Management System CSS Code Start
+ *****************************************************************************/
+
+.school_body .tabs-vertical-env .tabs-vertical{
+    margin-bottom:0;
+}
+.school_body .tabs-vertical {
+    float: left;
+    background: #f5f5f6;
+    border: 1px solid #ebebeb;
+    margin-bottom: 20px;
+    -webkit-border-radius: 3px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 3px;
+    -moz-background-clip: padding;
+    border-radius: 3px;
+    background-clip: padding-box;
+}
+.school_body .tabs-vertical > li {
+    border-bottom: 1px solid #ebebeb;
+}
+.school_body .nav > li {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+.school_body .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 7px 15px;
+    color: #373e4a;
+    text-decoration: none;
+}
+.school_body .nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #eeeeee;
+}
+.school_body .tabs-vertical > li.active > a {
+    display: block;
+    position: relative;
+    background-color: #ffffff;
+    color: #373e4a;
+}
+.school_body .tabs-vertical > li > a i{
+    font-size: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.school_body .tabs-vertical > li.active > a:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 20px 0 20px 13px;
+    border-color: transparent transparent transparent #ebebeb;
+    top: 0;
+    right: -1px;
+    margin-right: -12px;
+    margin-top: -1px;
+}
+.school_body .tabs-vertical > li.active > a:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 18px 0 18px 12px;
+    border-color: transparent transparent transparent #fff;
+    top: 2px;
+    right: 0;
+    margin-right: -12px;
+    margin-top: -1px;
+}
+
+@media only screen and (min-width: 576px) {
+
+}

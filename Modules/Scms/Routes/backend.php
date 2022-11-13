@@ -1,4 +1,7 @@
 <?php
+function getIndexRoute(){
+    Route::match(['get', 'post'], '/{id?}', 'index')->name('');
+}
 Route::group(['prefix'=>'scms','as'=>'scms.'], function () {
     Route::get('/dashboard', 'Backend\DashboardController@index')->name('dashboard');
 
@@ -9,7 +12,8 @@ Route::group(['prefix'=>'scms','as'=>'scms.'], function () {
 
     // Section Route
     Route::group(['prefix'=>'section','as'=>'section','controller'=>'Backend\SectionController'], function () {
-        getResourceRoute(['index','edit','store', 'delete']);
+        getResourceRoute(['create','edit','store', 'delete']);
+        getIndexRoute();
     });
 
     // Group Route

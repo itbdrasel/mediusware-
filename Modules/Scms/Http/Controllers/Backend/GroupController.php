@@ -56,6 +56,7 @@ class GroupController extends Controller
             'objData'       => [],
             'filters'       => $this->model::$filters
         ];
+        $this->data['add_title'] = 'Add New '.$this->title;
 
         $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by');
 

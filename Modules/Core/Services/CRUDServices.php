@@ -22,7 +22,7 @@ class CRUDServices{
      * @return validation message
      */
 
-    public function getIndexData($request, $model, $tableId, $with=''){
+    public function getIndexData($request, $model, $tableId, $with='', $where=''){
         $model_sortable = $model::$sortable;
         $perPage = session('per_page') ?: 10;
 
@@ -37,6 +37,9 @@ class CRUDServices{
         $queryData = $model::orderBy( getOrder($model_sortable, $tableId)['by'], getOrder($model_sortable, $tableId)['order']);
         if (!empty($with)){
             $queryData->with($with);
+        }
+        if (!empty($where)){
+            $queryData->where($where);
         }
         //filter by text.....
         $data['filter'] ='';
