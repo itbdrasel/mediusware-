@@ -6,8 +6,8 @@ Route::group(['prefix'=>'scms','as'=>'scms.'], function () {
 
     // Student Route
     Route::group(['prefix'=>'student','as'=>'student','controller'=>'Backend\StudentController'], function () {
-        getResourceRoute(['create','edit','store','show','delete']);
-        Route::match(['get', 'post'], '/{id?}', 'index')->name('');
+        getResourceRoute(['create','edit','store','delete']);
+        Route::match(['get', 'post'], '/{id?}/{section_id?}', 'index')->name('');
     });
 
     // Class Route

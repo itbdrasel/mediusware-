@@ -1,6 +1,6 @@
 @extends('core::master')
 @section('content')
-    <section class="content data-body">
+    <section class="content data-body ">
         <!-- Default box -->
         <div class="row">
             <div class="col-md-12">
@@ -20,7 +20,7 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-xl-2 col-sm-3 col-md-2">
+                            <div class="col-xl-2 col-sm-3 col-md-2 school_body">
                                 @if (count($allClass) >0)
                                     <ul class="card w-100 nav tabs-vertical">
                                         @foreach($allClass as $class)
@@ -33,7 +33,21 @@
                                 @endif
                             </div>
                             <div class="col-xl-10 col-sm-9 col-md-10">
-                                <div class="card">
+                                <div class="card card-primary card-outline card-outline-tabs">
+                                    <div class="card-header p-0 border-bottom-0">
+                                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link {{empty($section_id)?'active':''}}" href="{{url($pageUrl)}}" >All Students</a>
+                                            </li>
+                                            @if (count($sections) >0)
+                                                @foreach($sections as $section)
+                                            <li class="nav-item">
+                                                <a class="nav-link {{(!empty($section_id) && $section->id == $section_id)?'active':''}}" href="{{url($pageUrl.'/'.$section->id)}}" >{{$section->name}}</a>
+                                            </li>
+                                                @endforeach
+                                            @endif
+                                        </ul>
+                                    </div>
                                     <div class="card-body">
                                         <div class="col-md-12">
 
@@ -143,8 +157,9 @@
 
                                         </div>
                                     </div>
-
+                                    <!-- /.card -->
                                 </div>
+
 
                             </div>
                         </div>

@@ -16,6 +16,7 @@ use Modules\Hrms\Entities\Department;
 use Modules\Hrms\Entities\Designation;
 use Modules\Hrms\Entities\Employee;
 use Modules\Scms\Entities\Group;
+use Modules\Scms\Entities\Section;
 use Modules\Scms\Entities\Shift;
 use Modules\Scms\Services\StudentService;
 use Validator;
@@ -60,28 +61,32 @@ class StudentController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index(Request $request, $id=''){
+    public function index(Request $request, $id='', $section_id=''){
         $this->data = [
             'title'         => $this->title.' Manager',
-            'pageUrl'       => $this->bUrl,
+            'pageUrl'       => trim($this->bUrl.'/'.$id,'/'),
             'page_icon'     => '<i class="fas fa-tasks"></i>',
         ];
 
         $class = getClass();
-        $this->data['allClass'] = $class;
+        $this->data['allClass']     = $class;
 
         if (empty($id)) {
             $id = $class[0]->id??'';
         }
+        if ($request->filled('filter')) {
+            $id ='';
+            $this->data['filter'] = $filter = $request->get('filter');
+        }
 
         $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId, ['department','designation']);
 
-        if ($request->filled('filter')) {
-            $this->data['filter'] = $filter = $request->get('filter');
-        }
-        $this->data['allData']  = $all_data['allData']; // paginate
-        $this->data['serial']   = $all_data['serial'];
 
+        $this->data['allData']      = $all_data['allData']; // paginate
+        $this->data['serial']       = $all_data['serial'];
+        $this->data['id']           = $id;
+        $this->data['section_id']   = $section_id;
+        $this->data['sections']     = Section::orderBy('order_by')->where('class_id', $id)->get();
         $this->layout('index');
     }
 
