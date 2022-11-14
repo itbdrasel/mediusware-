@@ -4,9 +4,9 @@
         <p>Dashboard</p>
     </a>
 </li>
-@if (dAuth()->hasAnyAccess(['core.permissions','core.role','core.module','core.user','core.branch','core.gender','core.religion', 'blood_group']))
-    <li class="nav-item {{menuOpenActive(2, ['permissions','role','module','user','branch','gender','religion', 'blood-group'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['permissions','role','module','user','branch', 'gender','religion', 'blood-group'], true)}} ">
+@if (dAuth()->hasAnyAccess(['core.permissions','core.role','core.module','core.user','core.branch']))
+    <li class="nav-item {{menuOpenActive(2, ['permissions','role','module','user','branch'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['permissions','role','module','user','branch'], true)}} ">
             <i class="nav-icon fas fa-assistive-listening-systems"></i>
             <p>System<i class="right fas fa-angle-down"></i></p>
         </a>
@@ -52,34 +52,45 @@
                     </a>
                 </li>
             @endif
-                @if (dAuth()->hasAccess(['core.religion']))
-                    <li class="nav-item">
-                        <a href="{{url('core/religion')}}" class="nav-link {{activeMenu(2, 'religion')}} ">
-                            <i class="fas fa-circle"></i>
-                            <p>Religion Manager</p>
-                        </a>
-                    </li>
-                @endif
-                @if (dAuth()->hasAccess(['core.gender']))
-                    <li class="nav-item">
-                        <a href="{{url('core/gender')}}" class="nav-link {{activeMenu(2, 'gender')}} ">
-                            <i class="fas fa-circle"></i>
-                            <p>Gender Manager</p>
-                        </a>
-                    </li>
-                @endif
-				@if (dAuth()->hasAccess(['core.blood_group']))
-                    <li class="nav-item">
-                        <a href="{{url('core/blood-group')}}" class="nav-link {{activeMenu(2, 'blood-group')}} ">
-                            <i class="fas fa-circle"></i>
-                            <p>Blood Group</p>
-                        </a>
-                    </li>
-                @endif
+
         </ul>
     </li>
 @endif
 
+@if (dAuth()->hasAnyAccess(['core.gender','core.religion', 'blood_group']))
+    <li class="nav-item {{menuOpenActive(2, ['gender','religion', 'blood-group'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, [ 'gender','religion', 'blood-group'], true)}} ">
+            <i class="nav-icon fas fa-cogs"></i>
+            <p>Configuration<i class="right fas fa-angle-down"></i></p>
+        </a>
+        <ul class="nav nav-treeview">
+            @if (dAuth()->hasAccess(['core.religion']))
+                <li class="nav-item">
+                    <a href="{{url('core/religion')}}" class="nav-link {{activeMenu(2, 'religion')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Religion Manager</p>
+                    </a>
+                </li>
+            @endif
+            @if (dAuth()->hasAccess(['core.gender']))
+                <li class="nav-item">
+                    <a href="{{url('core/gender')}}" class="nav-link {{activeMenu(2, 'gender')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Gender Manager</p>
+                    </a>
+                </li>
+            @endif
+            @if (dAuth()->hasAccess(['core.blood_group']))
+                <li class="nav-item">
+                    <a href="{{url('core/blood-group')}}" class="nav-link {{activeMenu(2, 'blood-group')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Blood Group</p>
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </li>
+@endif
 @if (dAuth()->hasAccess(['core.settings']))
     <li class="nav-item">
         <a href="{{url('core/settings')}}" class="nav-link {{activeMenu(2, 'settings')}}">

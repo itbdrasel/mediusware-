@@ -177,7 +177,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        {{$title}}
+                        {{getDataTablesInfo($allData, $serial??'', $c??'')}}
                     </div>
                     <!-- /.card-footer-->
                 </div>

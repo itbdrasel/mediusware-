@@ -368,3 +368,9 @@ function getModuleName($className){
 function getPlaceholderDate(){
     return str_replace(["Y",'d','m'],["YY",'DD','MM'],config('settings')['date_format']);
 }
+
+function getDataTablesInfo($allData, $serial, $c){
+    $Showing = $allData->total()>0?$serial+1:0;
+    $to = $c>0?$c+$serial-1:0;
+    return 'Showing '.$Showing. ' to '.$to.' of '. $allData->total(). ' entries';
+}

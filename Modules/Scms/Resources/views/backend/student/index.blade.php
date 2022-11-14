@@ -144,7 +144,7 @@
 
                                                         @else
 
-                                                            <tr> <td colspan="5">There is nothing found.</td> </tr>
+                                                            <tr> <td colspan="7">There is nothing found.</td> </tr>
 
 
                                                         @endif
@@ -157,6 +157,9 @@
 
                                         </div>
                                     </div>
+                                    <div class="card-footer">
+                                        {{getDataTablesInfo($allData, $serial??'', $c??'')}}
+                                    </div>
                                     <!-- /.card -->
                                 </div>
 
@@ -166,9 +169,7 @@
 
                     </div>
                     <!-- /.card-body -->
-                    <div class="card-footer">
-                        {{$title}}
-                    </div>
+
                     <!-- /.card-footer-->
                 </div>
 

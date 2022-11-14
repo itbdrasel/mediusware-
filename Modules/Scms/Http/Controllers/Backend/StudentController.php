@@ -79,7 +79,7 @@ class StudentController extends Controller
             $this->data['filter'] = $filter = $request->get('filter');
         }
 
-        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId, ['department','designation']);
+        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId, ['department','designation'], ['id'=>55]);
 
 
         $this->data['allData']      = $all_data['allData']; // paginate
