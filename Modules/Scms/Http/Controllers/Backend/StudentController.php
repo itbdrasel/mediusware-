@@ -13,11 +13,10 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Modules\Hrms\Entities\Department;
-use Modules\Hrms\Entities\Designation;
-use Modules\Hrms\Entities\Employee;
 use Modules\Scms\Entities\Group;
 use Modules\Scms\Entities\Section;
 use Modules\Scms\Entities\Shift;
+use Modules\Scms\Entities\Student;
 use Modules\Scms\Services\StudentService;
 use Validator;
 
@@ -39,7 +38,7 @@ class StudentController extends Controller
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
         $this->studentServices  = $studentService;
-        $this->model            = Employee::class;
+        $this->model            = Student::class;
         $this->tableId          = 'id';
         $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/student';
@@ -61,32 +60,26 @@ class StudentController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index(Request $request, $id='', $section_id=''){
+    public function index(Request $request, $class_id='', $section_id=''){
         $this->data = [
             'title'         => $this->title.' Manager',
-            'pageUrl'       => trim($this->bUrl.'/'.$id,'/'),
+            'pageUrl'       => trim($this->bUrl.'/'. $class_id,'/'),
             'page_icon'     => '<i class="fas fa-tasks"></i>',
         ];
 
-        $class = getClass();
-        $this->data['allClass']     = $class;
-
-        if (empty($id)) {
-            $id = $class[0]->id??'';
-        }
         if ($request->filled('filter')) {
-            $id ='';
             $this->data['filter'] = $filter = $request->get('filter');
         }
 
-        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId, ['department','designation'], ['id'=>55]);
-
+        $all_data = $this->studentServices->getIndexData($request, $class_id, $section_id);
 
         $this->data['allData']      = $all_data['allData']; // paginate
         $this->data['serial']       = $all_data['serial'];
-        $this->data['id']           = $id;
-        $this->data['section_id']   = $section_id;
-        $this->data['sections']     = Section::orderBy('order_by')->where('class_id', $id)->get();
+        $this->data['class_id']     = $all_data['class_id'];
+        $this->data['section_id']   = $all_data['section_id'];
+        $this->data['allClass']     = $all_data['allClass'];
+        $this->data['sections']     = Section::orderBy('order_by')->where('class_id',  $this->data['class_id'])->get();
+
         $this->layout('index');
     }
 

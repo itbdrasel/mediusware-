@@ -24,7 +24,7 @@
                                 @if (count($allClass) >0)
                                     <ul class="card w-100 nav tabs-vertical">
                                         @foreach($allClass as $class)
-                                            <li class="{{$id ==$class->id?'active':''}}">
+                                            <li class="{{$class_id ==$class->id?'active':''}}">
                                                 <a href="{{url($bUrl.'/'.$class->id)}}"><i class="fas fa-circle"></i>{{$class->name}}</a>
                                             </li>
                                         @endforeach
@@ -51,7 +51,7 @@
                                     <div class="card-body">
                                         <div class="col-md-12">
 
-                                            <form action="{{url($bUrl)}}" method="get"  class="form-inline">
+                                            <form action="{{url($bUrl.'/'.$class_id)}}" method="get"  class="form-inline">
 
                                                 <div class="row">
                                                     <div class="col-md-3 form-group">
