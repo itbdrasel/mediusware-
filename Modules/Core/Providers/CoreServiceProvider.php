@@ -25,8 +25,11 @@ class CoreServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(\Illuminate\Routing\Router $router)
     {
+        $router->middlewareGroup('authx', [\Modules\Core\Http\Middleware\AuthxMiddleware::class]);
+        $router->middlewareGroup('admin', [\Modules\Core\Http\Middleware\AdminMiddleware::class]);
+
         Paginator::useBootstrap();
 
         config()->set('settings', Settings::pluck('s_value', 's_name')->all());

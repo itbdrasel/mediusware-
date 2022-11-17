@@ -4,6 +4,8 @@ namespace Modules\Scms\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Scms\Entities\SettingSC;
+use Modules\Scms\Entities\VersionType;
 
 class ScmsServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,15 @@ class ScmsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+
+        config()->set('sc_setting', SettingSC::pluck('value','name')->all());
+        view()->share(config('sc_setting'));
+        if (config('sc_setting.vtype') ==1) {
+            config()->set('version_type',VersionType::where('status',1)->pluck('name','id')->all());
+        }
+        view()->share(config('version_type'));
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();

@@ -1,5 +1,9 @@
 @include('core::layouts.header')
-@include('core::layouts.top_ber')
+@if ($moduleName =='scms')
+    @include($moduleName.'::layouts.top_ber')
+@else
+    @include('core::layouts.top_ber')
+@endif
 @include('core::layouts.left_sidebar')
 @include('core::layouts.breadcrumb')
 @yield('content')

@@ -11,3 +11,17 @@ function getTeacher(){
 function getClass(){
   return ClassModel::orderBy('order_by')->get();
 }
+
+function getTopBerYear(){
+    $running_year   = getRunningYear();
+    $year_format    = config('sc_setting.r_year_format');
+    if ($year_format ==1) {
+        return substr($running_year, 5,14);
+    }
+    return $running_year;
+}
+
+function getRunningYear(){
+    $running_year   = config('sc_setting.running_year');
+    return $running_year;
+}

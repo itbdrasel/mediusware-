@@ -12,4 +12,7 @@ class AjaxJsonController extends Controller
     }
 
 
+    public function runningYearStatic(){
+        return 'ok';
+    }
 }
