@@ -8,12 +8,7 @@
 
 - [Modules Folder Add](#)
 
-## app Update File
--  [Models/User.php](#)
--  [Http/Middleware/VerifyCsrfToken.php](#)
-
-
-## config Update File
+## config Folder File Update
 - [app.php](#)
 -  [filesystems.php](#)
 #### config Add File
