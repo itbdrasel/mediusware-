@@ -56,7 +56,7 @@
             function get_session_changer()
             {
                 $.ajax({
-                    url: 'ajax/running-year-static',
+                    url: 'scms/ajax/running-year-static',
                     success: function(response)
                     {
                         $('#running_year_static').html(response);
