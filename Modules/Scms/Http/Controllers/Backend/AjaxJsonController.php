@@ -13,6 +13,11 @@ class AjaxJsonController extends Controller
 
 
     public function runningYearStatic(){
-        return 'ok';
+            $year_format    = config('sc_setting.r_year_format');
+            $html = '<select id="running_year_top" name="running_year_top" class="form-select ">';
+            for($x = 0; $x <= 10; $x++){
+
+            }
+        $html .='</select>';
     }
 }

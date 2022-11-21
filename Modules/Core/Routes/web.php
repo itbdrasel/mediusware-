@@ -21,7 +21,8 @@ Route::prefix('core')->group(function() {
     });
 
 
-    Route::group(['as'=>'core.'], function () {
+//    Route::group(['middleware' => ['authx', 'admin'],'as'=>'core.'], function () {
+    Route::group(['middleware' => ['authx'],'as'=>'core.'], function () {
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
         // Setting Route
@@ -91,7 +92,7 @@ Route::prefix('core')->group(function() {
 });
 
 
-//Route::group(['middleware' => ['admin'], 'prefix' => 'author'], function (){
+//Route::group(['middleware' => ['authx','admin'], 'prefix' => 'author'], function (){
 Route::group([ 'prefix' => 'core/mediamanager','controller'=>'MediaManagerController','as'=>'core.mediamanager'], function (){
     Route::get('/','index')->name('');
 //    Route::get('container','container')->name('.container');
