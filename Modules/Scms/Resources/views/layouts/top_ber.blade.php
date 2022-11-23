@@ -47,7 +47,9 @@
                     <i class="fas fa-expand-arrows-alt"></i>
                 </a>
             </li>
-
+<select>
+    <option value=""></option>
+</select>
         </ul>
     </nav>
     <!-- /.navbar -->
