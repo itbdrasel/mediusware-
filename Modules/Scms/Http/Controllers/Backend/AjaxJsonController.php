@@ -2,7 +2,9 @@
 
 namespace Modules\Scms\Http\Controllers\Backend;
 
+use http\Env\Request;
 use Illuminate\Routing\Controller;
+use Modules\Scms\Entities\SettingSC;
 
 class AjaxJsonController extends Controller
 {
@@ -27,5 +29,10 @@ class AjaxJsonController extends Controller
             }
         $html .='</select>';
     return $html;
+    }
+
+    public function runningYearChange(Request $request){
+        $year = $request['year'];
+        SettingSC::where('name', 'running_year')->update(['value'=>$year]);
     }
 }

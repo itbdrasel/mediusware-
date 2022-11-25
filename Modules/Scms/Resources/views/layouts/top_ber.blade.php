@@ -7,7 +7,7 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item" id="running_year_static">
-                <a href="" target="_blank" class="nav-link"><span class="d-none d-sm-inline-block">  Running Year : {{getTopBerYear()}} <i class="nav-icon fas fa-angle-down"></i></span></a>
+                <a style="cursor: pointer" onclick="get_session_changer()" class="nav-link"><span class="d-none d-sm-inline-block">  Running Year : {{getTopBerYear()}} <i class="nav-icon fas fa-angle-down"></i></span></a>
             </li>
 
 
@@ -18,7 +18,7 @@
 
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item">
-                <a href="{{url('/')}}" target="_blank" class="nav-link"><i class="nav-icon fas fa-globe"></i><span class="d-none d-sm-inline-block"> Website</span></a>
+                <a href="{{url('/')}}"  class="nav-link"><i class="nav-icon fas fa-globe"></i><span class="d-none d-sm-inline-block"> Website</span></a>
             </li>
             <style>
                 .dropdown-menu-lg{
@@ -47,9 +47,6 @@
                     <i class="fas fa-expand-arrows-alt"></i>
                 </a>
             </li>
-<select>
-    <option value=""></option>
-</select>
         </ul>
     </nav>
     <!-- /.navbar -->
@@ -57,13 +54,46 @@
         <script type="text/javascript">
             function get_session_changer()
             {
+                let year           = '{{date('Y')-10}}';
+                let running_year    = '{{getRunningYear()}}';
+                let year_2         = parseInt(year)+1;
+                let html           = '<select id="running_year_top" name="running_year_top" class="form-select ">';
+                for(let x = 0; x <= 10; x++) {
+                    let y = parseInt(year) + parseInt(x);
+                    let y_2 = year_2 + parseInt(x);
+                    let format_year = y + '-' + y_2;
+                    let selected   = format_year == running_year?'selected':'';
+                    let format      = get_formatYear(format_year)
+                    html += '<option '+ selected +' value="'+ format_year +'">'+format+'</option>';
+                }
+                html +='</select>';
+                $('#running_year_static').html(html);
+            }
+
+            function get_formatYear(year){
+                year_format    = '{{config('sc_setting.r_year_format')}}';
+                if (year_format ==1) {
+                    return year.substr(5,14);
+                }
+                return year;
+            }
+
+            function running_year_change(){
+                let year =  $(this).val();
+                alert(year);
+            }
+            $('#running_year_top').on('change', function () {
+                alert('ok');
+                let year =  $('#running_year_top').val();
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url: 'scms/ajax/running-year-static',
-                    success: function(response)
-                    {
-                        $('#running_year_static').html(response);
+                    url:"{{url('scms/ajax/running-year-change')}}",
+                    type : 'POST',
+                    data : {_token: CSRF_TOKEN, year:year},
+                    success:function (response) {
+
                     }
                 });
-            }
+            });
         </script>
     @endpush

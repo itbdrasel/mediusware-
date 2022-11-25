@@ -36,5 +36,5 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
 
 // Module Route
 Route::group(['middleware' => ['authx'], 'prefix'=>'scms/ajax','controller'=>'Backend\AjaxJsonController'], function () {
-    Route::get('running-year-static', 'runningYearStatic');
+    Route::get('running-year-change', 'runningYearChange');
 });
