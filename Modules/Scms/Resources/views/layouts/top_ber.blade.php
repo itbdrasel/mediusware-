@@ -52,12 +52,13 @@
     <!-- /.navbar -->
     @push('js')
         <script type="text/javascript">
+
             function get_session_changer()
             {
                 let year           = '{{date('Y')-10}}';
                 let running_year    = '{{getRunningYear()}}';
                 let year_2         = parseInt(year)+1;
-                let html           = '<select id="running_year_top" name="running_year_top" class="form-select ">';
+                let html           = '<select onchange="runningYearChange(event)" id="running_year_top" name="running_year_top" class="form-select ">';
                 for(let x = 0; x <= 10; x++) {
                     let y = parseInt(year) + parseInt(x);
                     let y_2 = year_2 + parseInt(x);
@@ -78,22 +79,19 @@
                 return year;
             }
 
-            function running_year_change(){
-                let year =  $(this).val();
-                alert(year);
-            }
-            $('#running_year_top').on('change', function () {
-                alert('ok');
-                let year =  $('#running_year_top').val();
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            function runningYearChange(){
+                let year    = $('#running_year_top').val();
+                var _token  =  $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
                     url:"{{url('scms/ajax/running-year-change')}}",
-                    type : 'POST',
-                    data : {_token: CSRF_TOKEN, year:year},
+                    type: 'POST',
+                    data: { _token : _token, year : year  },
                     success:function (response) {
-
+                        toastr.success('Successfully running year change');
+                        location.reload();
                     }
                 });
-            });
+            }
         </script>
     @endpush

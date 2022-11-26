@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2022 at 08:48 AM
+-- Generation Time: Nov 26, 2022 at 08:22 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -263,30 +263,7 @@ CREATE TABLE `persistences` (
 --
 
 INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
-(34, 1, '4Fpw5p78l8PqFAFWjb4P2yT7GGZLPraQ', '2022-10-09 16:26:43', '2022-10-09 16:26:43'),
-(35, 1, 'WQTQ8d9mXlhct9eH11qOtcF13EQgmCP2', '2022-10-09 18:31:15', '2022-10-09 18:31:15'),
-(36, 1, 'AL31PiL5ulmftW5pGzKccWKyCCrvJ5hS', '2022-10-12 07:33:45', '2022-10-12 07:33:45'),
-(37, 1, 'yfeSpPBmLs0OEhGnl25Ho1IN7n330FTY', '2022-10-15 04:47:09', '2022-10-15 04:47:09'),
-(38, 1, 'FqZZjTZXurE0zxyCA7bfd8VebMX4Hhvq', '2022-10-16 06:21:30', '2022-10-16 06:21:30'),
-(39, 1, 'RoOgfa4ZNBGWQRAvDqrj2zR1vskLJyRj', '2022-10-18 04:37:33', '2022-10-18 04:37:33'),
-(40, 1, 'QV7mNFyAzXZeHSL6wtZelobo7KFibfsO', '2022-10-18 09:38:53', '2022-10-18 09:38:53'),
-(41, 1, 'AjuTHsV0hCQ74ZcgdsXVJuOZYcxDBsiz', '2022-10-19 05:35:04', '2022-10-19 05:35:04'),
-(42, 1, 'TccJ4xqrDuso6ui9SUchEokCLH2fze1C', '2022-10-26 05:40:44', '2022-10-26 05:40:44'),
-(43, 1, 'slTvoMfta9pDGOb5noGrqFgCXOdMInnf', '2022-10-26 17:06:04', '2022-10-26 17:06:04'),
-(44, 1, 'QSAjypXRrfL0BeiHDuw99OtnSdf5Fgkz', '2022-10-26 19:31:54', '2022-10-26 19:31:54'),
-(45, 1, '7chFM3MCqLVLMsWERhVwpzCkHrlkbDXV', '2022-10-28 05:11:16', '2022-10-28 05:11:16'),
-(46, 1, 'oDrYKpQZ6ijf9zod51SZXFUNTMIlkiJH', '2022-10-28 10:52:12', '2022-10-28 10:52:12'),
-(47, 1, 'PV73IRDJkkGhdgXsrr3SisvnmS6VWWTl', '2022-10-28 16:24:19', '2022-10-28 16:24:19'),
-(48, 1, 'w5PahbDLaR4O5Ti9zcoIn7W4daPJw7Wv', '2022-10-29 16:44:15', '2022-10-29 16:44:15'),
-(49, 1, 'B05IOCjTftQwm5DPJKEGuJWM6VcwkW2a', '2022-11-03 17:49:10', '2022-11-03 17:49:10'),
-(50, 1, 'HZxhXVDazrxEzss7wQaxl90ldgDO2rNa', '2022-11-09 16:07:20', '2022-11-09 16:07:20'),
-(51, 1, 'mXJbjlXONi4m8QgJKBVFkjIMLvHBGevo', '2022-11-09 17:44:33', '2022-11-09 17:44:33'),
-(52, 1, '0ospuFYBBozkCH6hzX93fIMseEcLoRMm', '2022-11-11 13:21:00', '2022-11-11 13:21:00'),
-(53, 1, 'GvHykHqAtXwOoFWakyHnadBW8zeWwGJO', '2022-11-12 05:00:19', '2022-11-12 05:00:19'),
-(54, 1, '3vJcXvmkDHTJyaRGeWvrKASMJORa8zIp', '2022-11-12 17:51:34', '2022-11-12 17:51:34'),
-(55, 1, 'VcRw3c8Dbob4uuj42ZJ1PLm5vsCLZxie', '2022-11-13 17:00:34', '2022-11-13 17:00:34'),
-(56, 1, 'rqo8BWha4zkjBXBVx6N47Py7ZAPZV7EV', '2022-11-14 15:37:53', '2022-11-14 15:37:53'),
-(57, 1, 'MiGOiFAzNu8gjJA1IYwxh3anFQseDqz1', '2022-11-15 06:42:52', '2022-11-15 06:42:52');
+(59, 1, 'zk700aY6tVb5gkwLs9lWQis5bnBVajHJ', '2022-11-26 05:25:41', '2022-11-26 05:25:41');
 
 -- --------------------------------------------------------
 
@@ -508,8 +485,9 @@ CREATE TABLE `scms_settings` (
 --
 
 INSERT INTO `scms_settings` (`id`, `name`, `value`, `updated_at`) VALUES
-(1, 'running_year', '2021-2022', NULL),
-(2, 'vtype', '1', NULL);
+(1, 'running_year', '2021-2022', '2022-11-26 07:21:33'),
+(3, 'vtype', '1', NULL),
+(2, 'r_year_format', '1', NULL);
 
 -- --------------------------------------------------------
 
@@ -579,7 +557,7 @@ CREATE TABLE `scms_version_type` (
 --
 
 INSERT INTO `scms_version_type` (`id`, `name`, `status`) VALUES
-(1, 'Bangla', 1),
+(1, 'বাংলা (Bangla)', 1),
 (2, 'English', 1);
 
 -- --------------------------------------------------------
@@ -864,7 +842,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `employee_id`, `permissions`, `m_permission`, `password`, `directory`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-15 06:42:52', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-15 06:42:52'),
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-26 05:25:41', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-26 05:25:41'),
 (2, 'Rasel', 'rasel', '01911054866', 'rasel@gmail.com', '2022-10-09 16:25:43', 1, NULL, '{\"core.blood_group\":true}', NULL, '$2y$10$GHiH2cpMTxJQoSITYzVZJefwBnqhaWFyJwkPmV9r9waThGVEwmmqC', NULL, NULL, NULL, '2022-10-09 16:22:04', '2022-10-28 19:05:57'),
 (3, 'test', 'test@mail.com', '01911', 'test@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$sDMW30a2ML6q2H3/RkRLkuzVYOxtLe/nGSo3taJ1Pp/yLdq6dQAr.', NULL, NULL, NULL, '2022-10-18 09:47:31', '2022-10-18 09:47:31'),
 (4, 'ruble', 'ruble', '455', 'ruble@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$WyF/vbAD0w4xEbfGa8t8BuJursb6aPOXzLhPaCGqUa/roN/tF8/hK', '4-1666086791', NULL, NULL, '2022-10-18 09:53:10', '2022-10-18 09:53:11');
@@ -1164,7 +1142,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1218,7 +1196,7 @@ ALTER TABLE `scms_sections`
 -- AUTO_INCREMENT for table `scms_settings`
 --
 ALTER TABLE `scms_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `scms_shift`
