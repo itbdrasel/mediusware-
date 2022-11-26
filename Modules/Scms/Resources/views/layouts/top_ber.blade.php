@@ -58,7 +58,7 @@
                 let year           = '{{date('Y')-10}}';
                 let running_year    = '{{getRunningYear()}}';
                 let year_2         = parseInt(year)+1;
-                let html           = '<select onchange="runningYearChange(event)" id="running_year_top" name="running_year_top" class="form-select ">';
+                let html           = '<select onchange="runningYearChange(event)" id="running_year_top" name="running_year_top" class="form-select "> <option disabled value="">Select Running Year</option>';
                 for(let x = 0; x <= 10; x++) {
                     let y = parseInt(year) + parseInt(x);
                     let y_2 = year_2 + parseInt(x);
@@ -88,7 +88,9 @@
                     type: 'POST',
                     data: { _token : _token, year : year  },
                     success:function (response) {
-                        toastr.success('Successfully running year change');
+                        if (response ==true){
+                            toastr.success('Successfully running year change');
+                        }
                         location.reload();
                     }
                 });

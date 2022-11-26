@@ -31,6 +31,11 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
     Route::group(['prefix'=>'shift','as'=>'shift','controller'=>'Backend\ShiftController'], function () {
         getResourceRoute(['index','edit','store', 'delete']);
     });
+
+    // Setting Route
+    Route::group(['prefix'=>'setting','as'=>'setting','controller'=>'Backend\SettingsController'], function () {
+        getResourceRoute(['index','store']);
+    });
 });
 
 
