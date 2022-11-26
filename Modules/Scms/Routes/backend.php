@@ -1,7 +1,8 @@
 <?php
 
 
-Route::group(['middleware' => ['admin'],'prefix'=>'scms','as'=>'scms.'], function () {
+//Route::group(['middleware' => ['authx','admin'],'prefix'=>'scms','as'=>'scms.'], function () {
+Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], function () {
     Route::get('/dashboard', 'Backend\DashboardController@index')->name('dashboard');
 
     // Student Route
@@ -33,11 +34,7 @@ Route::group(['middleware' => ['admin'],'prefix'=>'scms','as'=>'scms.'], functio
 });
 
 
-Route::group(['prefix'=>'scms','as'=>'scms.'], function () {
-
-});
-
 // Module Route
 Route::group(['middleware' => ['authx'], 'prefix'=>'scms/ajax','controller'=>'Backend\AjaxJsonController'], function () {
-    Route::get('running-year-static', 'runningYearStatic');
+    Route::get('running-year-change', 'runningYearChange');
 });

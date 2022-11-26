@@ -11,8 +11,8 @@
 |
 */
 
-//Route::group(['middleware' => ['admin'],'prefix'=>'hrms','as'=>'hrms.'], function () {
-Route::group(['prefix'=>'hrms','as'=>'hrms.'], function () {
+//Route::group(['middleware' => ['authx','admin'],'prefix'=>'hrms','as'=>'hrms.'], function () {
+Route::group(['middleware' => ['authx'],'prefix'=>'hrms','as'=>'hrms.'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     // Employee Route

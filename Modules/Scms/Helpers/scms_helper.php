@@ -13,12 +13,15 @@ function getClass(){
 }
 
 function getTopBerYear(){
-    $running_year   = getRunningYear();
+    return getFormatYear(getRunningYear());
+}
+
+function getFormatYear($year){
     $year_format    = config('sc_setting.r_year_format');
     if ($year_format ==1) {
-        return substr($running_year, 5,14);
+        return substr($year, 5,14);
     }
-    return $running_year;
+    return $year;
 }
 
 function getRunningYear(){

@@ -3,7 +3,7 @@
 
 | **Laravel Old Version**  |  **laravel New Version** |
 |---|---|
-| 9.30.1  | 9.40.1 |
+| v9.30.1  | <img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"> |
 
 
 - [Modules Folder Add](#)
