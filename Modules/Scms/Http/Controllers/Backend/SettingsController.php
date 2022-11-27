@@ -8,6 +8,7 @@ use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Http\Request;
 use Modules\Scms\Entities\SettingSC;
+use Modules\Scms\Entities\Version;
 use Validator;
 
 class SettingsController extends Controller
@@ -46,6 +47,7 @@ class SettingsController extends Controller
                 'page_icon' => '<i class="fa fa-book"></i>',
                 'pageUrl'   => $this->bUrl,
                 'allData'   => $this->bUrl,
+                'versions'  => Version::all()
             ];
 
         $this->layout('index');
@@ -57,10 +59,12 @@ class SettingsController extends Controller
         $rules = [
             'running_year'      => 'required|regex:/^[0-9]{4,}-[0-9]{4,}$/',
             'r_year_format'     => 'required|regex:/^[1-2]{1,}$/',
+            'vtype'             => 'required',
         ];
 
         $attribute =[
-            'r_year_format'=> 'Year format'
+            'r_year_format'     => 'Year format',
+            'vtype'             => 'Year format'
         ];
 
         $customMessages =[];
@@ -71,10 +75,11 @@ class SettingsController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $data = [
-
+        $data =[
+            'running_year'      => $request['running_year'],
+            'r_year_format'     => $request['r_year_format'],
+            'vtype'             => $request['vtype'],
         ];
-
         foreach ($data as $key=>$value){
             if ($value != config('sc_setting')[$key]) {
                 $this->model::where('name', $key)->update(['value'=>$value]);

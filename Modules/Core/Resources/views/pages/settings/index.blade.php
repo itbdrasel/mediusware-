@@ -94,7 +94,7 @@
                                 <div class="form-group row">
                                     <label  class="col-sm-3 col-form-label">Currency Order <code>*</code></label>
                                     <div class="col-sm-8">
-                                        <select class="form-control"  name="currency_order">
+                                        <select class="form-select"  name="currency_order">
                                             <option {{config('settings')['c_order']=='left'?'selected':''}} value="left">left</option>
                                             <option {{config('settings')['c_order']=='right'?'selected':''}} value="right">right</option>
                                         </select>
@@ -108,7 +108,7 @@
                                         @php
                                             $year = date('Y')-1;
                                         @endphp
-                                        <select class="form-control"  name="date_format">
+                                        <select class="form-select"  name="date_format">
                                             <option {{config('settings')['date_format']=='d-m-Y'?'selected':''}} value="d-m-Y">30-12-{{$year}} (d-m-Y)</option>
                                             <option {{config('settings')['date_format']=='Y-m-d'?'selected':''}} value="Y-m-d">{{$year}}-12-30 (Y-m-d)</option>
                                             <option {{config('settings')['date_format']=='d/m/Y'?'selected':''}} value="d/m/Y">30/12/{{$year}} (d/m/Y)</option>
@@ -205,7 +205,7 @@
                                 <div class="form-group row">
                                     <label  class="col-sm-3 col-form-label">Default Tax Rate </label>
                                     <div class="col-sm-7">
-                                        <select class="form-control"  name="default_tax">
+                                        <select class="form-select"  name="default_tax">
                                             <option {{config('settings')['default_tax']=='none'?'selected':''}}  value="none">No Tax</option>
                                             @if (!empty($allTex))
                                                 @foreach($allTex as $key=>$tax)

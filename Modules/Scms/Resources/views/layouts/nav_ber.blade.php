@@ -65,3 +65,12 @@
     </a>
 </li>
 @endif
+
+@if (dAuth()->hasAccess(['scms.shift']))
+    <li class="nav-item">
+        <a href="{{url('scms/settings')}}" class="nav-link {{activeMenu(2, 'settings')}}">
+            <i class="nav-icon fas fa-cogs"></i>
+            <p>Settings</p>
+        </a>
+    </li>
+@endif

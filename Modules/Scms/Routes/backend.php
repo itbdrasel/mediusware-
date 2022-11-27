@@ -33,7 +33,7 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
     });
 
     // Setting Route
-    Route::group(['prefix'=>'setting','as'=>'setting','controller'=>'Backend\SettingsController'], function () {
+    Route::group(['prefix'=>'settings','as'=>'settings','controller'=>'Backend\SettingsController'], function () {
         getResourceRoute(['index','store']);
     });
 });
