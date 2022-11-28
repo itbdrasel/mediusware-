@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2022 at 08:22 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Nov 27, 2022 at 07:25 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rasel_erp_system`
+-- Database: `erp_system`
 --
 
 -- --------------------------------------------------------
@@ -263,7 +263,9 @@ CREATE TABLE `persistences` (
 --
 
 INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
-(59, 1, 'zk700aY6tVb5gkwLs9lWQis5bnBVajHJ', '2022-11-26 05:25:41', '2022-11-26 05:25:41');
+(59, 1, 'zk700aY6tVb5gkwLs9lWQis5bnBVajHJ', '2022-11-26 05:25:41', '2022-11-26 05:25:41'),
+(60, 1, 'rWzUIGt7VWUc78u7tNpd2aPMc9AXmCqs', '2022-11-26 17:29:14', '2022-11-26 17:29:14'),
+(61, 1, 'akfKsCymGazibjWqkVP6pnrddRFQpYJS', '2022-11-27 16:56:04', '2022-11-27 16:56:04');
 
 -- --------------------------------------------------------
 
@@ -485,9 +487,11 @@ CREATE TABLE `scms_settings` (
 --
 
 INSERT INTO `scms_settings` (`id`, `name`, `value`, `updated_at`) VALUES
-(1, 'running_year', '2021-2022', '2022-11-26 07:21:33'),
-(3, 'vtype', '1', NULL),
-(2, 'r_year_format', '1', NULL);
+(1, 'running_year', '2021-2022', '2022-11-26 18:25:42'),
+(3, 'vtype', '1', '2022-11-27 17:51:55'),
+(2, 'r_year_format', '1', '2022-11-27 17:52:00'),
+(4, 'student_sms', '', NULL),
+(5, 'student_email', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -539,6 +543,25 @@ CREATE TABLE `scms_student` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scms_versions`
+--
+
+CREATE TABLE `scms_versions` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `scms_versions`
+--
+
+INSERT INTO `scms_versions` (`id`, `name`) VALUES
+(1, 'Bangla'),
+(2, 'English');
 
 -- --------------------------------------------------------
 
@@ -842,7 +865,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `employee_id`, `permissions`, `m_permission`, `password`, `directory`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-26 05:25:41', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-26 05:25:41'),
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-27 16:56:04', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-27 16:56:04'),
 (2, 'Rasel', 'rasel', '01911054866', 'rasel@gmail.com', '2022-10-09 16:25:43', 1, NULL, '{\"core.blood_group\":true}', NULL, '$2y$10$GHiH2cpMTxJQoSITYzVZJefwBnqhaWFyJwkPmV9r9waThGVEwmmqC', NULL, NULL, NULL, '2022-10-09 16:22:04', '2022-10-28 19:05:57'),
 (3, 'test', 'test@mail.com', '01911', 'test@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$sDMW30a2ML6q2H3/RkRLkuzVYOxtLe/nGSo3taJ1Pp/yLdq6dQAr.', NULL, NULL, NULL, '2022-10-18 09:47:31', '2022-10-18 09:47:31'),
 (4, 'ruble', 'ruble', '455', 'ruble@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$WyF/vbAD0w4xEbfGa8t8BuJursb6aPOXzLhPaCGqUa/roN/tF8/hK', '4-1666086791', NULL, NULL, '2022-10-18 09:53:10', '2022-10-18 09:53:11');
@@ -1017,6 +1040,12 @@ ALTER TABLE `scms_student`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `scms_versions`
+--
+ALTER TABLE `scms_versions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `scms_version_type`
 --
 ALTER TABLE `scms_version_type`
@@ -1142,7 +1171,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1196,7 +1225,7 @@ ALTER TABLE `scms_sections`
 -- AUTO_INCREMENT for table `scms_settings`
 --
 ALTER TABLE `scms_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `scms_shift`
@@ -1209,6 +1238,12 @@ ALTER TABLE `scms_shift`
 --
 ALTER TABLE `scms_student`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `scms_versions`
+--
+ALTER TABLE `scms_versions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `scms_version_type`

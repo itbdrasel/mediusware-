@@ -99,6 +99,7 @@ class StudentController extends Controller
         ];
         $this->data['allClass']     = getClass();
         $this->data['groups']       = Group::orderBy('order_by')->orderBy('id')->get();
+        $this->data['shifts']       = Shift::orderBy('order_by')->orderBy('id')->get();
         $this->data['genders']      = Gender::orderBy('order_by')->orderBy('id')->get();
         $this->data['religions']    = Religion::orderBy('order_by')->orderBy('id')->get();
         $this->data['blood_groups'] = BloodGroup::orderBy('order_by')->orderBy('id')->get();
