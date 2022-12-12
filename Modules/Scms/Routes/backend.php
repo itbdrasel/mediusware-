@@ -42,4 +42,5 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
 // Module Route
 Route::group(['middleware' => ['authx'], 'prefix'=>'scms/ajax','controller'=>'Backend\AjaxJsonController'], function () {
     Route::post('running-year-change', 'runningYearChange');
+    Route::post('class-by-sections', 'classBySections');
 });

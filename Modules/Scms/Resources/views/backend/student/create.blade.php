@@ -346,38 +346,9 @@
 
 @push('js')
     <script>
-        /// Address Equity ///
-        function check_address_equity(value) {
-            if(value == 0) {
-                let present_address = $("#present_address").val();
-                $("#permanent_address").val(present_address);
-                $("#address_equity").val(1);
-            } else {
-                $("#permanent_address").val('');
-                $("#address_equity").val(0);
+            function classBySections() {
+
             }
-        }
     </script>
-    <script type="text/javascript">
-        count = {{count($social_all??[])}};
-        $('.input_add').on('click', function () {
-            var html ='' +
-                '<div class="row mb-3" id="remove_div_'+count+'">' +
-                '<div class="col-sm-4">' +
-                '<input type="text" placeholder="Media Name" value="" name="media_name[]" class="form-control">' +
-                '</div>' +
-                '<div class="col-sm-6">' +
-                ' <input type="text" value="" placeholder="Media Link" name="media_link[]" class="form-control">' +
-                '</div>' +
-                '<div class="col-sm-1">' +
-                '<a style="cursor: pointer" onclick="removeSocialDiv('+count+')"  class="input_remove btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></a>' +
-                '</div>' +
-                '</div>';
-            $('#social_aria').append(html);
-            count++;
-        })
-        function removeSocialDiv(id) {
-            $('#remove_div_'+id).remove();
-        }
-    </script>
+
 @endpush

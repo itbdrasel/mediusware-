@@ -4,6 +4,7 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Scms\Entities\Section;
 use Modules\Scms\Entities\SettingSC;
 use Validator;
 
@@ -27,5 +28,17 @@ class AjaxJsonController extends Controller
         SettingSC::where('name', 'running_year')->update(['value'=>$year]);
         return true;
 
+    }
+
+    public function classBySections(Request $request){
+        $rules = [
+            'class'=> 'required'
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()){
+            return false;
+        }
+        $sections = Section::where('id', $request['class'])->select('id','name')->get();
+        dd($sections);
     }
 }
