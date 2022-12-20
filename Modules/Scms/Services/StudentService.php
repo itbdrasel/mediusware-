@@ -4,17 +4,37 @@
 namespace Modules\Scms\Services;
 
 
+use Modules\Core\Entities\BloodGroup;
+use Modules\Core\Entities\Gender;
+use Modules\Core\Entities\Religion;
+use Modules\Scms\Entities\Group;
+use Modules\Scms\Entities\Section;
+use Modules\Scms\Entities\Shift;
 use Modules\Scms\Entities\Student;
+use Validator;
 
 class StudentService
 {
 
     private $model;
+    private $title;
+    private $moduleName;
+    private $bUrl;
+    private $tableId;
     public function __construct(){
         $this->model            = Student::class;
+        $this->title            = 'Student';
+        $this->tableId          = 'id';
+        $this->moduleName       = getModuleName(get_called_class());
+        $this->bUrl             = $this->moduleName.'/student';
     }
 
     public function getIndexData($request, $class_id='', $section_id=''){
+        $data = [
+           'title'      => $this->title.' Manager',
+           'pageUrl'    => trim($this->bUrl.'/'. $class_id,'/'),
+           'page_icon'  => '<i class="fas fa-tasks"></i>',
+        ];
         $model_sortable =  $this->model::$sortable;
         $perPage = session('per_page') ?: 10;
 
@@ -63,13 +83,85 @@ class StudentService
         if (!empty($class_id)){
             $queryData->where('section_id', $section_id);
         }
-
-
         $data['class_id']   = $class_id;
         $data['section_id'] = $section_id;
         $data['allData']    =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
+        $data['sections']     = Section::orderBy('order_by')->where('class_id',  $data['class_id'])->get();
         return $data;
 
+    }
+
+    public function createEdit($id=''){
+        if (!empty($id)){
+            $this->data = [
+                'title'         => 'Edit '.$this->title,
+                'pageUrl'       => $this->bUrl.'/'.$id,
+                'page_icon'     => '<i class="fas fa-edit"></i>',
+            ];
+        }else{
+            $this->data = [
+                'title'         => 'Add New '.$this->title,
+                'pageUrl'       => $this->bUrl.'/create',
+                'page_icon'     => '<i class="fas fa-plus"></i>',
+                'objData'       => ''
+            ];
+        }
+        $this->data['allClass']     = getClass();
+        $this->data['groups']       = Group::orderBy('order_by')->orderBy('id')->get();
+        $this->data['shifts']       = Shift::orderBy('order_by')->orderBy('id')->get();
+        $this->data['genders']      = Gender::orderBy('order_by')->orderBy('id')->get();
+        $this->data['religions']    = Religion::orderBy('order_by')->orderBy('id')->get();
+        $this->data['blood_groups'] = BloodGroup::orderBy('order_by')->orderBy('id')->get();
+        return $this->data;
+
+    }
+    public function getValidationRules($request){
+        $id = $request['id'];
+        $rules = [
+            'name'              =>'required',
+            'phone'             =>'required|unique:scms_student,phone,'.$id,
+            'gender_id'         =>'required',
+            'id_number'         =>'required|unique:scms_student,id_number,'.$id,
+            'class_id'          =>'required',
+            'section_id'        =>'required',
+            'group_id'          =>'required',
+            'father_name'       =>'required',
+            'mother_name'       =>'required',
+        ];
+        $attribute =[
+            'gender_id'          => 'Gender',
+            'class_id'           => 'class',
+            'section_id'         => 'section',
+            'group_id'           => 'group',
+        ];
+        $customMessages = [];
+        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+    }
+
+    public function insertData($request){
+        $array=  $this->model::$insertData;
+        $studentData =[];
+        for ($i=0; $i<count( $array); $i++){
+            if (!empty($request[$array[$i]])){
+                $studentData[$array[$i]]= $request[$array[$i]];
+            }
+        }
+        $studentData['birthday'] = dbDateFormat($request['birthday']);
+
+        $parentData = [
+
+        ];
+
+        $enrollData=[
+            'student_id'    => '',
+            'class_id'      => $request['class_id'],
+            'section_id'    => $request['section_id'],
+            'group_id'      => $request['group_id'],
+            'shift'         => $request['shift'],
+            'roll'          => $request['roll'],
+            'year'          => getRunningYear(),
+            'vtype'         => getVersionType(),
+        ];
     }
 
 }

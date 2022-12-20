@@ -28,3 +28,6 @@ function getRunningYear(){
     $running_year   = config('sc_setting.running_year');
     return $running_year;
 }
+function getVersionType(){
+    return config('sc_setting.vtype');
+}
