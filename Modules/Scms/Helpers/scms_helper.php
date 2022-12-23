@@ -31,3 +31,11 @@ function getRunningYear(){
 function getVersionType(){
     return config('sc_setting.vtype');
 }
+
+
+function studentSms(){
+
+}
+function studentEmail(){
+
+}

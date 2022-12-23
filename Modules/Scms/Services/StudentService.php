@@ -7,7 +7,9 @@ namespace Modules\Scms\Services;
 use Modules\Core\Entities\BloodGroup;
 use Modules\Core\Entities\Gender;
 use Modules\Core\Entities\Religion;
+use Modules\Scms\Entities\Enroll;
 use Modules\Scms\Entities\Group;
+use Modules\Scms\Entities\ParentModel;
 use Modules\Scms\Entities\Section;
 use Modules\Scms\Entities\Shift;
 use Modules\Scms\Entities\Student;
@@ -139,6 +141,7 @@ class StudentService
     }
 
     public function insertData($request){
+        $id = $request[$this->tableId];
         $array=  $this->model::$insertData;
         $studentData =[];
         for ($i=0; $i<count( $array); $i++){
@@ -148,20 +151,41 @@ class StudentService
         }
         $studentData['birthday'] = dbDateFormat($request['birthday']);
 
+        //Guardian Data
         $parentData = [
-
+            'name'              => $request['guardian_name']??'',
+            'phone'             => $request['guardian_phone']??'',
+            'email'             => $request['guardian_email']??'',
+            'address'           => $request['guardian_address']??'',
+            'profession'        => $request['guardian_profession']??'',
+            'father_name'       => $request['father_name']??'',
+            'father_contact'    => $request['father_contact']??'',
+            'mother_name'       => $request['mother_name']??'',
+            'mother_contact'    => $request['mother_contact']??'',
         ];
-
+        //Enroll Data
         $enrollData=[
-            'student_id'    => '',
             'class_id'      => $request['class_id'],
             'section_id'    => $request['section_id'],
             'group_id'      => $request['group_id'],
             'shift'         => $request['shift'],
             'roll'          => $request['roll'],
-            'year'          => getRunningYear(),
-            'vtype'         => getVersionType(),
         ];
+        if (empty($id)){
+            $enrollData['year']         = getRunningYear();
+            $enrollData['vtype']        = getVersionType();
+            $parent = ParentModel::create($parentData);
+            $studentData['parent_id']   = $parent->id;
+            $student = Student::create($studentData);
+            $enrollData['student_id']   = $student->id;
+            Enroll::create($enrollData);
+            return true;
+        }else{
+            Student::where('id',$id)->update($studentData);
+            ParentModel::where('id', $request['parent_id'])->update($parentData);
+            Enroll::where('id', $request['enroll_id'])->update($parentData);
+            return true;
+        }
     }
 
 }

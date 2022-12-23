@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2022 at 07:25 PM
+-- Generation Time: Dec 23, 2022 at 01:39 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -265,7 +265,9 @@ CREATE TABLE `persistences` (
 INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
 (59, 1, 'zk700aY6tVb5gkwLs9lWQis5bnBVajHJ', '2022-11-26 05:25:41', '2022-11-26 05:25:41'),
 (60, 1, 'rWzUIGt7VWUc78u7tNpd2aPMc9AXmCqs', '2022-11-26 17:29:14', '2022-11-26 17:29:14'),
-(61, 1, 'akfKsCymGazibjWqkVP6pnrddRFQpYJS', '2022-11-27 16:56:04', '2022-11-27 16:56:04');
+(61, 1, 'akfKsCymGazibjWqkVP6pnrddRFQpYJS', '2022-11-27 16:56:04', '2022-11-27 16:56:04'),
+(62, 1, 'G7Jgl5FxI9byiYRIwEkEGeZXeSA3EXgB', '2022-12-12 15:45:28', '2022-12-12 15:45:28'),
+(63, 1, 'H4vnAWRpT71bXLVTdwd6owtRzmUYCYlZ', '2022-12-23 12:04:12', '2022-12-23 12:04:12');
 
 -- --------------------------------------------------------
 
@@ -383,9 +385,8 @@ INSERT INTO `scms_class` (`id`, `name`, `teacher_id`, `order_by`, `created_at`, 
 --
 
 CREATE TABLE `scms_enroll` (
-  `enroll_id` bigint(20) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `student_id` bigint(20) DEFAULT NULL,
-  `id_number` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL,
   `section_id` int(11) DEFAULT NULL,
   `group_id` int(11) DEFAULT NULL,
@@ -538,7 +539,6 @@ CREATE TABLE `scms_student` (
   `dormitory_id` int(11) DEFAULT NULL,
   `transport_id` int(11) DEFAULT NULL,
   `agent_banking_no` varchar(42) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `vtype` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -865,7 +865,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `employee_id`, `permissions`, `m_permission`, `password`, `directory`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-11-27 16:56:04', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-11-27 16:56:04'),
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-12-23 12:04:12', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-12-23 12:04:12'),
 (2, 'Rasel', 'rasel', '01911054866', 'rasel@gmail.com', '2022-10-09 16:25:43', 1, NULL, '{\"core.blood_group\":true}', NULL, '$2y$10$GHiH2cpMTxJQoSITYzVZJefwBnqhaWFyJwkPmV9r9waThGVEwmmqC', NULL, NULL, NULL, '2022-10-09 16:22:04', '2022-10-28 19:05:57'),
 (3, 'test', 'test@mail.com', '01911', 'test@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$sDMW30a2ML6q2H3/RkRLkuzVYOxtLe/nGSo3taJ1Pp/yLdq6dQAr.', NULL, NULL, NULL, '2022-10-18 09:47:31', '2022-10-18 09:47:31'),
 (4, 'ruble', 'ruble', '455', 'ruble@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$WyF/vbAD0w4xEbfGa8t8BuJursb6aPOXzLhPaCGqUa/roN/tF8/hK', '4-1666086791', NULL, NULL, '2022-10-18 09:53:10', '2022-10-18 09:53:11');
@@ -1000,7 +1000,7 @@ ALTER TABLE `scms_class`
 -- Indexes for table `scms_enroll`
 --
 ALTER TABLE `scms_enroll`
-  ADD PRIMARY KEY (`enroll_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `scms_groups`
@@ -1171,7 +1171,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1201,7 +1201,7 @@ ALTER TABLE `scms_class`
 -- AUTO_INCREMENT for table `scms_enroll`
 --
 ALTER TABLE `scms_enroll`
-  MODIFY `enroll_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `scms_groups`
