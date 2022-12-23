@@ -150,7 +150,7 @@
                                         <label for="{{$input_name}}" class="col-sm-4 col-form-label text-capitalize">{{str_replace(['_','id'],' ',$input_name)}}<code> *</code></label>
 
                                         <div class="col-sm-8">
-                                            <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
+                                            <select id="{{$input_name}}" onchange="classBySections()" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
                                                 <option value=""> Select Class </option>
                                                 @if (!empty($allClass))
                                                     @foreach ($allClass as $value)
@@ -347,7 +347,22 @@
 @push('js')
     <script>
             function classBySections() {
-
+                let class_id    = $('#class_id').val();
+                var _token      = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url:"{{url('scms/ajax/class-by-sections')}}",
+                    type: 'POST',
+                    data: { _token : _token, class_id : class_id  },
+                    success:function (response) {
+                        if (response !=false){
+                            let html = '<option value=""> Select Section </option>';
+                            for (var i = 0; i < response.length; i++) {
+                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                            }
+                            $('#section_id').htnl(html);
+                        }
+                    }
+                });
             }
     </script>
 

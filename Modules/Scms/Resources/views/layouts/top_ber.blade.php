@@ -87,6 +87,7 @@
                     url:"{{url('scms/ajax/running-year-change')}}",
                     type: 'POST',
                     data: { _token : _token, year : year  },
+                    dataType: 'JSON',
                     success:function (response) {
                         if (response ==true){
                             toastr.success('Successfully running year change');

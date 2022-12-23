@@ -111,14 +111,10 @@ class StudentController extends Controller
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $params = $this->getInsertData($request);
+        $this->studentServices->insertData($request);
         if (empty($id) ) {
-            $employee_id = $this->model::create($params)->id;
-            $this->createUser($request, $employee_id);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
         }else{
-            $this->model::where($this->tableId, $id)->update($params);
-            $this->createUser($request, $id);
             return redirect($this->bUrl)->with('success', 'Successfully Updated');
         }
 

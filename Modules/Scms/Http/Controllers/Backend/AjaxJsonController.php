@@ -32,13 +32,13 @@ class AjaxJsonController extends Controller
 
     public function classBySections(Request $request){
         $rules = [
-            'class'=> 'required'
+            'class_id'=> 'required'
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()){
             return false;
         }
-        $sections = Section::where('id', $request['class'])->select('id','name')->get();
-        dd($sections);
+        $sections = Section::where('id', $request['class_id'])->select('id','name')->get();
+        return json_encode($sections);
     }
 }

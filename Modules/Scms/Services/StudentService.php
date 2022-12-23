@@ -179,6 +179,7 @@ class StudentService
             $student = Student::create($studentData);
             $enrollData['student_id']   = $student->id;
             Enroll::create($enrollData);
+            $this->studentSendSmsEmail($request);
             return true;
         }else{
             Student::where('id',$id)->update($studentData);
@@ -187,5 +188,11 @@ class StudentService
             return true;
         }
     }
+
+
+    public function studentSendSmsEmail($request){
+
+    }
+
 
 }
