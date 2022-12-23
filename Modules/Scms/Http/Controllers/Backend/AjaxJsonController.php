@@ -39,6 +39,6 @@ class AjaxJsonController extends Controller
             return false;
         }
         $sections = Section::where('id', $request['class_id'])->select('id','name')->get();
-        return json_encode($sections);
+        return response()->json($sections);
     }
 }

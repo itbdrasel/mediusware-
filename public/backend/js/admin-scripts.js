@@ -273,23 +273,25 @@ if ( $('.datepicker, .dateOfBirth').length) {
 
 // Date Picker
 if ( $('.datepicker').length){
+    var userDateFormat = $('#userDateFormat').val();
 	$(function () {
 		$(".datepicker").datepicker({
 			showAnim: "slide",
 			changeMonth: true,
 			changeYear: true,
-			dateFormat: 'yy-mm-dd',
+			dateFormat: userDateFormat,
 			yearRange: "-80:+80"
 		});
 	});
 }
 if ( $('.dateOfBirth').length){
 	$(function () {
+        var userDateFormat = $('#userDateFormat').val();
 		$(".dateOfBirth").datepicker({
 			showAnim: "slide",
 			changeMonth: true,
 			changeYear: true,
-			dateFormat: 'yy-mm-dd',
+			dateFormat: userDateFormat,
 			yearRange: "-80:+0",
 			maxDate: '0'
 		});

@@ -319,6 +319,60 @@
                                     </div>
                                 </div>
                                 <div class="card-body mt-4">
+                                    <div class="form-group row">
+                                        @php
+                                            $input_name = 'guardian_name';
+                                        @endphp
+                                        <label for="{{$input_name}}" class="col-sm-4 col-form-label text-capitalize">Name<code> *</code></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" name="{{$input_name}}" id="{{$input_name}}" value="{{ getValue($input_name, $objData)}} " class="form-control @error($input_name) is-invalid @enderror" >
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @php
+                                            $input_name = 'guardian_phone';
+                                        @endphp
+                                        <label for="{{$input_name}}" class="col-sm-4 col-form-label text-capitalize">Phone<code> *</code></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" name="{{$input_name}}" id="{{$input_name}}" value="{{ getValue($input_name, $objData)}} " class="form-control @error($input_name) is-invalid @enderror" >
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @php
+                                            $input_name = 'guardian_email';
+                                        @endphp
+                                        <label for="{{$input_name}}" class="col-sm-4 col-form-label text-capitalize">E-mail</label>
+                                        <div class="col-sm-8">
+                                            <input type="email" name="{{$input_name}}" id="{{$input_name}}" value="{{ getValue($input_name, $objData)}} " class="form-control @error($input_name) is-invalid @enderror" >
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @php
+                                            $input_name = 'guardian_address';
+                                        @endphp
+                                        <label for="{{$input_name}}" class="col-sm-4 col-form-label text-capitalize">Address</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" name="{{$input_name}}" id="{{$input_name}}" value="{{ getValue($input_name, $objData)}} " class="form-control @error($input_name) is-invalid @enderror" >
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @php
+                                            $input_name = 'guardian_profession';
+                                        @endphp
+                                        <label for="{{$input_name}}" class="col-sm-4 col-form-label text-capitalize">Profession</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" name="{{$input_name}}" id="{{$input_name}}" value="{{ getValue($input_name, $objData)}} " class="form-control @error($input_name) is-invalid @enderror" >
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -359,7 +413,7 @@
                             for (var i = 0; i < response.length; i++) {
                                 html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
                             }
-                            $('#section_id').htnl(html);
+                            $('#section_id').html(html);
                         }
                     }
                 });
