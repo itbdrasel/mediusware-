@@ -8,6 +8,7 @@
     <meta name="robots" content="nofollow">
     <meta name="googlebot" content="noindex">
     <title>{{$title??''}} | Dashboard</title>
+    <link href="{{url('favicon.ico')}}" rel="shortcut icon" />
     <script>
         (function(){
             window.Laravel = {

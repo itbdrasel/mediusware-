@@ -38,7 +38,7 @@ class AjaxJsonController extends Controller
         if ($validator->fails()){
             return false;
         }
-        $sections = Section::where('id', $request['class_id'])->select('id','name')->get();
+        $sections = Section::where('class_id', $request['class_id'])->select('id','name')->get();
         return response()->json($sections);
     }
 }
