@@ -364,7 +364,7 @@
                                     </div>
                                     <div class="form-group row">
                                         @php
-                                            $input_name = 'guardian_profession';
+                                            $input_name = 'guardian_professiongit ';
                                         @endphp
                                         <label for="{{$input_name}}" class="col-sm-4 col-form-label text-capitalize">Profession</label>
 
