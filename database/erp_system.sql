@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2022 at 01:39 PM
+-- Generation Time: Dec 25, 2022 at 07:52 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -267,7 +267,8 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (60, 1, 'rWzUIGt7VWUc78u7tNpd2aPMc9AXmCqs', '2022-11-26 17:29:14', '2022-11-26 17:29:14'),
 (61, 1, 'akfKsCymGazibjWqkVP6pnrddRFQpYJS', '2022-11-27 16:56:04', '2022-11-27 16:56:04'),
 (62, 1, 'G7Jgl5FxI9byiYRIwEkEGeZXeSA3EXgB', '2022-12-12 15:45:28', '2022-12-12 15:45:28'),
-(63, 1, 'H4vnAWRpT71bXLVTdwd6owtRzmUYCYlZ', '2022-12-23 12:04:12', '2022-12-23 12:04:12');
+(63, 1, 'H4vnAWRpT71bXLVTdwd6owtRzmUYCYlZ', '2022-12-23 12:04:12', '2022-12-23 12:04:12'),
+(64, 1, 'BiTsx72EItRdBSZehn0dN1yhMVm7By4o', '2022-12-25 06:15:56', '2022-12-25 06:15:56');
 
 -- --------------------------------------------------------
 
@@ -398,6 +399,13 @@ CREATE TABLE `scms_enroll` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `scms_enroll`
+--
+
+INSERT INTO `scms_enroll` (`id`, `student_id`, `class_id`, `section_id`, `group_id`, `shift`, `roll`, `year`, `vtype`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 2, NULL, NULL, '2021-2022', 1, '2022-12-25 07:07:34', '2022-12-25 07:07:34');
+
 -- --------------------------------------------------------
 
 --
@@ -442,6 +450,13 @@ CREATE TABLE `scms_parent` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `scms_parent`
+--
+
+INSERT INTO `scms_parent` (`id`, `name`, `phone`, `email`, `address`, `profession`, `password`, `father_name`, `father_contact`, `mother_name`, `mother_contact`, `created_at`, `updated_at`) VALUES
+(1, 'Sobahan Molla', '01911054866', '', '', '', NULL, 'Sobahan Molla', '', 'Shafia', '', '2022-12-25 07:07:34', '2022-12-25 07:07:34');
 
 -- --------------------------------------------------------
 
@@ -543,6 +558,13 @@ CREATE TABLE `scms_student` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `scms_student`
+--
+
+INSERT INTO `scms_student` (`id`, `id_number`, `name`, `phone`, `email`, `password`, `birthday`, `gender_id`, `religion_id`, `blood_group_id`, `address`, `photo`, `parent_id`, `dormitory_id`, `transport_id`, `agent_banking_no`, `status`, `created_at`, `updated_at`) VALUES
+(1, '123456', 'Rasel Hossain', '01911054866', NULL, NULL, NULL, 1, 1, 1, NULL, NULL, 1, NULL, NULL, NULL, 1, '2022-12-25 07:07:34', '2022-12-25 07:07:34');
 
 -- --------------------------------------------------------
 
@@ -865,7 +887,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `employee_id`, `permissions`, `m_permission`, `password`, `directory`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-12-23 12:04:12', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-12-23 12:04:12'),
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-12-25 06:15:56', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-12-25 06:15:56'),
 (2, 'Rasel', 'rasel', '01911054866', 'rasel@gmail.com', '2022-10-09 16:25:43', 1, NULL, '{\"core.blood_group\":true}', NULL, '$2y$10$GHiH2cpMTxJQoSITYzVZJefwBnqhaWFyJwkPmV9r9waThGVEwmmqC', NULL, NULL, NULL, '2022-10-09 16:22:04', '2022-10-28 19:05:57'),
 (3, 'test', 'test@mail.com', '01911', 'test@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$sDMW30a2ML6q2H3/RkRLkuzVYOxtLe/nGSo3taJ1Pp/yLdq6dQAr.', NULL, NULL, NULL, '2022-10-18 09:47:31', '2022-10-18 09:47:31'),
 (4, 'ruble', 'ruble', '455', 'ruble@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$WyF/vbAD0w4xEbfGa8t8BuJursb6aPOXzLhPaCGqUa/roN/tF8/hK', '4-1666086791', NULL, NULL, '2022-10-18 09:53:10', '2022-10-18 09:53:11');
@@ -1171,7 +1193,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1201,7 +1223,7 @@ ALTER TABLE `scms_class`
 -- AUTO_INCREMENT for table `scms_enroll`
 --
 ALTER TABLE `scms_enroll`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `scms_groups`
@@ -1213,7 +1235,7 @@ ALTER TABLE `scms_groups`
 -- AUTO_INCREMENT for table `scms_parent`
 --
 ALTER TABLE `scms_parent`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `scms_sections`
@@ -1237,7 +1259,7 @@ ALTER TABLE `scms_shift`
 -- AUTO_INCREMENT for table `scms_student`
 --
 ALTER TABLE `scms_student`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `scms_versions`

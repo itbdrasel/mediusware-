@@ -56,7 +56,7 @@ class StudentService
 
         //model query...
         $queryData = $this->model::orderBy( getOrder($model_sortable, 'scms_student.id')['by'], getOrder($model_sortable, 'scms_student.id')['order'])
-        ->select( 'scms_student.id', 'scms_student.name', 'scms_student.phone', 'scms_student.email', 'scms_student.id_number', 'scms_student.photo')
+        ->select('scms_student.id', 'scms_student.name', 'scms_student.phone', 'scms_student.email', 'scms_student.id_number', 'scms_student.photo')
         ->rightJoin('scms_enroll','scms_student.id', 'scms_enroll.student_id');
 
         //filter by text.....
@@ -79,16 +79,14 @@ class StudentService
 
         }
 
-        if (!empty($class_id)){
-            $queryData->where('class_id', $class_id);
+        $queryData->where(['scms_enroll.class_id'=> $class_id, '']);
+        if (!empty($section_id)){
+            $queryData->where('scms_enroll.section_id', $section_id);
         }
-        if (!empty($class_id)){
-            $queryData->where('section_id', $section_id);
-        }
-        $data['class_id']   = $class_id;
-        $data['section_id'] = $section_id;
-        $data['allData']    =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
-        $data['sections']     = Section::orderBy('order_by')->where('class_id',  $data['class_id'])->get();
+        $data['class_id']       = $class_id;
+        $data['section_id']     = $section_id;
+        $data['allData']        =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
+        $data['sections']       = Section::orderBy('order_by')->where('class_id',  $data['class_id'])->get();
         return $data;
 
     }
@@ -142,6 +140,22 @@ class StudentService
 
     public function insertData($request){
         $id = $request[$this->tableId];
+        $studentData = $this->getStudentData($request);
+        //Guardian Data
+        $parentData = $this->getParentData($request);
+        //Enroll Data
+        $enrollData= $this->getEnrollData($request);
+        if (empty($id)){
+            $this->insertQueries($parentData, $studentData, $enrollData, $request);
+            return true;
+        }else{
+            Student::where('id',$id)->update($studentData);
+            ParentModel::where('id', $request['parent_id'])->update($parentData);
+            Enroll::where('id', $request['enroll_id'])->update($parentData);
+            return true;
+        }
+    }
+    public function getStudentData($request){
         $array=  $this->model::$insertData;
         $studentData =[];
         for ($i=0; $i<count( $array); $i++){
@@ -150,9 +164,11 @@ class StudentService
             }
         }
         $studentData['birthday'] = dbDateFormat($request['birthday']);
+        return $studentData;
+    }
 
-        //Guardian Data
-        $parentData = [
+    public function getParentData($request){
+       return $parentData = [
             'name'              => $request['guardian_name']??'',
             'phone'             => $request['guardian_phone']??'',
             'email'             => $request['guardian_email']??'',
@@ -163,36 +179,38 @@ class StudentService
             'mother_name'       => $request['mother_name']??'',
             'mother_contact'    => $request['mother_contact']??'',
         ];
-        //Enroll Data
-        $enrollData=[
+
+    }
+    public function getEnrollData($request){
+        $id = $request[$this->tableId];
+         $enrollData=[
             'class_id'      => $request['class_id'],
             'section_id'    => $request['section_id'],
             'group_id'      => $request['group_id'],
             'shift'         => $request['shift'],
             'roll'          => $request['roll'],
         ];
-        if (empty($id)){
-            $enrollData['year']         = getRunningYear();
-            $enrollData['vtype']        = getVersionType();
-            $parent = ParentModel::create($parentData);
-            $studentData['parent_id']   = $parent->id;
-            $student = Student::create($studentData);
-            $enrollData['student_id']   = $student->id;
-            Enroll::create($enrollData);
-            $this->studentSendSmsEmail($request);
-            return true;
-        }else{
-            Student::where('id',$id)->update($studentData);
-            ParentModel::where('id', $request['parent_id'])->update($parentData);
-            Enroll::where('id', $request['enroll_id'])->update($parentData);
-            return true;
+        if (empty($id)) {
+            $enrollData['year'] = getRunningYear();
+            $enrollData['vtype'] = getVersionType();
         }
+        return $enrollData;
     }
 
+    public function  insertQueries($parentData, $studentData, $enrollData, $request){
+        $parent = ParentModel::create($parentData);
+        $studentData['parent_id']   = $parent->id;
+        $student = Student::create($studentData);
+        $enrollData['student_id']   = $student->id;
+        Enroll::create($enrollData);
+        $this->studentSendSmsEmail($request);
+        return true;
+    }
 
-    public function studentSendSmsEmail($request){
+    public function studentSendSmsEmail(){
 
     }
+
 
 
 }
