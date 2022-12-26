@@ -34,7 +34,6 @@ class StudentService
     public function getIndexData($request, $class_id='', $section_id=''){
         $data = [
            'title'      => $this->title.' Manager',
-           'pageUrl'    => trim($this->bUrl.'/'. $class_id,'/'),
            'page_icon'  => '<i class="fas fa-tasks"></i>',
         ];
         $model_sortable =  $this->model::$sortable;
@@ -83,6 +82,7 @@ class StudentService
         if (!empty($section_id)){
             $queryData->where('scms_enroll.section_id', $section_id);
         }
+        $data['pageUrl']        = trim($this->bUrl.'/'. $class_id,'/');
         $data['class_id']       = $class_id;
         $data['section_id']     = $section_id;
         $data['allData']        =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate

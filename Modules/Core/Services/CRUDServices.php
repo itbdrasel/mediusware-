@@ -65,6 +65,25 @@ class CRUDServices{
 
     }
 
+    public function createEdit($title, $bUrl,$model='',$id=''){
+        if (!empty($id)){
+            $this->data = [
+                'title'         => 'Edit '.$title,
+                'pageUrl'       => $bUrl.'/'.$id.'/edit',
+                'page_icon'     => '<i class="fas fa-edit"></i>',
+                'objData'       => $model::where('id', $id)->first()
+            ];
+        }else{
+            $this->data = [
+                'title'         => 'Add New '.$title,
+                'pageUrl'       => $bUrl.'/create',
+                'page_icon'     => '<i class="fas fa-plus"></i>',
+                'objData'       => ''
+            ];
+        }
+        return $this->data;
+    }
+
     public function getValidationRules($model, $rules=[], $attribute=[]){
         $data['rules'] = $rules;
         $data['attribute'] = $attribute;
