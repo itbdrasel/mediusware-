@@ -48,8 +48,8 @@
                                             @endif
                                         </ul>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="col-md-12">
+                                    <div class="card-body table-responsive">
+                                        <div class="col-md-12 ">
 
                                             <form action="{{url($bUrl.'/'.$class_id)}}" method="get"  class="form-inline">
 
@@ -92,18 +92,18 @@
                                         <div class="col-md-12 mt-4">
 
                                             <div class="row">
-                                                <div class="col-md-12 table-responsive">
+                                                <div class="col-md-12">
 
                                                     <table class="table table-bordered table-hover">
                                                         <thead>
                                                         <tr>
-                                                            <th class="text-center" style="width: 50px">SL</th>
-                                                            <th class="sort text-center" data-row="id_no" id="id_no" >Id No</th>
-                                                            <th class="text-center">Photo</th>
+                                                            <th class="text-center" width="50">SL</th>
+                                                            <th width="120" class="sort text-center" data-row="id_no" id="id_no" >Id No</th>
+                                                            <th width="120" class="text-center">Photo</th>
                                                             <th class="sort" data-row="name" id="name" >Name</th>
-                                                            <th>Phone</th>
-                                                            <th>E-mail</th>
-                                                            <th style="width: 180px" class="text-center">Manage</th>
+                                                            <th class="text-center" width="100">Roll</th>
+                                                            <th class="text-center" width="150">Phone</th>
+                                                            <th width="150" class="text-center">Manage</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -116,10 +116,11 @@
                                                             @foreach ($allData as $data)
                                                                 <tr>
                                                                     <td class="text-center">{{ $c+$serial }}</td>
-                                                                    <td>{{ $data->name }}</td>
-                                                                    <td>{{ $data->nick_name }}</td>
+                                                                    <td class="text-center">{{ $data->id_number }}</td>
                                                                     <td>{{ $data->teacher->name??'' }}</td>
-                                                                    <td>{{ $data->shift->name??'' }}</td>
+                                                                    <td>{{ $data->name??'' }}</td>
+                                                                    <td class="text-center">{{ $data->roll }}</td>
+                                                                    <td class="text-center">{{ $data->phone }}</td>
                                                                     <td class="text-center">
                                                                         <div class="btn-group dropleft">
                                                                             <button type="button" class="btn btn-outline-primary link_btn">

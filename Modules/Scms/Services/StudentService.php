@@ -56,7 +56,7 @@ class StudentService
 
         //model query...
         $queryData = $this->model::orderBy( getOrder($model_sortable, 'scms_student.id')['by'], getOrder($model_sortable, 'scms_student.id')['order'])
-        ->select('scms_student.id', 'scms_student.name', 'scms_student.phone', 'scms_student.email', 'scms_student.id_number', 'scms_student.photo')
+        ->select('scms_student.id', 'scms_student.name', 'scms_student.phone', 'scms_student.email', 'scms_student.id_number', 'scms_student.photo', 'scms_enroll.roll')
         ->rightJoin('scms_enroll','scms_student.id', 'scms_enroll.student_id');
 
         //filter by text.....
@@ -79,7 +79,7 @@ class StudentService
 
         }
 
-        $queryData->where(['scms_enroll.class_id'=> $class_id, '']);
+        $queryData->where(['scms_enroll.class_id'=> $class_id, 'scms_enroll.year'=>getRunningYear(), 'scms_enroll.vtype'=>getVersionType()]);
         if (!empty($section_id)){
             $queryData->where('scms_enroll.section_id', $section_id);
         }
@@ -151,7 +151,7 @@ class StudentService
         }else{
             Student::where('id',$id)->update($studentData);
             ParentModel::where('id', $request['parent_id'])->update($parentData);
-            Enroll::where('id', $request['enroll_id'])->update($parentData);
+            Enroll::where('id', $request['enroll_id'])->update($enrollData);
             return true;
         }
     }
@@ -187,8 +187,8 @@ class StudentService
             'class_id'      => $request['class_id'],
             'section_id'    => $request['section_id'],
             'group_id'      => $request['group_id'],
-            'shift'         => $request['shift'],
-            'roll'          => $request['roll'],
+            'shift'         => $request['shift_id'],
+            'roll'          => $request['class_roll'],
         ];
         if (empty($id)) {
             $enrollData['year'] = getRunningYear();

@@ -72,7 +72,19 @@ class StudentController extends Controller
 
     public function edit($id){
 
-        $objData = $this->model::where($this->tableId, $id)->first();
+        $objData = $this->model::where('scms_student.id', $id)
+            ->select('scms_student.*',
+                'scms_enroll.id as enroll_id','scms_enroll.class_id', 'scms_enroll.section_id',  // Enroll Select
+                'scms_enroll.roll as class_roll','scms_enroll.group_id', 'scms_enroll.shift as shift_id',
+                'scms_parent.father_name','scms_parent.father_contact','scms_parent.father_profession', // Parent Select
+                'scms_parent.mother_name','scms_parent.mother_contact','scms_parent.mother_profession',
+                'scms_parent.name as guardian_name','scms_parent.phone as guardian_phone',
+                'scms_parent.email as guardian_email', 'scms_parent.profession as guardian_profession'
+            )
+            ->rightJoin('scms_enroll','scms_student.id', 'scms_enroll.student_id')
+            ->leftJoin('scms_parent','scms_student.parent_id', 'scms_parent.id')
+            ->where(['scms_enroll.year'=>getRunningYear(), 'scms_enroll.vtype'=>getVersionType()])
+            ->first();
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
         $this->data = $this->studentServices->createEdit($id);

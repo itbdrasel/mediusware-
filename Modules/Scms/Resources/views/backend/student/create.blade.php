@@ -8,6 +8,8 @@
 				<form action="{{url($bUrl.'/store')}}" method="post">
                     @csrf
                     <input type="hidden" id="" name="id" value="{{getValue('id', $objData)}}">
+                    <input type="hidden" name="enroll_id" value="{{getValue('enroll_id', $objData)}}">
+                    <input type="hidden" name="parent_id" value="{{getValue('parent_id', $objData)}}">
 
                     <div class="row">
                         <div class="col-md-6">
@@ -65,7 +67,7 @@
                                     </div>
                                     <div class="form-group row">
                                         @php
-                                            $input_name = 'birth_date';
+                                            $input_name = 'birthday';
                                         @endphp
                                         <label  class="col-sm-4 col-form-label text-capitalize">Date of Birth</label>
                                         <div class="col-sm-8">
@@ -364,7 +366,7 @@
                                     </div>
                                     <div class="form-group row">
                                         @php
-                                            $input_name = 'guardian_professiongit ';
+                                            $input_name = 'guardian_profession ';
                                         @endphp
                                         <label for="{{$input_name}}" class="col-sm-4 col-form-label text-capitalize">Profession</label>
 
@@ -400,9 +402,13 @@
 
 @push('js')
     <script>
+        $( document ).ready(function () {
+            classBySections();
+        });
             function classBySections() {
                 let class_id    = $('#class_id').val();
                 var _token      = $('meta[name="csrf-token"]').attr('content');
+                let section_id  = '{{ getValue('section_id', $objData)}}'
                 $.ajax({
                     url:"{{url('scms/ajax/class-by-sections')}}",
                     type: 'POST',
@@ -411,7 +417,8 @@
                         if (response !=false){
                             let html = '<option value=""> Select Section </option>';
                             for (var i = 0; i < response.length; i++) {
-                                html += '<option value="'+response[i].id+'">'+response[i].name+'</option>';
+                                let select = section_id ==response[i].id?'selected':'';
+                                html += '<option '+select+'  value="'+response[i].id+'">'+response[i].name+'</option>';
                             }
                             $('#section_id').html(html);
                         }
