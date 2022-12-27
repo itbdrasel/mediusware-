@@ -1459,3 +1459,7 @@ a:hover.hotel-btn-single{
 @media only screen and (min-width: 576px) {
 
 }
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    top: 5px !important;
+    right: 10px !important;
+}

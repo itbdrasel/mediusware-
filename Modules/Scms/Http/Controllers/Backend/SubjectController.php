@@ -2,12 +2,16 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Core\Entities\Gender;
+use Modules\Core\Entities\Religion;
 use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
+use Modules\Scms\Entities\Group;
 use Modules\Scms\Entities\Student;
 use Modules\Scms\Entities\Subject;
+use Modules\Scms\Entities\SubjectType;
 use Modules\Scms\Services\StudentService;
 use Validator;
 
@@ -59,8 +63,9 @@ class SubjectController extends Controller
             $where = ['class_id'=>$class_id];
         }
         $this->data                 = $this->crudServices->getIndexData($request, $this->model, $this->tableId,'teacher', $where);
-        $data['allClass']           = $class;
-        $data['teachers']           = getTeacher();
+        $this->data['allClass']     = $class;
+        $this->data['class_id']     = $class_id;
+        $this->data['teachers']     = getTeacher();
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         $this->data['page_icon']    = '<i class="fas fa-tasks"></i>';
@@ -74,8 +79,8 @@ class SubjectController extends Controller
      * @return Renderable
      */
     public function create(){
-        $this->data         = $this->crudServices->createEdit($this->title, $this->bUrl);
-        $data['teachers']   = getTeacher();
+        $servicesData   = $this->crudServices->createEdit($this->title, $this->bUrl);
+        $this->data     = $this->createEdit($servicesData);
         $this->layout('create');
     }
 
@@ -86,9 +91,20 @@ class SubjectController extends Controller
      */
 
     public function edit($id){
-        $this->data         = $this->crudServices->createEdit($this->title, $this->bUrl,$this->model, $id);
-        $data['teachers']   = getTeacher();
+        $servicesData       = $this->crudServices->createEdit($this->title, $this->bUrl,$this->model, $id);
+        $this->data         = $this->createEdit($servicesData);
         $this->layout('create');
+    }
+
+    public function createEdit($servicesData){
+        $this->data                     = $servicesData;
+        $this->data['teachers']         = getTeacher();
+        $this->data['allClass']         = getClass();
+        $this->data['subject_types']    = SubjectType::get();
+        $this->data['religions']        = Religion::orderBy('order_by')->get();
+        $this->data['groups']           = Group::orderBy('order_by')->get();
+        $this->data['relative_subjects']= $this->model::whereNull('subject_parent_id')->orderBy('order_by')->get();
+        return $this->data;
     }
 
     public function show($id){
@@ -117,7 +133,7 @@ class SubjectController extends Controller
 
     public function store(Request $request){
         $id = $request[$this->tableId];
-        $validator =  $this->crudServices->getValidationRules($this->model);
+        $validator =  $this->getValidation($request);
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -150,5 +166,12 @@ class SubjectController extends Controller
             return $this->crudServices->destroy($request, $id, $this->model, $this->tableId, $this->bUrl, $this->title);
         }
 
+    }
+    public function getValidation($request){
+        $validationRules = $this->crudServices->getValidationRules($this->model);
+        $rules =$validationRules['rules'];
+        $attribute =$validationRules['attribute'];
+        $customMessages = [];
+        return Validator::make($request->all(), $rules, $customMessages, $attribute);
     }
 }
