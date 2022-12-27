@@ -26,7 +26,7 @@ class SubjectController extends Controller
 
     public function __construct(Auth $auth, CRUDServices $crudServices){
         $this->auth             = $auth;
-        $this->scrudServices    = $crudServices;
+        $this->crudServices    = $crudServices;
         $this->model            = Subject::class;
         $this->tableId          = 'id';
         $this->moduleName       = getModuleName(get_called_class());
@@ -58,14 +58,12 @@ class SubjectController extends Controller
         if (!empty($class_id)){
             $where = ['class_id'=>$class_id];
         }
-        $this->data                 = $this->scrudServices->getIndexData($request, $this->model, $this->tableId,'teacher', $where);
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, $this->tableId,'teacher', $where);
         $data['allClass']           = $class;
         $data['teachers']           = getTeacher();
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         $this->data['page_icon']    = '<i class="fas fa-tasks"></i>';
-        $this->data['objData']      = [];
-        $this->data['objData']      = [];
         $this->layout('index');
     }
 
@@ -76,7 +74,7 @@ class SubjectController extends Controller
      * @return Renderable
      */
     public function create(){
-        $this->data         = $this->scrudServices->createEdit($this->title, $this->bUrl);
+        $this->data         = $this->crudServices->createEdit($this->title, $this->bUrl);
         $data['teachers']   = getTeacher();
         $this->layout('create');
     }
@@ -88,7 +86,7 @@ class SubjectController extends Controller
      */
 
     public function edit($id){
-        $this->data         = $this->scrudServices->createEdit($this->title, $this->bUrl,$this->model, $id);
+        $this->data         = $this->crudServices->createEdit($this->title, $this->bUrl,$this->model, $id);
         $data['teachers']   = getTeacher();
         $this->layout('create');
     }
@@ -119,16 +117,21 @@ class SubjectController extends Controller
 
     public function store(Request $request){
         $id = $request[$this->tableId];
-        $validator =  $this->studentServices->getValidationRules($request);
+        $validator =  $this->crudServices->getValidationRules($this->model);
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $this->studentServices->insertData($request);
+        $params = $this->crudServices->getInsertData($this->model,$request);
+
         if (empty($id) ) {
+            $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
         }else{
+            $this->model::where($this->tableId, $id)->update($params);
+
             return redirect($this->bUrl)->with('success', 'Successfully Updated');
         }
+
 
     }
 
@@ -138,13 +141,13 @@ class SubjectController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(Request $request,crudServices $CRUDServices, $id)
+    public function destroy(Request $request, $id)
     {
         if($request->method() === 'POST' ){
             $this->model::where($this->tableId, $id)->delete();
             echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
         }else{
-            return $CRUDServices->destroy($request, $id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return $this->crudServices->destroy($request, $id, $this->model, $this->tableId, $this->bUrl, $this->title);
         }
 
     }
