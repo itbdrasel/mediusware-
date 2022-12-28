@@ -23,17 +23,30 @@ class CRUDServices{
      */
 
     public function getIndexData($request, $model, $tableId, $with='', $where=''){
-        $model_sortable = $model::$sortable;
-        $perPage = session('per_page') ?: 10;
+        $perPage = $this->getPerPage($request);
+        $indexData = $this->indexQuery($request, $model, $tableId, $with, $where);
+        //model query...
+        $data = $indexData['data'];
 
+        //model query...
+        $queryData = $indexData['query'];
         //table item serial starting from 0
         $data['serial'] = ( ($request->get('page') ?? 1) -1) * $perPage;
+        $data['allData'] =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
+        return $data;
 
+    }
+
+    public function getPerPage($request){
+        $perPage = session('per_page') ?: 10;
         if($request->method() === 'POST'){
             session(['per_page' => $request->post('per_page') ]);
         }
+        return $perPage;
+    }
 
-        //model query...
+    public function indexQuery($request, $model, $tableId, $with='', $where=''){
+        $model_sortable = $model::$sortable;
         $queryData = $model::orderBy( getOrder($model_sortable, $tableId)['by'], getOrder($model_sortable, $tableId)['order']);
         if (!empty($with)){
             $queryData->with($with);
@@ -59,10 +72,7 @@ class CRUDServices{
             }
 
         }
-
-        $data['allData'] =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
-        return $data;
-
+        return ['data'=>$data, 'query'=>$queryData];
     }
 
     public function createEdit($title, $bUrl,$model='',$id=''){

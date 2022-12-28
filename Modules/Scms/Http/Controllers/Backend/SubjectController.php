@@ -13,6 +13,7 @@ use Modules\Scms\Entities\Student;
 use Modules\Scms\Entities\Subject;
 use Modules\Scms\Entities\SubjectType;
 use Modules\Scms\Services\StudentService;
+use Modules\Scms\Services\SubjectService;
 use Validator;
 
 class SubjectController extends Controller
@@ -25,12 +26,12 @@ class SubjectController extends Controller
     private $model;
     private $tableId;
     private $moduleName;
-    private $crudServices;
+    private $services;
     private $auth;
 
-    public function __construct(Auth $auth, CRUDServices $crudServices){
+    public function __construct(Auth $auth, SubjectService $subjectService){
         $this->auth             = $auth;
-        $this->crudServices    = $crudServices;
+        $this->services         = $subjectService;
         $this->model            = Subject::class;
         $this->tableId          = 'id';
         $this->moduleName       = getModuleName(get_called_class());
@@ -54,21 +55,7 @@ class SubjectController extends Controller
      * @return Renderable
      */
     public function index(Request $request, $class_id=''){
-        $where = '';
-        $class = getClass();
-        if (empty($class_id)) {
-            $class_id = $class[0]->id??'';
-        }
-        if (!empty($class_id)){
-            $where = ['class_id'=>$class_id];
-        }
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, $this->tableId,'teacher', $where);
-        $this->data['allClass']     = $class;
-        $this->data['class_id']     = $class_id;
-        $this->data['teachers']     = getTeacher();
-        $this->data['title']        = $this->title.' Manager';
-        $this->data['pageUrl']      = $this->bUrl;
-        $this->data['page_icon']    = '<i class="fas fa-tasks"></i>';
+        $this->data     = $this->services->getIndexData($request, $class_id);
         $this->layout('index');
     }
 
@@ -79,8 +66,7 @@ class SubjectController extends Controller
      * @return Renderable
      */
     public function create(){
-        $servicesData   = $this->crudServices->createEdit($this->title, $this->bUrl);
-        $this->data     = $this->createEdit($servicesData);
+        $this->data   = $this->services->createEdit();
         $this->layout('create');
     }
 
@@ -91,21 +77,10 @@ class SubjectController extends Controller
      */
 
     public function edit($id){
-        $servicesData       = $this->crudServices->createEdit($this->title, $this->bUrl,$this->model, $id);
-        $this->data         = $this->createEdit($servicesData);
+        $this->data   = $this->services->createEdit($id);
         $this->layout('create');
     }
 
-    public function createEdit($servicesData){
-        $this->data                     = $servicesData;
-        $this->data['teachers']         = getTeacher();
-        $this->data['allClass']         = getClass();
-        $this->data['subject_types']    = SubjectType::get();
-        $this->data['religions']        = Religion::orderBy('order_by')->get();
-        $this->data['groups']           = Group::orderBy('order_by')->get();
-        $this->data['relative_subjects']= $this->model::whereNull('subject_parent_id')->orderBy('order_by')->get();
-        return $this->data;
-    }
 
     public function show($id){
 
@@ -131,20 +106,19 @@ class SubjectController extends Controller
      * @return Renderable
      */
 
-    public function store(Request $request){
+    public function store(CRUDServices $CRUDServices, Request $request){
         $id = $request[$this->tableId];
-        $validator =  $this->getValidation($request);
+        $validator      = $this->services->getValidationRules($request);
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $params = $this->crudServices->getInsertData($this->model,$request);
+        $params = $CRUDServices->getInsertData($this->model,$request);
 
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
         }else{
             $this->model::where($this->tableId, $id)->update($params);
-
             return redirect($this->bUrl)->with('success', 'Successfully Updated');
         }
 
