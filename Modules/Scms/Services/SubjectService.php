@@ -18,15 +18,16 @@ class SubjectService
     private $moduleName;
     private $bUrl;
     private $tableId;
-    public function __construct(){
+    public function __construct(CRUDServices $crudServices){
         $this->model            = Subject::class;
         $this->title            = 'Subject';
         $this->tableId          = 'id';
         $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/subject';
+        $this->crudServices     = $crudServices;
     }
 
-    public function getIndexData(CRUDServices $CRUDServices, $request, $class_id=''){
+    public function getIndexData( $request, $class_id=''){
 
         $where = '';
         $class = getClass();
@@ -36,7 +37,7 @@ class SubjectService
         if (!empty($class_id)){
             $where = ['class_id'=>$class_id];
         }
-        $indexData              = $CRUDServices->indexQuery($request, $this->model, $this->tableId, 'teacher', $where);
+        $indexData              = $this->crudServices->indexQuery($request, $this->model, $this->tableId, ['teacher','subjectType'], $where);
         $queryData              = $indexData['query'];
         $data                   = $indexData['data'];
         $data['allClass']       = $class;
@@ -46,15 +47,15 @@ class SubjectService
         $data['pageUrl']        = $this->bUrl;
         $data['page_icon']      = '<i class="fas fa-tasks"></i>';
 
-        $perPage = $CRUDServices->getPerPage($request);
-
+        $perPage                = $this->crudServices->getPerPage($request);
+        $data['serial']         = ( ($request->get('page') ?? 1) -1) * $perPage;
         $data['allData']        =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
         return $data;
 
     }
 
-    public function createEdit(CRUDServices $CRUDServices, $id=''){
-        $this->data                     = $CRUDServices->createEdit($this->title, $this->bUrl,$this->model, $id);
+    public function createEdit( $id=''){
+        $this->data                     = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
         $this->data['teachers']         = getTeacher();
         $this->data['allClass']         = getClass();
         $this->data['subject_types']    = SubjectType::get();
@@ -62,10 +63,9 @@ class SubjectService
         $this->data['groups']           = Group::orderBy('order_by')->get();
         $this->data['relative_subjects']= $this->model::whereNull('subject_parent_id')->orderBy('order_by')->get();
         return $this->data;
-
     }
-    public function getValidationRules(CRUDServices $CRUDServices, $request){
-        $validationRules = $CRUDServices->getValidationRules($this->model);
+    public function getValidationRules($request){
+        $validationRules = $this->crudServices->getValidationRules($this->model);
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];
         $customMessages = [];

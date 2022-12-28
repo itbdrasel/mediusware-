@@ -84,11 +84,10 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center" width="50">SL</th>
-                                                            <th width="120" class="sort text-center" data-row="id_no" id="id_no" >Id No</th>
-                                                            <th width="120" class="text-center">Photo</th>
                                                             <th class="sort" data-row="name" id="name" >Name</th>
-                                                            <th class="text-center" width="100">Roll</th>
-                                                            <th class="text-center" width="150">Phone</th>
+                                                            <th width="120" class="sort text-center" data-row="name" id="code" >Code</th>
+                                                            <th>Teacher</th>
+                                                            <th >Type</th>
                                                             <th width="150" class="text-center">Manage</th>
                                                         </tr>
                                                         </thead>
@@ -102,15 +101,14 @@
                                                             @foreach ($allData as $data)
                                                                 <tr>
                                                                     <td class="text-center">{{ $c+$serial }}</td>
-                                                                    <td class="text-center">{{ $data->id_number }}</td>
+                                                                    <td>{{ $data->name }}</td>
+                                                                    <td class="text-center">{{ $data->subject_code }}</td>
                                                                     <td>{{ $data->teacher->name??'' }}</td>
-                                                                    <td>{{ $data->name??'' }}</td>
-                                                                    <td class="text-center">{{ $data->roll }}</td>
-                                                                    <td class="text-center">{{ $data->phone }}</td>
+                                                                    <td>{{ $data->subjectType->name??'' }}</td>
                                                                     <td class="text-center">
                                                                         <div class="btn-group dropleft">
                                                                             <button type="button" class="btn btn-outline-primary link_btn">
-                                                                                <a  href="{{url($bUrl.'/'.$data->id)}}"><i class="fa fa-table"></i> </a>
+                                                                                <a  href="{{url($bUrl.'/show/'.$data->id)}}"><i class="fa fa-table"></i> </a>
                                                                             </button>
                                                                             <button class="btn btn-primary dropdown-toggle dropdown_toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                                             </button>
@@ -179,10 +177,7 @@
                         window.location.href = '{{ url($bUrl) }}';
                     }
                 });
-
-
             });
-
         });
     </script>
 

@@ -40,6 +40,7 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
     // Subject Route
     Route::group(['prefix'=>'subject','as'=>'subject','controller'=>'Backend\SubjectController'], function () {
         getResourceRoute(['create','edit','store','delete']);
+        Route::get('/show/{id}', 'show')->name('show');
         Route::match(['get', 'post'], '/{id?}', 'index')->name('');
     });
 });

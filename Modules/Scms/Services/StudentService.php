@@ -7,6 +7,7 @@ namespace Modules\Scms\Services;
 use Modules\Core\Entities\BloodGroup;
 use Modules\Core\Entities\Gender;
 use Modules\Core\Entities\Religion;
+use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Entities\Enroll;
 use Modules\Scms\Entities\Group;
 use Modules\Scms\Entities\ParentModel;
@@ -23,12 +24,13 @@ class StudentService
     private $moduleName;
     private $bUrl;
     private $tableId;
-    public function __construct(){
+    public function __construct(CRUDServices $crudServices){
         $this->model            = Student::class;
         $this->title            = 'Student';
         $this->tableId          = 'id';
         $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/student';
+        $this->crudServices     = $crudServices;
     }
 
     public function getIndexData($request, $class_id='', $section_id=''){
@@ -37,14 +39,8 @@ class StudentService
            'page_icon'  => '<i class="fas fa-tasks"></i>',
         ];
         $model_sortable =  $this->model::$sortable;
-        $perPage = session('per_page') ?: 10;
-
-        //table item serial starting from 0
-        $data['serial'] = ( ($request->get('page') ?? 1) -1) * $perPage;
-
-        if($request->method() === 'POST'){
-            session(['per_page' => $request->post('per_page') ]);
-        }
+        $perPage                = $this->crudServices->getPerPage($request);
+        $data['serial']         = ( ($request->get('page') ?? 1) -1) * $perPage;
 
 
         $class = getClass();
@@ -52,6 +48,7 @@ class StudentService
         if (empty($class_id)) {
             $class_id = $class[0]->id??'';
         }
+
 
         //model query...
         $queryData = $this->model::orderBy( getOrder($model_sortable, 'scms_student.id')['by'], getOrder($model_sortable, 'scms_student.id')['order'])
@@ -92,20 +89,8 @@ class StudentService
     }
 
     public function createEdit($id=''){
-        if (!empty($id)){
-            $this->data = [
-                'title'         => 'Edit '.$this->title,
-                'pageUrl'       => $this->bUrl.'/'.$id,
-                'page_icon'     => '<i class="fas fa-edit"></i>',
-            ];
-        }else{
-            $this->data = [
-                'title'         => 'Add New '.$this->title,
-                'pageUrl'       => $this->bUrl.'/create',
-                'page_icon'     => '<i class="fas fa-plus"></i>',
-                'objData'       => ''
-            ];
-        }
+
+        $this->data                 = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
         $this->data['allClass']     = getClass();
         $this->data['groups']       = Group::orderBy('order_by')->orderBy('id')->get();
         $this->data['shifts']       = Shift::orderBy('order_by')->orderBy('id')->get();

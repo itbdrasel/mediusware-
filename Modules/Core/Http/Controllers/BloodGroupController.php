@@ -135,7 +135,7 @@ class BloodGroupController extends Controller
             $this->model::where($this->tableId, $id)->delete();
             echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
         }else{
-            return $this->crudServices->destroy($request, $id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
         }
 
     }

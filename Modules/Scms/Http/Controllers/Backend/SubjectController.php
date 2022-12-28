@@ -77,23 +77,22 @@ class SubjectController extends Controller
      */
 
     public function edit($id){
+        $objData = $this->model::where($this->tableId, $id)->first();
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        if( !$id || empty($objData) ){ exit('Bad Request!'); }
         $this->data   = $this->services->createEdit($id);
+        $this->data ['objData'] = $objData;
         $this->layout('create');
     }
 
 
-    public function show($id){
-
+    public function show(CRUDServices $CRUDServices,$id){
         $objData = $this->model::where($this->tableId, $id)->first();
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
+        $this->data             = $CRUDServices->show($this->title, $this->bUrl.'show',$id);
 
-        $this->data = [
-            'title'         => $this->title.' Information',
-            'pageUrl'       => $this->bUrl.'/'.$id,
-            'page_icon'     => '<i class="fas fa-eye"></i>',
-            'objData'       => $objData
-        ];
+        $this->data ['objData'] = $objData;
 
         $this->layout('view');
     }
@@ -125,7 +124,6 @@ class SubjectController extends Controller
 
     }
 
-
     /**
      * Remove the specified resource from storage.
      * @param int $id
@@ -137,10 +135,11 @@ class SubjectController extends Controller
             $this->model::where($this->tableId, $id)->delete();
             echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
         }else{
-            return $this->crudServices->destroy($request, $id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
         }
 
     }
+
     public function getValidation($request){
         $validationRules = $this->crudServices->getValidationRules($this->model);
         $rules =$validationRules['rules'];

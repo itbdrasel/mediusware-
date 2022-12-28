@@ -144,7 +144,7 @@ class StudentController extends Controller
             $this->model::where($this->tableId, $id)->delete();
             echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
         }else{
-            return $CRUDServices->destroy($request, $id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return $CRUDServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
         }
 
     }

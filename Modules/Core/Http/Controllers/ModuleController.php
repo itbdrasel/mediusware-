@@ -56,7 +56,7 @@ class ModuleController extends Controller
             'filters'       => $this->model::$filters
         ];
         $this->data['add_title'] = 'Add New '.$this->title;
-        
+
         $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
 
         if ($request->filled('filter')) {
@@ -132,10 +132,10 @@ class ModuleController extends Controller
     public function destroy(Request $request, $id)
     {
         if($request->method() === 'POST' ){
-//            $this->model::where($this->tableId, $id)->delete();
+            $this->model::where($this->tableId, $id)->delete();
             echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
         }else{
-            return $this->crudServices->destroy($request, $id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
         }
 
     }

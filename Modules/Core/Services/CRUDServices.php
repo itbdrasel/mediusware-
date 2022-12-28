@@ -13,15 +13,6 @@ class CRUDServices{
 
     }
 
-    /**
-     * Function validation handle by request quote from validation.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  false|true $session
-     *
-     * @return validation message
-     */
-
     public function getIndexData($request, $model, $tableId, $with='', $where=''){
         $perPage = $this->getPerPage($request);
         $indexData = $this->indexQuery($request, $model, $tableId, $with, $where);
@@ -75,23 +66,30 @@ class CRUDServices{
         return ['data'=>$data, 'query'=>$queryData];
     }
 
-    public function createEdit($title, $bUrl,$model='',$id=''){
+    public function createEdit($title, $bUrl,$id=''){
         if (!empty($id)){
-            $this->data = [
+            $data = [
                 'title'         => 'Edit '.$title,
                 'pageUrl'       => $bUrl.'/'.$id.'/edit',
                 'page_icon'     => '<i class="fas fa-edit"></i>',
-                'objData'       => $model::where('id', $id)->first()
             ];
         }else{
-            $this->data = [
+            $data = [
                 'title'         => 'Add New '.$title,
                 'pageUrl'       => $bUrl.'/create',
                 'page_icon'     => '<i class="fas fa-plus"></i>',
                 'objData'       => ''
             ];
         }
-        return $this->data;
+        return $data;
+    }
+
+    public function show($title,$bUrl, $id){
+       return $data = [
+            'title'         => $title.' Information',
+            'pageUrl'       => $bUrl.'/'.$id,
+            'page_icon'     => '<i class="fas fa-eye"></i>',
+        ];
     }
 
     public function getValidationRules($model, $rules=[], $attribute=[]){
@@ -118,7 +116,7 @@ class CRUDServices{
         return $data;
     }
 
-    public function destroy($request, $id, $model, $tableId, $bUrl, $title)
+    public function destroy($id, $model, $tableId, $bUrl, $title)
     {
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id ){ exit('Bad Request!'); }
