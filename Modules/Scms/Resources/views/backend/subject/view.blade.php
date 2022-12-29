@@ -45,7 +45,44 @@
                                 <th>Teacher</th>
                                 <td>{{ $objData->teacher->name??'' }}</td>
                             </tr>
-
+                            <tr>
+                                <th>Full Marks</th>
+                                <td>{{ $objData->full_marks }}</td>
+                            </tr>
+                            <tr>
+                                <th>Group</th>
+                                <td>{{ $objData->group->name??'' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Religion</th>
+                                <td>{{ $objData->religion->name??'' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Gender</th>
+                                <td>{{ $objData->gender->name??'' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Relative Subject</th>
+                                <td>{{ $objData->relativeSubject->name??'' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Child Subject</th>
+                                <td>{{ $objData->childSubject->name??'' }}</td>
+                            </tr>
+                            @if(!empty($objData->syllabus_from_year))
+                            <tr>
+                                <th>Syllabus Year</th>
+                                <td> From {{ $objData->syllabus_from_year }} to {{ $objData->syllabus_to_year }}</td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <th>Order By</th>
+                                <td>{{ $objData->order_by }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>{{ $objData->status==1?'Active':'Inactive' }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
