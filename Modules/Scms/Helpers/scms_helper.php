@@ -8,8 +8,12 @@ function getTeacher(){
         ->select('hrms_employees.name', 'hrms_employees.id')
         ->get();
 }
-function getClass(){
-  return ClassModel::orderBy('order_by')->get();
+function getClass($where=''){
+    $query = ClassModel::orderBy('order_by');
+    if (!empty($where)){
+        $query->where($where);
+    }
+  return $query->get();
 }
 
 function getTopBerYear(){

@@ -65,8 +65,11 @@ class SubjectController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function create(){
-        $this->data   = $this->services->createEdit();
+    public function create(Request $request){
+        if (empty($request['class'])){
+            return redirect($this->bUrl)->with('error', 'please add class.');
+        }
+        $this->data             = $this->services->createEdit($request['class']);
         $this->layout('create');
     }
 
@@ -80,8 +83,8 @@ class SubjectController extends Controller
         $objData = $this->model::where($this->tableId, $id)->first();
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
-        $this->data   = $this->services->createEdit($id);
-        $this->data ['objData'] = $objData;
+        $this->data                 = $this->services->createEdit($objData->class_id, $id);
+        $this->data['objData']      = $objData;
         $this->layout('create');
     }
 
@@ -115,10 +118,10 @@ class SubjectController extends Controller
 
         if (empty($id) ) {
             $this->model::create($params);
-            return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
+            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', 'Record Successfully Created.');
         }else{
             $this->model::where($this->tableId, $id)->update($params);
-            return redirect($this->bUrl)->with('success', 'Successfully Updated');
+            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', 'Successfully Updated');
         }
 
 

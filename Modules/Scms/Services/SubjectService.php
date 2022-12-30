@@ -3,6 +3,7 @@
 
 namespace Modules\Scms\Services;
 
+use Modules\Core\Entities\Gender;
 use Modules\Core\Entities\Religion;
 use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Entities\Group;
@@ -37,7 +38,7 @@ class SubjectService
         if (!empty($class_id)){
             $where = ['class_id'=>$class_id];
         }
-        $indexData              = $this->crudServices->indexQuery($request, $this->model, $this->tableId, ['teacher','subjectType'], $where);
+        $indexData              = $this->crudServices->indexQuery($request, $this->model, 'order_by', ['teacher','subjectType'], $where);
         $queryData              = $indexData['query'];
         $data                   = $indexData['data'];
         $data['allClass']       = $class;
@@ -54,14 +55,16 @@ class SubjectService
 
     }
 
-    public function createEdit( $id=''){
+    public function createEdit($class_id, $id=''){
         $this->data                     = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
         $this->data['teachers']         = getTeacher();
-        $this->data['allClass']         = getClass();
+        $this->data['class_id']         = $class_id;
+        $this->data['allClass']         = getClass(['id'=>$class_id]);
         $this->data['subject_types']    = SubjectType::get();
         $this->data['religions']        = Religion::orderBy('order_by')->get();
         $this->data['groups']           = Group::orderBy('order_by')->get();
-        $this->data['relative_subjects']= $this->model::whereNull('subject_parent_id')->orderBy('order_by')->get();
+        $this->data['genders']          = Gender::orderBy('order_by')->get();
+        $this->data['relative_subjects']= $this->model::whereNull('subject_parent_id')->where('class_id', $class_id)->orderBy('order_by')->get();
         return $this->data;
     }
     public function getValidationRules($request){

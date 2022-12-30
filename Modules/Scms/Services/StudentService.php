@@ -88,17 +88,34 @@ class StudentService
 
     }
 
-    public function createEdit($id=''){
+    public function createEdit($class_id='', $id=''){
 
-        $this->data                 = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
-        $this->data['allClass']     = getClass();
-        $this->data['groups']       = Group::orderBy('order_by')->orderBy('id')->get();
-        $this->data['shifts']       = Shift::orderBy('order_by')->orderBy('id')->get();
-        $this->data['genders']      = Gender::orderBy('order_by')->orderBy('id')->get();
-        $this->data['religions']    = Religion::orderBy('order_by')->orderBy('id')->get();
-        $this->data['blood_groups'] = BloodGroup::orderBy('order_by')->orderBy('id')->get();
-        return $this->data;
-
+        $data                   = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
+        $data['allClass']       = getClass();
+        $data['groups']         = Group::orderBy('order_by')->orderBy('id')->get();
+        $data['shifts']         = Shift::orderBy('order_by')->orderBy('id')->get();
+        $data['genders']        = Gender::orderBy('order_by')->orderBy('id')->get();
+        $data['religions']      = Religion::orderBy('order_by')->orderBy('id')->get();
+        $data['blood_groups']   = BloodGroup::orderBy('order_by')->orderBy('id')->get();
+        $data['class_id']       = $class_id;
+        $data['section_id']     = '';
+        return $data;
+    }
+    public function editObjData($id){
+        if (empty($id)) return false;
+       return $this->model::where('scms_student.id', $id)
+            ->select('scms_student.*',
+                'scms_enroll.id as enroll_id','scms_enroll.class_id', 'scms_enroll.section_id',  // Enroll Select
+                'scms_enroll.roll as class_roll','scms_enroll.group_id', 'scms_enroll.shift as shift_id',
+                'scms_parent.father_name','scms_parent.father_contact','scms_parent.father_profession', // Parent Select
+                'scms_parent.mother_name','scms_parent.mother_contact','scms_parent.mother_profession',
+                'scms_parent.name as guardian_name','scms_parent.phone as guardian_phone',
+                'scms_parent.email as guardian_email', 'scms_parent.profession as guardian_profession'
+            )
+            ->rightJoin('scms_enroll','scms_student.id', 'scms_enroll.student_id')
+            ->leftJoin('scms_parent','scms_student.parent_id', 'scms_parent.id')
+            ->where(['scms_enroll.year'=>getRunningYear(), 'scms_enroll.vtype'=>getVersionType()])
+            ->first();
     }
     public function getValidationRules($request){
         $id = $request['id'];

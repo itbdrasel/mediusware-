@@ -59,8 +59,9 @@ class StudentController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function create(){
-        $this->data = $this->studentServices->createEdit();
+    public function create(Request $request){
+        $this->data                 = $this->studentServices->createEdit($request['class']);
+        $this->data['section_id']   = $request['section'];
         $this->layout('create');
     }
 
@@ -72,24 +73,11 @@ class StudentController extends Controller
 
     public function edit($id){
 
-        $objData = $this->model::where('scms_student.id', $id)
-            ->select('scms_student.*',
-                'scms_enroll.id as enroll_id','scms_enroll.class_id', 'scms_enroll.section_id',  // Enroll Select
-                'scms_enroll.roll as class_roll','scms_enroll.group_id', 'scms_enroll.shift as shift_id',
-                'scms_parent.father_name','scms_parent.father_contact','scms_parent.father_profession', // Parent Select
-                'scms_parent.mother_name','scms_parent.mother_contact','scms_parent.mother_profession',
-                'scms_parent.name as guardian_name','scms_parent.phone as guardian_phone',
-                'scms_parent.email as guardian_email', 'scms_parent.profession as guardian_profession'
-            )
-            ->rightJoin('scms_enroll','scms_student.id', 'scms_enroll.student_id')
-            ->leftJoin('scms_parent','scms_student.parent_id', 'scms_parent.id')
-            ->where(['scms_enroll.year'=>getRunningYear(), 'scms_enroll.vtype'=>getVersionType()])
-            ->first();
+        $objData = $this->studentServices->editObjData($id);
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
-        $this->data = $this->studentServices->createEdit($id);
+        $this->data = $this->studentServices->createEdit($objData->class_id, $id);
         $this->data['objData']= $objData;
-
         $this->layout('create');
     }
 
@@ -124,11 +112,8 @@ class StudentController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $this->studentServices->insertData($request);
-        if (empty($id) ) {
-            return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
-        }else{
-            return redirect($this->bUrl)->with('success', 'Successfully Updated');
-        }
+        $message = empty($id)?'Record Successfully Created.':'Successfully Updated';
+        return redirect($this->bUrl.'/'.$request['class_id'])->with('success', $message);
 
     }
 

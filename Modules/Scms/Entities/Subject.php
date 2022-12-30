@@ -15,7 +15,7 @@ class Subject extends Model
     protected $fillable = [
         'name', 'subject_code', 'class_id', 'group_id', 'subject_parent_id', 'religion_id', 'gender_id', 'teacher_id', 'syllabus_from_year','syllabus_to_year', 'full_marks', 'subject_type', 'order_by', 'status'
     ];
-    public static $sortable = ['id','name','subject_code'=>'code'];
+    public static $sortable = ['order_by','id','name','subject_code'];
 
     public static $filters = ['name', 'subject_code'];
 

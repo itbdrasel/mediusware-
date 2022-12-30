@@ -70,11 +70,11 @@
                                     @endphp
                                     <label for="{{$input_name}}" class="col-sm-2 col-form-label text-capitalize">{{str_replace(['_id','_'],['',' '],$input_name)}}<code>*</code></label>
                                     <div class="col-sm-4">
-                                        <select id="{{$input_name}}" name="{{$input_name}}" class="select2 form-select @error($input_name) is-invalid @enderror" >
+                                        <select readonly id="{{$input_name}}" name="{{$input_name}}" class=" form-select @error($input_name) is-invalid @enderror" >
                                             <option value=""> Select Class </option>
                                             @if (!empty($allClass))
                                                 @foreach ($allClass as $value)
-                                                    <option {{getValue($input_name, $objData)==$value->id?'selected':''}}  value="{{$value->id}}"> {{$value->name}} </option>
+                                                    <option {{getValue($input_name, $objData, $class_id)==$value->id?'selected':''}}  value="{{$value->id}}"> {{$value->name}} </option>
                                                 @endforeach
                                             @endif
                                         </select>

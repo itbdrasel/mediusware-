@@ -1391,7 +1391,11 @@ button.btn.btn-tool:active{
     outline: none !important;
 }
 
-
+select[readonly]{
+    background: #eee;
+    cursor:no-drop;
+    pointer-events: none;
+}
 /*******************************************************************************
                 School Collage Management System CSS Code Start
  *****************************************************************************/

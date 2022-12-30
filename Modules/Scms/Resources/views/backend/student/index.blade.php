@@ -10,7 +10,7 @@
                         <div class="card-tools">
 
                             <button type="button" class="btn btn-tool" >
-                                <a href="{{url($bUrl.'/create')}}" class="btn bg-gradient-info custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
+                                <a href="{{url($bUrl.'/create?class='.$class_id)}}{{!empty($section_id)?'&section='.$section_id:''}}" class="btn bg-gradient-info custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
                             </button>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                 <i class="fas fa-minus"></i>

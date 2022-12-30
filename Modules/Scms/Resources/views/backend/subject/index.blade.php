@@ -10,7 +10,7 @@
                         <div class="card-tools">
 
                             <button type="button" class="btn btn-tool" >
-                                <a href="{{url($bUrl.'/create')}}" class="btn bg-gradient-info custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
+                                <a href="{{url($bUrl.'/create?class='.$class_id)}}" class="btn bg-gradient-info custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
                             </button>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                 <i class="fas fa-minus"></i>
@@ -41,7 +41,7 @@
 
                                                 <div class="row">
                                                     <div class="col-md-3 form-group">
-                                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control search_input w-100"/>
+                                                        <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name or code ..." class="form-control search_input w-100"/>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
@@ -85,7 +85,7 @@
                                                         <tr>
                                                             <th class="text-center" width="50">SL</th>
                                                             <th class="sort" data-row="name" id="name" >Name</th>
-                                                            <th width="120" class="sort text-center" data-row="name" id="code" >Code</th>
+                                                            <th width="120" class="sort text-center" data-row="subject_code" id="subject_code" >Code</th>
                                                             <th>Teacher</th>
                                                             <th >Type</th>
                                                             <th width="150" class="text-center">Manage</th>

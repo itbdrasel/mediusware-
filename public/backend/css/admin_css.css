@@ -1,6 +1,6 @@
 /********************************** left nav ber code start ***********************/
 .main-sidebar,  .top_title{
-    background: #274E88 !important;
+    /*background: #274E88 !important;*/
 }
 
 [class*=sidebar-dark] .brand-link {
@@ -28,7 +28,8 @@
     top: 0;
     right: 0;
     height: 160px;
-    background: #274E88 !important;
+    background: #4c6ef8 !important;
+    border-radius: 0 0 10px 10px;
 }
 .content-header, .content-header ol li,  .content-header ol li a, .content-header div{
     color: #fff!important;

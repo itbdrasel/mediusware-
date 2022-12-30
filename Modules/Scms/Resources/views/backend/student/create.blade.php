@@ -156,7 +156,7 @@
                                                 <option value=""> Select Class </option>
                                                 @if (!empty($allClass))
                                                     @foreach ($allClass as $value)
-                                                        <option {{getValue($input_name, $objData)==$value->id?'selected':''}}  value="{{$value->id}}"> {{$value->name}} </option>
+                                                        <option {{getValue($input_name, $objData, $class_id)==$value->id?'selected':''}}  value="{{$value->id}}"> {{$value->name}} </option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -408,7 +408,7 @@
             function classBySections() {
                 let class_id    = $('#class_id').val();
                 var _token      = $('meta[name="csrf-token"]').attr('content');
-                let section_id  = '{{ getValue('section_id', $objData)}}'
+                let section_id  = '{{ getValue('section_id', $objData, $section_id)}}'
                 $.ajax({
                     url:"{{url('scms/ajax/class-by-sections')}}",
                     type: 'POST',

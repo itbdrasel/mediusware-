@@ -22,6 +22,24 @@
         </ul>
     </li>
 @endif
+@if (dAuth()->hasAnyAccess(['scms.class']))
+    <li class="nav-item {{menuOpenActive(2, ['subject'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['subject'], true)}} ">
+            <i class="nav-icon fas fa-book"></i>
+            <p>Subject<i class="right fas fa-angle-down"></i></p>
+        </a>
+        <ul class="nav nav-treeview">
+            @if (dAuth()->hasAccess(['scms.class']))
+                <li class="nav-item">
+                    <a href="{{url('scms/subject')}}" class="nav-link {{activeMenu(2, 'subject')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Subject Manager</p>
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </li>
+@endif
 @if (dAuth()->hasAnyAccess(['scms.class', 'scms.section']))
     <li class="nav-item {{menuOpenActive(2, ['class', 'section'])}}">
         <a href="#" class="nav-link {{menuOpenActive(2, ['class','section'], true)}} ">
