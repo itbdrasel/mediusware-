@@ -1,6 +1,6 @@
 /********************************** left nav ber code start ***********************/
 .main-sidebar,  .top_title{
-    /*background: #274E88 !important;*/
+    background: #303641 !important;
 }
 
 [class*=sidebar-dark] .brand-link {
@@ -11,6 +11,13 @@
     background-color: rgba(255,255,255,.05);!important;
     border-radius: 5px;
 }
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active{
+    background-color:#eb9a20 !important
+}
+.sidebar .nav-sidebar>.nav-item>.nav-link.active>i.nav-icon{
+    color: rgb(251 251 251 / 77%) !important;
+}
+
 /********************************** left nav ber code end ***********************/
 
 .content-wrapper>.content{
