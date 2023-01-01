@@ -94,9 +94,7 @@ class SubjectController extends Controller
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
         $this->data             = $CRUDServices->show($this->title, $this->bUrl.'show',$id);
-
         $this->data ['objData'] = $objData;
-
         $this->layout('view');
     }
 
@@ -123,8 +121,6 @@ class SubjectController extends Controller
             $this->model::where($this->tableId, $id)->update($params);
             return redirect($this->bUrl.'/'.$request['class_id'])->with('success', 'Successfully Updated');
         }
-
-
     }
 
     /**
@@ -143,11 +139,4 @@ class SubjectController extends Controller
 
     }
 
-    public function getValidation($request){
-        $validationRules = $this->crudServices->getValidationRules($this->model);
-        $rules =$validationRules['rules'];
-        $attribute =$validationRules['attribute'];
-        $customMessages = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
-    }
 }

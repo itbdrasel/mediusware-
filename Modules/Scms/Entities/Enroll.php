@@ -15,4 +15,7 @@ class Enroll extends Model
 
     public static $insertData = ['class_id', 'section_id', 'group_id', 'shift', 'roll'];
 
+    public function optionalSubject(){
+    }
+
 }
