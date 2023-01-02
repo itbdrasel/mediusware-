@@ -52,9 +52,27 @@ class OptionalSubjectController extends Controller
             'page_icon'     => '<i class="fas fa-book"></i>',
             'class_id'      => $request['class_id'],
             'section_id'    => $request['section_id'],
-            'objData'       => $this->getStudentData($request),
+            'allData'       => [],
         ];
         $this->data['allClass'] = getClass();
+
+        if($request->method() === 'POST' ){
+            // Validation
+            $rules = [
+                'class_id'	=> ['required'],
+            ];
+            $attribute =[
+                'class_id'=>'class'
+            ];
+            $customMessages  =[];
+            $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
+            if($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }else{
+
+                $this->data['allData'] =  $this->getStudentData($request);
+            }
+        }
         $this->layout('index');
     }
 
@@ -86,17 +104,17 @@ class OptionalSubjectController extends Controller
     public function getStudentData($request){
        $class_id    = $request['class_id'];
        $section_id  = $request['section_id'];
+
        $queryData   = [];
        if (!empty($class_id)){
            $enroll      = 'scms_enroll.';
            $student     = 'scms_student';
-           $queryData = Enroll::leftJoin($student, $enroll.'student_id', '=', $student.'.id')
-           ->where([$enroll.'class_id'=>$class_id, $enroll.'year'=>getRunningYear(), $enroll.'vtype'=>getVersionType()])
-           ->select($student.'.id', $student.'.name', $student.'.id_number',$enroll.'roll');
-           if (!empty($section_id)){
-               $queryData->where($enroll.'section_id', $section_id);
+           $where= ['class_id'=>$class_id, 'year'=>getRunningYear(), 'vtype'=>getVersionType()];
+           if (!empty($section_id)) {
+               $where['section_id'] = $section_id;
            }
-           $queryData->get();
+           $queryData   = Enroll::leftJoin($student, $enroll.'.student_id', '=', $student.'.id')
+               ->where($where)->select($student.'.id','name', 'id_number','roll')->get();
        }
        return $queryData;
     }

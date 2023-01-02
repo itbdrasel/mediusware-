@@ -23,7 +23,9 @@
     @include('core::layouts.include.css')
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+
+{{--<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">--}}
+<body class="hold-transition layout-fixed {{$sidebar_collapse??'sidebar-mini'}}">
 <!-- Site wrapper -->
     <div class="wrapper">
 
