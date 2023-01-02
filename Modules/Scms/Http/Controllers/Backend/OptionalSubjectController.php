@@ -53,9 +53,9 @@ class OptionalSubjectController extends Controller
             'page_icon'     => '<i class="fas fa-book"></i>',
             'class_id'      => $request['class_id'],
             'section_id'    => $request['section_id'],
-            'objData'       => $this->getStudentData($request)
+            'objData'       => $this->getStudentData($request),
         ];
-
+        $this->data['allClass'] = getClass();
         $this->layout('index');
     }
 
@@ -99,6 +99,7 @@ class OptionalSubjectController extends Controller
            }
            $queryData->get();
        }
+       return $queryData;
     }
 
 }
