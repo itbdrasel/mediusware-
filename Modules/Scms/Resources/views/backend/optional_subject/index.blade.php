@@ -63,7 +63,12 @@
                             </div>
                         </div>
                         <div class="card">
+                            <form action="{{url($bUrl.'/store')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="class_id" value="{{$class_id}}">
                             <div class="card-body">
+
+                                    {!! validation_errors($errors) !!}
                                 <table class="table table-bordered">
                                     <tbody>
                                     <tr>
@@ -76,29 +81,53 @@
                                         @if(!empty($allData) && count($allData) >0)
                                             @foreach($allData as $data)
                                             <tr>
-                                                <td>{{$data->name}} </td>
+                                                <td>{{$data->name.' ('.$data->id_number}}) </td>
                                                 <td>
+                                                    @php
+                                                    //dd($data->optionalSubject)
+                                                    @endphp
                                                     <div class="row">
-                                                        @if(!empty($data->optionalSubject) && count($data->optionalSubject) >0)
-                                                            @foreach($data->optionalSubject as $optionalSubject)
+                                                        @if(!empty($optionalSubject) && count($optionalSubject) >0)
+                                                            @foreach($optionalSubject as $optSub)
                                                         <div class="col-md-4">
                                                             <div class="icheck-success">
-                                                                <input id="obt_{{$data->id}}_{{$optionalSubject->id}}" name="obt_[{{$data->id}}][]" type="checkbox" checked="" >
-                                                                <label for="obt_{{$data->id}}_{{$optionalSubject->id}}" class="form-check-label">{{$optionalSubject->name}}</label>
+                                                                <input id="obt_{{$data->id}}_{{$optSub->id}}" value="{{$optSub->id}}" name="ob_sub[{{$data->id}}][]" type="checkbox" checked="" >
+                                                                <label for="obt_{{$data->id}}_{{$optSub->id}}" class="form-check-label">{{$optSub->name}}</label>
                                                             </div>
                                                         </div>
                                                             @endforeach
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td></td>
+                                                <td>
+                                                    <input type="hidden" name="student_id[]" value="{{$data->id}}">
+                                                    <select name="four_sub[{{$data->id}}]"  class="select2 form-select">
+                                                        <option value="" > Select 4th Subject </option>
+                                                        @if(!empty($fourSubject) && count($fourSubject) >0)
+                                                            @foreach($fourSubject as $fourSub)
+                                                        <option value="{{$fourSub->id}}" > {{$fourSub->name}} </option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         @endif
                                     </tbody>
                                 </table>
                             </div>
+                                <div class="card-footer">
+                                    <div class="offset-md-4 col-sm-8">
+                                        @php
+                                            $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
+                                        @endphp
+                                        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-save"></i> Save </button>&nbsp;
+                                        <a href="{{url($bUrl)}}" class="btn btn-warning">Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
+
 
                     </div>
                     <!-- /.card-body -->

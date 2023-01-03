@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Scms\Entities\Enroll;
 use Modules\Scms\Entities\OptionalSubject;
+use Modules\Scms\Entities\Subject;
 use Validator;
 
 class OptionalSubjectController extends Controller
@@ -46,13 +47,16 @@ class OptionalSubjectController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
+        $class_id = $request['class_id'];
         $this->data = [
-            'title'         => $this->title.' Manager',
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-book"></i>',
-            'class_id'      => $request['class_id'],
-            'section_id'    => $request['section_id'],
-            'allData'       => [],
+            'title'             => $this->title.' Manager',
+            'pageUrl'           => $this->bUrl,
+            'page_icon'         => '<i class="fas fa-book"></i>',
+            'class_id'          => $class_id,
+            'section_id'        => $request['section_id'],
+            'allData'           => [],
+            'optionalSubject'   =>[],
+            'fourSubject'       =>[]
         ];
         $this->data['allClass'] = getClass();
 
@@ -69,7 +73,9 @@ class OptionalSubjectController extends Controller
             if($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }else{
-                $this->data['allData'] =  $this->getStudentData($request);
+                $this->data['allData']          =  $this->getStudentData($request);
+                $this->data['optionalSubject']  =  Subject::where(['class_id'=>$class_id, 'status'=>1, 'subject_type'=>4])->orderBy('order_by')->get();
+                $this->data['fourSubject']      =  Subject::where(['class_id'=>$class_id, 'status'=>1, 'subject_type'=>3])->orderBy('order_by')->get();
             }
         }
         $this->layout('index');
@@ -83,20 +89,30 @@ class OptionalSubjectController extends Controller
      */
 
     public function store( Request $request){
-        $id = $request[$this->tableId];
-        $validator      = $this->services->getValidationRules($request);
-        if ($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
+        $students   = $request['student_id'];
+        $ob_sub     = $request['ob_sub'];
+        $four_sub   = $request['four_sub'];
+        $class_id   = $request['class_id'];
+        if (!empty($students) && !empty($class_id)){
+            foreach ($students as $key=>$student){
+                if (!empty($student)){
+                    $optionalSubData = [
+                        'class_id'      => $class_id,
+                        'student_id'    => $student,
+                        'o_subjects'    => json_encode($ob_sub[$student]??NULL),
+                        'four_subject'  => $four_sub[$student]??NULL,
+                    ];
+                   $optionalSub = OptionalSubject::where(['student_id'=>$student, 'class_id'=>$class_id])->first();
+                   if (!empty($optionalSub)){
+                       $optionalSub->update($optionalSubData);
+                   }else{
+                       OptionalSubject::create($optionalSubData);
+                   }
+                }
+            }
         }
-        $params = $CRUDServices->getInsertData($this->model,$request);
 
-        if (empty($id) ) {
-            $this->model::create($params);
-            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', 'Record Successfully Created.');
-        }else{
-            $this->model::where($this->tableId, $id)->update($params);
-            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', 'Successfully Updated');
-        }
+        return redirect($this->bUrl)->with('success', 'Record Successfully.');
 
     }
 
@@ -112,8 +128,9 @@ class OptionalSubjectController extends Controller
            if (!empty($section_id)) {
                $where['section_id'] = $section_id;
            }
-           $queryData   = Enroll::leftJoin($student, $enroll.'.student_id', '=', $student.'.id')->with('optionalSubject','fourSubject')
-               ->where($where)->select($student.'.id','name', 'id_number','roll')->get();
+           $queryData   = Enroll::leftJoin($student, $enroll.'.student_id', '=', $student.'.id')
+               ->where($where)
+               ->select($student.'.id','name', 'id_number','roll')->get();
        }
        return $queryData;
     }
