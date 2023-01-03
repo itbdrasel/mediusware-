@@ -69,7 +69,6 @@ class OptionalSubjectController extends Controller
             if($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }else{
-
                 $this->data['allData'] =  $this->getStudentData($request);
             }
         }
@@ -113,7 +112,7 @@ class OptionalSubjectController extends Controller
            if (!empty($section_id)) {
                $where['section_id'] = $section_id;
            }
-           $queryData   = Enroll::leftJoin($student, $enroll.'.student_id', '=', $student.'.id')
+           $queryData   = Enroll::leftJoin($student, $enroll.'.student_id', '=', $student.'.id')->with('optionalSubject','fourSubject')
                ->where($where)->select($student.'.id','name', 'id_number','roll')->get();
        }
        return $queryData;

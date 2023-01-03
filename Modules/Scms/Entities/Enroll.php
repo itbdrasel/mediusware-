@@ -16,10 +16,10 @@ class Enroll extends Model
     public static $insertData = ['class_id', 'section_id', 'group_id', 'shift', 'roll'];
 
     public function optionalSubject(){
-        return $this->hasMany(Subject::class, 'class_id','class_id')->where('subject_type',4);
+        return $this->hasMany(Subject::class,  'class_id')->where('subject_type',4);
     }
     public function fourSubject(){
-        return $this->hasMany(Subject::class, 'class_id','class_id')->where('subject_type',3);
+        return $this->hasMany(Subject::class, 'class_id')->where('subject_type',3);
     }
 
 }

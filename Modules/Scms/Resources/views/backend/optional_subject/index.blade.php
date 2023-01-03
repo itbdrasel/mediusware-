@@ -77,7 +77,20 @@
                                             @foreach($allData as $data)
                                             <tr>
                                                 <td>{{$data->name}} </td>
-                                                <td> </td>
+                                                <td>
+                                                    <div class="row">
+                                                        @if(!empty($data->optionalSubject) && count($data->optionalSubject) >0)
+                                                            @foreach($data->optionalSubject as $optionalSubject)
+                                                        <div class="col-md-4">
+                                                            <div class="icheck-success">
+                                                                <input id="obt_{{$data->id}}_{{$optionalSubject->id}}" name="obt_[{{$data->id}}][]" type="checkbox" checked="" >
+                                                                <label for="obt_{{$data->id}}_{{$optionalSubject->id}}" class="form-check-label">{{$optionalSubject->name}}</label>
+                                                            </div>
+                                                        </div>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+                                                </td>
                                                 <td></td>
                                             </tr>
                                         @endforeach
