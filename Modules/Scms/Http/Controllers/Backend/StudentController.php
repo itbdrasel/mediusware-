@@ -49,7 +49,8 @@ class StudentController extends Controller
      * @return Renderable
      */
     public function index(Request $request, $class_id='', $section_id=''){
-        $this->data                 = $this->studentServices->getIndexData($request, $class_id, $section_id);
+        $this->data                     = $this->studentServices->getIndexData($request, $class_id, $section_id);
+        $this->data['sidebar_collapse'] = 'sidebar-collapse sidebar-mini';
         $this->layout('index');
     }
 

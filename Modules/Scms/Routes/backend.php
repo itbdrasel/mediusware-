@@ -45,9 +45,8 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
     });
 
     // Subject Route
-    Route::group(['prefix'=>'Optional-subject','as'=>'Optional-subject','controller'=>'Backend\optionalSubjectController'], function () {
-        Route::get('/', 'index')->name('');
-        Route::post('/store', 'store')->name('.store');
+    Route::group(['prefix'=>'optional-subject','as'=>'optional_subject','controller'=>'Backend\optionalSubjectController'], function () {
+        getResourceRoute(['index', 'store']);
     });
 
 

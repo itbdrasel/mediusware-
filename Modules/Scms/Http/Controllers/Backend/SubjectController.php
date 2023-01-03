@@ -56,6 +56,7 @@ class SubjectController extends Controller
      */
     public function index(Request $request, $class_id=''){
         $this->data     = $this->services->getIndexData($request, $class_id);
+        $this->data['sidebar_collapse'] = 'sidebar-collapse sidebar-mini';
         $this->layout('index');
     }
 
