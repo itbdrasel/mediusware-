@@ -84,7 +84,7 @@
                                                 <td>{{$data->name.' ('.$data->id_number}}) </td>
                                                 <td>
                                                     @php
-                                                    //dd($data->optionalSubject)
+                                                    dd($data->opSubjectByStudent)
                                                     @endphp
                                                     <div class="row">
                                                         @if(!empty($optionalSubject) && count($optionalSubject) >0)
