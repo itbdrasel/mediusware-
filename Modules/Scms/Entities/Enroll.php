@@ -15,8 +15,8 @@ class Enroll extends Model
 
     public static $insertData = ['class_id', 'section_id', 'group_id', 'shift', 'roll'];
 
-    public function opSubjectByStudent(){
-        return $this->hasMany(OptionalSubject::class, 'student_id', 'student_id');
+    public function student(){
+        return $this->hasMany(Student::class, 'id', 'student_id');
     }
 
 }

@@ -19,4 +19,6 @@ class Student extends Model
 
     public static $insertData = ['id_number', 'name', 'phone', 'email', 'gender_id', 'religion_id', 'blood_group_id', 'address','dormitory_id', 'transport_id', 'agent_banking_no'];
 
+
+
 }

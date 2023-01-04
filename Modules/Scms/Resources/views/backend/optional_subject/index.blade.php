@@ -62,6 +62,7 @@
                                 </div>
                             </div>
                         </div>
+                        @if(!empty($allData) && count($allData) >0)
                         <div class="card">
                             <form action="{{url($bUrl.'/store')}}" method="post">
                                 @csrf
@@ -78,20 +79,20 @@
                                     </tr>
                                     </tbody>
                                     <tbody>
-                                        @if(!empty($allData) && count($allData) >0)
+
                                             @foreach($allData as $data)
                                             <tr>
                                                 <td>{{$data->name.' ('.$data->id_number}}) </td>
                                                 <td>
                                                     @php
-                                                    dd($data->opSubjectByStudent)
+                                                        $opSubjects = json_decode($data->o_subjects, true);
                                                     @endphp
                                                     <div class="row">
                                                         @if(!empty($optionalSubject) && count($optionalSubject) >0)
                                                             @foreach($optionalSubject as $optSub)
                                                         <div class="col-md-4">
                                                             <div class="icheck-success">
-                                                                <input id="obt_{{$data->id}}_{{$optSub->id}}" value="{{$optSub->id}}" name="ob_sub[{{$data->id}}][]" type="checkbox" checked="" >
+                                                                <input id="obt_{{$data->id}}_{{$optSub->id}}" value="{{$optSub->id}}" name="ob_sub[{{$data->id}}][]" type="checkbox" {{isset($opSubjects[$optSub->id]) && $opSubjects[$optSub->id] ==$optSub->id ?'checked':''}}  >
                                                                 <label for="obt_{{$data->id}}_{{$optSub->id}}" class="form-check-label">{{$optSub->name}}</label>
                                                             </div>
                                                         </div>
@@ -102,17 +103,17 @@
                                                 <td>
                                                     <input type="hidden" name="student_id[]" value="{{$data->id}}">
                                                     <select name="four_sub[{{$data->id}}]"  class="select2 form-select">
-                                                        <option value="" > Select 4th Subject </option>
+                                                        <option value="" > ---- </option>
                                                         @if(!empty($fourSubject) && count($fourSubject) >0)
                                                             @foreach($fourSubject as $fourSub)
-                                                        <option value="{{$fourSub->id}}" > {{$fourSub->name}} </option>
+                                                        <option {{$data->four_subject==$fourSub->id?'selected':'' }} value="{{$fourSub->id}}" > {{$fourSub->name}} </option>
                                                             @endforeach
                                                         @endif
                                                     </select>
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        @endif
+
                                     </tbody>
                                 </table>
                             </div>
@@ -127,7 +128,7 @@
                                 </div>
                             </form>
                         </div>
-
+                        @endif
 
                     </div>
                     <!-- /.card-body -->

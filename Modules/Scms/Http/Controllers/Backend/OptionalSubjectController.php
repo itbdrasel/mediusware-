@@ -96,10 +96,16 @@ class OptionalSubjectController extends Controller
         if (!empty($students) && !empty($class_id)){
             foreach ($students as $key=>$student){
                 if (!empty($student)){
+                    $optionalSubject = [];
+                    if (isset($ob_sub[$student]) && !empty($ob_sub[$student])){
+                        foreach ($ob_sub[$student] as $value){
+                            $optionalSubject[$value] = $value;
+                        }
+                    }
                     $optionalSubData = [
                         'class_id'      => $class_id,
                         'student_id'    => $student,
-                        'o_subjects'    => json_encode($ob_sub[$student]??NULL),
+                        'o_subjects'    => json_encode($optionalSubject??NULL),
                         'four_subject'  => $four_sub[$student]??NULL,
                     ];
                    $optionalSub = OptionalSubject::where(['student_id'=>$student, 'class_id'=>$class_id])->first();
@@ -124,13 +130,19 @@ class OptionalSubjectController extends Controller
        if (!empty($class_id)){
            $enroll      = 'scms_enroll.';
            $student     = 'scms_student';
-           $where= ['class_id'=>$class_id, 'year'=>getRunningYear(), 'vtype'=>getVersionType()];
+           $where= ['scms_enroll.class_id'=>$class_id, 'year'=>getRunningYear(), 'vtype'=>getVersionType()];
            if (!empty($section_id)) {
                $where['section_id'] = $section_id;
            }
            $queryData   = Enroll::leftJoin($student, $enroll.'.student_id', '=', $student.'.id')
                ->where($where)
-               ->select($student.'.id','name', 'id_number','roll')->get();
+               ->leftJoin('scms_optional_subject', function($leftJoin)use($class_id, $student)
+               {
+                   $leftJoin->on($student.'.id', '=', 'scms_optional_subject.student_id')
+                   ->where('scms_optional_subject.class_id',$class_id);
+
+               })
+               ->select($student.'.id','name', 'id_number','roll', 'o_subjects', 'four_subject')->get();
        }
        return $queryData;
     }

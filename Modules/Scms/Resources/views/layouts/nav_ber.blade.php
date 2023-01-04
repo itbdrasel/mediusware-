@@ -23,8 +23,8 @@
     </li>
 @endif
 @if (dAuth()->hasAnyAccess(['scms.class']))
-    <li class="nav-item {{menuOpenActive(2, ['subject'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['subject'], true)}} ">
+    <li class="nav-item {{menuOpenActive(2, ['subject', 'optional-subject'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['subject', 'optional-subject'], true)}} ">
             <i class="nav-icon fas fa-book"></i>
             <p>Subject<i class="right fas fa-angle-down"></i></p>
         </a>
@@ -34,6 +34,14 @@
                     <a href="{{url('scms/subject')}}" class="nav-link {{activeMenu(2, 'subject')}} ">
                         <i class="fas fa-circle"></i>
                         <p>Subject Manager</p>
+                    </a>
+                </li>
+            @endif
+            @if (dAuth()->hasAccess(['scms.class']))
+                <li class="nav-item">
+                    <a href="{{url('scms/optional-subject')}}" class="nav-link {{activeMenu(2, 'optional-subject')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Optional Subject</p>
                     </a>
                 </li>
             @endif
