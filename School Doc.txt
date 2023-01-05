@@ -1,0 +1,13 @@
+Class Group
+2ta table 
+ 1. scms_class_category  (id, name, start_year, end_year)
+ 2. scms_class_group (id category_id, class_id start_year, end_year, vtype)
+
+Exam List
+ 1. scms_exam (id, name, type, prent_id, comment, order_by,vtype)
+ 2. scms_rules (id, name, code, order_by, comment)
+ 3. scms_rules_group (id,exam_id, rule_id, category_id, class_id, group_year,vtype)
+ 4. scms_rules_mark (id,exam_id, category_id, class_id, mark_option,calculation_subject,vtype)
+ 5. scms_exam_mark (id,student_id,subject_id,class_id,section_id,exam_id, category_id, rules_marks,comment, year,vtype)
+ 6. exam_grades (id, name, category_id, point, full_mark, mark_from, mark_upto, comment, vtype)
+ 7. scms_result_publish (id, exam_id, publish_year,vtype)
