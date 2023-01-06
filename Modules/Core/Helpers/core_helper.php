@@ -374,3 +374,11 @@ function getDataTablesInfo($allData, $serial, $c){
     $to = $c>0?$c+$serial-1:0;
     return 'Showing '.$Showing. ' to '.$to.' of '. $allData->total(). ' entries';
 }
+
+
+function successMessage($id='', $title=''){
+    if (empty($id) && empty($title)){
+        $title = 'Record';
+    }
+    return empty($id)?$title.' Successfully Created.':$title.' Successfully Updated';
+}

@@ -44,9 +44,19 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
         Route::match(['get', 'post'], '/{id?}', 'index')->name('');
     });
 
-    // Subject Route
+    // Optional Subject Route
     Route::group(['prefix'=>'optional-subject','as'=>'optional_subject','controller'=>'Backend\optionalSubjectController'], function () {
         getResourceRoute(['index', 'store']);
+    });
+
+    // Exam Route
+    Route::group(['prefix'=>'exam','as'=>'exam','controller'=>'Backend\ExamController'], function () {
+        getResourceRoute(['index','create','edit','store','delete']);
+    });
+
+    // Result Publish
+    Route::group(['prefix'=>'result-publish','as'=>'result_publish','controller'=>'Backend\ResultPublishController'], function () {
+        getResourceRoute(['index','edit','store', 'delete']);
     });
 
 

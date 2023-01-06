@@ -74,6 +74,33 @@
         </ul>
     </li>
 @endif
+
+@if (dAuth()->hasAnyAccess(['scms.class', 'scms.section']))
+    <li class="nav-item {{menuOpenActive(2, ['exam', 'result-publish'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['exam','result-publish'], true)}} ">
+            <i class="nav-icon fas fa-graduation-cap"></i>
+            <p>Exam<i class="right fas fa-angle-down"></i></p>
+        </a>
+        <ul class="nav nav-treeview">
+            @if (dAuth()->hasAccess(['scms.class']))
+                <li class="nav-item">
+                    <a href="{{url('scms/result-publish')}}" class="nav-link {{activeMenu(2, 'result-publish')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Result Publish</p>
+                    </a>
+                </li>
+            @endif
+            @if (dAuth()->hasAccess(['scms.class']))
+                <li class="nav-item">
+                    <a href="{{url('scms/exam')}}" class="nav-link {{activeMenu(2, 'exam')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Exam Manager</p>
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </li>
+@endif
 @if (dAuth()->hasAccess(['scms.group']))
     <li class="nav-item">
         <a href="{{url('scms/group')}}" class="nav-link {{activeMenu(2, 'group')}}">

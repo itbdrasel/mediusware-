@@ -14,18 +14,23 @@ class CRUDServices{
     }
 
     public function getIndexData($request, $model, $tableId, $with='', $where=''){
-        $perPage = $this->getPerPage($request);
+
         $indexData = $this->indexQuery($request, $model, $tableId, $with, $where);
         //model query...
+        return $this->getQueryDataByIndex($request, $indexData);
+
+    }
+    public function getQueryDataByIndex($request, $indexData){
+        $perPage = $this->getPerPage($request);
         $data = $indexData['data'];
 
         //model query...
         $queryData = $indexData['query'];
         //table item serial starting from 0
-        $data['serial'] = ( ($request->get('page') ?? 1) -1) * $perPage;
-        $data['allData'] =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
+        $data['serial']     = ( ($request->get('page') ?? 1) -1) * $perPage;
+        $data['allData']    =  $queryData->paginate($perPage)->appends( request()->query() ); // paginate
+        $data['page_icon']  =  '<i class="fas fa-tasks"></i>';
         return $data;
-
     }
 
     public function getPerPage($request){

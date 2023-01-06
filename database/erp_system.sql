@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 26, 2022 at 07:21 PM
+-- Generation Time: Jan 06, 2023 at 07:55 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -269,7 +269,20 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (62, 1, 'G7Jgl5FxI9byiYRIwEkEGeZXeSA3EXgB', '2022-12-12 15:45:28', '2022-12-12 15:45:28'),
 (63, 1, 'H4vnAWRpT71bXLVTdwd6owtRzmUYCYlZ', '2022-12-23 12:04:12', '2022-12-23 12:04:12'),
 (64, 1, 'BiTsx72EItRdBSZehn0dN1yhMVm7By4o', '2022-12-25 06:15:56', '2022-12-25 06:15:56'),
-(65, 1, 'UiQO4vgrhDpfqfRk2jmtLXvZbvTC8HLJ', '2022-12-26 16:13:55', '2022-12-26 16:13:55');
+(65, 1, 'UiQO4vgrhDpfqfRk2jmtLXvZbvTC8HLJ', '2022-12-26 16:13:55', '2022-12-26 16:13:55'),
+(66, 1, 'VftNKmVNQJzDTQOnW80pUcpS9UDRteFS', '2022-12-27 15:25:39', '2022-12-27 15:25:39'),
+(67, 1, 'mYB4Tq9OsrW8xT7TOGzlVBn9s5M6W30z', '2022-12-28 16:34:58', '2022-12-28 16:34:58'),
+(68, 1, 'ulRzWoFGfeNOBTnz5SJ1Fb8he18mtsEo', '2022-12-30 06:50:04', '2022-12-30 06:50:04'),
+(69, 1, 'BvSH2whapzMEaxs8Dt8dW5T4ekFfB8mP', '2022-12-30 11:21:13', '2022-12-30 11:21:13'),
+(70, 1, 'yp6pUI793dWQ8uqX1XgIhUQWGgk3o1Mw', '2022-12-30 18:56:15', '2022-12-30 18:56:15'),
+(71, 1, 'e7lCe0VmPz5EwzDQXD7S1DmpJ6LdTtVt', '2022-12-31 17:49:59', '2022-12-31 17:49:59'),
+(72, 1, 'Eb6N05qW2bYzxGm9oeXvsnUKUFer2WFh', '2023-01-02 16:23:21', '2023-01-02 16:23:21'),
+(73, 1, 'jhntYaaSeYWChhsllqstPsZeBotIDKvC', '2023-01-03 16:58:37', '2023-01-03 16:58:37'),
+(74, 1, 'dkrByfJs25ZM8Ks5sGpC88JnPCw3c0s3', '2023-01-04 16:42:37', '2023-01-04 16:42:37'),
+(75, 1, 'v3ix4r1ccVCwLX9cLHON3EpOFemRNRJX', '2023-01-05 16:28:31', '2023-01-05 16:28:31'),
+(76, 1, 'MTcowWcM2CllF7dRe1uHJTM9cGsHOTrw', '2023-01-06 07:20:31', '2023-01-06 07:20:31'),
+(77, 1, 'K2iAUpBk0ZsGUoXVvgX2gOlxLLxtFxzb', '2023-01-06 11:08:32', '2023-01-06 11:08:32'),
+(78, 1, 'c82jqvYs52mjzFteXZLgKUEpwmArTEUJ', '2023-01-06 16:33:35', '2023-01-06 16:33:35');
 
 -- --------------------------------------------------------
 
@@ -330,7 +343,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `slug`, `name`, `permissions`, `redirect_url`, `order_by`, `active_directory`, `active_branch`, `created_at`, `updated_at`) VALUES
-(1, 'administrator', 'Administrator', '{\"core.permissions.ajax_user_module\":true,\"core.role.create\":true,\"core.role.store\":true,\"core.role.edit\":true,\"core.user.create\":true,\"core.user.store\":true,\"core.user.edit\":true,\"core.user.update\":true,\"core.user.delete\":true,\"core.user.profile\":true,\"core.branch.create\":true,\"core.branch.store\":true,\"core.branch.edit\":true,\"core.branch.delete\":true,\"core.gender.edit\":true,\"core.gender.store\":true,\"core.gender.delete\":true,\"core.religion.edit\":true,\"core.religion.store\":true,\"core.religion.delete\":true,\"core.module\":true,\"core.module.delete\":true,\"core.module.edit\":true,\"core.module.store\":true,\"core.settings\":true,\"core.settings.store\":true,\"core.settings.logo\":true,\"core.dashboard\":true,\"core.permissions.create\":true,\"core.permissions.store\":true,\"core.permissions.edit\":true,\"core.permissions.update\":true,\"core.permissions.section_edit\":true,\"core.permissions.section_update\":true,\"core.permissions.ajax_add_remove\":true,\"core.permissions.ajax_route_remove\":true,\"core.permissions.ajax_get_sections\":true,\"core.branch\":true,\"core.gender\":true,\"core.permissions\":true,\"core.religion\":true,\"core.role\":true,\"core.user\":true,\"core.permissions.ajax_user_module_permission\":true,\"core.permissions.ajax_user_permission\":true,\"core.blood_group.edit\":true,\"core.blood_group.store\":true,\"core.blood_group.delete\":true,\"core.mediamanager.create\":true,\"core.mediamanager.rename\":true,\"core.mediamanager.delete \":true,\"core.mediamanager.upload\":true,\"core.mediamanager\":true,\"hrms.department.edit\":true,\"hrms.department.store\":true,\"hrms.department.delete\":true,\"hrms.designation.edit\":true,\"hrms.designation.store\":true,\"hrms.designation.delete\":true,\"core.blood_group\":true,\"hrms.dashboard\":true,\"hrms.department\":true,\"hrms.designation\":true,\"core.mediamanager.delete\":true,\"core.user.permission\":true,\"hrms.employee.create\":true,\"hrms.employee.edit\":true,\"hrms.employee.store\":true,\"hrms.employee.show\":true,\"hrms.employee.delete\":true,\"scms.group.edit\":true,\"scms.group.store\":true,\"scms.group.delete\":true,\"scms.shift.edit\":true,\"scms.shift.store\":true,\"scms.shift.delete\":true,\"scms.dashboard\":true,\"scms.group\":true,\"scms.shift\":true,\"scms.class.edit\":true,\"scms.class.store\":true,\"scms.class.delete\":true,\"scms.class\":true,\"hrms.employee\":true,\"scms.student.edit\":true,\"scms.student.store\":true,\"scms.student.delete\":true,\"scms.student\":true,\"scms.section.edit\":true,\"scms.section.store\":true,\"scms.section.delete\":true,\"scms.section\":true}', 'core/dashboard', 1, NULL, NULL, '2021-01-15 05:01:15', '2022-11-14 15:39:00'),
+(1, 'administrator', 'Administrator', '{\"core.permissions.ajax_user_module\":true,\"core.role.create\":true,\"core.role.store\":true,\"core.role.edit\":true,\"core.user.create\":true,\"core.user.store\":true,\"core.user.edit\":true,\"core.user.update\":true,\"core.user.delete\":true,\"core.user.profile\":true,\"core.branch.create\":true,\"core.branch.store\":true,\"core.branch.edit\":true,\"core.branch.delete\":true,\"core.gender.edit\":true,\"core.gender.store\":true,\"core.gender.delete\":true,\"core.religion.edit\":true,\"core.religion.store\":true,\"core.religion.delete\":true,\"core.module\":true,\"core.module.delete\":true,\"core.module.edit\":true,\"core.module.store\":true,\"core.settings\":true,\"core.settings.store\":true,\"core.settings.logo\":true,\"core.dashboard\":true,\"core.permissions.create\":true,\"core.permissions.store\":true,\"core.permissions.edit\":true,\"core.permissions.update\":true,\"core.permissions.section_edit\":true,\"core.permissions.section_update\":true,\"core.permissions.ajax_add_remove\":true,\"core.permissions.ajax_route_remove\":true,\"core.permissions.ajax_get_sections\":true,\"core.branch\":true,\"core.gender\":true,\"core.permissions\":true,\"core.religion\":true,\"core.role\":true,\"core.user\":true,\"core.permissions.ajax_user_module_permission\":true,\"core.permissions.ajax_user_permission\":true,\"core.blood_group.edit\":true,\"core.blood_group.store\":true,\"core.blood_group.delete\":true,\"core.mediamanager.create\":true,\"core.mediamanager.rename\":true,\"core.mediamanager.delete \":true,\"core.mediamanager.upload\":true,\"core.mediamanager\":true,\"hrms.department.edit\":true,\"hrms.department.store\":true,\"hrms.department.delete\":true,\"hrms.designation.edit\":true,\"hrms.designation.store\":true,\"hrms.designation.delete\":true,\"core.blood_group\":true,\"hrms.dashboard\":true,\"hrms.department\":true,\"hrms.designation\":true,\"core.mediamanager.delete\":true,\"core.user.permission\":true,\"hrms.employee.create\":true,\"hrms.employee.edit\":true,\"hrms.employee.store\":true,\"hrms.employee.show\":true,\"hrms.employee.delete\":true,\"scms.group.edit\":true,\"scms.group.store\":true,\"scms.group.delete\":true,\"scms.shift.edit\":true,\"scms.shift.store\":true,\"scms.shift.delete\":true,\"scms.dashboard\":true,\"scms.group\":true,\"scms.shift\":true,\"scms.class.edit\":true,\"scms.class.store\":true,\"scms.class.delete\":true,\"scms.class\":true,\"hrms.employee\":true,\"scms.student.edit\":true,\"scms.student.store\":true,\"scms.student.delete\":true,\"scms.student\":true,\"scms.section.edit\":true,\"scms.section.store\":true,\"scms.section.delete\":true,\"scms.section\":true,\"scms.section.create\":true,\"scms.student.create\":true}', 'core/dashboard', 1, NULL, NULL, '2021-01-15 05:01:15', '2023-01-02 17:28:58'),
 (2, 'admin', 'Admin', '{\"core.branch\":true,\"core.branch.create\":true,\"core.branch.store\":true,\"core.branch.edit\":true,\"core.branch.delete\":true,\"core.dashboard\":true,\"core.permissions.update\":true,\"core.gender.edit\":true,\"core.blood_group.store\":true,\"core.blood_group.delete\":true,\"core.blood_group\":false,\"core.blood_group.edit\":true}', 'core/dashboard', 2, 1, 1, '2022-10-09 06:28:52', '2022-10-28 19:34:08');
 
 -- --------------------------------------------------------
@@ -405,7 +418,37 @@ CREATE TABLE `scms_enroll` (
 --
 
 INSERT INTO `scms_enroll` (`id`, `student_id`, `class_id`, `section_id`, `group_id`, `shift`, `roll`, `year`, `vtype`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 2, 1, '1', '2021-2022', 1, '2022-12-25 07:07:34', '2022-12-26 16:14:34');
+(1, 1, 1, 1, 2, 1, '1', '2021-2022', 1, '2022-12-25 07:07:34', '2022-12-30 12:00:35'),
+(2, 2, 1, 1, 1, 2, '2', '2021-2022', 1, '2022-12-30 15:00:03', '2022-12-30 15:00:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scms_exam`
+--
+
+CREATE TABLE `scms_exam` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prent_id` int(11) DEFAULT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1== Single Exam, 2== Multiple Exam',
+  `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_by` int(11) DEFAULT NULL,
+  `vtype` tinyint(2) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `scms_exam`
+--
+
+INSERT INTO `scms_exam` (`id`, `name`, `prent_id`, `type`, `comment`, `order_by`, `vtype`, `created_at`, `updated_at`) VALUES
+(1, 'Test', NULL, 1, NULL, 5, 1, '2023-01-06 12:39:11', '2023-01-06 12:48:10'),
+(2, 'Pre Test', NULL, 1, 'df', 4, 1, '2023-01-06 12:44:15', '2023-01-06 12:48:28'),
+(3, 'Half Yearly', 5, 1, NULL, 1, 1, '2023-01-06 12:44:38', '2023-01-06 12:46:24'),
+(4, 'Annual', 5, 1, NULL, 2, 1, '2023-01-06 12:44:54', '2023-01-06 12:46:42'),
+(5, 'Final', NULL, 2, NULL, 3, 1, '2023-01-06 12:45:18', '2023-01-06 12:47:30');
 
 -- --------------------------------------------------------
 
@@ -426,9 +469,33 @@ CREATE TABLE `scms_groups` (
 --
 
 INSERT INTO `scms_groups` (`id`, `name`, `order_by`, `created_at`, `updated_at`) VALUES
-(1, 'Humanities', 1, '2022-10-05 07:17:11', '2022-11-12 05:54:04'),
-(2, 'Science', 2, '2022-11-11 14:09:15', '2022-11-11 14:09:15'),
+(1, 'Humanities', 1, '2022-10-05 07:17:11', '2023-01-06 07:20:49'),
+(2, 'Science', 2, '2022-11-11 14:09:15', '2023-01-06 07:20:56'),
 (3, 'Business Studies', 3, '2022-11-11 14:09:23', '2022-11-11 14:09:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scms_optional_subject`
+--
+
+CREATE TABLE `scms_optional_subject` (
+  `id` bigint(20) NOT NULL,
+  `class_id` int(11) DEFAULT NULL,
+  `student_id` bigint(20) DEFAULT NULL,
+  `o_subjects` varbinary(255) DEFAULT NULL,
+  `four_subject` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `scms_optional_subject`
+--
+
+INSERT INTO `scms_optional_subject` (`id`, `class_id`, `student_id`, `o_subjects`, `four_subject`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 0x7b2237223a2237227d, 5, '2023-01-03 19:05:20', '2023-01-04 17:24:15'),
+(2, 1, 2, 0x7b2233223a2233222c2237223a2237227d, 6, '2023-01-03 19:05:20', '2023-01-04 17:56:32');
 
 -- --------------------------------------------------------
 
@@ -459,7 +526,31 @@ CREATE TABLE `scms_parent` (
 --
 
 INSERT INTO `scms_parent` (`id`, `name`, `phone`, `email`, `address`, `profession`, `password`, `father_name`, `father_contact`, `father_profession`, `mother_name`, `mother_contact`, `mother_profession`, `created_at`, `updated_at`) VALUES
-(1, 'Sobahan Molla', '01911054866', '', '', '', NULL, 'Sobahan Molla', '', NULL, 'Shafia', '', NULL, '2022-12-25 07:07:34', '2022-12-26 16:14:34');
+(1, 'Sobahan Molla', '01911054866', '', '', '', NULL, 'Sobahan Molla', '', NULL, 'Shafia', '', NULL, '2022-12-25 07:07:34', '2022-12-30 12:00:35'),
+(2, 'Father', '5454', '', '', '', NULL, 'Father', '55', NULL, 'Mother', '45', NULL, '2022-12-30 15:00:02', '2022-12-30 15:00:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scms_result_publish`
+--
+
+CREATE TABLE `scms_result_publish` (
+  `id` bigint(20) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `year` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vtype` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `scms_result_publish`
+--
+
+INSERT INTO `scms_result_publish` (`id`, `exam_id`, `year`, `vtype`, `created_at`, `updated_at`) VALUES
+(1, 4, '2021-2022', 1, '2023-01-06 18:15:56', '2023-01-06 18:46:41'),
+(2, 2, '2020-2021', 1, '2023-01-06 18:47:13', '2023-01-06 18:47:22');
 
 -- --------------------------------------------------------
 
@@ -567,7 +658,8 @@ CREATE TABLE `scms_student` (
 --
 
 INSERT INTO `scms_student` (`id`, `id_number`, `name`, `phone`, `email`, `password`, `birthday`, `gender_id`, `religion_id`, `blood_group_id`, `address`, `photo`, `parent_id`, `dormitory_id`, `transport_id`, `agent_banking_no`, `status`, `created_at`, `updated_at`) VALUES
-(1, '123456', 'Rasel Hossain', '01911054866', NULL, NULL, '1994-12-04', 1, 1, 1, NULL, NULL, 1, NULL, NULL, NULL, 1, '2022-12-25 07:07:34', '2022-12-26 16:14:34');
+(1, '123456', 'Rasel Hossain', '01911054866', NULL, NULL, '1994-12-04', 1, 1, 1, NULL, NULL, 1, NULL, NULL, NULL, 1, '2022-12-25 07:07:34', '2022-12-30 12:00:35'),
+(2, '123457', 'Sakib', '019545', NULL, NULL, '2022-12-30', 1, 1, 1, NULL, NULL, 2, NULL, NULL, NULL, 1, '2022-12-30 15:00:02', '2022-12-30 15:00:02');
 
 -- --------------------------------------------------------
 
@@ -585,7 +677,8 @@ CREATE TABLE `scms_subject` (
   `religion_id` int(11) DEFAULT NULL,
   `gender_id` int(11) DEFAULT NULL,
   `teacher_id` int(11) DEFAULT NULL,
-  `syllabus_change_id` int(11) NOT NULL DEFAULT 1,
+  `syllabus_from_year` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `syllabus_to_year` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `full_marks` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `subject_type` int(11) DEFAULT NULL,
   `order_by` int(11) DEFAULT NULL,
@@ -593,6 +686,40 @@ CREATE TABLE `scms_subject` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `scms_subject`
+--
+
+INSERT INTO `scms_subject` (`id`, `name`, `subject_code`, `class_id`, `group_id`, `subject_parent_id`, `religion_id`, `gender_id`, `teacher_id`, `syllabus_from_year`, `syllabus_to_year`, `full_marks`, `subject_type`, `order_by`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'English', '101', 1, NULL, NULL, NULL, NULL, 4, NULL, NULL, '100', 1, 1, 1, '2022-12-29 04:39:15', '2022-12-29 04:40:21'),
+(2, 'English 2nd', '102', 1, NULL, 1, NULL, NULL, 4, NULL, NULL, '100', 1, 2, 1, '2022-12-29 04:41:30', '2022-12-29 04:41:30'),
+(3, 'Mathematics', '103', 1, NULL, NULL, NULL, NULL, 4, NULL, NULL, '100', 4, 2, 1, '2022-12-29 04:43:41', '2022-12-29 04:43:41'),
+(4, 'General Science', '104', 1, NULL, NULL, NULL, NULL, 4, NULL, NULL, '100', 2, 4, 1, '2022-12-29 04:44:52', '2022-12-29 04:48:02'),
+(5, 'Higher Mathematics', '105', 1, NULL, NULL, NULL, NULL, 4, NULL, NULL, '100', 3, 5, 1, '2022-12-29 04:46:34', '2022-12-29 04:46:34'),
+(6, 'Home science', '106', 1, 1, NULL, NULL, NULL, 5, NULL, NULL, '100', 3, 6, 1, '2022-12-29 04:47:38', '2022-12-29 04:47:50'),
+(7, 'Religion Islam', '107', 1, NULL, NULL, NULL, NULL, 4, NULL, NULL, '100', 4, 7, 1, '2022-12-29 04:49:30', '2022-12-30 11:33:30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scms_subject_type`
+--
+
+CREATE TABLE `scms_subject_type` (
+  `id` tinyint(2) NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `scms_subject_type`
+--
+
+INSERT INTO `scms_subject_type` (`id`, `name`) VALUES
+(1, 'Compulsory Subject'),
+(2, 'Elective Subject'),
+(3, '4th Subject'),
+(4, 'Optional Subject');
 
 -- --------------------------------------------------------
 
@@ -915,7 +1042,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `user_name`, `phone`, `email`, `last_login`, `branch_id`, `employee_id`, `permissions`, `m_permission`, `password`, `directory`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL, 'admin@mail.com', '2022-12-26 16:13:55', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2022-12-26 16:13:55'),
+(1, 'Admin', NULL, NULL, 'admin@mail.com', '2023-01-06 16:33:35', NULL, NULL, NULL, NULL, '$2y$10$q/299XWGkxS0IqX7c.dwPO0C8.xmRm87IhbOrEQnfyeg6LypKI3M6', '', NULL, NULL, '2021-01-15 00:37:06', '2023-01-06 16:33:35'),
 (2, 'Rasel', 'rasel', '01911054866', 'rasel@gmail.com', '2022-10-09 16:25:43', 1, NULL, '{\"core.blood_group\":true}', NULL, '$2y$10$GHiH2cpMTxJQoSITYzVZJefwBnqhaWFyJwkPmV9r9waThGVEwmmqC', NULL, NULL, NULL, '2022-10-09 16:22:04', '2022-10-28 19:05:57'),
 (3, 'test', 'test@mail.com', '01911', 'test@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$sDMW30a2ML6q2H3/RkRLkuzVYOxtLe/nGSo3taJ1Pp/yLdq6dQAr.', NULL, NULL, NULL, '2022-10-18 09:47:31', '2022-10-18 09:47:31'),
 (4, 'ruble', 'ruble', '455', 'ruble@gmail.com', NULL, 1, NULL, NULL, NULL, '$2y$10$WyF/vbAD0w4xEbfGa8t8BuJursb6aPOXzLhPaCGqUa/roN/tF8/hK', '4-1666086791', NULL, NULL, '2022-10-18 09:53:10', '2022-10-18 09:53:11');
@@ -1053,15 +1180,33 @@ ALTER TABLE `scms_enroll`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `scms_exam`
+--
+ALTER TABLE `scms_exam`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `scms_groups`
 --
 ALTER TABLE `scms_groups`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `scms_optional_subject`
+--
+ALTER TABLE `scms_optional_subject`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `scms_parent`
 --
 ALTER TABLE `scms_parent`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `scms_result_publish`
+--
+ALTER TABLE `scms_result_publish`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1093,6 +1238,12 @@ ALTER TABLE `scms_student`
 -- Indexes for table `scms_subject`
 --
 ALTER TABLE `scms_subject`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `scms_subject_type`
+--
+ALTER TABLE `scms_subject_type`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1227,7 +1378,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1257,7 +1408,13 @@ ALTER TABLE `scms_class`
 -- AUTO_INCREMENT for table `scms_enroll`
 --
 ALTER TABLE `scms_enroll`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `scms_exam`
+--
+ALTER TABLE `scms_exam`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `scms_groups`
@@ -1266,10 +1423,22 @@ ALTER TABLE `scms_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `scms_optional_subject`
+--
+ALTER TABLE `scms_optional_subject`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `scms_parent`
 --
 ALTER TABLE `scms_parent`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `scms_result_publish`
+--
+ALTER TABLE `scms_result_publish`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `scms_sections`
@@ -1293,13 +1462,19 @@ ALTER TABLE `scms_shift`
 -- AUTO_INCREMENT for table `scms_student`
 --
 ALTER TABLE `scms_student`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `scms_subject`
 --
 ALTER TABLE `scms_subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `scms_subject_type`
+--
+ALTER TABLE `scms_subject_type`
+  MODIFY `id` tinyint(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `scms_versions`

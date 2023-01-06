@@ -7,10 +7,11 @@ use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\Group;
+use Modules\Scms\Entities\Exam;
+use Modules\Scms\Entities\ResultPublish;
 use Validator;
 
-class GroupController extends Controller
+class ResultPublishController extends Controller
 {
 
 
@@ -27,10 +28,10 @@ class GroupController extends Controller
         $this->moduleName       = getModuleName(get_called_class());
         $this->auth             = $auth;
         $this->crudServices     = $crudServices;
-        $this->model            = Group::class;
+        $this->model            = ResultPublish::class;
         $this->tableId          = 'id';
-        $this->bUrl             = $this->moduleName.'/group';
-        $this->title            = 'Group';
+        $this->bUrl             = $this->moduleName.'/result-publish';
+        $this->title            = 'Result Publish';
     }
 
 
@@ -40,7 +41,7 @@ class GroupController extends Controller
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
 
-        echo view($this->moduleName.'::backend.group.'.$pageName.'', $this->data);
+        echo view($this->moduleName.'::backend.result_publish.'.$pageName.'', $this->data);
 
     }
 
@@ -49,27 +50,21 @@ class GroupController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data = [
-            'title'         => $this->title.' Manager',
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-tasks"></i>',
-            'objData'       => [],
-            'filters'       => $this->model::$filters
-        ];
-
-        $this->data['add_title'] = 'Add New '.$this->title;
-
-        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by');
-
-        if ($request->filled('filter')) {
-            $this->data['filter'] = $filter = $request->get('filter');
-        }
-        $this->data['allData']  = $all_data['allData']; // paginate
-        $this->data['serial']   = $all_data['serial'];
-
+        $indexData  = $this->crudServices->indexQuery($request, $this->model, 'year');
+        $query      =  $indexData['query'];
+        $query->leftJoin('scms_exam', 'scms_result_publish.exam_id', '=', 'scms_exam.id');
+        $query->select('scms_result_publish.*', 'scms_exam.name');
+        $indexData =  ['query'=>$query, 'data'=>$indexData['data']];
+        $this->data                 = $this->crudServices->getQueryDataByIndex($request, $indexData);
+        $this->data['title']        = $this->title.' Manager';
+        $this->data['pageUrl']      = $this->bUrl;
+        $this->data['add_title']    = 'Add New '.$this->title;
+        $this->data['objData']      = [];
+        $this->data['exams']        = Exam::where('vtype', getVersionType())->get();
 
         $this->layout('index');
     }
+
 
 
     /**
@@ -83,8 +78,10 @@ class GroupController extends Controller
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
 
-        $this->data  = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
-        $this->data['objData'] = $objData;
+        $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
+        $this->data['objData']  = $objData;
+        $this->data['exams']    = Exam::where('vtype', getVersionType())->get();
+
         $this->layout('edit');
     }
 
@@ -98,7 +95,6 @@ class GroupController extends Controller
     public function store(Request $request){
         $id = $request[$this->tableId];
         $validator = $this->getValidation($request);
-
         if ($validator->fails()){
             if (!empty($id)) {
                 return response()->json($validator->messages(), 200);
@@ -106,18 +102,16 @@ class GroupController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $params = $this->crudServices->getInsertData($this->model, $request);
-
+        $params['vtype'] = getVersionType();
         if (empty($id) ) {
             $this->model::create($params);
-            return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
+            return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
         }else{
             $this->model::where($this->tableId, $id)->update($params);
             return 'success';
         }
 
-
     }
-
 
 
     /**
@@ -137,15 +131,12 @@ class GroupController extends Controller
     }
 
     public function getValidation($request){
-        $validationRules = $this->crudServices->getValidationRules($this->model);
-        $rules =$validationRules['rules'];
-        $attribute =$validationRules['attribute'];
-        $customMessages = [];
+        $validationRules    = $this->crudServices->getValidationRules($this->model);
+        $rules              = $validationRules['rules'];
+        $rules['year']      = 'required|regex:/^[0-9]{4,}-[0-9]{4,}$/';
+        $attribute          = $validationRules['attribute'];
+        $customMessages     = [];
         return Validator::make($request->all(), $rules, $customMessages, $attribute);
     }
-
-
-
-
 
 }
