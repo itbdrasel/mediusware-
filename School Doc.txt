@@ -1,7 +1,4 @@
-Class Group
-2ta table
- 1. scms_class_category  (id, name, start_year, end_year)
- 2. scms_class_group (id category_id, class_id start_year, end_year, vtype)
+
 
 Exam List
 
@@ -12,5 +9,10 @@ Exam List
  6. exam_grades (id, name, category_id, point, full_mark, mark_from, mark_upto, comment, vtype)
 
 
-  1. scms_exam (id, name, type, prent_id, comment, order_by,vtype)
+   1. scms_exam (id, name, type, prent_id, comment, order_by,vtype)
    7. scms_result_publish (id, exam_id, publish_year,vtype)
+
+Class Group
+2ta table
+ 1. scms_class_categories (id, name, start_year, end_year, vtype)
+ 2. scms_class_group (id category_id, class_id)

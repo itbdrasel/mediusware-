@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2023 at 07:55 PM
+-- Generation Time: Jan 07, 2023 at 07:23 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -392,6 +392,36 @@ INSERT INTO `scms_class` (`id`, `name`, `teacher_id`, `order_by`, `created_at`, 
 (1, 'Class Nursary', 4, '1', '2022-10-05 07:17:11', '2022-11-13 17:03:15'),
 (2, 'One', 4, '1', '2022-11-11 14:09:15', '2022-11-12 06:34:44'),
 (3, 'Class Two', 4, '2', '2022-11-11 14:09:23', '2022-11-12 06:36:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scms_class_categories`
+--
+
+CREATE TABLE `scms_class_categories` (
+  `id` int(11) NOT NULL,
+  `name` int(11) NOT NULL,
+  `start_year` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `end_year` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vtype` tinyint(2) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scms_class_group`
+--
+
+CREATE TABLE `scms_class_group` (
+  `id` bigint(20) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1174,6 +1204,18 @@ ALTER TABLE `scms_class`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `scms_class_categories`
+--
+ALTER TABLE `scms_class_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `scms_class_group`
+--
+ALTER TABLE `scms_class_group`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `scms_enroll`
 --
 ALTER TABLE `scms_enroll`
@@ -1403,6 +1445,18 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `scms_class`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `scms_class_categories`
+--
+ALTER TABLE `scms_class_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `scms_class_group`
+--
+ALTER TABLE `scms_class_group`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `scms_enroll`
