@@ -14,12 +14,10 @@ class ClassGroup extends Model
     ];
 
 
-    public static $sortable = ['id','name'];
-
     public static $filters = ['name'];
 
-    public static $required = ['name'];
+    public static $required = ['category_id', 'class_id'];
 
-    public static $insertData = ['name','start_year','end_year'];
+    public static $insertData = ['category_id','class_id'];
 
 }
