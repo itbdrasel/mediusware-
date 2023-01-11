@@ -49,7 +49,7 @@ class ClassGroupController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by');
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id');
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         $this->layout('index');

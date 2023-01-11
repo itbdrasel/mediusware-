@@ -54,9 +54,14 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
         getResourceRoute(['index','create','edit','store','delete']);
     });
 
-    // Result Publish
+    // Result Publish Route
     Route::group(['prefix'=>'result-publish','as'=>'result_publish','controller'=>'Backend\ResultPublishController'], function () {
         getResourceRoute(['index','edit','store', 'delete']);
+    });
+
+    // Result Publish Route
+    Route::group(['prefix'=>'class-group','as'=>'class_group','controller'=>'Backend\ClassGroupController'], function () {
+        getResourceRoute(['index','create','edit','store', 'delete']);
     });
 
 
