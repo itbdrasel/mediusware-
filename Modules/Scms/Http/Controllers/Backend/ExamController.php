@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Entities\Exam;
 use Validator;
+use function Symfony\Component\Console\Style\comment;
 
 class ExamController extends Controller
 {
@@ -52,6 +53,9 @@ class ExamController extends Controller
         $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by');
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
+        if ($request->ajax()){
+            return $this->layout('data');
+        }
         $this->layout('index');
     }
 

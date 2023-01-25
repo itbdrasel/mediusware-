@@ -1484,3 +1484,15 @@ select[readonly]{
     top: 5px !important;
     right: 10px !important;
 }
+
+.data_table{
+    position: relative;
+}
+.dataTables_ajax {
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    width: 100%;
+    z-index: 333;
+    transform: translate(-50%);
+}

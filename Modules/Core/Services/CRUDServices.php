@@ -36,7 +36,8 @@ class CRUDServices{
     public function getPerPage($request){
         $perPage = session('per_page') ?: 10;
         if($request->method() === 'POST'){
-            session(['per_page' => $request->post('per_page') ]);
+           session(['per_page' => $request->post('per_page') ]);
+            $perPage = $request->post('per_page');
         }
         return $perPage;
     }
