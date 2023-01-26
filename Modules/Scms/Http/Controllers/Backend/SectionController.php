@@ -41,8 +41,9 @@ class SectionController extends Controller
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
+        $this->data['view_path']    =  $this->moduleName.'::backend.section.';
 
-        echo view($this->moduleName.'::backend.section.'.$pageName.'', $this->data);
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -74,6 +75,9 @@ class SectionController extends Controller
         $this->data['serial']   = $all_data['serial'];
         $this->data['id']       = $id;
 
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
+        }
 
         $this->layout('index');
     }
@@ -161,16 +165,15 @@ class SectionController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
+            $request['ajax'] = 'ajax';
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return $this->index($request);
         }
-
+        return false;
     }
 
-    public function getValidation($request){
+        public function getValidation($request){
         $validationRules = $this->crudServices->getValidationRules($this->model);
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];

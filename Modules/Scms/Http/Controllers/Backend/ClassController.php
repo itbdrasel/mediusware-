@@ -40,7 +40,9 @@ class ClassController extends Controller
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
 
-        echo view($this->moduleName.'::backend.class.'.$pageName.'', $this->data);
+        $this->data['view_path']    =  $this->moduleName.'::backend.class.';
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
+
 
     }
 
@@ -68,6 +70,9 @@ class ClassController extends Controller
         $this->data['allData']  = $all_data['allData']; // paginate
         $this->data['serial']   = $all_data['serial'];
 
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
+        }
 
         $this->layout('index');
     }
@@ -135,13 +140,12 @@ class ClassController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
+            $request['ajax'] = 'ajax';
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return $this->index($request);
         }
-
+        return false;
     }
 
     public function getValidation($request){

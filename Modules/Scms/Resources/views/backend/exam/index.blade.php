@@ -16,20 +16,21 @@
                             </button>
                         </div>
                     </div>
+                    <input type="hidden"  data-row="" id="sortBy">
                     <div id="tableData">
-                        @include('scms::backend.exam.data')
+                        @include($view_path.'data')
                     </div>
-
                 </div>
-
             </div>
         </div>
     </section>
-@include('core::layouts.include.modal')
+    @include('core::layouts.include.modal_delete')
 @endsection
 @push('js')
     <script src="{{url('backend/js/index_page.js')}}"></script>
 @endpush
+
+
 
 
 

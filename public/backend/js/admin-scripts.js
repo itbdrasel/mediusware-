@@ -41,14 +41,14 @@ $(document).ready(function(){
 	// table sorting event.
 	if ($('.sort').length ) {
 
-		$('.sort').on('click', function() {
-			var order = 1;
-			//defin asc or desc
-			if(urlParam('order') == 1 ) order = 2;
-			else if(urlParam('order') == 2) order = 1;
-
-			window.location.href = pageUrl+"?by="+$(this).data('row')+"&order="+order;
-		});
+		// $('.sort').on('click', function() {
+		// 	var order = 1;
+		// 	//defin asc or desc
+		// 	if(urlParam('order') == 1 ) order = 2;
+		// 	else if(urlParam('order') == 2) order = 1;
+        //
+		// 	window.location.href = pageUrl+"?by="+$(this).data('row')+"&order="+order;
+		// });
 		var modal_status =true;
 		if ($('#modal_hidden').length ) {
 			if ($('##modal_hidden').val() ==1){

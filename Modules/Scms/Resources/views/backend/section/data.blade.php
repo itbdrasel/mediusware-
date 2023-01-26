@@ -1,10 +1,4 @@
-
-
-
-
-<div class="card-body" id="">
-
-
+<div class="card-body">
     <div class="col-md-12">
 
         <form id="filter_form" action="{{url($bUrl)}}" method="get"  class="form-inline">
@@ -15,10 +9,8 @@
                 </div>
 
                 <div class="col-md-4 form-group">
-                    <input type="submit" class="btn btn-primary filter_submit" value="Filter"/>
-                    &nbsp;
-                    <button class="btn btn-default filter_reset" type="reset">Reset</button>
-{{--                    <a class="btn btn-default" href="{{ url($bUrl) }}"> Reset </a>--}}
+                    <input  type="submit" class="btn btn-primary filter_submit" value="Filter"/>
+                    &nbsp;<a class="btn btn-default filter_reset" href="{{ url($bUrl) }}"> Reset </a>
                 </div>
 
 
@@ -47,24 +39,19 @@
 
 
     </div>
-
-
-
-
     <div class="col-md-12 mt-4">
 
         <div class="row">
-
             <div class="col-md-12 table-responsive">
 
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="text-center" style="width: 50px">SL</th>
-                        <th width="25%" class="sort" data-row="name" id="name" >Name</th>
-                        <th class="text-center" width="18%">Type</th>
-                        <th>Comment</th>
-                        <th class="sort text-center" width="10%" data-row="order_by" id="order_by" >order_by</th>
+                        <th class="sort" data-row="name" id="name" >Name</th>
+                        <th class="sort" data-row="nick_name" id="nick_name" >Nick Name</th>
+                        <th>Teacher</th>
+                        <th>Shift</th>
                         <th style="width: 180px" class="text-center">Manage</th>
                     </tr>
                     </thead>
@@ -83,18 +70,17 @@
                             <tr>
                                 <td class="text-center">{{ $c+$serial }}</td>
                                 <td>{{ $data->name }}</td>
-                                <td class="text-center">{{ $data->type==1?'Single Exam':'Multiple Exam' }}</td>
-                                <td>{{ $data->comment }}</td>
-                                <td class="text-center">{{ $data->order_by }}</td>
-
+                                <td>{{ $data->nick_name }}</td>
+                                <td>{{ $data->teacher->name??'' }}</td>
+                                <td>{{ $data->shift->name??'' }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-outline-primary link_btn">
-                                            <a  href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
+                                            <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                         </button>
 
                                         <button type="button" class="btn btn-outline-primary link_btn">
-                                            <a onclick="deleteItem('{{$data->$tableID}}','{{url($bUrl.'/delete')}}')" style="cursor: pointer"><i class="fa fa-trash"></i> </a>
+                                            <a data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->$tableID)}}"><i class="fa fa-trash"></i> </a>
                                         </button>
                                     </div>
 
@@ -108,23 +94,20 @@
                         @endforeach
 
                     @else
+
                         <tr> <td colspan="6">There is nothing found.</td> </tr>
+
+
                     @endif
                     </tbody>
                 </table>
             </div>
             @include('core::layouts.include.per_page')
-
         </div><!-- /row -->
 
 
     </div>
-
 </div>
-<!-- /.card-body -->
 <div class="card-footer">
     {{getDataTablesInfo($allData, $serial??'', $c??'')}}
 </div>
-<!-- /.card-footer-->
-
-

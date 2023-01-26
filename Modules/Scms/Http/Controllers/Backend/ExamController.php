@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Entities\Exam;
 use Validator;
-use function Symfony\Component\Console\Style\comment;
 
 class ExamController extends Controller
 {
@@ -40,8 +39,9 @@ class ExamController extends Controller
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
+        $this->data['view_path']    =  $this->moduleName.'::backend.exam.';
 
-        echo view($this->moduleName.'::backend.exam.'.$pageName.'', $this->data);
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -53,7 +53,7 @@ class ExamController extends Controller
         $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by');
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
-        if ($request->ajax()){
+        if ($request->ajax() || $request['ajax']){
             return $this->layout('data');
         }
         $this->layout('index');
@@ -122,12 +122,12 @@ class ExamController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
+            $request['ajax'] = 'ajax';
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return $this->index($request);
         }
+        return false;
 
     }
 
