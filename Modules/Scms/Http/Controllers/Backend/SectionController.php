@@ -100,7 +100,7 @@ class SectionController extends Controller
         $this->data['allClass'] = getClass();
         $this->data['shifts']   = Shift::orderBy('order_by')->get();
 
-        $this->layout('edit');
+        return $this->layout('edit');
     }
 
 
@@ -126,7 +126,7 @@ class SectionController extends Controller
         $this->data['allClass'] = getClass();
         $this->data['shifts']   = Shift::orderBy('order_by')->get();
 
-        $this->layout('edit');
+        return $this->layout('edit');
     }
 
 

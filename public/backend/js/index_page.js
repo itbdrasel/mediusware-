@@ -158,3 +158,20 @@ function ajaxBeforeSend(isSend=true) {
     }
 
 }
+
+
+function blankModal(url) {
+    $("#blankModal").modal("show");
+    $.ajax({
+        url: url,
+        datatype: "html",
+        beforeSend:function(){
+            $('#blankModalBody').html('<div class="modal-body">\n' +
+                '<div class="spinner-border"></div>\n' +
+                '</div>');
+        },
+        success:function (data) {
+            $('#blankModalBody').html(data);
+        }
+    })
+}

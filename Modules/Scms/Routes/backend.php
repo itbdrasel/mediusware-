@@ -18,8 +18,8 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
 
     // Section Route
     Route::group(['prefix'=>'section','as'=>'section','controller'=>'Backend\SectionController'], function () {
-        getResourceRoute(['create','edit','store', 'delete']);
-        Route::match(['get', 'post'], '/{id?}', 'index')->name('');
+        getResourceRoute(['index','create','edit','store', 'delete']);
+//        Route::match(['get', 'post'], '/{id?}', 'index')->name('');
     });
 
     // Group Route

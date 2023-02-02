@@ -1,3 +1,8 @@
+<style>
+    .modal-open {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+</style>
 @extends('core::master')
 @section('content')
     <section class="content data-body school_body">
@@ -9,7 +14,7 @@
                         <div class="card-tools">
 
                             <button type="button" class="btn btn-tool" >
-                                <a href="{{url($bUrl.'/create')}}" data-bs-toggle="modal" data-bs-target="#windowmodal" class="btn bg-gradient-info custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
+                                <a  onclick="blankModal('{{url($bUrl.'/create')}}')"  class="btn bg-gradient-info custom_btn"><i class="mdi mdi-plus"></i> <i class="fa fa-plus-circle"></i> Add New </a>
                             </button>
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                 <i class="fas fa-minus"></i>
@@ -49,6 +54,7 @@
         </div>
     </section>
     @include('core::layouts.include.modal_delete')
+    @include('core::layouts.include.blank_modal')
 @endsection
 @push('js')
     <script src="{{url('backend/js/index_page.js')}}"></script>
