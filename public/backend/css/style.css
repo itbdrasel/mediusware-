@@ -1496,3 +1496,12 @@ select[readonly]{
     z-index: 333;
     transform: translate(-50%);
 }
+.modal-footer{
+    background-color: #f7f7f7;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.modal-content{
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    border-top: 2px solid #2facc0;
+}

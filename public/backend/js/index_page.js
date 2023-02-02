@@ -166,8 +166,8 @@ function blankModal(url) {
         url: url,
         datatype: "html",
         beforeSend:function(){
-            $('#blankModalBody').html('<div class="modal-body">\n' +
-                '<div class="spinner-border"></div>\n' +
+            $('#blankModalBody').html('<div style="text-align: center" class="modal-body">' +
+                '<div  class="spinner-border"></div>' +
                 '</div>');
         },
         success:function (data) {

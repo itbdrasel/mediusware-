@@ -144,7 +144,8 @@ class SectionController extends Controller
             return response()->json($validator->messages(), 200);
         }
         $params = $this->getInsertData($request);
-
+        $request['ajax'] = 'ajax';
+//        $html = $this->index($request);
         if (empty($id) ) {
             $this->model::create($params);
             return 'success';

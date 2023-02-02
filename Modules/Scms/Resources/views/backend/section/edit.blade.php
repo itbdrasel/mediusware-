@@ -8,7 +8,7 @@
     }
 </style>
 
-<form method="post" action="{{url($bUrl.'/store')}}" enctype="multipart/form-data" id="edit">
+<form class="mb-0" method="post" action="{{url($bUrl.'/store')}}" enctype="multipart/form-data" id="edit">
     @csrf
     <div class="modal-header">
         <h4 class="m-0" style="margin: 0 !important; font-size: 19px; font-weight: bold" > {!! $page_icon !!} {{$title}} </h4>
@@ -116,6 +116,7 @@
                     url:"{{url($bUrl.'/store')}}",
                     type : 'POST',
                     data : $this.serialize(),
+                    datatype: "html",
                     success:function (response) {
                         $('#submit').prop( "disabled", false );
                         $('#submit').html('<i class="fas fa-save"></i> Save')
