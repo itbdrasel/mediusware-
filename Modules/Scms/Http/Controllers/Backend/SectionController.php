@@ -54,7 +54,7 @@ class SectionController extends Controller
     public function index(Request $request, $id=''){
         $this->data = [
             'title'         => $this->title.' Manager',
-            'pageUrl'       => $this->bUrl,
+            'pageUrl'       => $this->bUrl.'/'.$id,
             'page_icon'     => '<i class="fas fa-tasks"></i>',
         ];
         $this->data['add_title'] = 'Add New '.$this->title;
@@ -137,6 +137,7 @@ class SectionController extends Controller
      */
 
     public function store(Request $request){
+//        dd($request->all());
         $id = $request[$this->tableId];
         $validator = $this->getValidation($request);
 
@@ -145,14 +146,21 @@ class SectionController extends Controller
         }
         $params = $this->getInsertData($request);
         $request['ajax'] = 'ajax';
-//        $html = $this->index($request);
+        $html = $this->index($request);
+        $data = [
+            'status'=> true,
+            'data'  => $html,
+        ];
         if (empty($id) ) {
+            $data['message'] = 'create';
             $this->model::create($params);
-            return 'success';
+//            return 'success';
         }else{
+            $data['message'] = 'update';
             $this->model::where($this->tableId, $id)->update($params);
-            return 'success';
+//            return 'success';
         }
+        return json_encode($data);
 
 
     }

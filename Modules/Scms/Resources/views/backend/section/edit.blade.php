@@ -100,7 +100,7 @@
         @php
             $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
         @endphp
-        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>&nbsp;&nbsp;
+        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-primary">@if (empty(getValue($tableID, $objData)))<i class="fas fa-save"></i> Save @else <i class="fas fa-sync-alt"></i> Update @endif</button>&nbsp;&nbsp;
         <button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-bs-dismiss="modal">Close</button>
     </div>
 </form>
@@ -116,28 +116,34 @@
                     url:"{{url($bUrl.'/store')}}",
                     type : 'POST',
                     data : $this.serialize(),
-                    datatype: "html",
+                    // contentType: false,
+                    // processData: false,
+                    // datatype: "html",
+                    contentType: "application/json; charset=utf-8",
                     success:function (response) {
-                        $('#submit').prop( "disabled", false );
-                        $('#submit').html('<i class="fas fa-save"></i> Save')
-                        if (response == 'success'){
-                            if (id !=''){
-                                $this.find('.alert-success').html('Successfully Updated').hide().slideDown();
-                            }else{
-                                $this.find('.alert-success').html('Record Successfully Created.').hide().slideDown();
-                            }
-
-                            $this.find('.fbody').hide();
-                            $('.alert-warning').hide();
-                        }else{
-                            var html = '<ul>'
-                            $.each(response, function(index, item) {
-                                html += '<li>'+item +'</li>'
-                            });
-                            html +='</ul>'
-                            $('.alert-warning').html(html).hide().slideDown();
-                            $('.alert-success').hide();
-                        }
+                        var jsonObj = $.parseJSON(response);
+                    alert(jsonObj.status)
+                        console.log(response.status);
+                        // $('#submit').prop( "disabled", false );
+                        // $('#submit').html('<i class="fas fa-save"></i> Save')
+                        // if (response == 'success'){
+                        //     if (id !=''){
+                        //         $this.find('.alert-success').html('Successfully Updated').hide().slideDown();
+                        //     }else{
+                        //         $this.find('.alert-success').html('Record Successfully Created.').hide().slideDown();
+                        //     }
+                        //
+                        //     $this.find('.fbody').hide();
+                        //     $('.alert-warning').hide();
+                        // }else{
+                        //     var html = '<ul>'
+                        //     $.each(response, function(index, item) {
+                        //         html += '<li>'+item +'</li>'
+                        //     });
+                        //     html +='</ul>'
+                        //     $('.alert-warning').html(html).hide().slideDown();
+                        //     $('.alert-success').hide();
+                        // }
                     }
                 })
 
