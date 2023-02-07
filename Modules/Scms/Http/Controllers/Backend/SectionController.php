@@ -146,7 +146,7 @@ class SectionController extends Controller
         }
         $params = $this->getInsertData($request);
         $request['ajax'] = 'ajax';
-        $html = $this->index($request);
+//        $html = $this->index($request);
         $data = [
             'status'=> true,
             'data'  => $html,
@@ -154,13 +154,13 @@ class SectionController extends Controller
         if (empty($id) ) {
             $data['message'] = 'create';
             $this->model::create($params);
-//            return 'success';
+            return 'success';
         }else{
             $data['message'] = 'update';
             $this->model::where($this->tableId, $id)->update($params);
-//            return 'success';
+            return 'success';
         }
-        return json_encode($data);
+//        return json_encode($data);
 
 
     }

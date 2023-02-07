@@ -118,32 +118,32 @@
                     data : $this.serialize(),
                     // contentType: false,
                     // processData: false,
-                    // datatype: "html",
-                    contentType: "application/json; charset=utf-8",
+                    datatype: "html",
+                    // contentType: "application/json; charset=utf-8",
                     success:function (response) {
-                        var jsonObj = $.parseJSON(response);
-                    alert(jsonObj.status)
-                        console.log(response.status);
-                        // $('#submit').prop( "disabled", false );
-                        // $('#submit').html('<i class="fas fa-save"></i> Save')
-                        // if (response == 'success'){
-                        //     if (id !=''){
-                        //         $this.find('.alert-success').html('Successfully Updated').hide().slideDown();
-                        //     }else{
-                        //         $this.find('.alert-success').html('Record Successfully Created.').hide().slideDown();
-                        //     }
-                        //
-                        //     $this.find('.fbody').hide();
-                        //     $('.alert-warning').hide();
-                        // }else{
-                        //     var html = '<ul>'
-                        //     $.each(response, function(index, item) {
-                        //         html += '<li>'+item +'</li>'
-                        //     });
-                        //     html +='</ul>'
-                        //     $('.alert-warning').html(html).hide().slideDown();
-                        //     $('.alert-success').hide();
-                        // }
+                    //     var jsonObj = $.parseJSON(response);
+                    // alert(jsonObj.status)
+                    //     console.log(response.status);
+                        $('#submit').prop( "disabled", false );
+                        $('#submit').html('<i class="fas fa-save"></i> Save')
+                        if (response == 'success'){
+                            if (id !=''){
+                                $this.find('.alert-success').html('Successfully Updated').hide().slideDown();
+                            }else{
+                                $this.find('.alert-success').html('Record Successfully Created.').hide().slideDown();
+                            }
+
+                            $this.find('.fbody').hide();
+                            $('.alert-warning').hide();
+                        }else{
+                            var html = '<ul>'
+                            $.each(response, function(index, item) {
+                                html += '<li>'+item +'</li>'
+                            });
+                            html +='</ul>'
+                            $('.alert-warning').html(html).hide().slideDown();
+                            $('.alert-success').hide();
+                        }
                     }
                 })
 
