@@ -117,7 +117,7 @@
                     type : 'POST',
                     data : $this.serialize(),
                     // contentType: false,
-                    // processData: false,
+                    processData: false,
                     datatype: "html",
                     // contentType: "application/json; charset=utf-8",
                     success:function (response) {
