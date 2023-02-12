@@ -146,7 +146,7 @@ class SectionController extends Controller
         }
         $params = $this->getInsertData($request);
         $request['ajax'] = 'ajax';
-//        $html = $this->index($request);
+        $html = $this->index($request);
         $data = [
             'status'=> true,
             'data'  => $html,
