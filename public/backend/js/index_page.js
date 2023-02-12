@@ -175,3 +175,14 @@ function blankModal(url) {
         }
     })
 }
+
+
+function getTableData() {
+    $.ajax({
+        url: pageUrl,
+        datatype: "html",
+        success:function (data) {
+            $('#tableData').html(data);
+        }
+    })
+}

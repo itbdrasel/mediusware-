@@ -137,7 +137,6 @@ class SectionController extends Controller
      */
 
     public function store(Request $request){
-//        dd($request->all());
         $id = $request[$this->tableId];
         $validator = $this->getValidation($request);
 
@@ -146,11 +145,11 @@ class SectionController extends Controller
         }
         $params = $this->getInsertData($request);
         $request['ajax'] = 'ajax';
-        $html = $this->index($request);
-        $data = [
-            'status'=> true,
-            'data'  => $html,
-        ];
+//        $html = $this->index($request);
+//        $data = [
+//            'status'=> true,
+//            'data'  => $html,
+//        ];
         if (empty($id) ) {
             $data['message'] = 'create';
             $this->model::create($params);

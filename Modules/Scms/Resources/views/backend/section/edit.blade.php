@@ -16,19 +16,19 @@
     </div>
     <div class="modal-body">
         <div class="card-body">
-            <div class="col-md-12">
+            <div class="col-md-12 ">
                 <div id="error_message"></div>
                 <div class="alert alert-warning" role="alert">&nbsp;</div>
                 <div class="alert alert-success" role="alert">&nbsp;</div>
                 <input type="hidden"  value="{{ getValue($tableID, $objData) }}" id="id" name="{{$tableID}}">
 
 
-                <div class="form-group row">
+                <div class="form-group row fbody">
                     <div class="col-sm-6">
                         @php
                             $input_name = 'name';
                         @endphp
-                        <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}}  </label>
+                        <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}}  <code>*</code></label>
                         <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
                         <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                     </div>
@@ -36,7 +36,7 @@
                         @php
                             $input_name = 'nick_name';
                         @endphp
-                        <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code> </label>
+                        <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}}  </label>
                         <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
                         <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                     </div>
@@ -97,11 +97,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        @php
-            $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
-        @endphp
-{{--        <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" id="submit" class="btn btn-primary">@if (empty(getValue($tableID, $objData)))<i class="fas fa-save"></i> Save @else <i class="fas fa-sync-alt"></i> Update @endif</button>&nbsp;&nbsp;--}}
-        <button type="submit"  id="submit" class="btn btn-primary">@if (empty(getValue($tableID, $objData)))<i class="fas fa-save"></i> Save @else <i class="fas fa-sync-alt"></i> Update @endif</button>&nbsp;&nbsp;
+
+        <button type="submit" id="submit" class="btn btn-primary">@if (empty(getValue($tableID, $objData)))<i class="fas fa-save"></i> Save @else <i class="fas fa-sync-alt"></i> Update @endif</button>&nbsp;&nbsp;
         <button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-bs-dismiss="modal">Close</button>
     </div>
 </form>
@@ -117,26 +114,29 @@
                     url:"{{url($bUrl.'/store')}}",
                     type : 'POST',
                     data : $this.serialize(),
-                    // contentType: false,
-                    // processData: false,
-                    datatype: "html",
-                    // contentType: "application/json; charset=utf-8",
+                    beforeSend:function(){
+                        $this.find('#submit').html('<i class="fas fa-spinner fa-pulse"></i> Please Wait');
+                        $this.find('#submit').attr("disabled", "disabled");
+                    },
                     success:function (response) {
-                    //     var jsonObj = $.parseJSON(response);
-                    // alert(jsonObj.status)
-                    //     console.log(response.status);
-                        $('#submit').prop( "disabled", false );
-                        $('#submit').html('<i class="fas fa-save"></i> Save')
                         if (response == 'success'){
+                            $this.find('#submit').hide();
+                            getTableData();
                             if (id !=''){
                                 $this.find('.alert-success').html('Successfully Updated').hide().slideDown();
                             }else{
                                 $this.find('.alert-success').html('Record Successfully Created.').hide().slideDown();
                             }
-
                             $this.find('.fbody').hide();
                             $('.alert-warning').hide();
+
                         }else{
+                            let btn_text = '<i class="fas fa-save"></i> Save';
+                            if (id !=''){
+                                btn_text = '<i class="fas fa-sync-alt"></i> Update';
+                            }
+                            $this.find('#submit').html(btn_text);
+                            $this.find('#submit').attr("disabled", false);
                             var html = '<ul>'
                             $.each(response, function(index, item) {
                                 html += '<li>'+item +'</li>'
@@ -156,4 +156,6 @@
             }
         });
     });
+
+
 </script>
