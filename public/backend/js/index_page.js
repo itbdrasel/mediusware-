@@ -177,12 +177,25 @@ function blankModal(url) {
 }
 
 
-function getTableData() {
-    $.ajax({
-        url: pageUrl,
-        datatype: "html",
-        success:function (data) {
-            $('#tableData').html(data);
-        }
+function getErrorMessage(err) {
+    let error = err.responseJSON;
+    let html = '<ul>'
+    $.each(error.errors, function (index, value) {
+        html += '<li>'+value +'</li>'
     })
+    html +='</ul>'
+    $('.alert-warning').html(html).hide().slideDown();
+}
+
+function getBeforeSendSubmitBtn(idName) {
+    $this.find(idName).html('<i class="fas fa-spinner fa-pulse"></i> Please Wait');
+    $this.find(idName).attr("disabled", "disabled");
+}
+function getCreateUpdateBtn(id, selectName) {
+    let btn_text = '<i class="fas fa-save"></i> Save';
+    if (id !=''){
+        btn_text = '<i class="fas fa-sync-alt"></i> Update';
+    }
+    $this.find(selectName).html(btn_text);
+    $this.find(selectName).attr("disabled", false);
 }

@@ -138,30 +138,15 @@ class SectionController extends Controller
 
     public function store(Request $request){
         $id = $request[$this->tableId];
-        $validator = $this->getValidation($request);
-
-        if ($validator->fails()){
-            return response()->json($validator->messages(), 200);
-        }
+        $this->getValidation($request);
         $params = $this->getInsertData($request);
-        $request['ajax'] = 'ajax';
-//        $html = $this->index($request);
-//        $data = [
-//            'status'=> true,
-//            'data'  => $html,
-//        ];
         if (empty($id) ) {
-            $data['message'] = 'create';
             $this->model::create($params);
-            return 'success';
+            return 'Record Successfully Created.';
         }else{
-            $data['message'] = 'update';
             $this->model::where($this->tableId, $id)->update($params);
-            return 'success';
+            return 'Successfully Updated';
         }
-//        return json_encode($data);
-
-
     }
 
 
@@ -186,7 +171,7 @@ class SectionController extends Controller
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];
         $customMessages = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+        return $request->validate($rules,$customMessages, $attribute);
     }
 
     public function getInsertData($request){

@@ -115,41 +115,20 @@
                     type : 'POST',
                     data : $this.serialize(),
                     beforeSend:function(){
-                        $this.find('#submit').html('<i class="fas fa-spinner fa-pulse"></i> Please Wait');
-                        $this.find('#submit').attr("disabled", "disabled");
+                        getBeforeSendSubmitBtn('#submit')
                     },
                     success:function (response) {
-                        if (response == 'success'){
-                            $this.find('#submit').hide();
-                            getTableData();
-                            if (id !=''){
-                                $this.find('.alert-success').html('Successfully Updated').hide().slideDown();
-                            }else{
-                                $this.find('.alert-success').html('Record Successfully Created.').hide().slideDown();
-                            }
-                            $this.find('.fbody').hide();
-                            $('.alert-warning').hide();
-
-                        }else{
-                            let btn_text = '<i class="fas fa-save"></i> Save';
-                            if (id !=''){
-                                btn_text = '<i class="fas fa-sync-alt"></i> Update';
-                            }
-                            $this.find('#submit').html(btn_text);
-                            $this.find('#submit').attr("disabled", false);
-                            var html = '<ul>'
-                            $.each(response, function(index, item) {
-                                html += '<li>'+item +'</li>'
-                            });
-                            html +='</ul>'
-                            $('.alert-warning').html(html).hide().slideDown();
-                            $('.alert-success').hide();
-                        }
+                        $('#blankModal').modal('hide')
+                        toastr.success(response);
+                        $('#tableData').load(location.href)
+                    },error:function (err) {
+                        getCreateUpdateBtn(id, '#submit')
+                        getErrorMessage(err);
                     }
                 })
-
             });
         });
+
         $('.onlyNumber').on('keyup', function (e) {
             if (/\D/g.test(this.value)) {
                 this.value = this.value.replace(/\D/g, '');
