@@ -21,31 +21,11 @@
                             </button>
                         </div>
                     </div>
+                    <input type="hidden" value="" data-row="" id="sortBy">
+                    <div class="card-body" id="tableData">
 
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-xl-2 col-sm-3 col-md-2">
-                                @if (count($allClass) >0)
-                                <ul class="card w-100 nav tabs-vertical">
-                                    @foreach($allClass as $class)
-                                    <li class="{{$id ==$class->id?'active':''}}">
-                                        <a href="{{url($bUrl.'/'.$class->id)}}"><i class="fas fa-circle"></i>{{$class->name}}</a>
-                                    </li>
-                                    @endforeach
+                                    @include($view_path.'data')
 
-                                </ul>
-                                @endif
-                            </div>
-                            <div class="col-xl-10 col-sm-9 col-md-10">
-                                <div class="card">
-                                    <input type="hidden" value="" data-row="" id="sortBy">
-                                    <div id="tableData">
-                                        @include($view_path.'data')
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
 
                     </div>
 

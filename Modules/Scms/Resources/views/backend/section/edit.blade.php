@@ -8,7 +8,7 @@
     }
 </style>
 
-<form class="mb-0" method="post" action="{{url($bUrl.'/store')}}" enctype="multipart/form-data" id="edit">
+<form class="mb-0" method="post" action="{{url($bUrl.'/store')}}" enctype="multipart/form-data" id="crud">
     @csrf
     <div class="modal-header">
         <h4 class="m-0" style="margin: 0 !important; font-size: 19px; font-weight: bold" > {!! $page_icon !!} {{$title}} </h4>
@@ -97,7 +97,6 @@
         </div>
     </div>
     <div class="modal-footer">
-
         <button type="submit" id="submit" class="btn btn-primary">@if (empty(getValue($tableID, $objData)))<i class="fas fa-save"></i> Save @else <i class="fas fa-sync-alt"></i> Update @endif</button>&nbsp;&nbsp;
         <button type="button"  data-reload="true" class="btn btn-secondary dismiss" data-bs-dismiss="modal">Close</button>
     </div>
@@ -105,7 +104,7 @@
 
 <script>
     $(function(){
-        $('form#edit').each(function(){
+        $('form#crud').each(function(){
             $this = $(this);
             $this.find('#submit').on('click', function(event){
                 event.preventDefault();
@@ -115,20 +114,19 @@
                     type : 'POST',
                     data : $this.serialize(),
                     beforeSend:function(){
-                        getBeforeSendSubmitBtn('#submit')
+                        getBeforeSendCrudBtn('#submit')
                     },
                     success:function (response) {
                         $('#blankModal').modal('hide')
                         toastr.success(response);
                         $('#tableData').load(location.href)
                     },error:function (err) {
-                        getCreateUpdateBtn(id, '#submit')
-                        getErrorMessage(err);
+                        getCrudBtn(id, '#submit')
+                        getCrudErrorMessage(err);
                     }
                 })
             });
         });
-
         $('.onlyNumber').on('keyup', function (e) {
             if (/\D/g.test(this.value)) {
                 this.value = this.value.replace(/\D/g, '');

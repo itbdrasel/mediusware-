@@ -1,4 +1,3 @@
-
 <div class="card-body" id="">
 
 
@@ -12,8 +11,8 @@
                 </div>
 
                 <div class="col-md-4 form-group">
-                    <input  type="submit" class="btn btn-primary filter_submit" value="Filter"/>
-                    &nbsp;<a class="btn btn-default filter_reset" href="{{ url($bUrl) }}"> Reset </a>
+                    <input type="submit" class="btn btn-primary filter_submit" value="Filter"/>
+                    <button class="btn btn-default filter_reset" type="reset">Reset</button>
                 </div>
 
 
@@ -52,20 +51,19 @@
             <div class="col-md-12 table-responsive">
 
                 <table class="table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th class="text-center" style="width: 50px">SL</th>
-                        <th class="sort" data-row="name" id="name" >Name</th>
-                        <th class="sort text-center" data-row="order_by" id="order_by" >Name Numeric</th>
-                        <th>Teacher</th>
-                        <th style="width: 180px" class="text-center">Manage</th>
-                    </tr>
-                    </thead>
-                    <tbody class="data_table">
-
                     <div  class="dataTables_ajax text-center d-none">
                         <i class="spinner-border text-center text-primary"></i>
                     </div>
+                    <thead>
+                    <tr>
+                        <th class="text-center" style="width: 50px">SL</th>
+                        <th width="25%" class="sort" data-row="name" id="name" >Name</th>
+                        <th class="text-center" width="18%">Start - End Year</th>
+                        <th>All Class</th>
+                        <th style="width: 180px" class="text-center">Manage</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     @if ($allData->count() > 0)
 
                         @php
@@ -76,17 +74,19 @@
                             <tr>
                                 <td class="text-center">{{ $c+$serial }}</td>
                                 <td>{{ $data->name }}</td>
-                                <td class="text-center">{{ $data->order_by }}</td>
-                                <td>{{ $data->teacher->name??'' }}</td>
+                                <td class="text-center">{{ !empty($data->start_year)?$data->start_year:'' }}{{ !empty($data->start_year) && !empty($data->end_year)?'-'.$data->end_year:' Continue' }}</td>
+                                <td></td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-outline-primary link_btn">
-                                            <a onclick="blankModal('{{url($bUrl.'/'.$data->$tableID.'/edit')}}')" style="cursor: pointer" ><i class="fa fa-edit"></i> </a>
+                                            <a  href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                         </button>
+
                                         <button type="button" class="btn btn-outline-primary link_btn">
                                             <a onclick="deleteItem('{{$data->$tableID}}','{{url($bUrl.'/delete')}}')" style="cursor: pointer"><i class="fa fa-trash"></i> </a>
                                         </button>
                                     </div>
+
                                 </td>
                             </tr>
 
@@ -117,5 +117,3 @@
     {{getDataTablesInfo($allData, $serial??'', $c??'')}}
 </div>
 <!-- /.card-footer-->
-
-

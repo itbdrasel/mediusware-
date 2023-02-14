@@ -105,8 +105,6 @@ $(document).on('click', '.sort', function (event) {
 // table data sorting ”code end”
 
 
-
-
 // Ajax modal data delete
  function deleteItem (id, url){
      $('#submit').html('<i class="fas fa-trash-alt"></i> Yes, Delete This');
@@ -136,7 +134,7 @@ $(document).on('click', '.sort', function (event) {
             },
             success: function (data) {
                 if (data){
-                    $('#tableData').html(data);
+                    $('#tableData').load(location.href);
                     $('.alert-success').html('The item has been successfully deleted').hide().slideDown();
                     $('.fbody').hide();
                 }else {
@@ -177,7 +175,7 @@ function blankModal(url) {
 }
 
 
-function getErrorMessage(err) {
+function getCrudErrorMessage(err) {
     let error = err.responseJSON;
     let html = '<ul>'
     $.each(error.errors, function (index, value) {
@@ -187,11 +185,11 @@ function getErrorMessage(err) {
     $('.alert-warning').html(html).hide().slideDown();
 }
 
-function getBeforeSendSubmitBtn(idName) {
+function getBeforeSendCrudBtn(idName) {
     $this.find(idName).html('<i class="fas fa-spinner fa-pulse"></i> Please Wait');
     $this.find(idName).attr("disabled", "disabled");
 }
-function getCreateUpdateBtn(id, selectName) {
+function getCrudBtn(id, selectName) {
     let btn_text = '<i class="fas fa-save"></i> Save';
     if (id !=''){
         btn_text = '<i class="fas fa-sync-alt"></i> Update';

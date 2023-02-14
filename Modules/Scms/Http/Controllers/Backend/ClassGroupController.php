@@ -39,8 +39,8 @@ class ClassGroupController extends Controller
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
-
-        echo view($this->moduleName.'::backend.class_group.'.$pageName.'', $this->data);
+        $this->data['view_path']    =  $this->moduleName.'::backend.class_group.';
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -52,6 +52,9 @@ class ClassGroupController extends Controller
         $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id');
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
+        }
         $this->layout('index');
     }
 
@@ -81,7 +84,7 @@ class ClassGroupController extends Controller
 
         $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
         $this->data['objData']  = $objData;
-        $this->data['parents']  = $this->model::where(['type'=>2, 'vtype'=>getVersionType()])->whereNotIn('id', [$id])->get();
+        $this->data['classes']  = getClass();
 
         $this->layout('create');
     }
@@ -118,12 +121,11 @@ class ClassGroupController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return true;
         }
+        return false;
 
     }
 

@@ -7,7 +7,6 @@ use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\ClassModel;
 use Modules\Scms\Entities\Section;
 use Modules\Scms\Entities\Shift;
 use Validator;
@@ -159,14 +158,13 @@ class SectionController extends Controller
     public function destroy(Request $request, $id)
     {
         if ($request->ajax()) {
-            $request['ajax'] = 'ajax';
             $this->model::where($this->tableId, $id)->delete();
-            return $this->index($request);
+            return true;
         }
         return false;
     }
 
-        public function getValidation($request){
+    public function getValidation($request){
         $validationRules = $this->crudServices->getValidationRules($this->model);
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];

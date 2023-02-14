@@ -89,7 +89,7 @@
         </div>
     </section>
     @include('core::layouts.include.modal_delete')
-    @include('core::layouts.include.modal')
+    @include('core::layouts.include.blank_modal')
 @endsection
 @push('js')
     <script src="{{url('backend/js/index_page.js')}}"></script>

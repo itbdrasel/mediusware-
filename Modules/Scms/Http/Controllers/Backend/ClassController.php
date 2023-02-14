@@ -141,9 +141,8 @@ class ClassController extends Controller
     public function destroy(Request $request, $id)
     {
         if ($request->ajax()) {
-            $request['ajax'] = 'ajax';
             $this->model::where($this->tableId, $id)->delete();
-            return $this->index($request);
+            return true;
         }
         return false;
     }
