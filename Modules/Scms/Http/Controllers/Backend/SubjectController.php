@@ -45,8 +45,9 @@ class SubjectController extends Controller
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
+        $this->data['view_path']    =  $this->moduleName.'::backend.subject.';
 
-        echo view($this->moduleName.'::backend.subject.'.$pageName.'', $this->data);
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -57,6 +58,11 @@ class SubjectController extends Controller
     public function index(Request $request, $class_id=''){
         $this->data     = $this->services->getIndexData($request, $class_id);
         $this->data['sidebar_collapse'] = 'sidebar-collapse sidebar-mini';
+
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
+        }
+
         $this->layout('index');
     }
 
@@ -131,12 +137,11 @@ class SubjectController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return true;
         }
+        return false;
 
     }
 

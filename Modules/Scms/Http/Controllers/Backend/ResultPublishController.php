@@ -40,9 +40,8 @@ class ResultPublishController extends Controller
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
-
-        echo view($this->moduleName.'::backend.result_publish.'.$pageName.'', $this->data);
-
+        $this->data['view_path']    =  $this->moduleName.'::backend.result_publish.';
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
     }
 
     /**
@@ -61,6 +60,10 @@ class ResultPublishController extends Controller
         $this->data['add_title']    = 'Add New '.$this->title;
         $this->data['objData']      = [];
         $this->data['exams']        = Exam::where('vtype', getVersionType())->get();
+
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
+        }
 
         $this->layout('index');
     }
@@ -94,21 +97,19 @@ class ResultPublishController extends Controller
 
     public function store(Request $request){
         $id = $request[$this->tableId];
-        $validator = $this->getValidation($request);
-        if ($validator->fails()){
-            if (!empty($id)) {
-                return response()->json($validator->messages(), 200);
-            }
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
         $params = $this->crudServices->getInsertData($this->model, $request);
         $params['vtype'] = getVersionType();
         if (empty($id) ) {
+            $validator = $this->getValidation($request);
+            if ($validator->fails()){
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
         }else{
+            $this->getValidation($request);
             $this->model::where($this->tableId, $id)->update($params);
-            return 'success';
+            return 'Successfully Updated';
         }
 
     }
@@ -121,12 +122,11 @@ class ResultPublishController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return true;
         }
+        return false;
 
     }
 
@@ -136,7 +136,7 @@ class ResultPublishController extends Controller
         $rules['year']      = 'required|regex:/^[0-9]{4,}-[0-9]{4,}$/';
         $attribute          = $validationRules['attribute'];
         $customMessages     = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+        return $request->validate($rules,$customMessages, $attribute);
     }
 
 }

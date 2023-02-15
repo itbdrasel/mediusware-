@@ -47,7 +47,9 @@ class UserController extends Controller
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
 
-        echo view($this->moduleName.'::pages.user.'.$pageName.'', $this->data);
+        $this->data['view_path']    =  $this->moduleName.'::pages.user.';
+
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -108,6 +110,10 @@ class UserController extends Controller
 
         $this->data['allData'] =  $queryData->paginate($perPage)->appends( request()->query() );
 
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
+        }
+
         $this->layout('index');
     }
 
@@ -119,12 +125,7 @@ class UserController extends Controller
      */
     public function create(){
 
-        $this->data = [
-            'title'         => 'Add New '.$this->title,
-            'pageUrl'       => $this->bUrl.'/create',
-            'page_icon'     => '<i class="fas fa-plus"></i>',
-            'objData'       => ''
-        ];
+        $this->data                 = $this->crudServices->createEdit($this->title, $this->bUrl);
 
         $role                       = $this->auth->getUser()->roles->first();
         $order_by                   = $role->order_by;
@@ -142,16 +143,14 @@ class UserController extends Controller
 
     public function edit($id){
 
+
         $objData = $this->model::where($this->tableId, $id)->first();
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
 
-        $this->data = [
-            'title'         => 'Edit '.$this->title,
-            'pageUrl'       => $this->bUrl.'/'.$id,
-            'page_icon'     => '<i class="fas fa-edit"></i>',
-            'objData'       => $objData
-        ];
+        $this->data  = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
+        $this->data['objData'] = $objData;
+
         $role                       = $this->auth->getUser()->roles->first();
         $order_by                   = $role->order_by;
         $this->data['roles']        = Roles::where('order_by','>=',$order_by)->orderBY('order_by')->get();
@@ -190,12 +189,8 @@ class UserController extends Controller
             }
         }
         $customMessages = [];
+        $request->validate($rules,$customMessages, $attribute);
 
-        $validator = Validator::make($request->all(), $rules, $customMessages, $attribute);
-
-        if ($validator->fails()){
-            return response()->json($validator->messages(), 200);
-        }
 
         $params = [
             'full_name'             => $request['full_name'],
@@ -321,12 +316,11 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return true;
         }
+        return false;
 
     }
 
@@ -335,7 +329,7 @@ class UserController extends Controller
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];
         $customMessages = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+        return $request->validate($rules,$customMessages, $attribute);
     }
 
     public function getInsertData($request){

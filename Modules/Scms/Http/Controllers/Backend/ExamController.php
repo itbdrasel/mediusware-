@@ -130,12 +130,13 @@ class ExamController extends Controller
 
     }
 
+
     public function getValidation($request){
         $validationRules    = $this->crudServices->getValidationRules($this->model);
         $rules              = $validationRules['rules'];
         $attribute          = $validationRules['attribute'];
         $customMessages     = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+        return $request->validate($rules,$customMessages, $attribute);
     }
 
 }

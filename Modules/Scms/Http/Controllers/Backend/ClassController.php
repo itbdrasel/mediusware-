@@ -152,7 +152,7 @@ class ClassController extends Controller
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];
         $customMessages = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+        return $request->validate($rules,$customMessages, $attribute);
     }
 
     public function getInsertData($request){

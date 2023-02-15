@@ -39,8 +39,9 @@ class DesignationController extends Controller
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
+        $this->data['view_path']    =  $this->moduleName.'::designation.';
 
-        echo view($this->moduleName.'::designation.'.$pageName.'', $this->data);
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -49,25 +50,14 @@ class DesignationController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data = [
-            'title'         => $this->title.' Manager',
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-tasks"></i>',
-            'objData'       => [],
-            'filters'       => $this->model::$filters
-        ];
 
-        $this->data['add_title'] = 'Add New '.$this->title;
-
-        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by');
-
-        if ($request->filled('filter')) {
-            $this->data['filter'] = $filter = $request->get('filter');
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by');
+        $this->data['title']        = $this->title.' Manager';
+        $this->data['pageUrl']      = $this->bUrl;
+        $this->data['add_title']    = 'Add New '.$this->title;
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
         }
-        $this->data['allData']  = $all_data['allData']; // paginate
-        $this->data['serial']   = $all_data['serial'];
-
-
         $this->layout('index');
     }
 
@@ -83,13 +73,8 @@ class DesignationController extends Controller
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
 
-        $this->data = [
-            'title'         => 'Edit '.$this->title,
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-edit"></i>',
-            'objData'       => $objData
-        ];
-
+        $this->data  = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
+        $this->data['objData'] = $objData;
         $this->layout('edit');
     }
 
@@ -102,26 +87,19 @@ class DesignationController extends Controller
 
     public function store(Request $request){
         $id = $request[$this->tableId];
-        $validator = $this->getValidation($request);
-
-        if ($validator->fails()){
-            if (!empty($id)) {
-                return response()->json($validator->messages(), 200);
-            }
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-        $params = $this->getInsertData($request);
-
+        $params = $this->crudServices->getInsertData($this->model, $request);
         if (empty($id) ) {
+            $validator = $this->getValidation($request);
+            if ($validator->fails()){
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
         }else{
+            $this->getValidation($request);
             $this->model::where($this->tableId, $id)->update($params);
-            return 'success';
-//            return redirect($this->bUrl)->with('success', 'Successfully Updated');
+            return 'Successfully Updated';
         }
-
-
     }
 
 
@@ -133,12 +111,11 @@ class DesignationController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return true;
         }
+        return false;
 
     }
 
@@ -147,14 +124,7 @@ class DesignationController extends Controller
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];
         $customMessages = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+        return $request->validate($rules,$customMessages, $attribute);
     }
-
-    public function getInsertData($request){
-        return $this->crudServices->getInsertData($this->model, $request);
-    }
-
-
-
 
 }

@@ -23,10 +23,7 @@
                     </div>
                     <input type="hidden" value="" data-row="" id="sortBy">
                     <div class="card-body" id="tableData">
-
-                                    @include($view_path.'data')
-
-
+                        @include($view_path.'data')
                     </div>
 
                 </div>

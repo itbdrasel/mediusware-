@@ -40,7 +40,9 @@ class RoleController extends Controller
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
 
-        echo view($this->moduleName.'::pages.role.'.$pageName.'', $this->data);
+        $this->data['view_path']    =  $this->moduleName.'::pages.role.';
+
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -49,22 +51,13 @@ class RoleController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-
-        $this->data = [
-            'title'         => $this->title.' Manager',
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-tasks"></i>',
-            'objData'       => [],
-        ];
-
-        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
-
-        if ($request->filled('filter')) {
-            $this->data['filter'] = $filter = $request->get('filter');
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, $this->tableId);
+        $this->data['title']        = $this->title.' Manager';
+        $this->data['pageUrl']      = $this->bUrl;
+        $this->data['add_title']    = 'Add New '.$this->title;
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
         }
-        $this->data['allData']  = $all_data['allData']; // paginate
-        $this->data['serial']   = $all_data['serial'];
-
         $this->layout('index');
     }
 
@@ -75,14 +68,7 @@ class RoleController extends Controller
      * @return Renderable
      */
     public function create(){
-
-        $this->data = [
-            'title'         => 'Add New '.$this->title,
-            'pageUrl'       => $this->bUrl.'/create',
-            'page_icon'     => '<i class="fas fa-plus"></i>',
-            'objData'       => ''
-        ];
-
+        $this->data                 = $this->crudServices->createEdit($this->title, $this->bUrl);
         $this->layout('create');
     }
 
@@ -98,12 +84,8 @@ class RoleController extends Controller
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
 
-        $this->data = [
-            'title'         => 'Edit '.$this->title,
-            'pageUrl'       => $this->bUrl.'/'.$id,
-            'page_icon'     => '<i class="fas fa-edit"></i>',
-            'objData'       => $objData
-        ];
+        $this->data  = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
+        $this->data['objData'] = $objData;
 
         $this->layout('create');
     }
@@ -121,7 +103,7 @@ class RoleController extends Controller
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $params = $this->getInsertData($request);
+        $params = $this->crudServices->getInsertData($this->model, $request);
         $params['active_directory'] = $request['active_directory']??NULL;
         $params['active_branch']    = $request['active_branch']??NULL;
         if (empty($id) ) {
@@ -138,12 +120,10 @@ class RoleController extends Controller
         $rules =$validationRules['rules'];
         $attribute =$validationRules['attribute'];
         $customMessages = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+        return $request->validate($rules,$customMessages, $attribute);
     }
 
-    public function getInsertData($request){
-        return $this->crudServices->getInsertData($this->model, $request);
-    }
+
 
 
 

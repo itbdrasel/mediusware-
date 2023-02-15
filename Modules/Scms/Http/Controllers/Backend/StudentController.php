@@ -39,8 +39,9 @@ class StudentController extends Controller
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
+        $this->data['view_path']    =  $this->moduleName.'::backend.student.';
 
-        echo view($this->moduleName.'::backend.student.'.$pageName.'', $this->data);
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -51,6 +52,11 @@ class StudentController extends Controller
     public function index(Request $request, $class_id='', $section_id=''){
         $this->data                     = $this->studentServices->getIndexData($request, $class_id, $section_id);
         $this->data['sidebar_collapse'] = 'sidebar-collapse sidebar-mini';
+
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
+        }
+
         $this->layout('index');
     }
 
@@ -124,14 +130,13 @@ class StudentController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(Request $request,crudServices $CRUDServices, $id)
+    public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $CRUDServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return true;
         }
+        return false;
 
     }
 }

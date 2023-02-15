@@ -42,12 +42,12 @@ class EmployeeController extends Controller
 
 
     public function layout($pageName){
-
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
+        $this->data['view_path']    =  $this->moduleName.'::employee.';
 
-        echo view($this->moduleName.'::employee.'.$pageName.'', $this->data);
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
 
     }
 
@@ -56,20 +56,14 @@ class EmployeeController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data = [
-            'title'         => $this->title.' Manager',
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-tasks"></i>',
-        ];
 
 
-        $all_data = $this->crudServices->getIndexData($request, $this->model, $this->tableId, ['department','designation']);
-
-        if ($request->filled('filter')) {
-            $this->data['filter'] = $filter = $request->get('filter');
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, $this->tableId, ['department','designation']);
+        $this->data['title']        = $this->title.' Manager';
+        $this->data['pageUrl']      = $this->bUrl;
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
         }
-        $this->data['allData']  = $all_data['allData']; // paginate
-        $this->data['serial']   = $all_data['serial'];
 
         $this->layout('index');
     }
@@ -80,14 +74,9 @@ class EmployeeController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function create(){
+    public function create(Request $request){
 
-        $this->data = [
-            'title'         => 'Add New '.$this->title,
-            'pageUrl'       => $this->bUrl.'/create',
-            'page_icon'     => '<i class="fas fa-plus"></i>',
-            'objData'       => ''
-        ];
+        $this->data                 = $this->crudServices->createEdit($this->title, $this->bUrl);
 
         $this->data['genders']      = Gender::orderBy('order_by')->orderBy('id')->get();
         $this->data['religions']    = Religion::orderBy('order_by')->orderBy('id')->get();
@@ -111,13 +100,9 @@ class EmployeeController extends Controller
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
 
-        $this->data = [
-            'title'         => 'Edit '.$this->title,
-            'pageUrl'       => $this->bUrl.'/'.$id,
-            'page_icon'     => '<i class="fas fa-edit"></i>',
-            'objData'       => $objData
-        ];
+        $this->data  = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
 
+        $this->data['objData']      = $objData;
         $this->data['genders']      = Gender::orderBy('order_by')->orderBy('id')->get();
         $this->data['religions']    = Religion::orderBy('order_by')->orderBy('id')->get();
         $this->data['blood_groups'] = BloodGroup::orderBy('order_by')->orderBy('id')->get();
@@ -178,12 +163,11 @@ class EmployeeController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->method() === 'POST' ){
+        if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            echo json_encode(['fail' => FALSE, 'error_messages' => "was deleted."]);
-        }else{
-            return $this->crudServices->destroy($id, $this->model, $this->tableId, $this->bUrl, $this->title);
+            return true;
         }
+        return false;
 
     }
 
