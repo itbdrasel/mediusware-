@@ -3,14 +3,12 @@
 
 namespace Modules\Core\Services;
 
-use Illuminate\Http\Request;
 use Validator;
 
 class CRUDServices{
 
     private $data;
     public function __construct(){
-
     }
 
     public function getIndexData($request, $model, $tableId, $with='', $where=''){
@@ -118,25 +116,6 @@ class CRUDServices{
             $data[$array[$i]]= $request[$array[$i]]??NULL;
         }
         return $data;
-    }
-
-    public function destroy($id, $model, $tableId, $bUrl, $title)
-    {
-        $id = filter_var($id, FILTER_VALIDATE_INT);
-        if( !$id ){ exit('Bad Request!'); }
-
-        $data = [
-            'title'     => 'Delete '.$title,
-            'pageUrl'   => $bUrl.'/delete/'.$id,
-            'page_icon' => '<i class="fa fa-trash"></i>',
-            'objData'   => $model::where($tableId, $id)->first(),
-        ];
-
-        $data['tableID']    = $tableId;
-        $data['bUrl']       = $bUrl;
-
-        return view('core::layouts.include.delete', $data);
-
     }
 
 

@@ -2,7 +2,6 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -13,19 +12,16 @@ use Validator;
 class ExamController extends Controller
 {
 
-
     private $data;
     private $bUrl;
     private $title;
     private $model;
-    private $auth;
     private $tableId;
     private $moduleName;
     private $crudServices;
 
-    public function __construct(Auth $auth, CRUDServices $crudServices){
+    public function __construct(CRUDServices $crudServices){
         $this->moduleName       = getModuleName(get_called_class());
-        $this->auth             = $auth;
         $this->crudServices     = $crudServices;
         $this->model            = Exam::class;
         $this->tableId          = 'id';
