@@ -44,4 +44,9 @@ class DashboardController extends Controller
 
         $this->layout('dashboard');
     }
+
+    public function branchManage($id){
+        session()->put('_branch_id', $id);
+        return redirect($this->bUrl);
+    }
 }

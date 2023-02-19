@@ -2,11 +2,12 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
+use Modules\Scms\Entities\ClassCategory;
+use Modules\Scms\Entities\ClassGroup;
 use Modules\Scms\Entities\ClassModel;
 use Validator;
 
@@ -18,16 +19,14 @@ class ClassGroupController extends Controller
     private $bUrl;
     private $title;
     private $model;
-    private $auth;
     private $tableId;
     private $moduleName;
     private $crudServices;
 
-    public function __construct(Auth $auth, CRUDServices $crudServices){
+    public function __construct(CRUDServices $crudServices){
         $this->moduleName       = getModuleName(get_called_class());
-        $this->auth             = $auth;
         $this->crudServices     = $crudServices;
-        $this->model            = ClassModel::class;
+        $this->model            = ClassCategory::class;
         $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/class-group';
         $this->title            = 'Class Group';
@@ -49,7 +48,8 @@ class ClassGroupController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id');
+        $branch_id = getBranchId();
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['classGroups', 'classGroups.className'], ['branch_id'=>$branch_id]);
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         if ($request->ajax() || $request['ajax']){
@@ -103,15 +103,41 @@ class ClassGroupController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $params = $this->crudServices->getInsertData($this->model, $request);
-        $params['vtype'] = getVersionType();
+        $params['branch_id']    = getBranchId();
+        $params['vtype']        = getVersionType();
+        $classId                = $request['class_id'];
         if (empty($id) ) {
-            $this->model::create($params);
+           $category_id = $this->model::create($params)->id;
         }else{
+            $category_id = $id;
             $this->model::where($this->tableId, $id)->update($params);
+            ClassGroup::where('category_id', $id)->update(['status'=>8]);
         }
+
+        if (!empty($classId)) {
+            foreach ($classId as $key => $value) {
+                $groupData = [
+                    'class_id' => $value,
+                    'category_id' => $category_id,
+                    'status' => 1,
+                ];
+               $group =  ClassGroup::where(['category_id' => $id, 'class_id' => $value])->first();
+                if (!empty($group)){
+                    ClassGroup::where('category_id', $id)->update($groupData);
+                }else{
+                    ClassGroup::create($groupData);
+                }
+            }
+        }
+        if (!empty($id)) {
+//            ClassGroup::where(['category_id' => $id, 'status' => 8])->delete();
+        }
+
         return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
 
     }
+
+
 
 
     /**
@@ -123,6 +149,7 @@ class ClassGroupController extends Controller
     {
         if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
+            ClassGroup::where('category_id', $id)->delete();
             return true;
         }
         return false;
@@ -134,7 +161,7 @@ class ClassGroupController extends Controller
         $rules              = $validationRules['rules'];
         $attribute          = $validationRules['attribute'];
         $customMessages     = [];
-        return $request->validate($rules,$customMessages, $attribute);
+        return Validator::make($request->all(), $rules, $customMessages, $attribute);
     }
 
 }

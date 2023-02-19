@@ -48,12 +48,13 @@ class StudentService
         if (empty($class_id)) {
             $class_id = $class[0]->id??'';
         }
-
+        $branch_id = getBranchId();
 
         //model query...
         $queryData = $this->model::orderBy( getOrder($model_sortable, 'scms_student.id')['by'], getOrder($model_sortable, 'scms_student.id')['order'])
         ->select('scms_student.id', 'scms_student.name', 'scms_student.phone', 'scms_student.email', 'scms_student.id_number', 'scms_student.photo', 'scms_enroll.roll')
-        ->rightJoin('scms_enroll','scms_student.id', 'scms_enroll.student_id');
+        ->rightJoin('scms_enroll','scms_student.id', 'scms_enroll.student_id')
+            ->where('scms_student.branch_id', $branch_id);
 
         //filter by text.....
         $data['filter'] ='';
@@ -165,6 +166,7 @@ class StudentService
                 $studentData[$array[$i]]= $request[$array[$i]];
             }
         }
+        $studentData['branch_id'] =  getBranchId();;
         $studentData['birthday'] = dbDateFormat($request['birthday']);
         return $studentData;
     }

@@ -11,7 +11,7 @@ class ClassModel extends Model
     protected $table = 'scms_class';
 
     protected $fillable = [
-        'name', 'teacher_id', 'order_by'
+        'name', 'teacher_id', 'order_by','branch_id'
     ];
 
     public static $sortable = ['name'];

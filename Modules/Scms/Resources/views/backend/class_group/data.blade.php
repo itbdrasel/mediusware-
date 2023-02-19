@@ -75,7 +75,13 @@
                                 <td class="text-center">{{ $c+$serial }}</td>
                                 <td>{{ $data->name }}</td>
                                 <td class="text-center">{{ !empty($data->start_year)?$data->start_year:'' }}{{ !empty($data->start_year) && !empty($data->end_year)?'-'.$data->end_year:' Continue' }}</td>
-                                <td></td>
+                                <td>
+                                    @if(!empty($data->classGroups))
+                                        @foreach($data->classGroups as $group)
+                                    <span class="badge bg-primary">{{$group->className->name}}</span>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-outline-primary link_btn">

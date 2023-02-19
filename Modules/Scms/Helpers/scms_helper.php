@@ -36,3 +36,7 @@ function getVersionType(){
     return config('sc_setting.vtype');
 }
 
+function getBranchId(){
+    return session()->get('_branch_id');
+}
+

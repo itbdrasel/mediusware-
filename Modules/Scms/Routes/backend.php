@@ -4,6 +4,7 @@
 //Route::group(['middleware' => ['authx','admin'],'prefix'=>'scms','as'=>'scms.'], function () {
 Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], function () {
     Route::get('/dashboard', 'Backend\DashboardController@index')->name('dashboard');
+    Route::get('/branch-manage/{id}', 'Backend\DashboardController@branchManage')->name('branch_manage');
 
     // Student Route
     Route::group(['prefix'=>'student','as'=>'student','controller'=>'Backend\StudentController'], function () {

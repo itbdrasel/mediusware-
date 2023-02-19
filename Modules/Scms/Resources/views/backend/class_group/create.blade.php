@@ -63,11 +63,19 @@
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-12 col-form-label"> Class </label>
+                                    @php
+                                       $classGroups = $objData->classGroups??'';;
+                                        function getClassId($classGroups, $class_id){
+                                            $a = $classGroups->toArray();
+                                            $ids = array_column($a, 'class_id');
+                                            dd($ids);
+                                        }
+                                    @endphp
                                     @if(!empty($classes) && count($classes) >0)
                                         @foreach($classes as $class)
                                     <div class="col-md-3">
                                         <div class="icheck-success">
-                                            <input id="class_id_{{$class->id}}" value="{{$class->id}}" name="class_id[{{$class->id}}]" type="checkbox">
+                                            <input id="class_id_{{$class->id}}" {{getClassId( $classGroups, $class->id) ==$class->id?'checked':''}}  value="{{$class->id}}" name="class_id[{{$class->id}}]" type="checkbox">
                                             <label for="class_id_{{$class->id}}" class="form-check-label">{{$class->name}}</label>
                                         </div>
                                     </div>

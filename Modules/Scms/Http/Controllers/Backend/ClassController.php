@@ -51,24 +51,14 @@ class ClassController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data = [
-            'title'         => $this->title.' Manager',
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-tasks"></i>',
-            'objData'       => [],
-            'filters'       => $this->model::$filters
-        ];
-        $this->data['add_title'] = 'Add New '.$this->title;
 
-        $this->data['teachers'] = getTeacher();
-        $all_data = $this->crudServices->getIndexData($request, $this->model, 'order_by', 'teacher');
+        $branch_id = getBranchId();
+        $this->data = $this->crudServices->getIndexData($request, $this->model, 'order_by', 'teacher', ['branch_id'=>$branch_id]);
 
-
-        if ($request->filled('filter')) {
-            $this->data['filter'] = $filter = $request->get('filter');
-        }
-        $this->data['allData']  = $all_data['allData']; // paginate
-        $this->data['serial']   = $all_data['serial'];
+        $this->data['teachers']     = getTeacher();
+        $this->data['title']        = $this->title.' Manager';
+        $this->data['pageUrl']      = $this->bUrl;
+        $this->data['add_title']    = 'Add New '.$this->title;
 
         if ($request->ajax() || $request['ajax']){
             return $this->layout('data');
@@ -119,7 +109,7 @@ class ClassController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $params = $this->getInsertData($request);
-
+        $params['branch_id'] = getBranchId();
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
