@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Entities\ClassCategory;
 use Modules\Scms\Entities\ClassGroup;
-use Modules\Scms\Entities\ClassModel;
+
 use Validator;
 
 class ClassGroupController extends Controller
@@ -121,18 +121,18 @@ class ClassGroupController extends Controller
                     'category_id' => $category_id,
                     'status' => 1,
                 ];
-               $group =  ClassGroup::where(['category_id' => $id, 'class_id' => $value])->first();
+               $group   = ClassGroup::where(['category_id'=>$id, 'class_id'=>$value])->first();
                 if (!empty($group)){
-                    ClassGroup::where('category_id', $id)->update($groupData);
+                    ClassGroup::where(['category_id' =>$id, 'class_id' =>$value])->update($groupData);
                 }else{
                     ClassGroup::create($groupData);
                 }
             }
         }
-        if (!empty($id)) {
-//            ClassGroup::where(['category_id' => $id, 'status' => 8])->delete();
-        }
 
+        if (!empty($id)) {
+            ClassGroup::where(['category_id'=>$id, 'status'=>8])->delete();
+        }
         return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
 
     }

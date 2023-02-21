@@ -49,8 +49,8 @@
     </li>
 @endif
 @if (dAuth()->hasAnyAccess(['scms.class', 'scms.section']))
-    <li class="nav-item {{menuOpenActive(2, ['class', 'section'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['class','section'], true)}} ">
+    <li class="nav-item {{menuOpenActive(2, ['class', 'section', 'class-group'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['class','section', 'class-group'], true)}} ">
             <i class="nav-icon fas fa-cocktail"></i>
             <p>Class<i class="right fas fa-angle-down"></i></p>
         </a>
@@ -68,6 +68,15 @@
                     <a href="{{url('scms/section')}}" class="nav-link {{activeMenu(2, 'section')}} ">
                         <i class="fas fa-circle"></i>
                         <p>Section Manager</p>
+                    </a>
+                </li>
+            @endif
+
+            @if (dAuth()->hasAccess(['scms.class']))
+                <li class="nav-item">
+                    <a href="{{url('scms/class-group')}}" class="nav-link {{activeMenu(2, 'class-group')}} ">
+                        <i class="fas fa-circle"></i>
+                        <p>Class Group</p>
                     </a>
                 </li>
             @endif
