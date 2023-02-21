@@ -2,7 +2,6 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -18,14 +17,12 @@ class ShiftController extends Controller
     private $bUrl;
     private $title;
     private $model;
-    private $auth;
     private $tableId;
     private $moduleName;
     private $crudServices;
 
-    public function __construct(Auth $auth, CRUDServices $crudServices){
+    public function __construct(CRUDServices $crudServices){
         $this->moduleName       = getModuleName(get_called_class());
-        $this->auth             = $auth;
         $this->crudServices     = $crudServices;
         $this->model            = Shift::class;
         $this->tableId          = 'id';
@@ -85,20 +82,18 @@ class ShiftController extends Controller
      */
 
     public function store(Request $request){
-        $id = $request[$this->tableId];
-        $params = $this->crudServices->getInsertData($this->model, $request);
+        $this->getValidation($request);
+
+        $id                     = $request[$this->tableId];
+        $params                 = $this->crudServices->getInsertData($this->model, $request);
         if (empty($id) ) {
-            $validator = $this->getValidation($request);
-            if ($validator->fails()){
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
         }else{
-            $this->getValidation($request);
             $this->model::where($this->tableId, $id)->update($params);
             return 'Successfully Updated';
         }
+
     }
 
 

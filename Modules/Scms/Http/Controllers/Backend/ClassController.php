@@ -73,21 +73,17 @@ class ClassController extends Controller
      * @param int $id
      * @return Renderable
      */
+
+
     public function edit($id){
 
         $objData = $this->model::where($this->tableId, $id)->first();
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
 
-        $this->data = [
-            'title'         => 'Edit '.$this->title,
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-edit"></i>',
-            'objData'       => $objData
-        ];
-
+        $this->data  = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
+        $this->data['objData'] = $objData;
         $this->data['teachers'] = getTeacher();
-
         $this->layout('edit');
     }
 
@@ -99,25 +95,18 @@ class ClassController extends Controller
      */
 
     public function store(Request $request){
-        $id = $request[$this->tableId];
-        $validator = $this->getValidation($request);
+        $this->getValidation($request);
 
-        if ($validator->fails()){
-            if (!empty($id)) {
-                return response()->json($validator->messages(), 200);
-            }
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-        $params = $this->getInsertData($request);
-        $params['branch_id'] = getBranchId();
+        $id                     = $request[$this->tableId];
+        $params                 = $this->crudServices->getInsertData($this->model, $request);
+        $params['branch_id']    = getBranchId();
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
         }else{
             $this->model::where($this->tableId, $id)->update($params);
-            return 'success';
+            return 'Successfully Updated';
         }
-
 
     }
 
@@ -145,9 +134,6 @@ class ClassController extends Controller
         return $request->validate($rules,$customMessages, $attribute);
     }
 
-    public function getInsertData($request){
-        return $this->crudServices->getInsertData($this->model, $request);
-    }
 
 
 

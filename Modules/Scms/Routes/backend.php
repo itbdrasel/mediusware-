@@ -65,6 +65,11 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
         getResourceRoute(['index','create','edit','store', 'delete']);
     });
 
+    // Exam Rules Route
+    Route::group(['prefix'=>'exam-rules','as'=>'exam-rules','controller'=>'Backend\ExamRulesController'], function () {
+        getResourceRoute(['index','edit','store', 'delete']);
+    });
+
 
 });
 

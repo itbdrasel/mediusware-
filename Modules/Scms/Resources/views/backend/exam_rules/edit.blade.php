@@ -35,26 +35,20 @@
                 </div>
                 <div class="col-sm-6">
                     @php
+                        $input_name = 'code';
+                    @endphp
+                    <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace('_',' ',$input_name))}} <code>*</code> </label>
+                    <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
+                    <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                </div>
+                <div class="col-sm-6">
+                    @php
                         $input_name = 'order_by';
                     @endphp
                     <label for="{{$input_name}}" class="col-sm-12 col-form-label"> Name Numeric </label>
                     <input type="text" value="{{ getValue($input_name, $objData) }}" id="{{$input_name}}" name="{{$input_name}}"  class="form-control  @error($input_name) is-invalid @enderror ">
 
                     <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
-                </div>
-                <div class="col-sm-6">
-                    @php
-                        $input_name = 'teacher_id';
-                    @endphp
-                    <label for="{{$input_name}}" class="col-sm-12 col-form-label"> Teacher </label>
-                    <select id="{{$input_name}}" name="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror" >
-                        <option value=""> Select Teacher </option>
-                        @if (!empty($teachers))
-                            @foreach ($teachers as $teacher)
-                                <option {{getValue($input_name, $objData)==$teacher->id?'selected':''}}  value="{{$teacher->id}}"> {{$teacher->name}} </option>
-                            @endforeach
-                        @endif
-                    </select>
                 </div>
             </div>
         </div>
@@ -98,7 +92,6 @@
             }
         });
     });
-
 
 
 </script>

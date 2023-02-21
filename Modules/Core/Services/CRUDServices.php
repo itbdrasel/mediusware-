@@ -52,20 +52,16 @@ class CRUDServices{
         //filter by text.....
         $data['filter'] ='';
         if( $request->filled('filter') ){
-            $filter = $model::$filters;
-            if (!empty($filter)) {
-                $sl =0;
-                foreach ($filter as $key=>$value){
-                    $data['filter'] = $filter = $request->get('filter');
-                    $sl++;
-                    if ($sl ==1) {
-                        $queryData->where($value, 'like', '%'.$filter.'%');
-                    }else{
-                        $queryData->orWhere($value, 'like', '%'.$filter.'%');
+            $tableColumnName = $model::$filters;
+            if (!empty($tableColumnName)) {
+                $filter = $request->get('filter');
+                $data['filter'] = $filter;
+                $queryData->where(function ($query) use ($filter, $tableColumnName) {
+                    foreach ($tableColumnName as $columnName) {
+                        $query->orWhere($columnName, 'like', '%'.$filter.'%');
                     }
-                }
+                });
             }
-
         }
         return ['data'=>$data, 'query'=>$queryData];
     }

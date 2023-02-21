@@ -2,14 +2,15 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\Group;
+use Modules\Scms\Entities\ExamRule;
 use Validator;
 
-class GroupController extends Controller
+class ExamRulesController extends Controller
 {
 
 
@@ -17,17 +18,19 @@ class GroupController extends Controller
     private $bUrl;
     private $title;
     private $model;
+    private $auth;
     private $tableId;
     private $moduleName;
     private $crudServices;
 
-    public function __construct(CRUDServices $crudServices){
+    public function __construct(Auth $auth, CRUDServices $crudServices){
         $this->moduleName       = getModuleName(get_called_class());
+        $this->auth             = $auth;
         $this->crudServices     = $crudServices;
-        $this->model            = Group::class;
+        $this->model            = ExamRule::class;
         $this->tableId          = 'id';
-        $this->bUrl             = $this->moduleName.'/group';
-        $this->title            = 'Group';
+        $this->bUrl             = $this->moduleName.'/exam-rules';
+        $this->title            = 'Exam Rule';
     }
 
 
@@ -36,8 +39,10 @@ class GroupController extends Controller
         $this->data['bUrl']         =  $this->bUrl;
         $this->data['tableID']      =  $this->tableId;
         $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.group.';
+
+        $this->data['view_path']    =  $this->moduleName.'::backend.exam_rules.';
         echo view( $this->data['view_path'].$pageName.'', $this->data);
+
 
     }
 
@@ -47,13 +52,18 @@ class GroupController extends Controller
      */
     public function index(Request $request){
 
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by');
+        $branch_id = getBranchId();
+        $this->data = $this->crudServices->getIndexData($request, $this->model, 'order_by', '', ['branch_id'=>$branch_id]);
+
+        $this->data['teachers']     = getTeacher();
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         $this->data['add_title']    = 'Add New '.$this->title;
+
         if ($request->ajax() || $request['ajax']){
             return $this->layout('data');
         }
+
         $this->layout('index');
     }
 
@@ -81,13 +91,12 @@ class GroupController extends Controller
      * @return Renderable
      */
 
-
-
     public function store(Request $request){
         $this->getValidation($request);
 
         $id                     = $request[$this->tableId];
         $params                 = $this->crudServices->getInsertData($this->model, $request);
+        $params['branch_id']    = getBranchId();
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
@@ -97,7 +106,6 @@ class GroupController extends Controller
         }
 
     }
-
 
 
     /**
@@ -112,7 +120,6 @@ class GroupController extends Controller
             return true;
         }
         return false;
-
     }
 
     public function getValidation($request){
@@ -122,5 +129,6 @@ class GroupController extends Controller
         $customMessages = [];
         return $request->validate($rules,$customMessages, $attribute);
     }
+
 
 }
