@@ -382,3 +382,15 @@ function successMessage($id='', $title=''){
     }
     return empty($id)?$title.' Successfully Created.':$title.' Successfully Updated';
 }
+
+function getLabelName($name){
+   return ucwords(str_replace(['_id','_'],' ',$name));
+}
+
+function getSelectedOption($value, $input_name, $objData){
+    return (getValue($input_name, $objData) == $value)?'selected':'';
+}
+
+function getChecked($value, $input_name, $objData){
+    return (getValue($input_name, $objData) == $value)?'checked':'';
+}

@@ -7,7 +7,10 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 
+use Modules\Scms\Entities\ClassCategory;
 use Modules\Scms\Entities\ClassGroupRules;
+use Modules\Scms\Entities\Exam;
+use Modules\Scms\Entities\ExamRule;
 use Modules\Scms\Entities\RuleManage;
 use Validator;
 
@@ -22,6 +25,8 @@ class RulesManageController extends Controller
     private $tableId;
     private $moduleName;
     private $crudServices;
+    private $branch_id;
+    private $vtype;
 
     public function __construct(CRUDServices $crudServices){
         $this->moduleName       = getModuleName(get_called_class());
@@ -30,6 +35,8 @@ class RulesManageController extends Controller
         $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/rules-manage';
         $this->title            = 'Rules Manage';
+        $this->branch_id        = getBranchId();
+        $this->vtype            = getVersionType();
     }
 
 
@@ -48,8 +55,7 @@ class RulesManageController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $branch_id = getBranchId();
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['classGroups', 'classGroups.className'], ['branch_id'=>$branch_id]);
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['classGroups', 'classGroups.className'], $this->getWhere());
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         if ($request->ajax() || $request['ajax']){
@@ -65,9 +71,7 @@ class RulesManageController extends Controller
      * @return Renderable
      */
     public function create(){
-
-        $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl);
-        $this->data['classes']  = getClass();
+        $this->data                     = $this->createEdit();
         $this->layout('create');
     }
 
@@ -82,9 +86,9 @@ class RulesManageController extends Controller
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
 
-        $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
+        $this->data             = $this->createEdit($id);
         $this->data['objData']  = $objData;
-        $this->data['classes']  = getClass();
+
 
         $this->layout('create');
     }
@@ -162,6 +166,20 @@ class RulesManageController extends Controller
         $attribute          = $validationRules['attribute'];
         $customMessages     = [];
         return Validator::make($request->all(), $rules, $customMessages, $attribute);
+    }
+
+
+    public function createEdit($id=''){
+        $where                          = $this->getWhere();
+        $this->data                     = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
+        $this->data['class_groups']     = ClassCategory::where($where)->get();
+        $this->data['exams']            = Exam::where($where)->orderBy('order_by')->get();
+        $this->data['exam_rules']       = ExamRule::where($where)->orderBy('order_by')->get();
+        return $this->data;
+    }
+
+    public function getWhere(){
+        return ['vtype'=>getVersionType(), 'branch_id'=>getBranchId()];
     }
 
 }

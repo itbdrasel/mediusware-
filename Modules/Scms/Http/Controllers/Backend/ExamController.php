@@ -19,6 +19,8 @@ class ExamController extends Controller
     private $tableId;
     private $moduleName;
     private $crudServices;
+    private $branch_id;
+    private $vtype;
 
     public function __construct(CRUDServices $crudServices){
         $this->moduleName       = getModuleName(get_called_class());
@@ -27,6 +29,8 @@ class ExamController extends Controller
         $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/exam';
         $this->title            = 'Exam';
+        $this->branch_id        = getBranchId();
+        $this->vtype            = getVersionType();
     }
 
 
@@ -46,7 +50,9 @@ class ExamController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by');
+
+
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by' , '', $this->getWhere());
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         if ($request->ajax() || $request['ajax']){
@@ -64,7 +70,7 @@ class ExamController extends Controller
     public function create(){
 
         $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl);
-        $this->data['parents']  = $this->model::where(['type'=>2, 'vtype'=>getVersionType()])->get();
+        $this->data['parents']  = $this->model::where($this->getWhere())->where(['type'=>2])->get();
         $this->layout('create');
     }
 
@@ -81,7 +87,7 @@ class ExamController extends Controller
 
         $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
         $this->data['objData']  = $objData;
-        $this->data['parents']  = $this->model::where(['type'=>2, 'vtype'=>getVersionType()])->whereNotIn('id', [$id])->get();
+        $this->data['parents']  = $this->model::where($this->getWhere())->where(['type'=>2])->whereNotIn('id', [$id])->get();
 
         $this->layout('create');
     }
@@ -95,12 +101,11 @@ class ExamController extends Controller
 
     public function store(Request $request){
         $id = $request[$this->tableId];
-        $validator = $this->getValidation($request);
-        if ($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        $this->getValidation($request);
+
         $params = $this->crudServices->getInsertData($this->model, $request);
-        $params['vtype'] = getVersionType();
+        $params['branch_id']    = getBranchId();
+        $params['vtype']        = getVersionType();
         if (empty($id) ) {
             $this->model::create($params);
         }else{
@@ -133,6 +138,10 @@ class ExamController extends Controller
         $attribute          = $validationRules['attribute'];
         $customMessages     = [];
         return $request->validate($rules,$customMessages, $attribute);
+    }
+
+    public function getWhere(){
+        return ['vtype'=>getVersionType(), 'branch_id'=>getBranchId()];
     }
 
 }

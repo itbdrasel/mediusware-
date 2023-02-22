@@ -97,6 +97,7 @@ class ExamRulesController extends Controller
         $id                     = $request[$this->tableId];
         $params                 = $this->crudServices->getInsertData($this->model, $request);
         $params['branch_id']    = getBranchId();
+        $params['vtype']        = getVersionType();
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
