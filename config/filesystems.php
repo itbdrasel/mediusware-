@@ -28,23 +28,20 @@ return [
     |
     */
 
-
     'disks' => [
 
         'local' => [
             'driver' => 'local',
-            'root' => public_path('/media_manager'),
-            'url' => env('APP_URL').'/media_manager/',
-            'throw' => true,
+            'root' => storage_path('app'),
+            'throw' => false,
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => public_path('uploads'),
-            'url' => env('APP_URL').'/uploads/',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
-            'throw' => true,
-            'basename'=> true
+            'throw' => false,
         ],
 
         's3' => [
@@ -56,11 +53,10 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => true,
+            'throw' => false,
         ],
 
     ],
-
 
     /*
     |--------------------------------------------------------------------------
@@ -74,7 +70,7 @@ return [
     */
 
     'links' => [
-        public_path('media_manager') => public_path('media_manager'),
+        public_path('storage') => storage_path('app/public'),
     ],
 
 ];
