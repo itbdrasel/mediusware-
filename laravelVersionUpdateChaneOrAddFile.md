@@ -3,7 +3,7 @@
 
 | **Laravel Old Version**  |  **laravel New Version** |
 |---|---|
-| v9.29.0  | v9.52.0
+| v9.29.0  | v9.52.4
 
 
 - [Modules Folder Add](#)
