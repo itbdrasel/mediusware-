@@ -1,7 +1,3 @@
-
-
-
-
 <div class="card-body" id="">
 
 
@@ -9,20 +5,18 @@
 
         <form id="filter_form" action="{{url($bUrl)}}" method="get"  class="form-inline">
 
-            <div class="row">
-                <div class="col-md-3 form-group">
-                    <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control search_input w-100"/>
-                </div>
+{{--            <div class="row">--}}
+{{--                <div class="col-md-3 form-group">--}}
+{{--                    <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control search_input w-100"/>--}}
+{{--                </div>--}}
 
-                <div class="col-md-4 form-group">
-                    <input type="submit" class="btn btn-primary filter_submit" value="Filter"/>
-                    &nbsp;
-                    <button class="btn btn-default filter_reset" type="reset">Reset</button>
-{{--                    <a class="btn btn-default" href="{{ url($bUrl) }}"> Reset </a>--}}
-                </div>
+{{--                <div class="col-md-4 form-group">--}}
+{{--                    <input type="submit" class="btn btn-primary filter_submit" value="Filter"/>--}}
+{{--                    <button class="btn btn-default filter_reset" type="reset">Reset</button>--}}
+{{--                </div>--}}
 
 
-            </div>
+{{--            </div>--}}
 
 
         </form>
@@ -54,25 +48,22 @@
     <div class="col-md-12 mt-4">
 
         <div class="row">
-
             <div class="col-md-12 table-responsive">
 
                 <table class="table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th class="text-center" style="width: 50px">SL</th>
-                        <th width="25%" class="sort" data-row="name" id="name" >Name</th>
-                        <th class="text-center" width="18%">Type</th>
-                        <th>Comment</th>
-                        <th class="sort text-center" width="10%" data-row="order_by" id="order_by" >order_by</th>
-                        <th style="width: 180px" class="text-center">Manage</th>
-                    </tr>
-                    </thead>
-                    <tbody class="data_table">
-
                     <div  class="dataTables_ajax text-center d-none">
                         <i class="spinner-border text-center text-primary"></i>
                     </div>
+                    <thead>
+                    <tr>
+                        <th class="text-center" style="width: 50px">SL</th>
+                        <th>Class Group</th>
+                        <th>Exam</th>
+                        <th>All Roles</th>
+                        <th style="width: 180px" class="text-center">Manage</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     @if ($allData->count() > 0)
 
                         @php
@@ -82,11 +73,15 @@
                         @foreach ($allData as $data)
                             <tr>
                                 <td class="text-center">{{ $c+$serial }}</td>
-                                <td>{{ $data->name }}</td>
-                                <td class="text-center">{{ $data->type==1?'Single Exam':'Multiple Exam' }}</td>
-                                <td>{{ $data->comment }}</td>
-                                <td class="text-center">{{ $data->order_by }}</td>
-
+                                <td>{{ $data->classGroup->name??'' }}</td>
+                                <td>{{ $data->exam->name??'' }}</td>
+                                <td>
+                                    @if(!empty($data->ruleManages))
+                                        @foreach($data->ruleManages as $value)
+                                            <span class="badge bg-primary">{{$value->ruleName->code}}</span>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-outline-primary link_btn">
@@ -108,13 +103,15 @@
                         @endforeach
 
                     @else
-                        <tr> <td colspan="6">There is nothing found.</td> </tr>
+
+                        <tr> <td colspan="4">There is nothing found.</td> </tr>
+
+
                     @endif
                     </tbody>
                 </table>
             </div>
             @include('core::layouts.include.per_page')
-
         </div><!-- /row -->
 
 
@@ -126,5 +123,3 @@
     {{getDataTablesInfo($allData, $serial??'', $c??'')}}
 </div>
 <!-- /.card-footer-->
-
-

@@ -69,8 +69,8 @@
                                         @foreach($exam_rules as $value)
                                             <div class="col-md-3">
                                                 <div class="icheck-success">
-                                                    <input id="class_id_{{$value->id}}"   value="{{$value->id}}" name="class_id[{{$value->id}}]" type="checkbox">
-                                                    <label for="class_id_{{$value->id}}" class="form-check-label">{{$value->name}} ({{$value->code}})</label>
+                                                    <input id="rule_id_{{$value->id}}" {{getCheckedArraySearch($value->id, 'rule_id', $objData->ruleManages??'')}}  value="{{$value->id}}" name="rule_id[{{$value->id}}]" type="checkbox">
+                                                    <label for="rule_id_{{$value->id}}" class="form-check-label">{{$value->name}} ({{$value->code}})</label>
                                                 </div>
                                             </div>
                                         @endforeach

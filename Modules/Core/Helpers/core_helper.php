@@ -387,10 +387,25 @@ function getLabelName($name){
    return ucwords(str_replace(['_id','_'],' ',$name));
 }
 
-function getSelectedOption($value, $input_name, $objData){
-    return (getValue($input_name, $objData) == $value)?'selected':'';
+function getArraySearchValue($needle, $column, $dataArray=''){
+    if (empty($dataArray)) return false;
+    $array = $dataArray->toArray();
+    $haystack = array_column($array, $column);
+    return in_array($needle, $haystack, TRUE)?$needle:'';
 }
 
-function getChecked($value, $input_name, $objData){
-    return (getValue($input_name, $objData) == $value)?'checked':'';
+function getSelectedOption($value, $key, $objData, $default=''){
+    return (getValue($key, $objData, $default) == $value)?'selected':'';
+}
+
+function getChecked($value, $key, $objData, $default=''){
+    return (getValue($key, $objData, $default) == $value)?'checked':'';
+}
+function getCheckedArraySearch($needle, $key, $dataArray=''){
+    $id = getArraySearchValue($needle, $key, $dataArray);
+    if (!empty(!$id)){
+        $id = old($key);
+        $id = $id[$needle]??'';
+    }
+    return ($id == $needle)?'checked':'';
 }

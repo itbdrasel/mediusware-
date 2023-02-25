@@ -63,20 +63,11 @@
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-12 col-form-label"> Class </label>
-                                    @php
-                                       $classGroups = $objData->classGroups??'';;
-                                        function getClassId($classGroups, $class_id){
-                                            if (empty($classGroups)) return false;
-                                            $group_array = $classGroups->toArray();
-                                            $group_ids = array_column($group_array, 'class_id');
-                                            return in_array($class_id, $group_ids, TRUE)?$class_id:'';
-                                        }
-                                    @endphp
                                     @if(!empty($classes) && count($classes) >0)
                                         @foreach($classes as $class)
                                     <div class="col-md-3">
                                         <div class="icheck-success">
-                                            <input id="class_id_{{$class->id}}"  {{getClassId( $classGroups, $class->id, getClassId($classGroups, $class->id)) ==$class->id?'checked':''}}  value="{{$class->id}}" name="class_id[{{$class->id}}]" type="checkbox">
+                                            <input id="class_id_{{$class->id}}"  {{getCheckedArraySearch($class->id, 'class_id', $objData->classGroups??'')}} value="{{$class->id}}" name="class_id[{{$class->id}}]" type="checkbox">
                                             <label for="class_id_{{$class->id}}" class="form-check-label">{{$class->name}}</label>
                                         </div>
                                     </div>

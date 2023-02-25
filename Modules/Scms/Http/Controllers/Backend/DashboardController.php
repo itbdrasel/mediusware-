@@ -13,6 +13,7 @@ class DashboardController extends Controller
     private $tableId;
     private $bUrl;
     private $title;
+    private $moduleName;
 
     public function __construct(){
         $this->moduleName       = getModuleName(get_called_class());

@@ -55,7 +55,7 @@ class RulesManageController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['classGroups', 'classGroups.className'], $this->getWhere());
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['ruleManages', 'ruleManages.ruleName','classGroup','exam'], $this->getWhere());
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         if ($request->ajax() || $request['ajax']){
@@ -121,7 +121,7 @@ class RulesManageController extends Controller
         if (!empty($ruleId)) {
             foreach ($ruleId as $key => $value) {
                 $ruleData = [
-                    'class_id'              => $value,
+                    'rule_id'              => $value,
                     'class_group_rule_id'   => $class_group_rule_id,
                     'status'                => 1,
                 ];

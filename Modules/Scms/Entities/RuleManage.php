@@ -13,5 +13,9 @@ class RuleManage extends Model
         'class_group_rule_id', 'rule_id','status'
     ];
 
+    public function ruleName(){
+        return $this->belongsTo(ExamRule::class, 'rule_id', 'id');
+    }
+
 
 }
