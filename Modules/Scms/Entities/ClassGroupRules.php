@@ -35,7 +35,4 @@ class ClassGroupRules extends Model
     }
 
 
-
-
-
 }
