@@ -6,8 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\ClassCategory;
-use Modules\Scms\Entities\ClassGroup;
+use Modules\Scms\Models\ClassCategory;
+use Modules\Scms\Models\ClassGroup;
 
 use Validator;
 

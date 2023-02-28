@@ -7,8 +7,8 @@ use Illuminate\Routing\Controller;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Http\Request;
-use Modules\Scms\Entities\SettingSC;
-use Modules\Scms\Entities\Version;
+use Modules\Scms\Models\SettingSC;
+use Modules\Scms\Models\Version;
 use Validator;
 
 class SettingsController extends Controller

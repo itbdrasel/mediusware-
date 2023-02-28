@@ -1,12 +1,12 @@
 <?php
 namespace Modules\Core\Http\Controllers;
 
-use Modules\Core\Entities\Module;
-use Modules\Core\Entities\Roles;
-use Modules\Core\Entities\User;
+use Modules\Core\Models\Module;
+use Modules\Core\Models\Roles;
+use Modules\Core\Models\User;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
-use Modules\Core\Entities\ModuleSection;
+use Modules\Core\Models\ModuleSection;
 
 use Modules\Core\Services\PermissionService;
 

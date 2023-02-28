@@ -1,6 +1,6 @@
 <?php
-use Modules\Hrms\Entities\Employee;
-use Modules\Scms\Entities\ClassModel;
+use Modules\Hrms\Models\Employee;
+use Modules\Scms\Models\ClassModel;
 
 function getTeacher(){
   return  Employee::rightJoin('hrms_departments', 'hrms_employees.department_id', '=', 'hrms_departments.id')

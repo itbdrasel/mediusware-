@@ -7,8 +7,8 @@ use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\Section;
-use Modules\Scms\Entities\Shift;
+use Modules\Scms\Models\Section;
+use Modules\Scms\Models\Shift;
 use Validator;
 
 class SectionController extends Controller

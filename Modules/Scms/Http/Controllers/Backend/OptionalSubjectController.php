@@ -5,9 +5,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use Modules\Scms\Entities\Enroll;
-use Modules\Scms\Entities\OptionalSubject;
-use Modules\Scms\Entities\Subject;
+use Modules\Scms\Models\Enroll;
+use Modules\Scms\Models\OptionalSubject;
+use Modules\Scms\Models\Subject;
 use Validator;
 
 class OptionalSubjectController extends Controller

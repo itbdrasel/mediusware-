@@ -2,7 +2,7 @@
 namespace Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\Gender;
+use Modules\Core\Models\Gender;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;

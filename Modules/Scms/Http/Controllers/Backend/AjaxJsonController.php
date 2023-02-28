@@ -4,8 +4,8 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Scms\Entities\Section;
-use Modules\Scms\Entities\SettingSC;
+use Modules\Scms\Models\Section;
+use Modules\Scms\Models\SettingSC;
 use Validator;
 
 class AjaxJsonController extends Controller

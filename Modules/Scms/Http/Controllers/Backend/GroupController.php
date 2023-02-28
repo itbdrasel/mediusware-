@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\Group;
+use Modules\Scms\Models\Group;
 use Validator;
 
 class GroupController extends Controller

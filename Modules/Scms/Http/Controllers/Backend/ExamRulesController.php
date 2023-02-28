@@ -7,7 +7,7 @@ use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\ExamRule;
+use Modules\Scms\Models\ExamRule;
 use Validator;
 
 class ExamRulesController extends Controller

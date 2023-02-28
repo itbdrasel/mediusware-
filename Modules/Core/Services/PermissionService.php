@@ -2,7 +2,7 @@
 
 namespace Modules\Core\Services;
 
-use Modules\Core\Entities\ModuleSection;
+use Modules\Core\Models\ModuleSection;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Support\Facades\Route;

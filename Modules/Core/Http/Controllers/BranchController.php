@@ -2,7 +2,7 @@
 namespace Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\Branch;
+use Modules\Core\Models\Branch;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;

@@ -7,11 +7,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 
-use Modules\Scms\Entities\ClassCategory;
-use Modules\Scms\Entities\ClassGroupRules;
-use Modules\Scms\Entities\Exam;
-use Modules\Scms\Entities\ExamRule;
-use Modules\Scms\Entities\RuleManage;
+use Modules\Scms\Models\ClassCategory;
+use Modules\Scms\Models\ClassGroupRules;
+use Modules\Scms\Models\Exam;
+use Modules\Scms\Models\ExamRule;
+use Modules\Scms\Models\RuleManage;
 use Validator;
 
 class RulesManageController extends Controller

@@ -4,17 +4,17 @@ namespace Modules\Hrms\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\BloodGroup;
-use Modules\Core\Entities\Gender;
-use Modules\Core\Entities\Religion;
+use Modules\Core\Models\BloodGroup;
+use Modules\Core\Models\Gender;
+use Modules\Core\Models\Religion;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Hrms\Entities\Department;
-use Modules\Hrms\Entities\Designation;
-use Modules\Hrms\Entities\Employee;
+use Modules\Hrms\Models\Department;
+use Modules\Hrms\Models\Designation;
+use Modules\Hrms\Models\Employee;
 use Validator;
 
 class EmployeeController extends Controller

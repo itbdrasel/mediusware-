@@ -3,12 +3,12 @@ namespace Modules\Core\Http\Controllers;
 
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\Branch;
-use Modules\Core\Entities\Module;
-use Modules\Core\Entities\ModuleSection;
-use Modules\Core\Entities\Roles;
-use Modules\Core\Entities\RoleUser;
-use Modules\Core\Entities\User;
+use Modules\Core\Models\Branch;
+use Modules\Core\Models\Module;
+use Modules\Core\Models\ModuleSection;
+use Modules\Core\Models\Roles;
+use Modules\Core\Models\RoleUser;
+use Modules\Core\Models\User;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;

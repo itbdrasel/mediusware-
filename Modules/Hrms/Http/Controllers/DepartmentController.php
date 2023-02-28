@@ -2,8 +2,8 @@
 namespace Modules\Hrms\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\Roles;
-use Modules\Hrms\Entities\Department;
+use Modules\Core\Models\Roles;
+use Modules\Hrms\Models\Department;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;

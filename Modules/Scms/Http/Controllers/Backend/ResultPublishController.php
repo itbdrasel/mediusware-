@@ -7,8 +7,8 @@ use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\Exam;
-use Modules\Scms\Entities\ResultPublish;
+use Modules\Scms\Models\Exam;
+use Modules\Scms\Models\ResultPublish;
 use Validator;
 
 class ResultPublishController extends Controller

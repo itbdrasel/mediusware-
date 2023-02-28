@@ -2,7 +2,7 @@
 namespace Modules\Hrms\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Hrms\Entities\Designation;
+use Modules\Hrms\Models\Designation;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;

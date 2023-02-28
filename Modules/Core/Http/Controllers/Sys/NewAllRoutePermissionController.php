@@ -3,8 +3,8 @@
 namespace Modules\Core\Http\Controllers\Sys;
 use Illuminate\Routing\Controller;
 
-use Modules\Core\Entities\ModuleSection;
-use Modules\Core\Entities\Roles;
+use Modules\Core\Models\ModuleSection;
+use Modules\Core\Models\Roles;
 use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Support\Facades\Route;
 

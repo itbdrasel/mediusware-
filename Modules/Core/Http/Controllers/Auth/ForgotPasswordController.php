@@ -6,7 +6,7 @@ namespace Modules\Core\Http\Controllers\Auth;
 use Illuminate\Routing\Controller;
 
 use Modules\Core\Helpers\SuccessError;
-use Modules\Core\Entities\User;
+use Modules\Core\Models\User;
 use Illuminate\Http\Request;
 use Validator;
 use DB;

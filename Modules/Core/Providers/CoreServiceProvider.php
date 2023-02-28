@@ -6,7 +6,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\Core\Entities\Settings;
+use Modules\Core\Models\Settings;
 
 class CoreServiceProvider extends ServiceProvider
 {

@@ -4,8 +4,8 @@ namespace Modules\Scms\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\Scms\Entities\SettingSC;
-use Modules\Scms\Entities\VersionType;
+use Modules\Scms\Models\SettingSC;
+use Modules\Scms\Models\VersionType;
 
 class ScmsServiceProvider extends ServiceProvider
 {

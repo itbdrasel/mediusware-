@@ -5,9 +5,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\Student;
-use Modules\Scms\Services\StudentService;
+use Modules\Scms\Models\Student;
+use Modules\Scms\Services\Backend\StudentService;
 use Validator;
 
 class StudentController extends Controller

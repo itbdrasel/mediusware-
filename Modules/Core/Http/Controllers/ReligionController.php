@@ -3,7 +3,7 @@ namespace Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 
-use Modules\Core\Entities\Religion;
+use Modules\Core\Models\Religion;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;

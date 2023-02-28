@@ -2,7 +2,7 @@
 namespace Modules\Core\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\BloodGroup;
+use Modules\Core\Models\BloodGroup;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Routing\Controller;

@@ -4,8 +4,8 @@ namespace Modules\Core\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 
-use Modules\Core\Entities\Settings;
-use Modules\Core\Entities\Tax;
+use Modules\Core\Models\Settings;
+use Modules\Core\Models\Tax;
 use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Http\Request;

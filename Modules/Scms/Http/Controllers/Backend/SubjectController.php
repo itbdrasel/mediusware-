@@ -2,18 +2,12 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Entities\Gender;
-use Modules\Core\Entities\Religion;
 use Modules\Core\Repositories\AuthInterface as Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
-use Modules\Scms\Entities\Group;
-use Modules\Scms\Entities\Student;
-use Modules\Scms\Entities\Subject;
-use Modules\Scms\Entities\SubjectType;
-use Modules\Scms\Services\StudentService;
-use Modules\Scms\Services\SubjectService;
+use Modules\Scms\Models\Subject;
+use Modules\Scms\Services\Backend\SubjectService;
 use Validator;
 
 class SubjectController extends Controller

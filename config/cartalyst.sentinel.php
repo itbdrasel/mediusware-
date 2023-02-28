@@ -51,7 +51,7 @@ return [
     */
 
     'users' => [
-        'model' => 'Modules\Core\Entities\User',
+        'model' => 'Modules\Core\Models\User',
     ],
 
     /*
