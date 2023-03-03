@@ -2,8 +2,7 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Models\Subject;
@@ -13,36 +12,19 @@ use Validator;
 class SubjectController extends Controller
 {
 
-
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $tableId;
-    private $moduleName;
     private $services;
-    private $auth;
 
-    public function __construct(Auth $auth, SubjectService $subjectService){
-        $this->auth             = $auth;
+    public function __construct(SubjectService $subjectService){
+        parent::__construct();
         $this->services         = $subjectService;
         $this->model            = Subject::class;
-        $this->tableId          = 'id';
-        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/subject';
         $this->title            = 'Subject';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.subject.';
-
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
+        echo $this->getLayout('subject',$pageName);
     }
 
     /**
@@ -117,10 +99,10 @@ class SubjectController extends Controller
 
         if (empty($id) ) {
             $this->model::create($params);
-            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', 'Record Successfully Created.');
+            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', successMessage($id, $this->title));
         }else{
             $this->model::where($this->tableId, $id)->update($params);
-            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', 'Successfully Updated');
+            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', successMessage($id, $this->title));
         }
     }
 

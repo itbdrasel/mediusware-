@@ -2,11 +2,9 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
 
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Models\Section;
 use Modules\Scms\Models\Shift;
 use Validator;
@@ -15,36 +13,18 @@ class SectionController extends Controller
 {
 
 
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $auth;
-    private $tableId;
-    private $moduleName;
-    private $crudServices;
-
-    public function __construct(Auth $auth, CRUDServices $crudServices){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->auth             = $auth;
-        $this->crudServices     = $crudServices;
+    public function __construct(){
+        parent::__construct();
         $this->model            = Section::class;
-        $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/section';
         $this->title            = 'Section';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.section.';
-
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
+        echo $this->getLayout('section',$pageName);
     }
+
 
     /**
      * Display a listing of the resource.
@@ -87,18 +67,7 @@ class SectionController extends Controller
      * @return Renderable
      */
     public function create(){
-
-        $this->data = [
-            'title'         => 'Add '.$this->title,
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-plus"></i>',
-            'objData'       => ''
-        ];
-
-        $this->data['teachers'] = getTeacher();
-        $this->data['allClass'] = getClass();
-        $this->data['shifts']   = Shift::orderBy('order_by')->get();
-
+        $this->data                     = $this->createEdit();
         return $this->layout('edit');
     }
 
@@ -114,16 +83,8 @@ class SectionController extends Controller
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if( !$id || empty($objData) ){ exit('Bad Request!'); }
 
-        $this->data = [
-            'title'         => 'Edit '.$this->title,
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-edit"></i>',
-            'objData'       => $objData
-        ];
-
-        $this->data['teachers'] = getTeacher();
-        $this->data['allClass'] = getClass();
-        $this->data['shifts']   = Shift::orderBy('order_by')->get();
+        $this->data             = $this->createEdit($id);
+        $this->data['objData']  = $objData;
 
         return $this->layout('edit');
     }
@@ -138,13 +99,13 @@ class SectionController extends Controller
     public function store(Request $request){
         $id = $request[$this->tableId];
         $this->getValidation($request);
-        $params = $this->getInsertData($request);
+        $params = $this->crudServices->getInsertData($this->model, $request);
         if (empty($id) ) {
             $this->model::create($params);
-            return 'Record Successfully Created.';
+            return successMessage($id, $this->title);
         }else{
             $this->model::where($this->tableId, $id)->update($params);
-            return 'Successfully Updated';
+            return successMessage($id, $this->title);
         }
     }
 
@@ -172,8 +133,13 @@ class SectionController extends Controller
         return $request->validate($rules,$customMessages, $attribute);
     }
 
-    public function getInsertData($request){
-        return $this->crudServices->getInsertData($this->model, $request);
+
+    public function createEdit($id=''){
+        $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
+        $this->data['teachers'] = getTeacher();
+        $this->data['allClass'] = getClass();
+        $this->data['shifts']   = Shift::orderBy('order_by')->get();
+        return $this->data;
     }
 
 

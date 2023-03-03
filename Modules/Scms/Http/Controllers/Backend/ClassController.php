@@ -2,11 +2,9 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
 
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Models\ClassModel;
 use Validator;
 
@@ -14,36 +12,16 @@ class ClassController extends Controller
 {
 
 
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $auth;
-    private $tableId;
-    private $moduleName;
-    private $crudServices;
-
-    public function __construct(Auth $auth, CRUDServices $crudServices){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->auth             = $auth;
-        $this->crudServices     = $crudServices;
+    public function __construct(){
+        parent::__construct();
         $this->model            = ClassModel::class;
-        $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/class';
         $this->title            = 'Class';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-
-        $this->data['view_path']    =  $this->moduleName.'::backend.class.';
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
-
+        echo $this->getLayout('class',$pageName);
     }
 
     /**
@@ -102,10 +80,10 @@ class ClassController extends Controller
         $params['branch_id']    = getBranchId();
         if (empty($id) ) {
             $this->model::create($params);
-            return redirect($this->bUrl)->with('success', 'Record Successfully Created.');
+            return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
         }else{
             $this->model::where($this->tableId, $id)->update($params);
-            return 'Successfully Updated';
+            return successMessage($id, $this->title);
         }
 
     }

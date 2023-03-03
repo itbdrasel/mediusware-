@@ -1,0 +1,35 @@
+<?php
+
+namespace Modules\Core\Services\Backend;
+use Illuminate\Routing\Controller as LaravelController;
+use Modules\Core\Services\CRUDServices;
+
+class Controller extends LaravelController
+{
+
+    protected $data;
+    protected $bUrl;
+    protected $title;
+    protected $model;
+    protected $auth;
+    protected $tableId      ='id';
+    protected $moduleName;
+    protected $crudServices;
+
+    public function __construct(){
+        $this->moduleName       = getModuleName(get_called_class());
+        $this->crudServices     = new CRUDServices();
+
+    }
+
+    protected function getLayout($pathName,$pageName){
+        $this->data['bUrl']         =  $this->bUrl;
+        $this->data['tableID']      =  $this->tableId;
+        $this->data['moduleName']   =  $this->moduleName;
+        $this->data['view_path']    =  "{$this->moduleName}::{$pathName}.";
+        echo view( $this->data['view_path'].$pageName.'', $this->data);
+
+    }
+
+
+}

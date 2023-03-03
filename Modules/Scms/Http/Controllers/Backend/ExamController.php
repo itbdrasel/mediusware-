@@ -3,47 +3,27 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Models\Exam;
 use Validator;
 
 class ExamController extends Controller
 {
 
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $tableId;
-    private $moduleName;
-    private $crudServices;
-    private $branch_id;
-    private $vtype;
 
-    public function __construct(CRUDServices $crudServices){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->crudServices     = $crudServices;
+    public function __construct(){
+        parent::__construct();
         $this->model            = Exam::class;
-        $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/exam';
         $this->title            = 'Exam';
-        $this->branch_id        = getBranchId();
-        $this->vtype            = getVersionType();
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.exam.';
-
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
+        echo $this->getLayout('exam',$pageName);
     }
+
 
     /**
      * Display a listing of the resource.

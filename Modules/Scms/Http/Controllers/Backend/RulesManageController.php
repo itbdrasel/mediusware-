@@ -3,9 +3,8 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
 
 use Modules\Scms\Models\ClassCategory;
 use Modules\Scms\Models\ClassGroupRules;
@@ -17,38 +16,18 @@ use Validator;
 class RulesManageController extends Controller
 {
 
-
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $tableId;
-    private $moduleName;
-    private $crudServices;
-    private $branch_id;
-    private $vtype;
-
-    public function __construct(CRUDServices $crudServices){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->crudServices     = $crudServices;
+    public function __construct(){
+        parent::__construct();
         $this->model            = ClassGroupRules::class;
-        $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/rules-manage';
         $this->title            = 'Rules Manage';
-        $this->branch_id        = getBranchId();
-        $this->vtype            = getVersionType();
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.rules_manage.';
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
+        echo $this->getLayout('rules_manage',$pageName);
     }
+
 
     /**
      * Display a listing of the resource.
@@ -101,11 +80,8 @@ class RulesManageController extends Controller
      */
 
     public function store(Request $request){
+        $this->getValidation($request);
         $id = $request[$this->tableId];
-        $validator = $this->getValidation($request);
-        if ($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
         $params = $this->crudServices->getInsertData($this->model, $request);
         $params['branch_id']    = getBranchId();
         $params['vtype']        = getVersionType();
@@ -137,6 +113,7 @@ class RulesManageController extends Controller
         if (!empty($id)) {
             RuleManage::where(['class_group_rule_id'=>$id, 'status'=>8])->delete();
         }
+
         return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
 
     }
@@ -165,7 +142,7 @@ class RulesManageController extends Controller
         $rules              = $validationRules['rules'];
         $attribute          = $validationRules['attribute'];
         $customMessages     = [];
-        return Validator::make($request->all(), $rules, $customMessages, $attribute);
+        return $request->validate($rules,$customMessages, $attribute);
     }
 
 

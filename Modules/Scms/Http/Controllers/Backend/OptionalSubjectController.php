@@ -2,8 +2,7 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 use Modules\Scms\Models\Enroll;
 use Modules\Scms\Models\OptionalSubject;
@@ -14,33 +13,19 @@ class OptionalSubjectController extends Controller
 {
 
 
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $tableId;
-    private $moduleName;
-    private $auth;
-
-    public function __construct(Auth $auth){
-        $this->auth             = $auth;
+    public function __construct(){
+        parent::__construct();
         $this->model            = OptionalSubject::class;
-        $this->tableId          = 'id';
-        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/optional-subject';
         $this->title            = 'Optional Subject';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-
-        echo view($this->moduleName.'::backend.optional_subject.'.$pageName.'', $this->data);
-
+        echo $this->getLayout('optional_subject',$pageName);
     }
+
+
 
     /**
      * Display a listing of the resource.

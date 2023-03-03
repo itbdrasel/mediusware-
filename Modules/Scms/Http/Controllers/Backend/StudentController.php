@@ -2,8 +2,7 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 use Modules\Scms\Models\Student;
 use Modules\Scms\Services\Backend\StudentService;
@@ -12,37 +11,22 @@ use Validator;
 class StudentController extends Controller
 {
 
-
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $tableId;
-    private $moduleName;
     private $studentServices;
-    private $auth;
 
-    public function __construct(Auth $auth, StudentService $studentService){
-        $this->auth             = $auth;
+    public function __construct(StudentService $studentService){
+        parent::__construct();
         $this->studentServices  = $studentService;
         $this->model            = Student::class;
-        $this->tableId          = 'id';
-        $this->moduleName       = getModuleName(get_called_class());
         $this->bUrl             = $this->moduleName.'/student';
         $this->title            = 'Student';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.student.';
-
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
+        echo $this->getLayout('student',$pageName);
     }
+
+
 
     /**
      * Display a listing of the resource.
@@ -118,7 +102,7 @@ class StudentController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $this->studentServices->insertData($request);
-        $message = empty($id)?'Record Successfully Created.':'Successfully Updated';
+        $message = successMessage($id, $this->title);
         return redirect($this->bUrl.'/'.$request['class_id'])->with('success', $message);
 
     }

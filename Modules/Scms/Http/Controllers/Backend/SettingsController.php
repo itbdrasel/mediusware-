@@ -2,9 +2,8 @@
 
 namespace Modules\Scms\Http\Controllers\Backend;
 
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 
-use Modules\Core\Repositories\AuthInterface as Auth;
 
 use Illuminate\Http\Request;
 use Modules\Scms\Models\SettingSC;
@@ -14,31 +13,18 @@ use Validator;
 class SettingsController extends Controller
 {
 
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $auth;
-    private $moduleName;
-
-    public function __construct(Auth $auth){
-        $this->auth         = $auth;
+    public function __construct(){
+        parent::__construct();
         $this->model        = SettingSC::class;
-        $this->moduleName   = getModuleName(get_called_class());
         $this->bUrl         = $this->moduleName.'/settings';
         $this->title        = 'Setting';
     }
 
 
-
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['moduleName']   =  $this->moduleName;
-
-        echo view($this->moduleName.'::backend.settings.'.$pageName.'', $this->data);
-
+        echo $this->getLayout('settings',$pageName);
     }
+
 
     public function index(){
 

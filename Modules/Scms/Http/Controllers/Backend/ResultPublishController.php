@@ -2,11 +2,9 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
 
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Models\Exam;
 use Modules\Scms\Models\ResultPublish;
 use Validator;
@@ -14,35 +12,18 @@ use Validator;
 class ResultPublishController extends Controller
 {
 
-
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $auth;
-    private $tableId;
-    private $moduleName;
-    private $crudServices;
-
-    public function __construct(Auth $auth, CRUDServices $crudServices){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->auth             = $auth;
-        $this->crudServices     = $crudServices;
+    public function __construct(){
+        parent::__construct();
         $this->model            = ResultPublish::class;
-        $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/result-publish';
         $this->title            = 'Result Publish';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.result_publish.';
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
+        echo $this->getLayout('result_publish',$pageName);
     }
+
 
     /**
      * Display a listing of the resource.
@@ -96,20 +77,16 @@ class ResultPublishController extends Controller
      */
 
     public function store(Request $request){
+        $this->getValidation($request);
         $id = $request[$this->tableId];
         $params = $this->crudServices->getInsertData($this->model, $request);
         $params['vtype'] = getVersionType();
         if (empty($id) ) {
-            $validator = $this->getValidation($request);
-            if ($validator->fails()){
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
         }else{
-            $this->getValidation($request);
             $this->model::where($this->tableId, $id)->update($params);
-            return 'Successfully Updated';
+            return successMessage($id, $this->title);
         }
 
     }

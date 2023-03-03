@@ -2,49 +2,28 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Modules\Core\Repositories\AuthInterface as Auth;
 
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Models\ExamRule;
 use Validator;
 
 class ExamRulesController extends Controller
 {
 
-
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $auth;
-    private $tableId;
-    private $moduleName;
-    private $crudServices;
-
-    public function __construct(Auth $auth, CRUDServices $crudServices){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->auth             = $auth;
-        $this->crudServices     = $crudServices;
+    public function __construct(){
+        parent::__construct();
         $this->model            = ExamRule::class;
-        $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/exam-rules';
         $this->title            = 'Exam Rule';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-
-        $this->data['view_path']    =  $this->moduleName.'::backend.exam_rules.';
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
-
+        echo $this->getLayout('exam_rules',$pageName);
     }
+
+
 
     /**
      * Display a listing of the resource.

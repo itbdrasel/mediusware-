@@ -3,9 +3,9 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
+
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Models\ClassCategory;
 use Modules\Scms\Models\ClassGroup;
 
@@ -15,32 +15,16 @@ class ClassGroupController extends Controller
 {
 
 
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $tableId;
-    private $moduleName;
-    private $crudServices;
-
-    public function __construct(CRUDServices $crudServices){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->crudServices     = $crudServices;
+    public function __construct(){
+        parent::__construct();
         $this->model            = ClassCategory::class;
-        $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/class-group';
         $this->title            = 'Class Group';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.class_group.';
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
+        echo $this->getLayout('class_group',$pageName);
     }
 
     /**
@@ -48,6 +32,7 @@ class ClassGroupController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
+
         $branch_id = getBranchId();
         $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['classGroups', 'classGroups.className'], ['branch_id'=>$branch_id]);
         $this->data['title']        = $this->title.' Manager';

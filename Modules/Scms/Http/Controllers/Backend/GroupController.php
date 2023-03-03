@@ -5,41 +5,25 @@ use Illuminate\Contracts\Support\Renderable;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use Modules\Core\Services\CRUDServices;
 use Modules\Scms\Models\Group;
 use Validator;
 
 class GroupController extends Controller
 {
 
-
-    private $data;
-    private $bUrl;
-    private $title;
-    private $model;
-    private $tableId;
-    private $moduleName;
-    private $crudServices;
-
-    public function __construct(CRUDServices $crudServices){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->crudServices     = $crudServices;
+    public function __construct(){
+        parent::__construct();
         $this->model            = Group::class;
-        $this->tableId          = 'id';
         $this->bUrl             = $this->moduleName.'/group';
         $this->title            = 'Group';
     }
 
 
     public function layout($pageName){
-
-        $this->data['bUrl']         =  $this->bUrl;
-        $this->data['tableID']      =  $this->tableId;
-        $this->data['moduleName']   =  $this->moduleName;
-        $this->data['view_path']    =  $this->moduleName.'::backend.group.';
-        echo view( $this->data['view_path'].$pageName.'', $this->data);
-
+        echo $this->getLayout('group',$pageName);
     }
+
+
 
     /**
      * Display a listing of the resource.

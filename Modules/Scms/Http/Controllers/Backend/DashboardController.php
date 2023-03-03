@@ -3,25 +3,18 @@
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Routing\Controller;
+use Modules\Scms\Services\Backend\Controller;
 
 class DashboardController extends Controller
 {
 
-    private $model;
-    private $data;
-    private $tableId;
-    private $bUrl;
-    private $title;
-    private $moduleName;
-
     public function __construct(){
-        $this->moduleName       = getModuleName(get_called_class());
-        $this->tableId          = 'id';
-        $this->model            = '';
+        parent::__construct();
         $this->bUrl             = $this->moduleName.'/dashboard';
         $this->title            = 'Dashboard';
     }
+
+
 
     public function layout($pageName){
         $this->data['bUrl']         =  $this->bUrl;
