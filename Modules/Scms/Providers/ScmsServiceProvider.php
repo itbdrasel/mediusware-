@@ -48,6 +48,8 @@ class ScmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        require_once __DIR__.'/../Helpers/scms_helper.php';
+
         $this->app->register(RouteServiceProvider::class);
     }
 

@@ -8,6 +8,6 @@
         "Modules\\Core\\Providers\\CoreServiceProvider"
     ],
     "files": [
-        "Helpers/core_helper.php"
+
     ]
 }

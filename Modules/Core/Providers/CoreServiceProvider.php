@@ -27,6 +27,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function boot(\Illuminate\Routing\Router $router)
     {
+
         $router->middlewareGroup('authx', [\Modules\Core\Http\Middleware\AuthxMiddleware::class]);
         $router->middlewareGroup('admin', [\Modules\Core\Http\Middleware\AdminMiddleware::class]);
 
@@ -56,7 +57,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
 
-        require_once __DIR__.'/../Helpers/core_helper.php';
+
     }
 
     /**
@@ -66,6 +67,10 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        require_once __DIR__.'/../Helpers/core_helper.php';
+
+
         $this->app->register(RouteServiceProvider::class);
 
         $this->app->bind(

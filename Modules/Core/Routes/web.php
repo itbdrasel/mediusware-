@@ -93,21 +93,21 @@ Route::prefix('core')->group(function() {
 
 
 //Route::group(['middleware' => ['authx','admin'], 'prefix' => 'author'], function (){
-Route::group([ 'prefix' => 'core/mediamanager','controller'=>'MediaManagerController','as'=>'core.mediamanager'], function (){
-    Route::get('/','index')->name('');
-//    Route::get('container','container')->name('.container');
-//    Route::get('/links','content_links')->name('.links');
-    Route::post('/create',  'create')->name('.create');
-    Route::post('/rename', 'rename')->name('.rename');
-    Route::post('/delete',  'delete')->name('.delete');
-    Route::match(['get', 'post'], '/upload','upload')->name('.upload');
-
-    //route fallback. when post route requested
-    // by get route.
-    Route::fallback(function () {
-        abort('404');
-    });
-});
+//Route::group([ 'prefix' => 'core/mediamanager','controller'=>'MediaManagerController','as'=>'core.mediamanager'], function (){
+//    Route::get('','index')->name('');
+////    Route::get('container','container')->name('.container');
+////    Route::get('/links','content_links')->name('.links');
+//    Route::post('/create',  'create')->name('.create');
+//    Route::post('/rename', 'rename')->name('.rename');
+//    Route::post('/delete',  'delete')->name('.delete');
+//    Route::match(['get', 'post'], '/upload','upload')->name('.upload');
+//
+//    //route fallback. when post route requested
+//    // by get route.
+//    Route::fallback(function () {
+//        abort('404');
+//    });
+//});
 
 
 
@@ -131,6 +131,12 @@ Route::get('all/clear', function() {
     Artisan::call('event:clear');
     Artisan::call('cache:clear');
     Artisan::call('optimize:clear');
+    Artisan::call('optimize');
+    Artisan::call('config:cache');
+    Artisan::call('event:cache');
+    Artisan::call('route:cache');
+    Artisan::call('view:cache');
+
     dd("Cache is cleared");
 });
 

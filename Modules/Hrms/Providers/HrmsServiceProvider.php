@@ -37,6 +37,8 @@ class HrmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        require_once __DIR__.'/../Helpers/hrms_helper.php';
+
         $this->app->register(RouteServiceProvider::class);
     }
 

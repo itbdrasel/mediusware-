@@ -8,6 +8,5 @@
         "Modules\\Hrms\\Providers\\HrmsServiceProvider"
     ],
     "files": [
-        "Helpers/hrms_helper.php"
     ]
 }

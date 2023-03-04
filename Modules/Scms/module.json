@@ -8,6 +8,5 @@
         "Modules\\Scms\\Providers\\ScmsServiceProvider"
     ],
     "files": [
-        "Helpers/scms_helper.php"
     ]
 }
