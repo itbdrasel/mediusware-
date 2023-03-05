@@ -5,7 +5,7 @@
 |---|---|
 | v9.29.0  | v9.52.4
 | v10.1.5  | <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-
+| v10.2.0
 
 - [Modules Folder Add](#)
 

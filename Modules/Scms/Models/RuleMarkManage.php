@@ -4,10 +4,10 @@ namespace Modules\Scms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RulesMarksManage extends Model
+class RuleMarkManage extends Model
 {
 
-    protected $table = 'scms_rules_marks_manage';
+    protected $table = 'scms_rule_marks_manage';
 
     protected $fillable = [
         'exam_id', 'class_id', 'start_year', 'end_year', 'calculation_subject', 'branch_id', 'vtype'
