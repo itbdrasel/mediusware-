@@ -76,8 +76,21 @@
 
 
                             <div class="card">
-                                <div class="card-header"></div>
-                                <div class="card-body"></div>
+{{--                                <div class="card-header"></div>--}}
+                                <div class="card-body">
+                                    <table class="table table-bordered other_guest">
+                                        <thead>
+                                        <tr>
+                                            <th width="10">#</th>
+                                            <th>Subject (Code)</th>
+                                            <th>Full Mark</th>
+                                            <th>Pass Mark</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div class="card-footer">
                                     <div class="offset-md-3 col-sm-9">
                                         @php

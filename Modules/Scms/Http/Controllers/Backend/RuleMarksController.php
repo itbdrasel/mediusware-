@@ -49,8 +49,10 @@ class RuleMarksController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function create(){
+    public function create(Request $request){
         $this->data     = $this->createEdit();
+        $class_id       = $request['class_id'];
+        $exam_id        = $request['exam_id'];
 
         $this->layout('create');
     }
