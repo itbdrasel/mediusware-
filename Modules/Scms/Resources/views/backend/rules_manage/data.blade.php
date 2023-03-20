@@ -57,8 +57,9 @@
                     <thead>
                     <tr>
                         <th class="text-center" style="width: 50px">SL</th>
-                        <th>Class Group</th>
+                        <th>Class</th>
                         <th>Exam</th>
+                        <th class="text-center" width="18%">Start - End Year</th>
                         <th>All Roles</th>
                         <th style="width: 180px" class="text-center">Manage</th>
                     </tr>
@@ -73,8 +74,9 @@
                         @foreach ($allData as $data)
                             <tr>
                                 <td class="text-center">{{ $c+$serial }}</td>
-                                <td>{{ $data->classGroup->name??'' }}</td>
+                                <td>{{ $data->className->name??'' }}</td>
                                 <td>{{ $data->exam->name??'' }}</td>
+                                <td class="text-center">{{ !empty($data->start_year)?$data->start_year:'' }}{{ !empty($data->start_year) && !empty($data->end_year)?'-'.$data->end_year:' Continue' }}</td>
                                 <td>
                                     @if(!empty($data->ruleManages))
                                         @foreach($data->ruleManages as $value)

@@ -10,7 +10,7 @@ class RuleManage extends Model
     protected $table = 'scms_rule_manage';
 
     protected $fillable = [
-        'class_group_rule_id', 'rule_id','status'
+        'rules_group_id', 'rule_id','status'
     ];
 
     public function ruleName(){

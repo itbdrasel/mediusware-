@@ -28,15 +28,14 @@
 
                                 <div class="form-group row">
                                     @php
-                                        $input_name = 'class_group_id';
+                                        $input_name = 'class_id';
                                     @endphp
                                     <label for="{{$input_name}}" class="col-sm-3 col-form-label"> {{getLabelName($input_name)}} <code>*</code></label>
-
                                     <div class="col-sm-4">
                                         <select name="{{$input_name}}" id="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror">
                                             <option value="">Select {{getLabelName($input_name)}}</option>
-                                            @if(!empty($class_groups))
-                                                @foreach($class_groups as $value)
+                                            @if(!empty($allClass))
+                                                @foreach($allClass as $value)
                                                     <option {{getSelectedOption($value->id, $input_name, $objData)}} value="{{$value->id}}">{{$value->name}}</option>
                                                 @endforeach
                                             @endif
@@ -57,6 +56,28 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @php
+                                        $input_name = 'start_year';
+
+                                    @endphp
+                                    <label for="{{$input_name}}" class="col-sm-3 col-form-label"> {{getLabelName($input_name)}}</label>
+
+                                    <div class="col-sm-4">
+                                        <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
+                                        <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                    </div>
+                                    @php
+                                        $input_name = 'end_year';
+                                    @endphp
+                                    <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}} </label>
+
+                                    <div class="col-sm-3">
+                                        <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
                                         <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                     </div>
                                 </div>

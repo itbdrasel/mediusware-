@@ -5,6 +5,8 @@ use Illuminate\Contracts\Support\Renderable;
 
 use Modules\Scms\Models\ClassModel;
 use Modules\Scms\Models\RuleMarkManage;
+use Modules\Scms\Models\RulesGroup;
+use Modules\Scms\Models\Subject;
 use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 
@@ -51,8 +53,45 @@ class RuleMarksController extends Controller
      */
     public function create(Request $request){
         $this->data     = $this->createEdit();
-        $class_id       = $request['class_id'];
-        $exam_id        = $request['exam_id'];
+//dd($request->all());
+        if($request['_method'] === 'PUT' ){
+//        if($request->method() === 'PUT' ){
+            $rules = [
+                'class_id'	=> 'required',
+                'exam_id'	=> 'required',
+            ];
+            $attribute = [
+                'class_id'  => 'Class',
+                'exam_id'   => 'Exam'
+            ];
+            $validator = Validator::make($request->all(), $rules, $attribute);
+            if($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $class_id               = $request['class_id'];
+            $exam_id                = $request['exam_id'];
+            $start_year             = $request['start_year'];
+            $end_year               = $request['end_year'];
+            $this->data['class_id'] = $class_id;
+            $this->data['exam_id']  = $exam_id;
+            $this->data['start_year']= $start_year;
+            $this->data['end_year']  = $end_year;
+           $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id'=>$class_id, 'exam_id'=>$exam_id])->with('ruleManages');
+           if ($start_year && $end_year){
+               $rulesGroup->where('start_year','<=',$end_year)
+                   ->where('end_date','>=',$start_year);
+           }elseif ($end_year){
+               $rulesGroup->where('end_date',$end_year);
+           }elseif ($end_year){
+               $rulesGroup->where('start_year',$start_year);
+           }
+           $rules =  $rulesGroup->first();
+
+            $this->data['rules'] = $rules->ruleManages()->with('ruleName')->get();
+
+            $this->data['subjects'] = Subject::where($this->getWhere())->where(['class_id'=>$class_id])->get();
+        }
 
         $this->layout('create');
     }

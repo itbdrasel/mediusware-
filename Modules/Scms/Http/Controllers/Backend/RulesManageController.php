@@ -3,11 +3,11 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
+use Modules\Scms\Models\ClassModel;
+use Modules\Scms\Models\RulesGroup;
 use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 
-use Modules\Scms\Models\ClassCategory;
-use Modules\Scms\Models\ClassGroupRules;
 use Modules\Scms\Models\Exam;
 use Modules\Scms\Models\ExamRule;
 use Modules\Scms\Models\RuleManage;
@@ -18,7 +18,7 @@ class RulesManageController extends Controller
 
     public function __construct(){
         parent::__construct();
-        $this->model            = ClassGroupRules::class;
+        $this->model            = RulesGroup::class;
         $this->bUrl             = $this->moduleName.'/rules-manage';
         $this->title            = 'Rules Manage';
     }
@@ -34,7 +34,7 @@ class RulesManageController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['ruleManages', 'ruleManages.ruleName','classGroup','exam'], $this->getWhere());
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['ruleManages', 'ruleManages.ruleName','className','exam'], $this->getWhere());
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         if ($request->ajax() || $request['ajax']){
@@ -87,23 +87,23 @@ class RulesManageController extends Controller
         $params['vtype']        = getVersionType();
         $ruleId                 = $request['rule_id'];
         if (empty($id) ) {
-           $class_group_rule_id = $this->model::create($params)->id;
+           $rules_group_id = $this->model::create($params)->id;
         }else{
-            $class_group_rule_id = $id;
+            $rules_group_id = $id;
             $this->model::where($this->tableId, $id)->update($params);
-            RuleManage::where('class_group_rule_id', $id)->update(['status'=>8]);
+            RuleManage::where('rules_group_id', $id)->update(['status'=>8]);
         }
 
         if (!empty($ruleId)) {
             foreach ($ruleId as $key => $value) {
                 $ruleData = [
-                    'rule_id'              => $value,
-                    'class_group_rule_id'   => $class_group_rule_id,
-                    'status'                => 1,
+                    'rule_id'           => $value,
+                    'rules_group_id'    => $rules_group_id,
+                    'status'            => 1,
                 ];
-               $group   = RuleManage::where(['class_group_rule_id'=>$id, 'rule_id'=>$value])->first();
+               $group   = RuleManage::where(['rules_group_id'=>$id, 'rule_id'=>$value])->first();
                 if (!empty($group)){
-                    RuleManage::where(['class_group_rule_id' =>$id, 'rule_id' =>$value])->update($ruleData);
+                    RuleManage::where(['rules_group_id' =>$id, 'rule_id' =>$value])->update($ruleData);
                 }else{
                     RuleManage::create($ruleData);
                 }
@@ -111,7 +111,7 @@ class RulesManageController extends Controller
         }
 
         if (!empty($id)) {
-            RuleManage::where(['class_group_rule_id'=>$id, 'status'=>8])->delete();
+            RuleManage::where(['rules_group_id'=>$id, 'status'=>8])->delete();
         }
 
         return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
@@ -130,7 +130,7 @@ class RulesManageController extends Controller
     {
         if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            RuleManage::where('class_group_rule_id', $id)->delete();
+            RuleManage::where('rules_group_id', $id)->delete();
             return true;
         }
         return false;
@@ -149,7 +149,7 @@ class RulesManageController extends Controller
     public function createEdit($id=''){
         $where                          = $this->getWhere();
         $this->data                     = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
-        $this->data['class_groups']     = ClassCategory::where($where)->get();
+        $this->data['allClass']         = ClassModel::where($where)->get();
         $this->data['exams']            = Exam::where($where)->orderBy('order_by')->get();
         $this->data['exam_rules']       = ExamRule::where($where)->orderBy('order_by')->get();
         return $this->data;

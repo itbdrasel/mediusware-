@@ -17,27 +17,42 @@
                             </button>
                         </div>
                     </div>
-                    <form method="post" action="{{url($bUrl.'/store')}}" >
-                        @csrf
+{{--                    <form method="post" action="{{url($bUrl.'/store')}}" >--}}
+{{--                        @csrf--}}
                         <div class="card-body">
 
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="post" action="">
-                                        @csrf
-
+                                    <form method="PUT" >
+                                        {{ method_field('PUT') }}
+{{--                                        @csrf--}}
                                         <div class="form-group row">
                                             @php
                                                 $input_name = 'class_id';
                                             @endphp
                                             <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}} <code>*</code></label>
-
                                             <div class="col-sm-4">
                                                 <select name="{{$input_name}}" id="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror">
                                                     <option value="">Select {{getLabelName($input_name)}}</option>
                                                     @if(!empty($allClass))
                                                         @foreach($allClass as $value)
-                                                            <option {{getSelectedOption($value->id, $input_name, $objData)}} value="{{$value->id}}">{{$value->name}}</option>
+                                                            <option {{getSelectedOption($value->id, $input_name, $objData,$class_id??'')}} value="{{$value->id}}">{{$value->name}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                            </div>
+                                            @php
+                                                $input_name = 'exam_id';
+                                            @endphp
+                                            <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}} <code>*</code></label>
+
+                                            <div class="col-sm-3">
+                                                <select name="{{$input_name}}" id="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror">
+                                                    <option value="">Select {{getLabelName($input_name)}}</option>
+                                                    @if(!empty($exams))
+                                                        @foreach($exams as $value)
+                                                            <option {{getSelectedOption($value->id, $input_name, $objData, $exam_id??'')}} value="{{$value->id}}">{{$value->name}}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -47,19 +62,22 @@
 
                                         <div class="form-group row">
                                             @php
-                                                $input_name = 'exam_id';
+                                                $input_name = 'start_year';
+
                                             @endphp
-                                            <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}} <code>*</code></label>
+                                            <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}}</label>
 
                                             <div class="col-sm-4">
-                                                <select name="{{$input_name}}" id="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror">
-                                                    <option value="">Select {{getLabelName($input_name)}}</option>
-                                                    @if(!empty($exams))
-                                                        @foreach($exams as $value)
-                                                            <option {{getSelectedOption($value->id, $input_name, $objData)}} value="{{$value->id}}">{{$value->name}}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
+                                                <input type="text" value="{{getValue($input_name, $objData, $start_year??'')}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
+                                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                            </div>
+                                            @php
+                                                $input_name = 'end_year';
+                                            @endphp
+                                            <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}} </label>
+
+                                            <div class="col-sm-3">
+                                                <input type="text" value="{{getValue($input_name, $objData, $end_year??'')}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
                                                 <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                             </div>
                                         </div>
@@ -78,6 +96,19 @@
                             <div class="card">
 {{--                                <div class="card-header"></div>--}}
                                 <div class="card-body">
+
+
+                                    <div class="form-group row">
+                                        @php
+                                            $input_name = 'start_yeardd';
+                                        @endphp
+                                        <label for="{{$input_name}}" class="col-sm-2 col-form-label"> Total Grade Calculation By Subject</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                        </div>
+                                    </div>
+
                                     <table class="table table-bordered other_guest">
                                         <thead>
                                         <tr>
@@ -85,6 +116,11 @@
                                             <th>Subject (Code)</th>
                                             <th>Full Mark</th>
                                             <th>Pass Mark</th>
+                                            @if(!empty($rules))
+                                                @foreach($rules as $rule)
+                                            <th>{{$rule->ruleName->code??''}}</th>
+                                                @endforeach
+                                            @endif
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -103,7 +139,7 @@
                             </div>
                         </div>
 
-                    </form>
+{{--                    </form>--}}
                 </div>
 
             </div>

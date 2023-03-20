@@ -115,13 +115,12 @@
                     </a>
                 </li>
             @endif
-
-                <li class="nav-item">
-                    <a href="{{url('scms/rules-manage')}}" class="nav-link {{activeMenu(2, 'rules-manage')}} ">
-                        <i class="fas fa-circle"></i>
-                        <p>Exam Rules</p>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a href="{{url('scms/rules-manage')}}" class="nav-link {{activeMenu(2, 'rules-manage')}} ">
+                    <i class="fas fa-circle"></i>
+                    <p>Rules Manage</p>
+                </a>
+            </li>
         </ul>
     </li>
 @endif
