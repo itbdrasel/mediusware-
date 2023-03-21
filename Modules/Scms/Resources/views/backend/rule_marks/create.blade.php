@@ -17,15 +17,12 @@
                             </button>
                         </div>
                     </div>
-{{--                    <form method="post" action="{{url($bUrl.'/store')}}" >--}}
-{{--                        @csrf--}}
                         <div class="card-body">
 
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="PUT" >
-                                        {{ method_field('PUT') }}
-{{--                                        @csrf--}}
+                                    <form>
+                                     <input type="hidden" name="_method" value="POST">
                                         <div class="form-group row">
                                             @php
                                                 $input_name = 'class_id';
@@ -91,18 +88,20 @@
                                     </form>
                                 </div>
                             </div>
-
-
+                        @if(isset($subjects) && count($subjects) >0)
+                        <form method="post" action="{{url($bUrl.'/store')}}" >
+                            @csrf
+                            <input type="hidden" name="class_id" value="{{$class_id??''}}">
+                            <input type="hidden" name="exam_id" value="{{$exam_id??''}}">
+                            <input type="hidden" name="start_year" value="{{$start_year??''}}">
+                            <input type="hidden" name="end_year" value="{{$end_year??''}}">
                             <div class="card">
-{{--                                <div class="card-header"></div>--}}
                                 <div class="card-body">
-
-
                                     <div class="form-group row">
                                         @php
-                                            $input_name = 'start_yeardd';
+                                            $input_name = 'calculation_subject';
                                         @endphp
-                                        <label for="{{$input_name}}" class="col-sm-2 col-form-label"> Total Grade Calculation By Subject</label>
+                                        <label for="{{$input_name}}" class="col-sm-2 col-form-label"> Calculation Subject <code>*</code></label>
                                         <div class="col-sm-3">
                                             <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
                                             <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
@@ -111,19 +110,40 @@
 
                                     <table class="table table-bordered other_guest">
                                         <thead>
-                                        <tr>
-                                            <th width="10">#</th>
-                                            <th>Subject (Code)</th>
-                                            <th>Full Mark</th>
-                                            <th>Pass Mark</th>
-                                            @if(!empty($rules))
-                                                @foreach($rules as $rule)
-                                            <th>{{$rule->ruleName->code??''}}</th>
-                                                @endforeach
-                                            @endif
-                                        </tr>
+                                            <tr>
+                                                <th class="text-center">#</th>
+                                                <th>Subject (Code)</th>
+                                                <th>Full Mark</th>
+                                                <th>Pass Mark</th>
+                                                @if(!empty($rules))
+                                                    @foreach($rules as $rule)
+                                                <th>{{$rule->ruleName->code??''}}</th>
+                                                    @endforeach
+                                                @endif
+                                            </tr>
                                         </thead>
                                         <tbody>
+                                        @foreach($subjects as $subject)
+                                            <tr>
+                                                <td class="text-center">
+                                                    <input id="subject_id{{$subject->id}}" name="subject[{{$subject->id}}]" value="{{$subject->id}}" checked type="checkbox" class="role-permission">
+                                                </td>
+                                                <td>{{$subject->name}} ({{$subject->subject_code}})</td>
+                                                <td>
+                                                    <input type="text" name="full_mark[{{$subject->id}}]" placeholder="Full Mark" class="form-control onlyNumber" name="">
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="pass_mark[{{$subject->id}}]" placeholder="Pass Mark"  class="form-control onlyNumber" >
+                                                </td>
+                                                @if(!empty($rules))
+                                                    @foreach($rules as $rule)
+                                                    <td>
+                                                        <input name="marks[{{$subject->id}}][{{$rule->id}}]" type="text" class="form-control onlyNumber" placeholder="{{$rule->code}}">
+                                                    </td>
+                                                    @endforeach
+                                                @endif
+                                            </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -137,9 +157,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
+                            @endif
 
-{{--                    </form>--}}
+                    </div>
                 </div>
 
             </div>

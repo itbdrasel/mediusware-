@@ -77,8 +77,7 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
 
     //  Rule Marks Manage Route
     Route::group(['prefix'=>'rule-marks','as'=>'rule-marks','controller'=>'Backend\RuleMarksController'], function () {
-        getResourceRoute(['index','store', 'delete']);
-        Route::post(['get', 'put'], '/create', 'create')->name('.create');
+        getResourceRoute(['index','create','store','delete']);
     });
 
 

@@ -10,8 +10,8 @@ class RuleMark extends Model
     protected $table = 'scms_rule_marks';
 
     protected $fillable = [
-        'rule_marks_manage_id', 'subject_id', 'full_mark', 'rule_id', 'pass_mark', 'status'
+        'rule_mark_manage_id', 'subject_id', 'full_mark','pass_mark', 'rule_mark', 'status'
     ];
-    
+
 
 }

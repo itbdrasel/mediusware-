@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RuleMarkManage extends Model
 {
 
-    protected $table = 'scms_rule_marks_manage';
+    protected $table = 'scms_rule_mark_manage';
 
     protected $fillable = [
         'exam_id', 'class_id', 'start_year', 'end_year', 'calculation_subject', 'branch_id', 'vtype'

@@ -96,7 +96,8 @@ class SubjectController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $params = $CRUDServices->getInsertData($this->model,$request);
-
+        $params['branch_id']    = getBranchId();
+        $params['vtype']        = getVersionType();
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl.'/'.$request['class_id'])->with('success', successMessage($id, $this->title));
@@ -119,6 +120,10 @@ class SubjectController extends Controller
         }
         return false;
 
+    }
+
+    public function getWhere(){
+        return ['vtype'=>getVersionType(), 'branch_id'=>getBranchId()];
     }
 
 }

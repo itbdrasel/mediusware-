@@ -30,13 +30,13 @@ class SubjectService
 
     public function getIndexData( $request, $class_id=''){
 
-        $where = '';
+        $where = $this->getWhere();
         $class = getClass();
         if (empty($class_id)) {
             $class_id = $class[0]->id??'';
         }
         if (!empty($class_id)){
-            $where = ['class_id'=>$class_id];
+            $where['class_id'] = $class_id;
         }
         $indexData              = $this->crudServices->indexQuery($request, $this->model, 'order_by', ['teacher','subjectType'], $where);
         $queryData              = $indexData['query'];
@@ -73,5 +73,9 @@ class SubjectService
         $attribute =$validationRules['attribute'];
         $customMessages = [];
         return Validator::make($request->all(), $rules, $customMessages, $attribute);
+    }
+
+    public function getWhere(){
+        return ['vtype'=>getVersionType(), 'branch_id'=>getBranchId()];
     }
 }

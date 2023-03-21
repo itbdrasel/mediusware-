@@ -4,6 +4,7 @@ namespace Modules\Scms\Http\Controllers\Backend;
 use Illuminate\Contracts\Support\Renderable;
 
 use Modules\Scms\Models\ClassModel;
+use Modules\Scms\Models\RuleMark;
 use Modules\Scms\Models\RuleMarkManage;
 use Modules\Scms\Models\RulesGroup;
 use Modules\Scms\Models\Subject;
@@ -53,16 +54,15 @@ class RuleMarksController extends Controller
      */
     public function create(Request $request){
         $this->data     = $this->createEdit();
-//dd($request->all());
-        if($request['_method'] === 'PUT' ){
+        if($request['_method'] === 'POST' ){
 //        if($request->method() === 'PUT' ){
             $rules = [
                 'class_id'	=> 'required',
                 'exam_id'	=> 'required',
             ];
             $attribute = [
-                'class_id'  => 'Class',
-                'exam_id'   => 'Exam'
+                'class_id'  => 'The class field is required.',
+                'exam_id'   => 'The exam field is required.'
             ];
             $validator = Validator::make($request->all(), $rules, $attribute);
             if($validator->fails()) {
@@ -126,35 +126,34 @@ class RuleMarksController extends Controller
         $params = $this->crudServices->getInsertData($this->model, $request);
         $params['branch_id']    = getBranchId();
         $params['vtype']        = getVersionType();
-        $ruleId                 = $request['rule_id'];
+
+        $subjectId              = $request['subject_id'];
         if (empty($id) ) {
-           $class_group_rule_id = $this->model::create($params)->id;
+           $rule_mark_id = $this->model::create($params)->id;
         }else{
-            $class_group_rule_id = $id;
+            $rule_mark_id = $id;
             $this->model::where($this->tableId, $id)->update($params);
-            RuleManage::where('class_group_rule_id', $id)->update(['status'=>8]);
+            RuleMark::where('rule_mark_manage_id', $id)->update(['status'=>8]);
         }
 
-        if (!empty($ruleId)) {
-            foreach ($ruleId as $key => $value) {
+        if (!empty($subjectId)) {
+            foreach ($subjectId as $key => $value) {
                 $ruleData = [
-                    'rule_id'              => $value,
-                    'class_group_rule_id'   => $class_group_rule_id,
+                    'rule_mark_manage_id'   => $rule_mark_id,
+                    'subject_id'            => $value,
+                    'full_mark'             => $request['full_mark'][$key],
+                    'pass_mark'             => $request['pass_mark'][$key],
+                    'rule_mark'             =>json_encode($request['marks'][$key]),
                     'status'                => 1,
                 ];
-               $group   = RuleManage::where(['class_group_rule_id'=>$id, 'rule_id'=>$value])->first();
-                if (!empty($group)){
-                    RuleManage::where(['class_group_rule_id' =>$id, 'rule_id' =>$value])->update($ruleData);
-                }else{
-                    RuleManage::create($ruleData);
-                }
+                $where = ['rule_mark_manage_id'=>$rule_mark_id, 'subject_id'=>$value];
+                RuleMark::updateOrCreate($where, $ruleData);
             }
         }
 
         if (!empty($id)) {
-            RuleManage::where(['class_group_rule_id'=>$id, 'status'=>8])->delete();
+            RuleMark::where(['rule_mark_manage_id'=>$id, 'status'=>8])->delete();
         }
-
         return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
 
     }
@@ -171,7 +170,7 @@ class RuleMarksController extends Controller
     {
         if ($request->ajax()) {
             $this->model::where($this->tableId, $id)->delete();
-            RuleManage::where('class_group_rule_id', $id)->delete();
+            RuleMark::where('rule_mark_manage_id', $id)->delete();
             return true;
         }
         return false;
