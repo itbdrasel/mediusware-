@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 
 use Modules\Scms\Models\Exam;
 use Modules\Scms\Models\ExamRule;
-use Modules\Scms\Models\RuleManage;
 use Validator;
 
 class RuleMarksController extends Controller
@@ -37,7 +36,7 @@ class RuleMarksController extends Controller
      * @return Renderable
      */
     public function index(Request $request){
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', '', $this->getWhere());
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['className', 'exam', 'ruleMarks', 'ruleMarks.subject'], $this->getWhere());
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         if ($request->ajax() || $request['ajax']){
@@ -110,6 +109,11 @@ class RuleMarksController extends Controller
         $this->data             = $this->createEdit($id);
         $this->data['objData']  = $objData;
 
+        $this->data['class_id'] = $objData->class_id;
+        $this->data['exam_id']  = $objData->exam_id;
+        $this->data['start_year']= $objData->start_year;
+        $this->data['end_year']  = $objData->end_year;
+
         $this->layout('create');
     }
 
@@ -139,14 +143,14 @@ class RuleMarksController extends Controller
         if (!empty($subjectId)) {
             foreach ($subjectId as $key => $value) {
                 $ruleData = [
-                    'rule_mark_manage_id'   => $rule_mark_id,
-                    'subject_id'            => $value,
-                    'full_mark'             => $request['full_mark'][$key],
-                    'pass_mark'             => $request['pass_mark'][$key],
-                    'rule_mark'             =>json_encode($request['marks'][$key]),
-                    'status'                => 1,
+                    'rule_mark_manage_id' => $rule_mark_id,
+                    'subject_id' => $value,
+                    'full_mark' => $request['full_mark'][$key],
+                    'pass_mark' => $request['pass_mark'][$key],
+                    'rule_mark' => json_encode($request['marks'][$key]),
+                    'status' => 1,
                 ];
-                $where = ['rule_mark_manage_id'=>$rule_mark_id, 'subject_id'=>$value];
+                $where = ['rule_mark_manage_id' => $rule_mark_id, 'subject_id' => $value];
                 RuleMark::updateOrCreate($where, $ruleData);
             }
         }

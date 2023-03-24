@@ -91,6 +91,7 @@
                         @if(isset($subjects) && count($subjects) >0)
                         <form method="post" action="{{url($bUrl.'/store')}}" >
                             @csrf
+                            <input type="hidden" name="id" value="1">
                             <input type="hidden" name="class_id" value="{{$class_id??''}}">
                             <input type="hidden" name="exam_id" value="{{$exam_id??''}}">
                             <input type="hidden" name="start_year" value="{{$start_year??''}}">
@@ -126,7 +127,7 @@
                                         @foreach($subjects as $subject)
                                             <tr>
                                                 <td class="text-center">
-                                                    <input id="subject_id{{$subject->id}}" name="subject[{{$subject->id}}]" value="{{$subject->id}}" checked type="checkbox" class="role-permission">
+                                                    <input id="subject_id{{$subject->id}}" name="subject_id[{{$subject->id}}]" value="{{$subject->id}}" checked type="checkbox" class="role-permission">
                                                 </td>
                                                 <td>{{$subject->name}} ({{$subject->subject_code}})</td>
                                                 <td>

@@ -19,6 +19,19 @@ class RuleMarkManage extends Model
 
     public static $required = ['class_id'=>'Class','exam_id'=>'Exam', 'calculation_subject'=>'Total Grade Calculation By Subject'];
 
-    public static $insertData = ['class_group_id','exam_id'];
+    public static $insertData = [ 'exam_id', 'class_id', 'start_year', 'end_year', 'calculation_subject'];
+
+
+    public function className(){
+        return $this->belongsTo(ClassModel::class, 'class_id', 'id');
+    }
+
+    public function exam(){
+        return $this->belongsTo(Exam::class, 'exam_id', 'id');
+    }
+
+    public function ruleMarks(){
+        return $this->hasMany(RuleMark::class, 'rule_mark_manage_id', 'id');
+    }
 
 }
