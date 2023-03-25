@@ -18,7 +18,7 @@
                         </div>
                     </div>
                         <div class="card-body">
-
+                            @if(empty($objData))
                             <div class="card">
                                 <div class="card-body">
                                     <form>
@@ -88,14 +88,13 @@
                                     </form>
                                 </div>
                             </div>
+                            @endif
                         @if(isset($subjects) && count($subjects) >0)
                         <form method="post" action="{{url($bUrl.'/store')}}" >
                             @csrf
                             <input type="hidden" name="id" value="1">
                             <input type="hidden" name="class_id" value="{{$class_id??''}}">
                             <input type="hidden" name="exam_id" value="{{$exam_id??''}}">
-                            <input type="hidden" name="start_year" value="{{$start_year??''}}">
-                            <input type="hidden" name="end_year" value="{{$end_year??''}}">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group row">
@@ -105,6 +104,24 @@
                                         <label for="{{$input_name}}" class="col-sm-2 col-form-label"> Calculation Subject <code>*</code></label>
                                         <div class="col-sm-3">
                                             <input type="text" value="{{getValue($input_name, $objData)}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                        </div>
+                                        @php
+                                            $input_name = 'start_year';
+                                        @endphp
+                                        <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}}</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" value="{{getValue($input_name, $objData, $start_year??'')}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
+                                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @php
+                                            $input_name = 'end_year';
+                                        @endphp
+                                        <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}}</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" value="{{getValue($input_name, $objData, $start_year??'')}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
                                             <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                         </div>
                                     </div>
@@ -125,13 +142,16 @@
                                         </thead>
                                         <tbody>
                                         @foreach($subjects as $subject)
+
                                             <tr>
                                                 <td class="text-center">
-                                                    <input id="subject_id{{$subject->id}}" name="subject_id[{{$subject->id}}]" value="{{$subject->id}}" checked type="checkbox" class="role-permission">
+                                                    <input id="subject_id{{$subject->id}}" name="subject_id[{{$subject->id}}]" value="{{$subject->id}}" {{empty($objData)?'checked':''}}   type="checkbox" class="role-permission"
+                                                        {{getCheckedArraySearch($subject->id, 'subject_id', $objData->ruleMarks??'')}}
+                                                    >
                                                 </td>
                                                 <td>{{$subject->name}} ({{$subject->subject_code}})</td>
                                                 <td>
-                                                    <input type="text" name="full_mark[{{$subject->id}}]" placeholder="Full Mark" class="form-control onlyNumber" name="">
+                                                    <input type="text" name="full_mark[{{$subject->id}}]" value="" placeholder="Full Mark" class="form-control onlyNumber" >
                                                 </td>
                                                 <td>
                                                     <input type="text" name="pass_mark[{{$subject->id}}]" placeholder="Pass Mark"  class="form-control onlyNumber" >

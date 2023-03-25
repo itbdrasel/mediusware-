@@ -85,8 +85,8 @@
 @endif
 
 @if (dAuth()->hasAnyAccess(['scms.class', 'scms.section']))
-    <li class="nav-item {{menuOpenActive(2, ['exam', 'result-publish', 'exam-rules', 'rules-manage'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['exam','result-publish', 'exam-rules','rules-manage'], true)}} ">
+    <li class="nav-item {{menuOpenActive(2, ['exam', 'result-publish', 'exam-rules', 'rules-manage','rule-marks'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['exam','result-publish', 'exam-rules','rules-manage','rule-marks'], true)}} ">
             <i class="nav-icon fas fa-graduation-cap"></i>
             <p>Exam<i class="right fas fa-angle-down"></i></p>
         </a>
@@ -119,6 +119,12 @@
                 <a href="{{url('scms/rules-manage')}}" class="nav-link {{activeMenu(2, 'rules-manage')}} ">
                     <i class="fas fa-circle"></i>
                     <p>Rules Manage</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url('scms/rule-marks')}}" class="nav-link {{activeMenu(2, 'rule-marks')}} ">
+                    <i class="fas fa-circle"></i>
+                    <p>Rule Marks</p>
                 </a>
             </li>
         </ul>

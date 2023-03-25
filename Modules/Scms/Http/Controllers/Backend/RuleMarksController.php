@@ -12,7 +12,6 @@ use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 
 use Modules\Scms\Models\Exam;
-use Modules\Scms\Models\ExamRule;
 use Validator;
 
 class RuleMarksController extends Controller
@@ -109,10 +108,30 @@ class RuleMarksController extends Controller
         $this->data             = $this->createEdit($id);
         $this->data['objData']  = $objData;
 
-        $this->data['class_id'] = $objData->class_id;
-        $this->data['exam_id']  = $objData->exam_id;
-        $this->data['start_year']= $objData->start_year;
-        $this->data['end_year']  = $objData->end_year;
+
+        $class_id               = $objData->class_id;
+        $exam_id                = $objData->exam_id;
+        $start_year             = $objData->start_year;
+        $end_year               = $objData->end_year;
+        $this->data['class_id'] = $class_id;
+        $this->data['exam_id']  = $exam_id;
+        $this->data['start_year']= $start_year;
+        $this->data['end_year']  = $end_year;
+
+        $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id'=>$class_id, 'exam_id'=>$exam_id])->with('ruleManages');
+        if ($start_year && $end_year){
+            $rulesGroup->where('start_year','<=',$end_year)
+                ->where('end_date','>=',$start_year);
+        }elseif ($end_year){
+            $rulesGroup->where('end_date',$end_year);
+        }elseif ($end_year){
+            $rulesGroup->where('start_year',$start_year);
+        }
+        $rules =  $rulesGroup->first();
+
+        $this->data['rules'] = $rules->ruleManages()->with('ruleName')->get();
+
+        $this->data['subjects'] = Subject::where($this->getWhere())->where(['class_id'=>$class_id])->get();
 
         $this->layout('create');
     }
@@ -195,7 +214,6 @@ class RuleMarksController extends Controller
         $this->data                     = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
         $this->data['allClass']         = ClassModel::where($where)->get();
         $this->data['exams']            = Exam::where($where)->orderBy('order_by')->get();
-        $this->data['examRules']        = ExamRule::where($where)->orderBy('order_by')->get();
         return $this->data;
     }
 
