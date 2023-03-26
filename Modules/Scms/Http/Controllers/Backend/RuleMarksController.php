@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -17,16 +18,18 @@ use Validator;
 class RuleMarksController extends Controller
 {
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
-        $this->model            = RuleMarkManage::class;
-        $this->bUrl             = $this->moduleName.'/rule-marks';
-        $this->title            = 'Rule Marks';
+        $this->model = RuleMarkManage::class;
+        $this->bUrl = $this->moduleName . '/rule-marks';
+        $this->title = 'Rule Marks';
     }
 
 
-    public function layout($pageName){
-        echo $this->getLayout('rule_marks',$pageName);
+    public function layout($pageName)
+    {
+        echo $this->getLayout('rule_marks', $pageName);
     }
 
 
@@ -34,11 +37,12 @@ class RuleMarksController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index(Request $request){
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'id', ['className', 'exam', 'ruleMarks', 'ruleMarks.subject'], $this->getWhere());
-        $this->data['title']        = $this->title.' Manager';
-        $this->data['pageUrl']      = $this->bUrl;
-        if ($request->ajax() || $request['ajax']){
+    public function index(Request $request)
+    {
+        $this->data = $this->crudServices->getIndexData($request, $this->model, 'id', ['className', 'exam', 'ruleMarks', 'ruleMarks.subject'], $this->getWhere());
+        $this->data['title'] = $this->title . ' Manager';
+        $this->data['pageUrl'] = $this->bUrl;
+        if ($request->ajax() || $request['ajax']) {
             return $this->layout('data');
         }
         $this->layout('index');
@@ -50,45 +54,46 @@ class RuleMarksController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function create(Request $request){
-        $this->data     = $this->createEdit();
-        if($request['_method'] === 'POST' ){
+    public function create(Request $request)
+    {
+        $this->data = $this->createEdit();
+        if ($request['_method'] === 'POST') {
 //        if($request->method() === 'PUT' ){
             $rules = [
-                'class_id'	=> 'required',
-                'exam_id'	=> 'required',
+                'class_id' => 'required',
+                'exam_id' => 'required',
             ];
             $attribute = [
-                'class_id'  => 'The class field is required.',
-                'exam_id'   => 'The exam field is required.'
+                'class_id' => 'The class field is required.',
+                'exam_id' => 'The exam field is required.'
             ];
             $validator = Validator::make($request->all(), $rules, $attribute);
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            $class_id               = $request['class_id'];
-            $exam_id                = $request['exam_id'];
-            $start_year             = $request['start_year'];
-            $end_year               = $request['end_year'];
+            $class_id = $request['class_id'];
+            $exam_id = $request['exam_id'];
+            $start_year = $request['start_year'];
+            $end_year = $request['end_year'];
             $this->data['class_id'] = $class_id;
-            $this->data['exam_id']  = $exam_id;
-            $this->data['start_year']= $start_year;
-            $this->data['end_year']  = $end_year;
-           $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id'=>$class_id, 'exam_id'=>$exam_id])->with('ruleManages');
-           if ($start_year && $end_year){
-               $rulesGroup->where('start_year','<=',$end_year)
-                   ->where('end_date','>=',$start_year);
-           }elseif ($end_year){
-               $rulesGroup->where('end_date',$end_year);
-           }elseif ($end_year){
-               $rulesGroup->where('start_year',$start_year);
-           }
-           $rules =  $rulesGroup->first();
+            $this->data['exam_id'] = $exam_id;
+            $this->data['start_year'] = $start_year;
+            $this->data['end_year'] = $end_year;
+            $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $class_id, 'exam_id' => $exam_id])->with('ruleManages');
+            if ($start_year && $end_year) {
+                $rulesGroup->where('start_year', '<=', $end_year)
+                    ->where('end_date', '>=', $start_year);
+            } elseif ($end_year) {
+                $rulesGroup->where('end_date', $end_year);
+            } elseif ($end_year) {
+                $rulesGroup->where('start_year', $start_year);
+            }
+            $rules = $rulesGroup->first();
 
-            $this->data['rules'] = $rules->ruleManages()->with('ruleName')->get();
+            $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
 
-            $this->data['subjects'] = Subject::where($this->getWhere())->where(['class_id'=>$class_id])->get();
+            $this->data['subjects'] = Subject::where($this->getWhere())->where(['class_id' => $class_id])->get();
         }
 
         $this->layout('create');
@@ -99,39 +104,44 @@ class RuleMarksController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id){
+    public function edit($id)
+    {
 
         $objData = $this->model::where($this->tableId, $id)->first();
         $id = filter_var($id, FILTER_VALIDATE_INT);
-        if( !$id || empty($objData) ){ exit('Bad Request!'); }
-
-        $this->data             = $this->createEdit($id);
-        $this->data['objData']  = $objData;
-
-
-        $class_id               = $objData->class_id;
-        $exam_id                = $objData->exam_id;
-        $start_year             = $objData->start_year;
-        $end_year               = $objData->end_year;
-        $this->data['class_id'] = $class_id;
-        $this->data['exam_id']  = $exam_id;
-        $this->data['start_year']= $start_year;
-        $this->data['end_year']  = $end_year;
-
-        $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id'=>$class_id, 'exam_id'=>$exam_id])->with('ruleManages');
-        if ($start_year && $end_year){
-            $rulesGroup->where('start_year','<=',$end_year)
-                ->where('end_date','>=',$start_year);
-        }elseif ($end_year){
-            $rulesGroup->where('end_date',$end_year);
-        }elseif ($end_year){
-            $rulesGroup->where('start_year',$start_year);
+        if (!$id || empty($objData)) {
+            exit('Bad Request!');
         }
-        $rules =  $rulesGroup->first();
 
-        $this->data['rules'] = $rules->ruleManages()->with('ruleName')->get();
+        $this->data = $this->createEdit($id);
+        $this->data['objData'] = $objData;
 
-        $this->data['subjects'] = Subject::where($this->getWhere())->where(['class_id'=>$class_id])->get();
+
+        $class_id = $objData->class_id;
+        $exam_id = $objData->exam_id;
+        $start_year = $objData->start_year;
+        $end_year = $objData->end_year;
+        $this->data['class_id'] = $class_id;
+        $this->data['exam_id'] = $exam_id;
+        $this->data['start_year'] = $start_year;
+        $this->data['end_year'] = $end_year;
+
+        $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $class_id, 'exam_id' => $exam_id])->with('ruleManages');
+        if ($start_year && $end_year) {
+            $rulesGroup->where('start_year', '<=', $end_year)
+                ->where('end_date', '>=', $start_year);
+        } elseif ($end_year) {
+            $rulesGroup->where('end_date', $end_year);
+        } elseif ($end_year) {
+            $rulesGroup->where('start_year', $start_year);
+        }
+        $rules = $rulesGroup->first();
+
+        $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
+
+        $this->data['subjects'] = Subject::where($this->getWhere())->where(['class_id' => $class_id])
+            ->with('ruleMark')
+            ->get();
 
         $this->layout('create');
     }
@@ -143,20 +153,21 @@ class RuleMarksController extends Controller
      * @return Renderable
      */
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $this->getValidation($request);
         $id = $request[$this->tableId];
         $params = $this->crudServices->getInsertData($this->model, $request);
-        $params['branch_id']    = getBranchId();
-        $params['vtype']        = getVersionType();
+        $params['branch_id'] = getBranchId();
+        $params['vtype'] = getVersionType();
 
-        $subjectId              = $request['subject_id'];
-        if (empty($id) ) {
-           $rule_mark_id = $this->model::create($params)->id;
-        }else{
+        $subjectId = $request['subject_id'];
+        if (empty($id)) {
+            $rule_mark_id = $this->model::create($params)->id;
+        } else {
             $rule_mark_id = $id;
             $this->model::where($this->tableId, $id)->update($params);
-            RuleMark::where('rule_mark_manage_id', $id)->update(['status'=>8]);
+            RuleMark::where('rule_mark_manage_id', $id)->update(['status' => 8]);
         }
 
         if (!empty($subjectId)) {
@@ -175,13 +186,11 @@ class RuleMarksController extends Controller
         }
 
         if (!empty($id)) {
-            RuleMark::where(['rule_mark_manage_id'=>$id, 'status'=>8])->delete();
+            RuleMark::where(['rule_mark_manage_id' => $id, 'status' => 8])->delete();
         }
         return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
 
     }
-
-
 
 
     /**
@@ -200,25 +209,28 @@ class RuleMarksController extends Controller
 
     }
 
-    public function getValidation($request){
-        $validationRules    = $this->crudServices->getValidationRules($this->model);
-        $rules              = $validationRules['rules'];
-        $attribute          = $validationRules['attribute'];
-        $customMessages     = [];
-        return $request->validate($rules,$customMessages, $attribute);
+    public function getValidation($request)
+    {
+        $validationRules = $this->crudServices->getValidationRules($this->model);
+        $rules = $validationRules['rules'];
+        $attribute = $validationRules['attribute'];
+        $customMessages = [];
+        return $request->validate($rules, $customMessages, $attribute);
     }
 
 
-    public function createEdit($id=''){
-        $where                          = $this->getWhere();
-        $this->data                     = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
-        $this->data['allClass']         = ClassModel::where($where)->get();
-        $this->data['exams']            = Exam::where($where)->orderBy('order_by')->get();
+    public function createEdit($id = '')
+    {
+        $where = $this->getWhere();
+        $this->data = $this->crudServices->createEdit($this->title, $this->bUrl, $id);
+        $this->data['allClass'] = ClassModel::where($where)->get();
+        $this->data['exams'] = Exam::where($where)->orderBy('order_by')->get();
         return $this->data;
     }
 
-    public function getWhere(){
-        return ['vtype'=>getVersionType(), 'branch_id'=>getBranchId()];
+    public function getWhere()
+    {
+        return ['vtype' => getVersionType(), 'branch_id' => getBranchId()];
     }
 
 }

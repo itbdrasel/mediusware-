@@ -48,4 +48,8 @@ class Subject extends Model
         return $this->hasOne(Subject::class, 'subject_parent_id', 'id');
     }
 
+    public function ruleMark(){
+        return $this->hasOne(RuleMark::class, 'subject_id', 'id');
+    }
+
 }

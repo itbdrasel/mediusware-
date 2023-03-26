@@ -142,24 +142,29 @@
                                         </thead>
                                         <tbody>
                                         @foreach($subjects as $subject)
-
+                                            @php
+                                                $ruleMarkObj = $subject->ruleMark??'';
+                                                $ruleMarks  = [];
+                                                if (!empty($ruleMarkObj)){
+                                                    $ruleMarks = json_decode($ruleMarkObj->rule_mark, true);
+                                                }
+                                            @endphp
                                             <tr>
                                                 <td class="text-center">
-                                                    <input id="subject_id{{$subject->id}}" name="subject_id[{{$subject->id}}]" value="{{$subject->id}}" {{empty($objData)?'checked':''}}   type="checkbox" class="role-permission"
-                                                        {{getCheckedArraySearch($subject->id, 'subject_id', $objData->ruleMarks??'')}}
-                                                    >
+                                                    <input id="subject_id{{$subject->id}}" name="subject_id[{{$subject->id}}]" value="{{$subject->id}}" type="checkbox" class="role-permission"
+                                                        {{getChecked($subject->id,'subject_id', $ruleMarkObj, $subject->id)}}>
                                                 </td>
                                                 <td>{{$subject->name}} ({{$subject->subject_code}})</td>
                                                 <td>
-                                                    <input type="text" name="full_mark[{{$subject->id}}]" value="" placeholder="Full Mark" class="form-control onlyNumber" >
+                                                    <input type="text" name="full_mark[{{$subject->id}}]" value="{{$ruleMarkObj->full_mark??''}}" placeholder="Full Mark" class="form-control onlyNumber" >
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="pass_mark[{{$subject->id}}]" placeholder="Pass Mark"  class="form-control onlyNumber" >
+                                                    <input type="text" name="pass_mark[{{$subject->id}}]" placeholder="Pass Mark" value="{{$ruleMarkObj->pass_mark??''}}"   class="form-control onlyNumber" >
                                                 </td>
                                                 @if(!empty($rules))
                                                     @foreach($rules as $rule)
                                                     <td>
-                                                        <input name="marks[{{$subject->id}}][{{$rule->id}}]" type="text" class="form-control onlyNumber" placeholder="{{$rule->code}}">
+                                                        <input name="marks[{{$subject->id}}][{{$rule->id}}]" type="text" class="form-control onlyNumber" value="{{$ruleMarks[$rule->id]??''}}" placeholder="{{$rule->code}}">
                                                     </td>
                                                     @endforeach
                                                 @endif

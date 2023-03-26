@@ -411,3 +411,5 @@ function getCheckedArraySearch($needle, $key, $dataArray=''){
     }
     return ($id == $needle)?'checked':'';
 }
+
+
