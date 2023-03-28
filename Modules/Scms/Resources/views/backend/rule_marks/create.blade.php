@@ -141,9 +141,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        @php
+                                        function getSubjectMarks($subjectId, $ruleMarks=[]){
+                                                 if (empty($ruleMarks)) return false;
+                                                  $array = $ruleMarks->toArray();
+                                                  $haystack = array_filter($array, function($ar) use ($subjectId) {
+                                                       return ($ar['subject_id'] == $subjectId)?$ar:[];
+                                                    });
+                                                    $haystack =  array_values($haystack);
+                                                  return isset($haystack[0])?(object)$haystack[0]:[];
+                                            }
+                                        @endphp
                                         @foreach($subjects as $subject)
                                             @php
-                                                $ruleMarkObj = $subject->ruleMark??'';
+                                                $ruleMarkObj =  getSubjectMarks($subject->id, $objData->ruleMarks??'');
                                                 $ruleMarks  = [];
                                                 if (!empty($ruleMarkObj)){
                                                     $ruleMarks = json_decode($ruleMarkObj->rule_mark, true);

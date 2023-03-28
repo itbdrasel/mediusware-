@@ -13,29 +13,37 @@ function dAuth(){
     return app('Modules\Core\Repositories\AuthInterface');
 }
 
-/*****
- * currency()
- * Return currency format.
+/**
+ * Format a currency amount with symbol and order based on application settings.
+ *
+ * @param float  $amount  The currency amount to format.
+ * @param bool   $format  If true, format the amount with commas and 2 decimal places.
+ * @param bool   $symbol  If true, include the currency symbol.
+ * @return string         The formatted currency string.
  */
 
 function currency($amount, $format = false, $symbole=true){
 
-    $s_symbole = Config::get('settings.c_symbol');
-    if (!$symbole) {
-        $s_symbole='';
-    }
-    if(Config::get('settings.c_order') === 'left'){
-        if($format) return $s_symbole.' '.number_format((float) $amount, 2, '.', ',');
-        else return $s_symbole.' '.floatval($amount);
+    $c_symbol = Config::get('settings.c_symbol');
+    $symbol_str = $symbole ? $c_symbol : '';
+    $formatted_amount = $format ? number_format((float) $amount, 2, '.', ',') : floatval($amount);
 
-    }else{
-        if($format) return number_format((float) $amount, 2, '.', ',').' '.$s_symbole;
-        else return floatval($amount).' '.$s_symbole;
+    if (Config::get('settings.c_order') === 'left') {
+        return $symbol_str . ' ' . $formatted_amount;
+    } else {
+        return $formatted_amount . ' ' . $symbol_str;
     }
 }
 
 
-
+/**
+ * Generate Laravel resource routes based on array of route names.
+ *
+ * @param  array  $routeNames  Array of route names to generate
+ * @param  bool   $matchCreate  Indicates if create route should match both GET and POST methods
+ * @param  bool   $matchDelete  Indicates if delete route should match both GET and POST methods
+ * @return void
+ */
 
 function getResourceRoute($array, $match=true, $match_2=true){
     $route =  Illuminate\Support\Facades\Route::class;
@@ -215,7 +223,7 @@ if (! function_exists('menuOpenActive')) {
 function emailSend($to, $subject, $data,$view='mail'){
 
     Mail::send('email.'.$view, $data, function ($message) use ($to, $subject){
-        return $message->to($to)->subject($subject)->from('hotel@gov.bd');
+        return $message->to($to)->subject($subject)->from('admin@gmail.com');
     });
 }
 
@@ -285,6 +293,16 @@ function checkUncheck($id){
     return false;
 }
 
+
+/**
+ * Retrieve the value of a given field from the given data.
+ *
+ * @param  string  $field    The name of the field whose value needs to be retrieved
+ * @param  mixed   $data     The data from which the value needs to be retrieved
+ * @param  mixed   $default  The default value to be returned if the field does not exist in the data (optional, defaults to null)
+ *
+ * @return mixed  The value of the given field from the data or the default value if the field does not exist in the data.
+ */
 function getValue($field, $data, $default=null){
     return (!empty($data) && isset($data->$field)) ? old($field,$data->$field) : old($field,$default);
 }
