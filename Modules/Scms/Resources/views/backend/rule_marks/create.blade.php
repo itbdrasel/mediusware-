@@ -21,7 +21,11 @@
                             @if(empty($objData))
                             <div class="card">
                                 <div class="card-body">
-                                    <form>
+                                    <form action="" method="post">
+                                        @csrf
+{{--                                    <form>--}}
+                                        {!! validation_errors($errors) !!}
+
                                      <input type="hidden" name="_method" value="POST">
                                         <div class="form-group row">
                                             @php
@@ -74,8 +78,8 @@
                                             <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}} </label>
 
                                             <div class="col-sm-3">
-                                                <input type="text" value="{{getValue($input_name, $objData, $end_year??'')}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
-                                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                                                <input type="text" value="{{getValue($input_name, $objData, $end_year??'')}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber">
+{{--                                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>--}}
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -121,7 +125,7 @@
                                         @endphp
                                         <label for="{{$input_name}}" class="col-sm-2 col-form-label"> {{getLabelName($input_name)}}</label>
                                         <div class="col-sm-3">
-                                            <input type="text" value="{{getValue($input_name, $objData, $start_year??'')}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber @error($input_name) is-invalid @enderror">
+                                            <input type="text" value="{{getValue($input_name, $objData, $end_year??'')}}" name="{{$input_name}}" id="{{$input_name}}"  class="form-control onlyNumber ">
                                             <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                         </div>
                                     </div>

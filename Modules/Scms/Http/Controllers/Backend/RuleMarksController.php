@@ -4,6 +4,7 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
+use Illuminate\Validation\Rule;
 use Modules\Scms\Models\ClassModel;
 use Modules\Scms\Models\RuleMark;
 use Modules\Scms\Models\RuleMarkManage;
@@ -60,40 +61,54 @@ class RuleMarksController extends Controller
         if ($request['_method'] === 'POST') {
 //        if($request->method() === 'PUT' ){
             $rules = [
-                'class_id' => 'required',
-                'exam_id' => 'required',
+                'class_id'  => 'required',
+                'exam_id'   =>"required",
+                'start_year' => 'nullable|numeric',
+//                'end_year' => 'nullable|numeric',
+                'end_year' => Rule::unique('scms_rule_mark_manage')->where(function ($query) use ($request) {
+                    return $query->where('class_id', $request->class_id)
+                        ->where('exam_id', $request->exam_id)
+                        ->where('start_year', $request->start_year)
+                        ->where('end_year', $request->end_year);
+                })
             ];
+
+
             $attribute = [
                 'class_id' => 'The class field is required.',
                 'exam_id' => 'The exam field is required.'
             ];
-            $validator = Validator::make($request->all(), $rules, $attribute);
+            $customMessages = [
+                'unique' => 'The rule marks  has already been taken.'
+            ];
+            $validator = Validator::make($request->all(), $rules,$customMessages, $attribute);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
-            }
+            }else{
+                $class_id = $request['class_id'];
+                $exam_id = $request['exam_id'];
+                $start_year = $request['start_year'];
+                $end_year = $request['end_year'];
+                $this->data['class_id'] = $class_id;
+                $this->data['exam_id'] = $exam_id;
+                $this->data['start_year'] = $start_year;
+                $this->data['end_year'] = $end_year;
+                $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $class_id, 'exam_id' => $exam_id])->with('ruleManages');
+                if ($start_year && $end_year) {
+                    $rulesGroup->where('start_year', '<=', $end_year)
+                        ->where('end_date', '>=', $start_year);
+                } elseif ($end_year) {
+                    $rulesGroup->where('end_date', $end_year);
+                } elseif ($end_year) {
+                    $rulesGroup->where('start_year', $start_year);
+                }
+                $rules = $rulesGroup->first();
 
-            $class_id = $request['class_id'];
-            $exam_id = $request['exam_id'];
-            $start_year = $request['start_year'];
-            $end_year = $request['end_year'];
-            $this->data['class_id'] = $class_id;
-            $this->data['exam_id'] = $exam_id;
-            $this->data['start_year'] = $start_year;
-            $this->data['end_year'] = $end_year;
-            $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $class_id, 'exam_id' => $exam_id])->with('ruleManages');
-            if ($start_year && $end_year) {
-                $rulesGroup->where('start_year', '<=', $end_year)
-                    ->where('end_date', '>=', $start_year);
-            } elseif ($end_year) {
-                $rulesGroup->where('end_date', $end_year);
-            } elseif ($end_year) {
-                $rulesGroup->where('start_year', $start_year);
-            }
-            $rules = $rulesGroup->first();
-
-            $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
+                $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
 
             $this->data['subjects'] = Subject::where($this->getWhere())->where(['class_id' => $class_id])->get();
+            }
+
         }
 
         $this->layout('create');
