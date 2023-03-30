@@ -106,7 +106,7 @@
 
                     @else
 
-                        <tr> <td colspan="4">There is nothing found.</td> </tr>
+                        <tr> <td colspan="6">There is nothing found.</td> </tr>
 
 
                     @endif

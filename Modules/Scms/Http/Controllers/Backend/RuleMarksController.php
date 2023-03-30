@@ -64,13 +64,13 @@ class RuleMarksController extends Controller
                 'class_id'  => 'required',
                 'exam_id'   =>"required",
                 'start_year' => 'nullable|numeric',
-//                'end_year' => 'nullable|numeric',
-                'end_year' => Rule::unique('scms_rule_mark_manage')->where(function ($query) use ($request) {
-                    return $query->where('class_id', $request->class_id)
-                        ->where('exam_id', $request->exam_id)
-                        ->where('start_year', $request->start_year)
-                        ->where('end_year', $request->end_year);
-                })
+                'end_year' => 'nullable|numeric',
+               /* 'end_year' => Rule::unique('scms_rule_mark_manage')->where(function ($query) use ($request) {
+                    return $query->where('class_id', $request['class_id'])
+                        ->where('exam_id', $request['exam_id'])
+                        ->where('start_year', $request['start_year'])
+                        ->where('end_year', $request['end_year']);
+                })*/
             ];
 
 
@@ -96,17 +96,23 @@ class RuleMarksController extends Controller
                 $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $class_id, 'exam_id' => $exam_id])->with('ruleManages');
                 if ($start_year && $end_year) {
                     $rulesGroup->where('start_year', '<=', $end_year)
-                        ->where('end_date', '>=', $start_year);
+                        ->where('end_year', '>=', $start_year);
                 } elseif ($end_year) {
-                    $rulesGroup->where('end_date', $end_year);
+                    $rulesGroup->where('end_year', $end_year);
                 } elseif ($end_year) {
                     $rulesGroup->where('start_year', $start_year);
                 }
                 $rules = $rulesGroup->first();
 
                 $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
+                if (empty($this->data['rules'])){
+                    return redirect()->back()->withErrors('In this class, exam role are not created.')->withInput();
+                }
 
             $this->data['subjects'] = Subject::where($this->getWhere())->where(['class_id' => $class_id])->get();
+                if (empty($this->data['subjects'])){
+                    return redirect()->back()->withErrors('In this class, subjects are not created.')->withInput();
+                }
             }
 
         }
@@ -144,9 +150,9 @@ class RuleMarksController extends Controller
         $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $class_id, 'exam_id' => $exam_id])->with('ruleManages');
         if ($start_year && $end_year) {
             $rulesGroup->where('start_year', '<=', $end_year)
-                ->where('end_date', '>=', $start_year);
+                ->where('end_year', '>=', $start_year);
         } elseif ($end_year) {
-            $rulesGroup->where('end_date', $end_year);
+            $rulesGroup->where('end_year', $end_year);
         } elseif ($end_year) {
             $rulesGroup->where('start_year', $start_year);
         }
@@ -227,9 +233,19 @@ class RuleMarksController extends Controller
     public function getValidation($request)
     {
         $validationRules = $this->crudServices->getValidationRules($this->model);
+
         $rules = $validationRules['rules'];
+        $rules['start_year'] = 'nullable|numeric';
+        $rules['end_year']  = Rule::unique('scms_rule_mark_manage')->ignore($request['id'])->where(function ($query) use ($request) {
+                return $query->where('class_id', $request['class_id'])
+                    ->where('exam_id', $request['exam_id'])
+                    ->where('start_year', $request['start_year'])
+                    ->where('end_year', $request['end_year']);
+            });
         $attribute = $validationRules['attribute'];
-        $customMessages = [];
+        $customMessages = [
+            'unique' => 'The rule marks  has already been taken.'
+        ];
         return $request->validate($rules, $customMessages, $attribute);
     }
 
