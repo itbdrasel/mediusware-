@@ -431,4 +431,6 @@ function getCheckedArraySearch($needle, $key, $dataArray=''){
     return ($id == $needle)?'checked':'';
 }
 
-
+function getStatusBadge($statuId){
+    return $statuId !=1?'<span class="badge bg-danger">Inactive</span>':'<span class="badge bg-success">Active</span>';
+}

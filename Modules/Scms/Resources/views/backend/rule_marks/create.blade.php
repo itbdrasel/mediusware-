@@ -99,6 +99,7 @@
                             <input type="hidden" name="id" value="{{getValue('id', $objData)}}">
                             <input type="hidden" name="class_id" value="{{$class_id??''}}">
                             <input type="hidden" name="exam_id" value="{{$exam_id??''}}">
+                            <input type="hidden" name="rules_group_id" value="{{$rules_group_id??''}}">
                             <div class="card">
                                 <div class="card-body">
                                     @if (!empty($objData))

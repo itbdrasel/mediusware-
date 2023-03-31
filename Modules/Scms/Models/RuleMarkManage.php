@@ -10,7 +10,7 @@ class RuleMarkManage extends Model
     protected $table = 'scms_rule_mark_manage';
 
     protected $fillable = [
-        'exam_id', 'class_id', 'start_year', 'end_year', 'calculation_subject', 'branch_id', 'vtype'
+        'exam_id', 'class_id','rules_group_id','start_year', 'end_year', 'calculation_subject', 'branch_id', 'vtype'
     ];
 
     public static $sortable = ['exam_id', 'class_id'];
@@ -19,7 +19,7 @@ class RuleMarkManage extends Model
 
     public static $required = ['class_id'=>'Class','exam_id'=>'Exam', 'calculation_subject'=>'Total Grade Calculation By Subject'];
 
-    public static $insertData = [ 'exam_id', 'class_id', 'start_year', 'end_year', 'calculation_subject'];
+    public static $insertData = [ 'exam_id', 'class_id','rules_group_id', 'start_year', 'end_year', 'calculation_subject'];
 
 
     public function className(){

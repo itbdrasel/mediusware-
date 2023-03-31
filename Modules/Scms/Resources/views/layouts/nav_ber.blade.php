@@ -85,36 +85,24 @@
 @endif
 
 @if (dAuth()->hasAnyAccess(['scms.class', 'scms.section']))
-    <li class="nav-item {{menuOpenActive(2, ['exam', 'result-publish', 'exam-rules', 'rules-manage','rule-marks'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['exam','result-publish', 'exam-rules','rules-manage','rule-marks'], true)}} ">
+    <li class="nav-item {{menuOpenActive(2, ['exam', 'result-publish', 'exam-rules', 'rules-manage','rule-marks', 'grade'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['exam','result-publish', 'exam-rules','rules-manage','rule-marks', 'grade'], true)}} ">
             <i class="nav-icon fas fa-graduation-cap"></i>
             <p>Exam<i class="right fas fa-angle-down"></i></p>
         </a>
         <ul class="nav nav-treeview">
-            @if (dAuth()->hasAccess(['scms.class']))
-                <li class="nav-item">
-                    <a href="{{url('scms/result-publish')}}" class="nav-link {{activeMenu(2, 'result-publish')}} ">
-                        <i class="fas fa-circle"></i>
-                        <p>Result Publish</p>
-                    </a>
-                </li>
-            @endif
-            @if (dAuth()->hasAccess(['scms.class']))
-                <li class="nav-item">
-                    <a href="{{url('scms/exam')}}" class="nav-link {{activeMenu(2, 'exam')}} ">
-                        <i class="fas fa-circle"></i>
-                        <p>Exam Manager</p>
-                    </a>
-                </li>
-            @endif
-            @if (dAuth()->hasAccess(['scms.class']))
-                <li class="nav-item">
-                    <a href="{{url('scms/exam-rules')}}" class="nav-link {{activeMenu(2, 'exam-rules')}} ">
-                        <i class="fas fa-circle"></i>
-                        <p>Exam Rules</p>
-                    </a>
-                </li>
-            @endif
+            <li class="nav-item">
+                <a href="{{url('scms/result-publish')}}" class="nav-link {{activeMenu(2, 'result-publish')}} ">
+                    <i class="fas fa-circle"></i>
+                    <p>Result Publish</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url('scms/rule-marks')}}" class="nav-link {{activeMenu(2, 'rule-marks')}} ">
+                    <i class="fas fa-circle"></i>
+                    <p>Rule Marks</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{url('scms/rules-manage')}}" class="nav-link {{activeMenu(2, 'rules-manage')}} ">
                     <i class="fas fa-circle"></i>
@@ -122,9 +110,21 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{url('scms/rule-marks')}}" class="nav-link {{activeMenu(2, 'rule-marks')}} ">
+                <a href="{{url('scms/exam-rules')}}" class="nav-link {{activeMenu(2, 'exam-rules')}} ">
                     <i class="fas fa-circle"></i>
-                    <p>Rule Marks</p>
+                    <p>Exam Rules</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url('scms/exam')}}" class="nav-link {{activeMenu(2, 'exam')}} ">
+                    <i class="fas fa-circle"></i>
+                    <p>Exam Manager</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url('scms/grade')}}" class="nav-link {{activeMenu(2, 'grade')}} ">
+                    <i class="fas fa-circle"></i>
+                    <p>Grade Manager</p>
                 </a>
             </li>
         </ul>

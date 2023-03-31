@@ -60,7 +60,7 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
         getResourceRoute(['index','edit','store', 'delete']);
     });
 
-    // Result Publish Route
+    // Class Group Manage Route
     Route::group(['prefix'=>'class-group','as'=>'class_group','controller'=>'Backend\ClassGroupController'], function () {
         getResourceRoute(['index','create','edit','store', 'delete']);
     });
@@ -80,6 +80,11 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
         getResourceRoute(['index','store','edit','delete']);
         Route::match(['get', 'post'], '/create', 'create')->name('.create');
 
+    });
+
+    // Grade Manage Route
+    Route::group(['prefix'=>'grade','as'=>'grade','controller'=>'Backend\GradesController'], function () {
+        getResourceRoute(['index','create','edit','store','delete']);
     });
 
 

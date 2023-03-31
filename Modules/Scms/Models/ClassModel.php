@@ -11,7 +11,7 @@ class ClassModel extends Model
     protected $table = 'scms_class';
 
     protected $fillable = [
-        'name', 'teacher_id', 'order_by','branch_id','vtype'
+        'name', 'teacher_id', 'order_by','branch_id','out_of_id','vtype'
     ];
 
     public static $sortable = ['name'];
@@ -20,7 +20,7 @@ class ClassModel extends Model
 
     public static $required = ['name', 'teacher_id'=>'teacher'];
 
-    public static $insertData = ['name', 'teacher_id', 'order_by'];
+    public static $insertData = ['name', 'teacher_id','out_of_id', 'order_by'];
 
     public function teacher(){
         return $this->hasOne(Employee::class, 'id','teacher_id');
