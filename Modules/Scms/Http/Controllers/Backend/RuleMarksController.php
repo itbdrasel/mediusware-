@@ -74,8 +74,8 @@ class RuleMarksController extends Controller
             ];
 
             $attribute = [
-                'class_id' => 'The class field is required.',
-                'exam_id' => 'The exam field is required.'
+                'class_id' => 'class',
+                'exam_id' => 'exam'
             ];
             $customMessages = [];
             $validator = Validator::make($request->all(), $rules,$customMessages, $attribute);

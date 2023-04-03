@@ -133,8 +133,8 @@
                                             <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
                                         </div>
                                     </div>
-
-                                    <table class="table table-bordered other_guest">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered other_guest">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
@@ -191,6 +191,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="offset-md-3 col-sm-9">

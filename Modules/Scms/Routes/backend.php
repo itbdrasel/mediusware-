@@ -87,6 +87,12 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
         getResourceRoute(['index','create','edit','store','delete']);
     });
 
+    // Grade Manage Route
+    Route::group(['prefix'=>'marks','as'=>'marks','controller'=>'Backend\MarksController'], function () {
+        getResourceRoute(['index','store']);
+        Route::post('get-sections-subjects', 'getSectionsSubjects')->name('.get-sections-subjects');
+    });
+
 
 });
 

@@ -25,4 +25,8 @@ class ClassModel extends Model
     public function teacher(){
         return $this->hasOne(Employee::class, 'id','teacher_id');
     }
+
+    public function sections(){
+       return $this->hasMany(Section::class, 'class_id','id');
+    }
 }

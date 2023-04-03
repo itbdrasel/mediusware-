@@ -5,10 +5,12 @@ use Illuminate\Contracts\Support\Renderable;
 
 use Modules\Scms\Models\Exam;
 use Modules\Scms\Models\Mark;
+use Modules\Scms\Models\RulesGroup;
+use Modules\Scms\Models\Section;
+use Modules\Scms\Models\Subject;
 use Modules\Scms\Services\Backend\Controller;
 
 use Illuminate\Http\Request;
-use Modules\Scms\Models\ClassCategory;
 use Modules\Scms\Models\ClassGroup;
 
 use Validator;
@@ -35,12 +37,44 @@ class MarksController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function create(){
+    public function index(Request $request){
 
-        $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl);
-        $this->data['classes']  = getClass();
+        $this->data = [
+            'title'         => $this->title.' Manager',
+            'pageUrl'       => $this->bUrl,
+            'page_icon'     => '<i class="fas fa-tasks"></i>',
+            'objData'       =>''
+        ];
+        $this->data['allClass']  = getClass();
         $this->data['exams']    = Exam::where($this->getWhere())->where('type',1)->orderBy('order_by')->get();
-        $this->layout('create');
+
+        if ($request['_method'] === 'POST') {
+            $class_id = $request['class_id'];
+            $exam_id = $request['exam_id'];
+
+            $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $class_id, 'exam_id' => $exam_id])
+                ->with('ruleManages')
+                ->get();
+            $rules = [
+                'class_id'      => 'required',
+                'exam_id'       => 'required',
+                'subject_id'    => ['required', function ($attribute, $value, $fail) use ($request){
+
+                }],
+            ];
+            $attribute = [
+                'class_id'  => 'class',
+                'exam_id'   => 'exam',
+                'subject_id' => 'subject'
+            ];
+            $customMessages = [];
+            $validator = Validator::make($request->all(), $rules,$customMessages, $attribute);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+        }
+
+        $this->layout('index');
     }
 
 
@@ -93,12 +127,27 @@ class MarksController extends Controller
 
     }
 
-
-
-
-
     public function getWhere(){
         return ['branch_id'=> getBranchId(),'vtype'=>getVersionType()];
+    }
+
+
+    public function getSectionsSubjects(Request $request){
+        if (!$request->ajax()){
+            return response("Bad Request!", 422);
+        }
+        $classId = $request['class_id'];
+        $classId = filter_var($classId, FILTER_VALIDATE_INT);
+        if($classId){
+            $sections = Section::where('class_id', $classId)->orderBy('order_by')->get();
+            $subjects = Subject::where('class_id', $classId)->orderBy('order_by')->get();
+            $data = [
+                'sections'=> $sections,
+                'subjects'=> $subjects,
+            ];
+            return response(json_encode($data), 200);
+        }
+
     }
 
 }
