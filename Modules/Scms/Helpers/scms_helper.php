@@ -16,13 +16,13 @@ function getClass($where=''){
   return $query->get();
 }
 
-function getTopBerYear(){
-    return getFormatYear(getRunningYear());
+function getTopBerYear($setFormat=''){
+    return getFormatYear(getRunningYear(), $setFormat);
 }
 
-function getFormatYear($year){
+function getFormatYear($year, $setFormat=''){
     $year_format    = config('sc_setting.r_year_format');
-    if ($year_format ==1) {
+    if ($year_format ==1 || $setFormat) {
         return substr($year, 5,14);
     }
     return $year;

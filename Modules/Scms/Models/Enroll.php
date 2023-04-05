@@ -16,7 +16,7 @@ class Enroll extends Model
     public static $insertData = ['class_id', 'section_id', 'group_id', 'shift', 'roll'];
 
     public function student(){
-        return $this->hasMany(Student::class, 'id', 'student_id');
+        return $this->hasOne(Student::class, 'id', 'student_id');
     }
 
 }

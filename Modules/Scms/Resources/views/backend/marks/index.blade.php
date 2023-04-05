@@ -15,15 +15,14 @@
                         </div>
                     </div>
                         <div class="card-body">
-                            @if(empty($objData))
                             <div class="card">
                                 <div class="card-body">
                                     <form action="" method="post">
                                         @csrf
-{{--                                    <form>--}}
+                                        {{--                                    <form>--}}
                                         {!! validation_errors($errors) !!}
 
-                                     <input type="hidden" name="_method" value="POST">
+                                        <input type="hidden" name="_method" value="POST">
                                         <div class="form-group row">
                                             @php
                                                 $input_name = 'class_id';
@@ -93,20 +92,53 @@
                                     </form>
                                 </div>
                             </div>
-                            @endif
-                        @if(isset($subjects) && count($subjects) >0)
+
                         <form method="post" action="{{url($bUrl.'/store')}}" >
                             @csrf
-                            <input type="hidden" name="id" value="{{getValue('id', $objData)}}">
+
                             <input type="hidden" name="class_id" value="{{$class_id??''}}">
                             <input type="hidden" name="exam_id" value="{{$exam_id??''}}">
-                            <input type="hidden" name="rules_group_id" value="{{$rules_group_id??''}}">
+                            <input type="hidden" id="subjectId" name="subject_id" value="{{$subject_id??''}}">
+                            <input type="hidden" id="sectionId" name="section_id" value="{{$section_id??''}}">
+                            @if(isset($students) && count($students) >0)
                             <div class="card">
                                 <div class="card-body">
-                                    @if (!empty($objData))
-                                    {!! validation_errors($errors) !!}
-                                    @endif
-
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name (Id No)</th>
+                                                    @if(!empty($rules))
+                                                        @foreach($rules as $rule)
+                                                    <th>{{$rule->ruleName->code??''}}</th>
+                                                        @endforeach
+                                                    @endif
+                                                    <th>Comment</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($students as $student)
+                                                @php
+                                                    $student = $student->student??''
+                                                @endphp
+                                                <tr>
+                                                    <td>
+                                                        {{$student->name??''}} ({{$student->id_number??''}})
+                                                        <input type="hidden" value="{{$student->id}}" name="students[{{$student->id}}]">
+                                                    </td>
+                                                    @if(!empty($rules))
+                                                        @foreach($rules as $rule)
+                                                    <td>
+                                                        <input name="marks[{{$student->id}}][{{$rule->id}}]" type="text" class="form-control onlyNumber" value="">
+                                                    </td>
+                                                        @endforeach
+                                                    @endif
+                                                    <td><input name="comment[{{$student->id}}]" type="text" class="form-control" value=""></td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="offset-md-3 col-sm-9">
@@ -118,8 +150,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                             @endif
+                        </form>
 
                     </div>
                 </div>
@@ -133,11 +165,20 @@
         $('#class_id').on('change', function () {
             getSectionsSubjects();
         });
+        $(document).ready(function () {
+            getSectionsSubjects();
+        });
 
         function getSectionsSubjects() {
             let class_id = $('#class_id').val();
-            let sectionHtml = '<option value="">Select Section</option>';
-            let subjectHtml = '<option value="">Select Subject</option>';
+            // Subject
+            let subjectId = $('#subjectId').val();
+            let subjectHtml = '<option  value="">Select Subject</option>';
+
+            // Section
+            let sectionId = $('#sectionId').val();
+            let sectionHtml = '<option  value="">Select Section</option>';
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -149,11 +190,15 @@
                 dataType:'json',
                 data:{class_id:class_id},
                 success:function(data){
+                    // Section
                     $.each(data.sections, function(key, value) {
-                        sectionHtml += '<option value="'+value.id+'">'+value.name+'</option>';
+                        selectted = value.id == sectionId?'selected':'';
+                        sectionHtml += '<option  '+selectted+' value="'+value.id+'">'+value.name+'</option>';
                     });
+                    // Subject
                     $.each(data.subjects, function(key, value) {
-                        subjectHtml += '<option value="'+value.id+'">'+value.name+'</option>';
+                        selectted = value.id == subjectId?'selected':'';
+                        subjectHtml += '<option '+selectted+' value="'+value.id+'">'+value.name+'</option>';
                     });
                     $('#section_id').html(sectionHtml);
                     $('#subject_id').html(subjectHtml);

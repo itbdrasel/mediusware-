@@ -95,7 +95,7 @@ class RuleMarksController extends Controller
                 $rules = $rulesGroup->first();
                 $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
                 if (empty($this->data['rules'])){
-                    return redirect()->back()->withErrors('In this class, exam role are not created.')->withInput();
+                    return redirect()->back()->withErrors('In this class, exam rule are not created.')->withInput();
                 }
 
                 $this->data['rules_group_id']   = $rules->id??'';

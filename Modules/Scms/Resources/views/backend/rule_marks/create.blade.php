@@ -134,7 +134,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered other_guest">
+                                        <table class="table table-bordered">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
