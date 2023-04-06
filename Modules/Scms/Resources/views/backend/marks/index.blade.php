@@ -119,7 +119,10 @@
                                             <tbody>
                                             @foreach($students as $student)
                                                 @php
-                                                    $student = $student->student??''
+                                                    $student = $student->student??'';
+                                                    $mark    = $objData[$student->id]??'';
+                                                    $rulesMarks = $mark?json_decode($mark['rules_marks'], true):'';
+
                                                 @endphp
                                                 <tr>
                                                     <td>
@@ -129,11 +132,11 @@
                                                     @if(!empty($rules))
                                                         @foreach($rules as $rule)
                                                     <td>
-                                                        <input name="marks[{{$student->id}}][{{$rule->id}}]" type="text" class="form-control onlyNumber" value="">
+                                                        <input name="marks[{{$student->id}}][{{$rule->id}}]" type="text" class="form-control onlyNumber" value="{{old('marks', $rulesMarks[$rule->id]??'')}}">
                                                     </td>
                                                         @endforeach
                                                     @endif
-                                                    <td><input name="comment[{{$student->id}}]" type="text" class="form-control" value=""></td>
+                                                    <td><input name="comment[{{$student->id}}]" type="text" class="form-control" value="{{old('marks', $mark['comment']??'')}}"></td>
                                                 </tr>
                                             @endforeach
                                             </tbody>

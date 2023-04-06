@@ -4,6 +4,7 @@ namespace Modules\Scms\Http\Controllers\Backend;
 use Illuminate\Contracts\Support\Renderable;
 
 use Modules\Scms\Models\Exam;
+use Modules\Scms\Models\ExamMark;
 use Modules\Scms\Models\Mark;
 use Modules\Scms\Models\Section;
 use Modules\Scms\Models\Subject;
@@ -29,6 +30,21 @@ class MarksController extends Controller
     public function layout($pageName){
         echo $this->getLayout('marks',$pageName);
     }
+    /**
+     * Display a listing of the resource.
+     * @return Renderable
+     */
+    public function index(Request $request){
+
+
+        $this->data                 = $this->crudServices->getIndexData($request, ExamMark::class, 'year' , '', $this->getWhere());
+        $this->data['title']        = $this->title.' Manager';
+        $this->data['pageUrl']      = $this->bUrl;
+        if ($request->ajax() || $request['ajax']){
+            return $this->layout('data');
+        }
+        $this->layout('index');
+    }
 
 
     /**
@@ -36,10 +52,10 @@ class MarksController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function index(Request $request){
+    public function create(Request $request){
 
         $this->data = [
-            'title'         => $this->title.' Manager',
+            'title'         => "Add New {$this->title}",
             'pageUrl'       => $this->bUrl,
             'page_icon'     => '<i class="fas fa-tasks"></i>',
             'allClass'      => getClass(),

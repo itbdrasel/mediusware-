@@ -85,12 +85,18 @@
 @endif
 
 @if (dAuth()->hasAnyAccess(['scms.class', 'scms.section']))
-    <li class="nav-item {{menuOpenActive(2, ['exam', 'result-publish', 'exam-rules', 'rules-manage','rule-marks', 'grade'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['exam','result-publish', 'exam-rules','rules-manage','rule-marks', 'grade'], true)}} ">
+    <li class="nav-item {{menuOpenActive(2, ['exam', 'result-publish', 'exam-rules', 'rules-manage','rule-marks', 'grade', 'marks'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['exam','result-publish', 'exam-rules','rules-manage','rule-marks', 'grade','marks'], true)}} ">
             <i class="nav-icon fas fa-graduation-cap"></i>
             <p>Exam<i class="right fas fa-angle-down"></i></p>
         </a>
         <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{url('scms/marks')}}" class="nav-link {{activeMenu(2, 'marks')}} ">
+                    <i class="fas fa-circle"></i>
+                    <p>Exam Mark</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{url('scms/result-publish')}}" class="nav-link {{activeMenu(2, 'result-publish')}} ">
                     <i class="fas fa-circle"></i>
@@ -138,7 +144,6 @@
         </a>
     </li>
 @endif
-
 @if (dAuth()->hasAccess(['scms.shift']))
 <li class="nav-item">
     <a href="{{url('scms/shift')}}" class="nav-link {{activeMenu(2, 'shift')}}">
