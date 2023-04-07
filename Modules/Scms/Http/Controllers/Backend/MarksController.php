@@ -36,8 +36,7 @@ class MarksController extends Controller
      */
     public function index(Request $request){
 
-
-        $this->data                 = $this->crudServices->getIndexData($request, ExamMark::class, 'year' , '', $this->getWhere());
+        $this->data                 = $this->crudServices->getIndexData($request, ExamMark::class, 'year' , ['marks','marks.subject', 'className', 'exam'], $this->getWhere());
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         if ($request->ajax() || $request['ajax']){
@@ -87,7 +86,7 @@ class MarksController extends Controller
             $this->data['objData']      = $this->getMarks($request);
         }
 
-        $this->layout('index');
+        $this->layout('create');
     }
 
 
@@ -101,16 +100,21 @@ class MarksController extends Controller
 
     public function store(Request $request){
         $this->indexValidation($request);
+        $markData = $this->getMarkWhere($request);
+        $markId = ExamMark::updateOrCreate($markData, $markData)->id;
         $students   = $request['students'];
         if (!empty($students)){
             foreach ($students as $key=>$value){
                 if (!empty($value)) {
-                    $matchThese = $this->getMarkWhere($request);
-                    $matchThese['student_id'] = $value;
+                    $matchThese = [
+                        'subject_id'        => $request['subject_id'],
+                        'exam_mark_id'      => $markId,
+                        'student_id'        => $value,
+                    ];
                     $data = $matchThese;
-                    $data['section_id'] = $request['section_id'];
-                    $data['rules_marks'] = json_encode($request['marks'][$key]);
-                    $data['comment'] = $request['comment'][$key];
+                    $data['section_id']     = $request['section_id'];
+                    $data['rules_marks']    = json_encode($request['marks'][$key]);
+                    $data['comment']        = $request['comment'][$key];
                     $this->model::updateOrCreate($matchThese, $data);
                 }
             }

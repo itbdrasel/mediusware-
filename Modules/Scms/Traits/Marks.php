@@ -5,6 +5,7 @@ namespace Modules\Scms\Traits;
 
 
 use Modules\Scms\Models\Enroll;
+use Modules\Scms\Models\ExamMark;
 use Modules\Scms\Models\Mark;
 use Modules\Scms\Models\RulesGroup;
 
@@ -75,25 +76,26 @@ trait Marks
     }
 
     public function getMarks($request){
-        return $this->model::where($this->getMarkWhere($request))
-            ->get()
+        $examMark = ExamMark::where($this->getMarkWhere($request))->with('marks')->first();
+        return $examMark?->marks()->where('subject_id', $request['subject_id'])->get()
             ->mapWithKeys(function ($item) {
                 return [$item->student_id => [
                     'rules_marks' => $item->rules_marks,
                     'comment' => $item->comment,
                 ]];
-            });;
+            });
 
     }
 
     public function getMarkWhere($request){
-       return [
+        return [
             'class_id'      => $request['class_id'],
             'exam_id'       => $request['exam_id'],
-            'subject_id'    => $request['subject_id'],
+            'branch_id'     => getBranchId(),
             'year'          => getRunningYear(),
             'vtype'         => getVersionType(),
         ];
 
     }
+
 }
