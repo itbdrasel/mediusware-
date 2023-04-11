@@ -94,6 +94,12 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
         Route::post('get-sections-subjects', 'getSectionsSubjects')->name('.get-sections-subjects');
     });
 
+    // Promotion Manage Route
+    Route::group(['prefix'=>'promotion','as'=>'promotion','controller'=>'Backend\PromotionController'], function () {
+        Route::match(['get', 'post'], '/create', 'create')->name('.create');
+        Route::post('store', 'store')->name('.store');
+    });
+
 
 });
 

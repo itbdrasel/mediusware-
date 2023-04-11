@@ -13,37 +13,23 @@ use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 
 
-use Modules\Scms\Traits\Marks;
+
 use Validator;
 
-class MarksController extends Controller
+class PromotionController extends Controller
 {
-    use Marks;
+
 
     public function __construct(){
         parent::__construct();
-        $this->model            = Mark::class;
-        $this->bUrl             = $this->moduleName.'/marks';
-        $this->title            = 'Mark';
+        $this->bUrl             = $this->moduleName.'/promotion ';
+        $this->title            = 'Promotion ';
     }
 
     public function layout($pageName){
-        echo $this->getLayout('marks',$pageName);
+        echo $this->getLayout('promotion',$pageName);
     }
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index(Request $request){
 
-        $this->data                 = $this->crudServices->getIndexData($request, ExamMark::class, 'year' , ['marks','marks.subject', 'className', 'exam'], $this->getWhere());
-        $this->data['title']        = $this->title.' Manager';
-        $this->data['pageUrl']      = $this->bUrl;
-        if ($request->ajax() || $request['ajax']){
-            return $this->layout('data');
-        }
-        $this->layout('index');
-    }
 
 
     /**
@@ -54,11 +40,10 @@ class MarksController extends Controller
     public function create(Request $request){
 
         $this->data = [
-            'title'         => "Add New {$this->title}",
+            'title'         => "Student {$this->title}",
             'pageUrl'       => $this->bUrl,
             'page_icon'     => '<i class="fas fa-tasks"></i>',
             'allClass'      => getClass(),
-            'exams'         => Exam::where($this->getWhere())->where('type',1)->orderBy('order_by')->get(),
             'objData'       => ''
         ];
 

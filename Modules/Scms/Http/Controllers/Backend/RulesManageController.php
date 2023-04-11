@@ -140,6 +140,22 @@ class RulesManageController extends Controller
     public function getValidation($request){
         $validationRules    = $this->crudServices->getValidationRules($this->model);
         $rules              = $validationRules['rules'];
+        $rules['start_year'] = ['nullable',  function ($attribute, $value, $fail) use ($request){
+            $query = $this->model::where('id', '!=', $request['id'])
+                ->where(function ($query) use ($value, $request) {
+                $endYear = $request['end_year'];
+                    $query->whereBetween('start_year', [$value, $endYear])
+                        ->orWhereBetween('end_year', [$value, $endYear])
+                        ->orWhere(function ($query) use ($value, $endYear) {
+                            $query->where('start_year', '<', $value)
+                                ->where('end_year', '>', $endYear);
+                        });
+                });
+            if ($query->count() > 0) {
+                $fail(__('The  is not unique between the start and end year.'));
+            }
+        }];
+
         $attribute          = $validationRules['attribute'];
         $customMessages     = [];
         return $request->validate($rules,$customMessages, $attribute);
