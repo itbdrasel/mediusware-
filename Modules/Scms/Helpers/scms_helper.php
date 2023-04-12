@@ -32,6 +32,12 @@ function getRunningYear(){
     $running_year   = config('sc_setting.running_year');
     return $running_year;
 }
+
+function getDbRunningYear($year){
+    $year2   = substr($year, -4);
+    $year1  = $year2-1;
+    return "{$year1}-{$year2}";
+}
 function getVersionType(){
     return config('sc_setting.vtype');
 }

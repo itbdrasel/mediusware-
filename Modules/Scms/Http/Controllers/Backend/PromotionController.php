@@ -3,11 +3,8 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
-use Modules\Scms\Models\Exam;
 use Modules\Scms\Models\ExamMark;
-use Modules\Scms\Models\Mark;
 use Modules\Scms\Models\Section;
-use Modules\Scms\Models\Subject;
 use Modules\Scms\Services\Backend\Controller;
 
 use Illuminate\Http\Request;
@@ -40,35 +37,36 @@ class PromotionController extends Controller
     public function create(Request $request){
 
         $this->data = [
-            'title'         => "Student {$this->title}",
-            'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-tasks"></i>',
-            'allClass'      => getClass(),
-            'objData'       => ''
+            "title"         => "Student {$this->title}",
+            "pageUrl"       => $this->bUrl,
+            "page_icon"     => "<i class='fas fa-tasks'></i>",
+            "allClass"      => getClass(),
+            "objData"       => ""
         ];
 
-        if ($request['_method'] === 'POST') {
-            $this->indexValidation($request);
-            $classId = $request['class_id'];
-            $examId = $request['exam_id'];
-            $rulesGroup = $this->getRulesGroup($classId, $examId);
-            if (empty($rulesGroup) || empty($rulesGroup->ruleManages)){
-                return redirect()->back()->withErrors('In this class, exam rule are not created.')->withInput();
-            }
-            $rules      = $rulesGroup->ruleManages()->with('ruleName')->get();
-            $students   = $this->getStudents($request);
+        if ($request['_method'] === "POST") {
+            $this->createValidation($request);
+            $classId = $request["class_id"];
+            $examId = $request["exam_id"];
 
+            // promote student check
+            $promotestudents    = $this->getPromoteStudentCheck($request);
+            if ($promotestudents){
+                return redirect()->back()->withErrors("In this promotion class, students have already been promoted.")->withInput();
+            }
+            // student check
+            $students           = $this->getStudents($request);
             if ($students->isEmpty()){
-                return redirect()->back()->withErrors('In this class, student are not found.')->withInput();
+                return redirect()->back()->withErrors("In this class, student are not found.")->withInput();
             }
 
-            $this->data['class_id']     = $classId;
-            $this->data['exam_id']      = $examId;
+            $this->data['class_id']     = $request["class_id"];
             $this->data['section_id']   = $request['section_id'];
-            $this->data['subject_id']   = $request['subject_id'];
-            $this->data['rules']        = $rules;
+            $this->data['section_id']   = $request['section_id'];
+            $this->data['p_year']       = $request['p_year'];
+            $this->data['p_class_id']   = $request['p_class_id'];
+            $this->data['p_section_id'] = $request['p_section_id'];
             $this->data['students']     = $students;
-            $this->data['objData']      = $this->getMarks($request);
         }
 
         $this->layout('create');
@@ -120,10 +118,8 @@ class PromotionController extends Controller
         $classId = filter_var($classId, FILTER_VALIDATE_INT);
         if($classId){
             $sections = Section::where('class_id', $classId)->orderBy('order_by')->get();
-            $subjects = Subject::where('class_id', $classId)->orderBy('order_by')->get();
             $data = [
                 'sections'=> $sections,
-                'subjects'=> $subjects,
             ];
             return response(json_encode($data), 200);
         }
