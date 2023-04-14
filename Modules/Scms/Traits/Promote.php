@@ -4,20 +4,18 @@
 namespace Modules\Scms\Traits;
 
 
-use Modules\Scms\Models\ClassModel;
 use Modules\Scms\Models\Enroll;
-use Modules\Scms\Models\Exam;
-use Modules\Scms\Models\RuleMarkManage;
-use Modules\Scms\Models\Subject;
 
-trait Promotion
+trait Promote
 {
+    protected $model;
+    protected $bUrl;
+    protected $title;
     public function __construct()
     {
-        parent::__construct();
         $this->model = Enroll::class;
-        $this->bUrl = $this->moduleName . '/promotion';
-        $this->title = 'Promotion';
+        $this->bUrl = $this->moduleName . '/promote';
+        $this->title = 'Promote';
     }
 
     public function getWhere()
@@ -50,17 +48,25 @@ trait Promotion
         $year       = getDbRunningYear($request['p_year']);
         $class_id   = $request['p_class_id'];
         $sectuib_id = $request['p_section_id'];
-        $student    = $this->model::where(['year'=> $year, 'class_id', $class_id, 'sectuib_id'=>$sectuib_id])->count();
+
+        $student    = Enroll::where(['year'=> $year, 'class_id'=> $class_id, 'section_id'=>$sectuib_id])->count();
+
         return $student >0?true:false;
 
     }
 
     public function getStudents($request){
         $year       = getDbRunningYear(getRunningYear());
-        $class_id   = $request['p_class_id'];
-        $sectuib_id = $request['p_section_id'];
-        return $this->model::where(['year'=> $year, 'class_id', $class_id, 'sectuib_id'=>$sectuib_id])->get();
+        $class_id   = $request['class_id'];
+        $section_id = $request['section_id'];
+        return Enroll::where(['year'=> $year, 'class_id'=>$class_id, 'section_id'=>$section_id])
+            ->with(['student' => function ($query) {
+                $query->select('id','name', 'id_number');
+            }])
+          ->select('roll', 'student_id')
+            ->get();
     }
+
 
 
 

@@ -49,52 +49,52 @@
             </li>
         </ul>
     </nav>
-    <!-- /.navbar -->
     @push('js')
-        <script type="text/javascript">
+    <!-- /.navbar -->
+    <script type="text/javascript">
 
-            function get_session_changer()
-            {
-                let year           = '{{date('Y')-10}}';
-                let running_year    = '{{getRunningYear()}}';
-                let year_2         = parseInt(year)+1;
-                let html           = '<select onchange="runningYearChange(event)" id="running_year_top" name="running_year_top" class="form-select "> <option disabled value="">Select Running Year</option>';
-                for(let x = 0; x <= 10; x++) {
-                    let y = parseInt(year) + parseInt(x);
-                    let y_2 = year_2 + parseInt(x);
-                    let format_year = y + '-' + y_2;
-                    let selected   = format_year == running_year?'selected':'';
-                    let format      = get_formatYear(format_year)
-                    html += '<option '+ selected +' value="'+ format_year +'">'+format+'</option>';
-                }
-                html +='</select>';
-                $('#running_year_static').html(html);
+        function get_session_changer()
+        {
+            let year           = '{{getFormatYear(getRunningYear(), true)-10}}';
+            let running_year    = '{{getRunningYear()}}';
+            let year_2         = parseInt(year)+1;
+            let html           = '<select onchange="runningYearChange(event)" id="running_year_top" name="running_year_top" class="form-select "> <option disabled value="">Select Running Year</option>';
+            for(let x = 0; x <= 10; x++) {
+                let y = parseInt(year) + parseInt(x);
+                let y_2 = year_2 + parseInt(x);
+                let format_year = y + '-' + y_2;
+                let selected   = format_year == running_year?'selected':'';
+                let format      = get_formatYear(format_year)
+                html += '<option '+ selected +' value="'+ format_year +'">'+format+'</option>';
             }
+            html +='</select>';
+            $('#running_year_static').html(html);
+        }
 
-            function get_formatYear(year){
-                year_format    = '{{config('sc_setting.r_year_format')}}';
-                if (year_format ==1) {
-                    return year.substr(5,14);
-                }
-                return year;
+        function get_formatYear(year){
+            year_format    = '{{config('sc_setting.r_year_format')}}';
+            if (year_format ==1) {
+                return year.substr(5,14);
             }
+            return year;
+        }
 
 
-            function runningYearChange(){
-                let year    = $('#running_year_top').val();
-                var _token  =  $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url:"{{url('scms/ajax/running-year-change')}}",
-                    type: 'POST',
-                    data: { _token : _token, year : year  },
-                    dataType: 'JSON',
-                    success:function (response) {
-                        if (response ==true){
-                            toastr.success('Successfully running year change');
-                        }
-                        location.reload();
+        function runningYearChange(){
+            let year    = $('#running_year_top').val();
+            var _token  =  $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url:"{{url('scms/ajax/running-year-change')}}",
+                type: 'POST',
+                data: { _token : _token, year : year  },
+                dataType: 'JSON',
+                success:function (response) {
+                    if (response ==true){
+                        toastr.success('Successfully running year change');
                     }
-                });
-            }
-        </script>
+                    location.reload();
+                }
+            });
+        }
+    </script>
     @endpush

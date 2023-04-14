@@ -10,21 +10,22 @@ use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 
 
-
+use Modules\Scms\Traits\Promote;
 use Validator;
 
-class PromotionController extends Controller
+class PromoteController extends Controller
 {
+    use Promote;
 
 
     public function __construct(){
         parent::__construct();
-        $this->bUrl             = $this->moduleName.'/promotion ';
-        $this->title            = 'Promotion ';
+        $this->bUrl             = $this->moduleName.'/promote';
+        $this->title            = 'Promote';
     }
 
     public function layout($pageName){
-        echo $this->getLayout('promotion',$pageName);
+        echo $this->getLayout('promote',$pageName);
     }
 
 
@@ -41,9 +42,9 @@ class PromotionController extends Controller
             "pageUrl"       => $this->bUrl,
             "page_icon"     => "<i class='fas fa-tasks'></i>",
             "allClass"      => getClass(),
-            "objData"       => ""
+            "objData"       => "",
+            'p_year'        => ''
         ];
-
         if ($request['_method'] === "POST") {
             $this->createValidation($request);
             $classId = $request["class_id"];
@@ -60,13 +61,15 @@ class PromotionController extends Controller
                 return redirect()->back()->withErrors("In this class, student are not found.")->withInput();
             }
 
-            $this->data['class_id']     = $request["class_id"];
+            $this->data['class_id']     = $request['class_id'];
             $this->data['section_id']   = $request['section_id'];
             $this->data['section_id']   = $request['section_id'];
             $this->data['p_year']       = $request['p_year'];
             $this->data['p_class_id']   = $request['p_class_id'];
             $this->data['p_section_id'] = $request['p_section_id'];
             $this->data['students']     = $students;
+            $this->data['sections']     = Section::where('class_id', $request['p_class_id'])->get(['id', 'name']);
+
         }
 
         $this->layout('create');
@@ -110,11 +113,11 @@ class PromotionController extends Controller
 
 
 
-    public function getSectionsSubjects(Request $request){
+    public function getSections(Request $request){
         if (!$request->ajax()){
             return response("Bad Request!", 422);
         }
-        $classId = $request['class_id'];
+        $classId = $request['classId'];
         $classId = filter_var($classId, FILTER_VALIDATE_INT);
         if($classId){
             $sections = Section::where('class_id', $classId)->orderBy('order_by')->get();
