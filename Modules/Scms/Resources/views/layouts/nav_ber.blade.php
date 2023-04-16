@@ -5,8 +5,8 @@
     </a>
 </li>
 @if (dAuth()->hasAnyAccess(['scms.student']))
-    <li class="nav-item {{menuOpenActive(2, ['student'])}}">
-        <a href="#" class="nav-link {{menuOpenActive(2, ['student'], true)}} ">
+    <li class="nav-item {{menuOpenActive(2, ['student', 'promote'])}}">
+        <a href="#" class="nav-link {{menuOpenActive(2, ['student', 'promote'], true)}} ">
             <i class="nav-icon fas fa-users-cog"></i>
             <p>Student<i class="right fas fa-angle-down"></i></p>
         </a>
@@ -19,6 +19,12 @@
                     </a>
                 </li>
             @endif
+            <li class="nav-item">
+                <a href="{{url('scms/promote')}}" class="nav-link {{activeMenu(2, 'promote')}} ">
+                    <i class="fas fa-circle"></i>
+                    <p>Student Promote</p>
+                </a>
+            </li>
         </ul>
     </li>
 @endif

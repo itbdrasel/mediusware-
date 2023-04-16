@@ -68,7 +68,7 @@
                                             <h4 style="font-size: 18px;"> Promote Students In Next Year</h4>
                                             <div class="col-sm-4">
                                                 @php
-                                                    $input_name = 'p_year';
+                                                    $input_name = 'promote_year';
                                                 @endphp
                                                 <label class="col-sm-12 col-form-label"> Year <code>*</code></label>
                                                 <div class="col-sm-12">
@@ -79,7 +79,7 @@
                                                                $year1 = $runningYear + $x;
                                                                $year2 = $year1 + 1;
                                                                $promoteYear = "{$year1}-{$year2}";
-                                                               $selected = $promoteYear == $p_year ? 'selected' : '';
+                                                               $selected = $promoteYear == $promote_year ? 'selected' : '';
                                                                $options .= '<option '.$selected.' value="'.$promoteYear.'">'.$year1.'</option>';
                                                            }
                                                     @endphp
@@ -90,7 +90,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 @php
-                                                    $input_name = 'p_class_id';
+                                                    $input_name = 'promote_class_id';
                                                 @endphp
                                                 <label for="{{$input_name}}" class="col-sm-12 col-form-label"> Class <code>*</code></label>
                                                 <div class="col-sm-12">
@@ -108,7 +108,7 @@
 
                                             <div class="col-sm-4">
                                                 @php
-                                                    $input_name = 'p_section_id';
+                                                    $input_name = 'promote_section_id';
                                                 @endphp
                                                 <label for="{{$input_name}}" class="col-sm-12 col-form-label"> Section<code>*</code></label>
                                                 <div class="col-sm-12">
@@ -136,9 +136,10 @@
                             @csrf
 
                             <input type="hidden" name="class_id" value="{{$class_id??''}}">
-                            <input type="hidden" name="p_class_id" value="{{$p_class_id??''}}">
                             <input type="hidden" id="sectionId" name="section_id" value="{{$section_id??''}}">
-                            <input type="hidden" id="pSectionId" name="p_section_id" value="{{$p_section_id??''}}">
+                            <input type="hidden" name="promote_class_id" value="{{$promote_class_id??''}}">
+                            <input type="hidden" id="promoteSectionId" name="promote_section_id" value="{{$promote_section_id??''}}">
+                            <input type="hidden" name="promote_year" value="{{$promote_year}}">
                             @if(isset($students) && count($students) >0)
                             <div class="card">
                                 <div class="card-body">
@@ -158,6 +159,10 @@
                                                     <td>
                                                         {{$student->student->name??''}} ({{$student->student->id_number??''}})
                                                         <input type="hidden" value="{{$student->student_id}}" name="students[{{$student->student_id}}]">
+                                                        <input type="hidden" name="group_id[{{$student->student_id}}]" value="{{$student->group_id}}">
+                                                        <input type="hidden" name="shift[{{$student->student_id}}]" value="{{$student->shift}}">
+                                                        <input type="hidden" name="roll[{{$student->student_id}}]" value="{{$student->roll}}">
+
                                                     </td>
                                                     <td>
                                                         <select name="section[{{$student->student_id}}]" class="form-select">
@@ -227,8 +232,8 @@
         }
 
         function getPromotionSection() {
-            let selectedVal = $('#pSectionId').val();
-            getAjaxSections('p_class_id', 'p_section_id', selectedVal)
+            let selectedVal = $('#promoteSectionId').val();
+            getAjaxSections('promote_class_id', 'promote_section_id', selectedVal)
         }
 
         function getAjaxSections(class_id, section_id, selectedVal='') {

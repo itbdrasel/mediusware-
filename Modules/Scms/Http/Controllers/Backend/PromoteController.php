@@ -3,7 +3,6 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
-use Modules\Scms\Models\ExamMark;
 use Modules\Scms\Models\Section;
 use Modules\Scms\Services\Backend\Controller;
 
@@ -43,32 +42,25 @@ class PromoteController extends Controller
             "page_icon"     => "<i class='fas fa-tasks'></i>",
             "allClass"      => getClass(),
             "objData"       => "",
-            'p_year'        => ''
+            'promote_year'  => ''
         ];
         if ($request['_method'] === "POST") {
             $this->createValidation($request);
-            $classId = $request["class_id"];
-            $examId = $request["exam_id"];
 
-            // promote student check
-            $promotestudents    = $this->getPromoteStudentCheck($request);
-            if ($promotestudents){
-                return redirect()->back()->withErrors("In this promotion class, students have already been promoted.")->withInput();
-            }
             // student check
             $students           = $this->getStudents($request);
             if ($students->isEmpty()){
                 return redirect()->back()->withErrors("In this class, student are not found.")->withInput();
             }
 
-            $this->data['class_id']     = $request['class_id'];
-            $this->data['section_id']   = $request['section_id'];
-            $this->data['section_id']   = $request['section_id'];
-            $this->data['p_year']       = $request['p_year'];
-            $this->data['p_class_id']   = $request['p_class_id'];
-            $this->data['p_section_id'] = $request['p_section_id'];
-            $this->data['students']     = $students;
-            $this->data['sections']     = Section::where('class_id', $request['p_class_id'])->get(['id', 'name']);
+            $this->data['class_id']             = $request['class_id'];
+            $this->data['section_id']           = $request['section_id'];
+            $this->data['section_id']           = $request['section_id'];
+            $this->data['promote_year']         = $request['promote_year'];
+            $this->data['promote_class_id']     = $request['promote_class_id'];
+            $this->data['promote_section_id']   = $request['promote_section_id'];
+            $this->data['students']             = $students;
+            $this->data['sections']             = Section::where('class_id', $request['promote_class_id'])->get(['id', 'name']);
 
         }
 
@@ -85,24 +77,30 @@ class PromoteController extends Controller
      */
 
     public function store(Request $request){
-        $this->indexValidation($request);
-        $markData = $this->getMarkWhere($request);
-        $markId = ExamMark::updateOrCreate($markData, $markData)->id;
-        $students   = $request['students'];
+        $this->getValidation($request);
+        $class_id       = $request['promote_class_id'];
+        $seciont_id     = $request['promote_section_id'];
+        $students       = $request['students'];
         if (!empty($students)){
             foreach ($students as $key=>$value){
-                if (!empty($value)) {
-                    $matchThese = [
-                        'subject_id'        => $request['subject_id'],
-                        'exam_mark_id'      => $markId,
-                        'student_id'        => $value,
-                    ];
-                    $data = $matchThese;
-                    $data['section_id']     = $request['section_id'];
-                    $data['rules_marks']    = json_encode($request['marks'][$key]);
-                    $data['comment']        = $request['comment'][$key];
-                    $this->model::updateOrCreate($matchThese, $data);
+                // promote student check
+                $promotestudents    = $this->getPromoteStudentCheck($request, $value);
+                if (!$promotestudents){
+                    if (!empty($value)) {
+                        $enrollData = [
+                            'student_id'        => $value,
+                            'class_id'          => $class_id,
+                            'seciont_id'        => $seciont_id,
+                            'group_id'          => $request['group_id'][$key],
+                            'shift'             => $request['shift'][$key],
+                            'roll'              => $request['roll'][$key],
+                            'year'              => $request['promote_year'],
+                            'vtype'             => getVersionType(),
+                        ];
+                        $this->model::create($enrollData);
+                    }
                 }
+
             }
             return redirect($this->bUrl)->with('success', successMessage('', $this->title));
         }else{

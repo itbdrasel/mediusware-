@@ -26,30 +26,30 @@ trait Promote
     public function createValidation($request)
     {
         $rules = [
-            "class_id"      => "required",
-            "section_id"    => "required",
-            "p_year"        => "required",
-            "p_class_id"    => "required",
-            "p_section_id"  => "required",
+            "class_id"              => "required",
+            "section_id"            => "required",
+            "promote_year"          => "required",
+            "promote_class_id"      => "required",
+            "promote_section_id"    => "required",
         ];
 
         $attribute = [
-            "class_id"      => "class",
-            "section_id"    => "section",
-            "p_year"        => "promote year",
-            "p_class_id"    => "promote class",
-            "p_section_id"  => "promote section",
+            "class_id"              => "class",
+            "section_id"            => "section",
+            "promote_year"          => "promote year",
+            "promote_class_id"      => "promote class",
+            "promote_section_id"    => "promote section",
         ];
 
         return $request->validate($rules, [], $attribute);
     }
 
-    public function getPromoteStudentCheck($request){
-        $year       = getDbRunningYear($request['p_year']);
-        $class_id   = $request['p_class_id'];
-        $sectuib_id = $request['p_section_id'];
+    public function getPromoteStudentCheck($request, $student_id){
+        $year       = getDbRunningYear($request['promote_year']);
+        $class_id   = $request['promote_class_id'];
+        $sectuib_id = $request['promote_section_id'];
 
-        $student    = Enroll::where(['year'=> $year, 'class_id'=> $class_id, 'section_id'=>$sectuib_id])->count();
+        $student    = Enroll::where(['year'=> $year, 'class_id'=> $class_id, 'section_id'=>$sectuib_id, 'student_id'=>$student_id])->count();
 
         return $student >0?true:false;
 
@@ -63,7 +63,7 @@ trait Promote
             ->with(['student' => function ($query) {
                 $query->select('id','name', 'id_number');
             }])
-          ->select('roll', 'student_id')
+          ->select('student_id','class_id', 'section_id', 'group_id', 'shift', 'roll')
             ->get();
     }
 
@@ -92,5 +92,30 @@ trait Promote
         $ruleMark = $ruleMarkQquery->first();
 
         return !empty($ruleMark)?'The rule marks has already been taken.':'';
+    }
+
+
+    public function getValidation($request)
+    {
+        $rules = [
+            "class_id"              => "required",
+            "section_id"            => "required",
+            "promote_year"          => "required",
+            "promote_class_id"      => "required",
+            "promote_section_id"    => "required",
+            "students.*"            => "required",
+            "section.*"             => "required",
+            "role.*"                => "required",
+            "status.*"              => "required",
+        ];
+
+        $attribute = [
+            "class_id"              => "class",
+            "section_id"            => "section",
+            "promote_year"          => "promote year",
+            "promote_class_id"      => "promote class",
+            "promote_section_id"    => "promote section",
+        ];
+        return $request->validate($rules, [], $attribute);
     }
 }
