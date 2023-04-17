@@ -3,11 +3,11 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
+use Modules\Scms\Models\Enroll;
 use Modules\Scms\Models\Section;
 use Modules\Scms\Services\Backend\Controller;
 
 use Illuminate\Http\Request;
-
 
 use Modules\Scms\Traits\Promote;
 use Validator;
@@ -34,7 +34,7 @@ class PromoteController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function create(Request $request){
+    public function index(Request $request){
 
         $this->data = [
             "title"         => "Student {$this->title}",
@@ -64,7 +64,7 @@ class PromoteController extends Controller
 
         }
 
-        $this->layout('create');
+        $this->layout('index');
     }
 
 
@@ -90,14 +90,14 @@ class PromoteController extends Controller
                         $enrollData = [
                             'student_id'        => $value,
                             'class_id'          => $class_id,
-                            'seciont_id'        => $seciont_id,
+                            'section_id'        => $seciont_id,
                             'group_id'          => $request['group_id'][$key],
                             'shift'             => $request['shift'][$key],
                             'roll'              => $request['roll'][$key],
                             'year'              => $request['promote_year'],
                             'vtype'             => getVersionType(),
                         ];
-                        $this->model::create($enrollData);
+                        Enroll::create($enrollData);
                     }
                 }
 

@@ -47,9 +47,8 @@ trait Promote
     public function getPromoteStudentCheck($request, $student_id){
         $year       = getDbRunningYear($request['promote_year']);
         $class_id   = $request['promote_class_id'];
-        $sectuib_id = $request['promote_section_id'];
 
-        $student    = Enroll::where(['year'=> $year, 'class_id'=> $class_id, 'section_id'=>$sectuib_id, 'student_id'=>$student_id])->count();
+        $student    = Enroll::where(['year'=> $year, 'class_id'=> $class_id, 'student_id'=>$student_id])->count();
 
         return $student >0?true:false;
 
