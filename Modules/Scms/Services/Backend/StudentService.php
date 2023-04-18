@@ -76,7 +76,7 @@ class StudentService
 
         }
 
-        $queryData->where(['scms_enroll.class_id'=> $class_id, 'scms_enroll.year'=>getRunningYear(), 'scms_enroll.vtype'=>getVersionType()]);
+        $queryData->where(['scms_enroll.class_id'=> $class_id, 'scms_enroll.year'=>getRunningYear(), 'scms_student.vtype'=>getVersionType()]);
         if (!empty($section_id)){
             $queryData->where('scms_enroll.section_id', $section_id);
         }
@@ -115,7 +115,7 @@ class StudentService
             )
             ->rightJoin('scms_enroll','scms_student.id', 'scms_enroll.student_id')
             ->leftJoin('scms_parent','scms_student.parent_id', 'scms_parent.id')
-            ->where(['scms_enroll.year'=>getRunningYear(), 'scms_enroll.vtype'=>getVersionType()])
+            ->where(['scms_enroll.year'=>getRunningYear(), 'scms_student.vtype'=>getVersionType()])
             ->first();
     }
     public function getValidationRules($request){
@@ -166,8 +166,9 @@ class StudentService
                 $studentData[$array[$i]]= $request[$array[$i]];
             }
         }
-        $studentData['branch_id'] =  getBranchId();;
-        $studentData['birthday'] = dbDateFormat($request['birthday']);
+        $studentData['branch_id']   =  getBranchId();;
+        $studentData['vtype']       = getVersionType();
+        $studentData['birthday']    = dbDateFormat($request['birthday']);
         return $studentData;
     }
 
@@ -196,7 +197,7 @@ class StudentService
         ];
         if (empty($id)) {
             $enrollData['year'] = getRunningYear();
-            $enrollData['vtype'] = getVersionType();
+
         }
         return $enrollData;
     }

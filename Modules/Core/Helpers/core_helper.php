@@ -419,7 +419,6 @@ function getSelectedOption($value, $key, $objData, $default=''){
 }
 
 function getChecked($value, $key, $objData, $default=''){
-    $default = !$objData?$default:'';
     return (getValue($key, $objData, $default) == $value)?'checked':'';
 }
 function getCheckedArraySearch($needle, $key, $dataArray=''){

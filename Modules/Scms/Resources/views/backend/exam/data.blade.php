@@ -62,7 +62,7 @@
                     <tr>
                         <th class="text-center" style="width: 50px">SL</th>
                         <th width="25%" class="sort" data-row="name" id="name" >Name</th>
-                        <th class="text-center" width="18%">Type</th>
+                        <th class="text-center" width="18%">Parent/Type</th>
                         <th>Comment</th>
                         <th class="sort text-center" width="10%" data-row="order_by" id="order_by" >order_by</th>
                         <th style="width: 180px" class="text-center">Manage</th>
@@ -83,11 +83,11 @@
                             <tr>
                                 <td class="text-center">{{ $c+$serial }}</td>
                                 <td>{{ $data->name }}</td>
-                                <td class="text-center">{{ $data->type==1?'Single Exam':'Multiple Exam' }}</td>
+                                <td class="text-center">{!!  $data->type==1?$data->parent->name??'<span class="badge bg-secondary">Single Exam':'<span class="badge bg-primary">Multiple Exam' !!}</span></td>
                                 <td>{{ $data->comment }}</td>
                                 <td class="text-center">{{ $data->order_by }}</td>
 
-                                <td class="text-center">
+                                <td class="text-center ">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-outline-primary link_btn">
                                             <a  href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>

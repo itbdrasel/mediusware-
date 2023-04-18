@@ -171,7 +171,7 @@
                                             <tr>
                                                 <td class="text-center">
                                                     <input id="subject_id{{$subject->id}}" name="subject_id[{{$subject->id}}]" value="{{$subject->id}}" type="checkbox" class="role-permission"
-                                                        {{getChecked($subject->id,'subject_id', $ruleMarkObj, empty($objData)?$objData:'')}}>
+                                                        {{getChecked($subject->id,'subject_id', $ruleMarkObj, empty($objData)?$subject->id:'')}}>
                                                 </td>
                                                 <td>{{$subject->name}} ({{$subject->subject_code}})</td>
                                                 <td>

@@ -7,7 +7,7 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item" id="running_year_static">
-                <a style="cursor: pointer" onclick="get_session_changer()" class="nav-link"><span class="d-none d-sm-inline-block">  Running Year : {{getTopBerYear()}} <i class="nav-icon fas fa-angle-down"></i></span></a>
+                <a style="cursor: pointer" onclick="get_session_changer()" class="nav-link"><span class="d-none d-sm-inline-block">  Running Year : {{app('getTopBerYear')}} <i class="nav-icon fas fa-angle-down"></i></span></a>
             </li>
 
 
@@ -55,7 +55,7 @@
 
         function get_session_changer()
         {
-            let year           = '{{getFormatYear(getRunningYear(), true)-10}}';
+            let year           = '{{getFormatYear(app('getRunningYear'), true)-10}}';
             let running_year    = '{{getRunningYear()}}';
             let year_2         = parseInt(year)+1;
             let html           = '<select onchange="runningYearChange(event)" id="running_year_top" name="running_year_top" class="form-select "> <option disabled value="">Select Running Year</option>';

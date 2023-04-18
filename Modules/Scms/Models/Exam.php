@@ -22,4 +22,8 @@ class Exam extends Model
 
     public static $insertData = ['name', 'prent_id', 'type', 'comment', 'order_by'];
 
+    public function parent(){
+        return $this->hasOne(Exam::class, 'id', 'prent_id');
+    }
+
 }

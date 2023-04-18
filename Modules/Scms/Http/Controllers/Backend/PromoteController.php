@@ -95,7 +95,6 @@ class PromoteController extends Controller
                             'shift'             => $request['shift'][$key],
                             'roll'              => $request['roll'][$key],
                             'year'              => $request['promote_year'],
-                            'vtype'             => getVersionType(),
                         ];
                         Enroll::create($enrollData);
                     }

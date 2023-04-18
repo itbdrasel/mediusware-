@@ -48,7 +48,16 @@ class ScmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        require_once __DIR__.'/../Helpers/scms_helper.php';
+        $helperFile  = __DIR__.'/../Helpers/scms_helper.php';
+        require_once $helperFile;
+
+        preg_match_all('/function (\w+)/', file_get_contents($helperFile), $helperFunctons);
+        // Loop through each function in the helper file and bind it to the Laravel container
+        foreach (  $helperFunctons[1] as $function) {
+            $this->app->bind($function, function ($app, ...$args) use ($function) {
+                return call_user_func_array($function, $args);
+            });
+        }
 
         $this->app->register(RouteServiceProvider::class);
     }

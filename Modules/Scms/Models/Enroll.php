@@ -10,7 +10,7 @@ class Enroll extends Model
     protected $table = 'scms_enroll';
 
     protected $fillable = [
-        'student_id','class_id', 'section_id', 'group_id', 'shift', 'roll', 'year', 'vtype'
+        'student_id','class_id', 'section_id', 'group_id', 'shift', 'roll', 'year'
     ];
 
     public static $insertData = ['class_id', 'section_id', 'group_id', 'shift', 'roll'];

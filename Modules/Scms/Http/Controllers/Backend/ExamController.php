@@ -32,7 +32,7 @@ class ExamController extends Controller
     public function index(Request $request){
 
 
-        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by' , '', $this->getWhere());
+        $this->data                 = $this->crudServices->getIndexData($request, $this->model, 'order_by' , 'parent', $this->getWhere());
         $this->data['title']        = $this->title.' Manager';
         $this->data['pageUrl']      = $this->bUrl;
         if ($request->ajax() || $request['ajax']){
