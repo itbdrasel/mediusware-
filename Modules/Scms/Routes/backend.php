@@ -100,6 +100,12 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
         Route::post('get-sections', 'getSections')->name('.get-sections');
     });
 
+    // Marksheet Manage Route
+    Route::group(['prefix'=>'marksheet','as'=>'marksheet','controller'=>'Backend\MarksheetController'], function () {
+        Route::get('', 'index');
+        Route::get('/print', 'marksheet')->name('.print');
+    });
+
 
 });
 

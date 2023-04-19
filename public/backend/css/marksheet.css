@@ -1,0 +1,19 @@
+.marksheet_aria{}
+body{
+    position: relative;
+    background: url(../images/marksheet_bg.jpg) repeat;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+body:before{
+    content:'';
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100% !important;
+    opacity: .6;
+    z-index: -1;
+}

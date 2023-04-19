@@ -8,11 +8,12 @@ use Modules\Scms\Models\Student;
 use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 use Modules\Scms\Models\ExamRule;
+use Modules\Scms\Traits\Marksheet;
 use Validator;
 
 class MarksheetController extends Controller
 {
-
+    use Marksheet;
     public function __construct(){
         parent::__construct();
         $this->model            = ExamRule::class;
@@ -31,13 +32,14 @@ class MarksheetController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index(Request $request){
+    public function index(){
         $this->data = [
             'title'         =>  $this->title.' Manager',
             'pageUrl'       => $this->bUrl,
-            'page_icon'     => '<i class="fas fa-tasks"></i>',
+            'page_icon'     => '<i class="fas fa-user-graduate"></i>',
             'students'      => $this->getStudents(),
             'exams'         => Exam::where($this->getWhere())->where('type',1)->orderBy('order_by')->get(),
+            'objData'       => ''
         ];
 
         $this->layout('index');
@@ -45,14 +47,26 @@ class MarksheetController extends Controller
 
 
     public function marksheet(Request $request){
-        $this->layout('marksheet');
-    }
+        $rules = [
+            "exam_id"               => "required",
+            "student_id"            => "required",
+        ];
 
+        $attribute = [
+            "exam_id"               => "exam",
+            "student_id"            => "student",
+        ];
 
-    public function getStudents(){
-        $branch_id = getBranchId();
-      return  Student::select('id', 'name', 'id_number')
-            ->where( ['branch_id'=>$branch_id,'vtype'=>getVersionType()])->get();
+       $request->validate($rules,[], $attribute);
+
+        $this->data = [
+            'title'         => $this->title.' Print',
+            'pageUrl'       => $this->bUrl.'/print',
+            'students'      => $this->getStudents(),
+        ];
+        dd($this->getRuleSubject(1, $request['exam_id']));
+
+        $this->layout('print');
     }
 
 
