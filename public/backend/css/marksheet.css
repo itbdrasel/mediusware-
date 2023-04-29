@@ -17,3 +17,12 @@ body:before{
     opacity: .6;
     z-index: -1;
 }
+
+.markSheetTable{
+    width: 100%;
+    border: 1px dotted #000;
+}
+.markSheetTable td, .markSheetTable tr th{
+    border: 1px dotted #000;
+    padding: 4px 10px;
+}

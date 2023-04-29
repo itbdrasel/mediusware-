@@ -8,12 +8,14 @@ use Modules\Scms\Models\Student;
 use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 use Modules\Scms\Models\ExamRule;
+
 use Modules\Scms\Traits\Marksheet;
 use Validator;
 
 class MarksheetController extends Controller
 {
     use Marksheet;
+
     public function __construct(){
         parent::__construct();
         $this->model            = ExamRule::class;
@@ -58,13 +60,17 @@ class MarksheetController extends Controller
         ];
 
        $request->validate($rules,[], $attribute);
+        $student = $this->getStudentById($request['student_id']);
+        $classId = $student->enroll->class_id??'';
 
         $this->data = [
             'title'         => $this->title.' Print',
             'pageUrl'       => $this->bUrl.'/print',
-            'students'      => $this->getStudents(),
+            'student'       => $student,
+            'subjects'      => $this->getRuleSubject($student->enroll->class_id, $request['exam_id'])
         ];
-        dd($this->getRuleSubject(1, $request['exam_id']));
+//        dd($this->getSubjectsByClassId($classId));
+
 
         $this->layout('print');
     }
