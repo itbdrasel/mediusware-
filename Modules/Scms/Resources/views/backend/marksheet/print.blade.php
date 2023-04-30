@@ -13,6 +13,9 @@
                     <tr>
                         <th colspan="2" class="text-center">Subject Name</th>
                         <th>Full Mark</th>
+                        <th>Total</th>
+                        <th>LG</th>
+                        <th>GP</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,18 +23,21 @@
                     @foreach($subjects as $rulesMark)
                         @php
                             $subject = $rulesMark->subject;
+                            $rowspan = !empty($subject->childSubject)?'rowspan="2"':'';
                         @endphp
                     <tr>
                         <td {!! !empty($subject->childSubject)?'rowspan="2"':'colspan="2"' !!} >{{str_replace(['1st','2nd'],'',$subject->name)}}</td>
                         @if(!empty($subject->childSubject))
                         <td>{{$subject->name}}</td>
                         @endif
-                        <td>{{$subject->full_marks}}</td>
+                        <td {!! $rowspan !!}>{{$rulesMark->full_mark}}</td>
+                        <td {!! $rowspan !!}></td>
+                        <td {!! $rowspan !!}></td>
+                        <td {!! $rowspan !!}></td>
                     </tr>
                         @if(!empty($subject->childSubject))
                             <tr>
                                 <td>{{$subject->childSubject->name}}</td>
-                                <td>{{$subject->childSubject->full_marks}}</td>
                             </tr>
                         @endif
                     @endforeach

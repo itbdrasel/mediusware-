@@ -6,6 +6,7 @@ namespace Modules\Scms\Traits;
 
 
 use Modules\Scms\Models\RuleMarkManage;
+use Modules\Scms\Models\RulesGroup;
 use Modules\Scms\Models\Student;
 use Modules\Scms\Models\Subject;
 
@@ -46,9 +47,11 @@ trait Marksheet
             })
             ->first();
         return $ruleMarkQuery->ruleMarks()
-            ->with(['subject' => function ($q) {
-                $q->orderBy('order_by');
-            }])
+            ->with('subject.childSubject')
+            ->whereHas('subject', function($query) {
+                $query->whereNull('subject_parent_id');
+                $query->orderBy('order_by');
+            })
             ->select('subject_id', 'full_mark', 'pass_mark', 'rule_mark', 'status')
             ->get()
             ->sortBy(function ($item) {
@@ -74,6 +77,23 @@ trait Marksheet
             ->with('childSubject')
             ->whereNull('subject_parent_id')
             ->orderBy('order_by')->get();
+    }
+
+    public function getExamRules($classId, $examId){
+        $runnintYear    = getRunningYear();
+        $start_year     = substr($runnintYear, -4);
+        $end_year       = $start_year;
+        $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $classId, 'exam_id' => $examId])->with('ruleManages');
+        if ($start_year && $end_year) {
+            $rulesGroup->where('start_year', '<=', $end_year)
+                ->where('end_year', '>=', $start_year);
+        } elseif ($end_year) {
+            $rulesGroup->where('end_year', $end_year);
+        } elseif ($end_year) {
+            $rulesGroup->where('start_year', $start_year);
+        }
+        $rules = $rulesGroup->first();
+        $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
     }
 
 }

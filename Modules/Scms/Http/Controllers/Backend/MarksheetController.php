@@ -67,9 +67,9 @@ class MarksheetController extends Controller
             'title'         => $this->title.' Print',
             'pageUrl'       => $this->bUrl.'/print',
             'student'       => $student,
-            'subjects'      => $this->getRuleSubject($student->enroll->class_id, $request['exam_id'])
+            'subjects'      => $this->getRuleSubject($classId, $request['exam_id'])
         ];
-//        dd($this->getSubjectsByClassId($classId));
+
 
 
         $this->layout('print');
