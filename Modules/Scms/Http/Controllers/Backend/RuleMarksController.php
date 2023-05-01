@@ -158,6 +158,7 @@ class RuleMarksController extends Controller
 
         if (!empty($subjectId)) {
             foreach ($subjectId as $key => $value) {
+
                 $ruleData = [
                     'rule_mark_manage_id' => $rule_mark_id,
                     'subject_id' => $value,

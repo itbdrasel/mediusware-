@@ -22,6 +22,7 @@
                 @if(!empty($subjects))
                     @foreach($subjects as $rulesMark)
                         @php
+                        dd($rulesMark->rules);
                             $subject = $rulesMark->subject;
                             $rowspan = !empty($subject->childSubject)?'rowspan="2"':'';
                         @endphp
