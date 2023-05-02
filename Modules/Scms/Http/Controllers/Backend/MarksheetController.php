@@ -62,13 +62,15 @@ class MarksheetController extends Controller
        $request->validate($rules,[], $attribute);
         $student = $this->getStudentById($request['student_id']);
         $classId = $student->enroll->class_id??'';
-
+        $subjects = $this->getRuleSubject($classId, $request['exam_id']);
         $this->data = [
             'title'         => $this->title.' Print',
             'pageUrl'       => $this->bUrl.'/print',
             'student'       => $student,
-            'subjects'      => $this->getRuleSubject($classId, $request['exam_id'])
+            'subjects'      => $subjects,
+            'rules'         =>  $this->getRules($subjects)
         ];
+
 
 
 

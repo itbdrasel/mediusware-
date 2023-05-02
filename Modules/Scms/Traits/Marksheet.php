@@ -5,6 +5,7 @@ namespace Modules\Scms\Traits;
 
 
 
+use Modules\Scms\Models\ExamRule;
 use Modules\Scms\Models\RuleMarkManage;
 use Modules\Scms\Models\RulesGroup;
 use Modules\Scms\Models\Student;
@@ -94,6 +95,14 @@ trait Marksheet
         }
         $rules = $rulesGroup->first();
         $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
+    }
+
+    public function getRules($subjects){
+        if (isset($subjects[0]) && !empty($subjects[0])){
+            $ruleIds = array_keys(json_decode($subjects[0]->rule_mark, true));
+            return ExamRule::select('id', 'code')->whereIn('id', $ruleIds)->orderBy('order_by')->get();
+        }
+
     }
 
 }
