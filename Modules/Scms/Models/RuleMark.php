@@ -3,7 +3,7 @@
 namespace Modules\Scms\Models;
 
 use Illuminate\Database\Eloquent\Model;
- use DB;
+
 class RuleMark extends Model
 {
 

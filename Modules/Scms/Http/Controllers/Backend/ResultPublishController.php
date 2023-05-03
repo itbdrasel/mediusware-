@@ -11,6 +11,7 @@ use Validator;
 
 class ResultPublishController extends Controller
 {
+    use \Modules\Scms\Traits\ResultPublish;
 
     public function __construct(){
         parent::__construct();
@@ -81,6 +82,8 @@ class ResultPublishController extends Controller
         $id = $request[$this->tableId];
         $params = $this->crudServices->getInsertData($this->model, $request);
         $params['vtype'] = getVersionType();
+
+
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
