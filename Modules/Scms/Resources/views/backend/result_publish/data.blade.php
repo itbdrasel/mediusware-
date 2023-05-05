@@ -7,7 +7,7 @@
 
             <div class="row">
                 <div class="col-md-3 form-group">
-                    <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Name ..." class="form-control search_input w-100"/>
+                    <input type="text" name="filter" value="{{ $filter ?? '' }}" placeholder="Filter Exam Or Class Name ..." class="form-control search_input w-100"/>
                 </div>
 
                 <div class="col-md-4 form-group">
@@ -54,7 +54,8 @@
                     <thead>
                     <tr>
                         <th class="text-center" style="width: 50px">SL</th>
-                        <th class="sort" data-row="name" id="name" >Name</th>
+                        <th class="sort" data-row="name" id="name" >Exam Name</th>
+                        <th>Class Name</th>
                         <th class="sort text-center" width="10%" data-row="year" id="year" >Year</th>
                         <th style="width: 180px" class="text-center">Manage</th>
                     </tr>
@@ -74,6 +75,7 @@
                             <tr>
                                 <td class="text-center">{{ $c+$serial }}</td>
                                 <td>{{ $data->name }}</td>
+                                <td>{{ $data->nameName }}</td>
                                 <td class="text-center">{{ getFormatYear($data->year) }}</td>
 
                                 <td class="text-center">

@@ -21,9 +21,21 @@
                     <div class="alert alert-warning" role="alert">&nbsp;</div>
                     <div class="alert alert-success" role="alert">&nbsp;</div>
                     <input type="hidden"  value="{{ getValue($tableID, $objData) }}" id="id" name="{{$tableID}}">
-
-
                     <div class="form-group row">
+                        <div class="col-sm-6">
+                            @php
+                                $input_name = 'class_id';
+                            @endphp
+                            <label for="{{$input_name}}" class="col-sm-12 col-form-label"> {{ucfirst(str_replace(['_id','_'],' ',$input_name))}} <code>*</code> </label>
+                            <select name="{{$input_name}}" id="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror">
+                                @if(!empty($allClass))
+                                    @foreach($allClass as $value)
+                                        <option {{(getValue($input_name, $objData) ==$value->id)?'selected':''}} value="{{$value->id}}">{{$value->name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                        </div>
                         <div class="col-sm-6">
                             @php
                                 $input_name = 'exam_id';

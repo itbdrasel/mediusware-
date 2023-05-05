@@ -34,7 +34,8 @@ class ResultPublishController extends Controller
         $indexData  = $this->crudServices->indexQuery($request, $this->model, 'year');
         $query      =  $indexData['query'];
         $query->leftJoin('scms_exam', 'scms_result_publish.exam_id', '=', 'scms_exam.id');
-        $query->select('scms_result_publish.*', 'scms_exam.name');
+        $query->leftJoin('scms_class', 'scms_result_publish.class_id', '=', 'scms_class.id');
+        $query->select('scms_result_publish.*', 'scms_exam.name', 'scms_class.name as nameName');
         $indexData =  ['query'=>$query, 'data'=>$indexData['data']];
         $this->data                 = $this->crudServices->getQueryDataByIndex($request, $indexData);
         $this->data['title']        = $this->title.' Manager';
@@ -42,6 +43,7 @@ class ResultPublishController extends Controller
         $this->data['add_title']    = 'Add New '.$this->title;
         $this->data['objData']      = [];
         $this->data['exams']        = Exam::where('vtype', getVersionType())->get();
+        $this->data['allClass']     = getClass();
 
         if ($request->ajax() || $request['ajax']){
             return $this->layout('data');
@@ -65,6 +67,7 @@ class ResultPublishController extends Controller
 
         $this->data             = $this->crudServices->createEdit($this->title, $this->bUrl,$id);
         $this->data['objData']  = $objData;
+        $this->data['allClass'] = getClass();
         $this->data['exams']    = Exam::where('vtype', getVersionType())->get();
 
         $this->layout('edit');
@@ -82,8 +85,7 @@ class ResultPublishController extends Controller
         $id = $request[$this->tableId];
         $params = $this->crudServices->getInsertData($this->model, $request);
         $params['vtype'] = getVersionType();
-
-
+        $this->resultPublish($request);
         if (empty($id) ) {
             $this->model::create($params);
             return redirect($this->bUrl)->with('success', successMessage($id, $this->title));

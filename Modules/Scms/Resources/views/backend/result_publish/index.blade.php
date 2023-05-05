@@ -19,6 +19,21 @@
                             {!! validation_errors($errors) !!}
                             <div class="input-group mb-3">
                                 @php
+                                    $input_name = 'class_id';
+                                @endphp
+                                <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace(['_id','_'],' ',$input_name))}}<code>*</code></label>
+                                <select name="{{$input_name}}" id="{{$input_name}}" class="form-select @error($input_name) is-invalid @enderror">
+                                    @if(!empty($allClass))
+                                        @foreach($allClass as $value)
+                                            <option {{(getValue($input_name, $objData) ==$value->id)?'selected':''}} value="{{$value->id}}">{{$value->name}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+
+                                <span id="{{$input_name}}-error" class="error invalid-feedback">{{$errors->first($input_name)}}</span>
+                            </div>
+                            <div class="input-group mb-3">
+                                @php
                                     $input_name = 'exam_id';
                                 @endphp
                                 <label for="{{$input_name}}" class="w-100">{{ucfirst(str_replace(['_id','_'],' ',$input_name))}}<code>*</code></label>
