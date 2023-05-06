@@ -63,6 +63,7 @@ class MarksController extends Controller
         ];
 
         if ($request['_method'] === 'POST') {
+
             $this->indexValidation($request);
             $classId = $request['class_id'];
             $examId = $request['exam_id'];
@@ -72,7 +73,6 @@ class MarksController extends Controller
             }
             $rules      = $rulesGroup->ruleManages()->with('ruleName')->get();
             $students   = $this->getStudents($request);
-
             if ($students->isEmpty()){
                 return redirect()->back()->withErrors('In this class, student are not found.')->withInput();
             }

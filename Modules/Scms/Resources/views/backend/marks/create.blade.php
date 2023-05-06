@@ -132,7 +132,7 @@
                                                     @if(!empty($rules))
                                                         @foreach($rules as $rule)
                                                     <td>
-                                                        <input name="marks[{{$student->id}}][{{$rule->id}}]" type="text" class="form-control onlyNumber" value="{{old('marks', $rulesMarks[$rule->id]??'')}}">
+                                                        <input name="marks[{{$student->id}}][{{$rule->rule_id}}]" type="text" class="form-control onlyNumber" value="{{old('marks', $rulesMarks[$rule->rule_id]??'')}}">
                                                     </td>
                                                         @endforeach
                                                     @endif

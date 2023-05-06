@@ -65,7 +65,6 @@ trait Marks
         $where = [
             'class_id'  => $request['class_id'],
             'year'      => getRunningYear(),
-            'vtype'     => getVersionType()
         ];
 
         if ($request['section_id']){
