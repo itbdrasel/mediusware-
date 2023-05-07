@@ -19,13 +19,8 @@ trait ResultPublish
 
     public function resultPublish($request){
         $classId        = $request['class_id'];
-        $examId         = $request['exam_id'];
-        $year           = $request['year'];
         $ruleMarkManageId = $this->getRuleMarkManageId($request);
         $examMark       = $this->examMarkWhereQuery($request)->with('marks', 'marks.subject', 'marks.subject.childSubject')->first();
-        $totalPass      = 0;
-        $totalMarks     = 0;
-        $totalMarks     = 0;
         $marks          = $examMark->marks;
         $studentData    = [];
         if (!empty($marks)){
@@ -52,29 +47,37 @@ trait ResultPublish
                     }
                     $studentResult  = $this->getStudentExamResult($examSubjectRules, $rulesPassMark, $allRuleSubjecMarks, $classId);
                     $passStatus     = $studentResult['passStatus'];
-       
-                    if ($childPassStatus && $passStatus){
 
+                    if ($childPassStatus && $passStatus){
+                        $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'totalPassSubject', 2);
                     }else{
-                        $studentResult['passStatus']= false;
+                        $studentResult['passStatus'] = false;
                     }
-                    $this->updateMark($mark->id, $studentResult);
+                    $studentData[$mark->student_id]['passStatus'] = $studentResult['passStatus'];
+                    $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'totalMark', $studentResult['subjectMark']);
+                    $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'gradePoints', $studentResult['point']);
+
+
+//                    $this->updateMark($mark->id, $studentResult);
 
                 }elseif ($mark->subject->subject_parent_id==null){
                     $studentResult  = $this->getStudentExamResult($examSubjectRules, $rulesPassMark, $rulesPassMark, $classId);
                     $passStatus     = $studentResult['passStatus'];
                     if ($passStatus){
-
+                        $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'totalPassSubject', 1);
                     }else{
-
+                        $studentResult['passStatus']= false;
                     }
-
+                    $studentData[$mark->student_id]['passStatus'] = $studentResult['passStatus'];
+                    $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'totalMark', $studentResult['subjectMark']);
+                    $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'gradePoints', $studentResult['point']);
+                    //$this->updateMark($mark->id, $studentResult);
                 }
 
             }
         }
 
-        dd($examMark);
+        dd($studentData);
 
     }
     protected function examMarkWhereQuery($request){
@@ -203,6 +206,27 @@ trait ResultPublish
         ];
         Mark::where('id', $markId)->update($markData);
 
+    }
+
+    /**
+     * Adds the given mark or pass count to a specific key of an array belonging to a specific student ID,
+     * or creates the array and key if they don't exist.
+     *
+     * @param array $dataArray The array to modify.
+     * @param int|string $studentId The ID of the student.
+     * @param int|string $key The key of the array to modify.
+     * @param int|float $markPassCount The mark or pass count to add to the key.
+     * @return array The modified array.
+     */
+
+    protected function addToStudentArray(array $dataArray, $studentId, $key, $markPassCount): array
+    {
+        if (array_key_exists($studentId, $dataArray) && array_key_exists($key, $dataArray[$studentId])) {
+            $dataArray[$studentId][$key] += $markPassCount;
+        } else {
+            $dataArray[$studentId][$key] = $markPassCount;
+        }
+        return $dataArray;
     }
 
 
