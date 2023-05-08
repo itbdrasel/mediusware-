@@ -9,6 +9,7 @@ use Modules\Scms\Models\Grade;
 use Modules\Scms\Models\Mark;
 use Modules\Scms\Models\RuleMark;
 use Modules\Scms\Models\RuleMarkManage;
+use Modules\Scms\Models\StudentMark;
 
 trait ResultPublish
 {
@@ -18,11 +19,15 @@ trait ResultPublish
     }
 
     public function resultPublish($request){
-        $classId        = $request['class_id'];
-        $ruleMarkManageId = $this->getRuleMarkManageId($request);
-        $examMark       = $this->examMarkWhereQuery($request)->with('marks', 'marks.subject', 'marks.subject.childSubject')->first();
-        $marks          = $examMark->marks;
-        $studentData    = [];
+        $classId            = $request['class_id'];
+        $ruleMarkManage     = $this->getRuleMarkManageId($request);
+        if (empty($ruleMarkManage)){return false;}
+        $ruleMarkManageId   = $ruleMarkManage->id;
+        $calculationSubject = $ruleMarkManage->calculation_subject;
+        $examMark           = $this->examMarkWhereQuery($request)->with('marks', 'marks.subject', 'marks.subject.childSubject')->first();
+        if (empty($examMark)){return false;}
+        $marks              = $examMark->marks;
+        $studentData        = [];
         if (!empty($marks)){
             foreach ($marks as $mark){
                 $studentExmMarks            = json_decode($mark->rules_marks, true);
@@ -58,7 +63,7 @@ trait ResultPublish
                     $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'gradePoints', $studentResult['point']);
 
 
-//                    $this->updateMark($mark->id, $studentResult);
+                    $this->updateMark($mark->id, $studentResult);
 
                 }elseif ($mark->subject->subject_parent_id==null){
                     $studentResult  = $this->getStudentExamResult($examSubjectRules, $rulesPassMark, $rulesPassMark, $classId);
@@ -70,14 +75,54 @@ trait ResultPublish
                     }
                     $studentData[$mark->student_id]['passStatus'] = $studentResult['passStatus'];
                     $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'totalMark', $studentResult['subjectMark']);
-                    $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'gradePoints', $studentResult['point']);
-                    //$this->updateMark($mark->id, $studentResult);
+                    $gradePoints = $studentResult['point'];
+                    if ($mark->subject->subject_type ==3){
+                        if ($gradePoints >2){
+                            $gradePoints = $studentResult['point'] - 2;
+                        }else{
+                            $gradePoints = 0;
+                        }
+
+                    }
+                    $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'gradePoints', $gradePoints);
+                    $this->updateMark($mark->id, $studentResult);
                 }
 
             }
+        }else{
+            return false;
         }
 
-        dd($studentData);
+        if ($studentData){
+            $outOfId = ClassModel::where('id', $classId)->pluck('out_of_id')->toArray();
+            foreach ($studentData as $key=>$value){
+                $gradePoints    = $value['gradePoints'];
+                $gradePoints    = $gradePoints / $calculationSubject;
+                $passStatus     = $value['passStatus'];
+                if ($gradePoints <1){
+                    $gradePoints    = '0.00';
+                    $passStatus     = false;
+                }
+                $gradePoints = round($gradePoints,2);
+                $letterGrade = $this->getGradeByPoint($outOfId, $gradePoints);
+
+
+                $studentMarkData = [
+                    'exam_mark_id'  => $ruleMarkManageId,
+                    'student_id'    => $key,
+                    'total_mark'    => $value['totalMark'],
+                    'letter_grade'  => $letterGrade->name??'',
+                    'grade_points'  => $gradePoints,
+                    'pass_subject'  => $value['totalPassSubject'],
+                    'is_pass'       => !empty($passStatus)?1:0,
+                ];
+
+                $matchThese = ['exam_mark_id'=>$ruleMarkManageId,'student_id'=>$key];
+                StudentMark::updateOrCreate($matchThese, $studentMarkData);
+
+
+            }
+        }
 
     }
     protected function examMarkWhereQuery($request){
@@ -95,7 +140,7 @@ trait ResultPublish
             ->orWhere(function ($query) use ($year) {
                 $query->where('start_year', '<', $year)
                     ->where('end_year', '>', $year);
-            })->pluck('id')->toArray();
+            })->select('id', 'calculation_subject')->first();
 
     }
 
@@ -115,12 +160,23 @@ trait ResultPublish
 
     protected function gradePoint($fullMark, $mark, $classId){
         $outOfId = ClassModel::where('id', $classId)->pluck('out_of_id')->toArray();
-        return Grade::where(['full_mark'=>$fullMark,'out_of_id'=>$outOfId, 'status'=>1])
+        $vType = getVersionType();
+        return Grade::where(['full_mark'=>$fullMark,'out_of_id'=>$outOfId, 'status'=>1, 'vtype'=>$vType])
             ->select('name','grade_point')
             ->where(function ($query) use ($mark) {
                 $query->where('mark_from', '<', $mark)
                     ->where('mark_upto', '>', $mark);
             })
+            ->first();
+
+    }
+
+    protected function getGradeByPoint($outOfId, $point){
+
+        $vType = getVersionType();
+        return Grade::where(['out_of_id'=>$outOfId, 'status'=>1, 'vtype'=>$vType])
+            ->select('name')
+            ->where('grade_point', '<=', $point)
             ->first();
 
     }
