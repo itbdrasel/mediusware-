@@ -115,9 +115,17 @@ class ResultPublishController extends Controller
     public function getValidation($request){
         $validationRules    = $this->crudServices->getValidationRules($this->model);
         $rules              = $validationRules['rules'];
-        $rules['year']      = 'required|regex:/^[0-9]{4,}-[0-9]{4,}$/';
+//        $rules['year']      = 'required|regex:/^[0-9]{4,}-[0-9]{4,}$/';
+        $rules['year'] = ['required', 'regex:/^[0-9]{4,}-[0-9]{4,}$/', function ($attribute, $value, $fail) use ($request) {
+            $vtype = getVersionType();
+            $resultPublish = $this->model::where(['vtype'=> $vtype, 'class_id'=> $request['class_id'], 'exam_id'=> $request['exam_id'], 'year'=> $value])->first();
+            if (!empty($resultPublish)){
+                $fail(__('Exam results already published'));
+            }
+        }];
         $attribute          = $validationRules['attribute'];
         $customMessages     = [];
+
         return $request->validate($rules,$customMessages, $attribute);
     }
 
