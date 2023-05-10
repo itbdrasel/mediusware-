@@ -9,6 +9,7 @@ Route::group(['middleware' => ['authx'],'prefix'=>'scms','as'=>'scms.'], functio
     // Student Route
     Route::group(['prefix'=>'student','as'=>'student','controller'=>'Backend\StudentController'], function () {
         getResourceRoute(['create','edit','store','delete']);
+        Route::get('/show/{id}', 'show')->name('.show');
         Route::match(['get', 'post'], '/{id?}/{section_id?}', 'index')->name('');
     });
 

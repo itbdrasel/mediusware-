@@ -16,6 +16,7 @@ class GradesController extends Controller
         parent::__construct();
         $this->model            = Grade::class;
         $this->bUrl             = $this->moduleName.'/grade';
+        $this->pUrl             = $this->bUrl.params();
         $this->title            = 'Grade';
     }
 
@@ -88,7 +89,7 @@ class GradesController extends Controller
         }else{
             $this->model::where($this->tableId, $id)->update($params);
         }
-        return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
+        return redirect($this->pUrl)->with('success', successMessage($id, $this->title));
 
     }
 

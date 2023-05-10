@@ -5,6 +5,7 @@ namespace Modules\Scms\Traits;
 
 
 
+use Modules\Scms\Models\Enroll;
 use Modules\Scms\Models\ExamRule;
 use Modules\Scms\Models\RuleMarkManage;
 use Modules\Scms\Models\RulesGroup;
@@ -51,9 +52,10 @@ trait Marksheet
             ->with('subject.childSubject')
             ->whereHas('subject', function($query) {
                 $query->whereNull('subject_parent_id');
+                $query->where('status',1);
                 $query->orderBy('order_by');
             })
-            ->select('subject_id', 'full_mark', 'pass_mark', 'rule_mark', 'status')
+//            ->select('subject_id','full_mark', 'pass_mark', 'rule_mark','subject_type', 'status')
             ->get()
             ->sortBy(function ($item) {
                 return optional($item->subject)->order_by;
@@ -102,6 +104,23 @@ trait Marksheet
             $ruleIds = array_keys(json_decode($subjects[0]->rule_mark, true));
             return ExamRule::select('id', 'code')->whereIn('id', $ruleIds)->orderBy('order_by')->get();
         }
+
+    }
+
+    public function validationRules($request){
+       return [
+            "exam_id"               => "required",
+            "student_id"            => ["required", function ($attribute, $value, $fail) use ($request) {
+                $vtype              = getVersionType();
+                $year               = getRunningYear();
+                $where              = ['vtype'=> $vtype, 'year'=> $year];
+                $classId            = Enroll::where(['student_id'=>$value, 'year'=> $year])->first('class_id')->class_id??'';
+                $resultPublish      = \Modules\Scms\Models\ResultPublish::where($where)->where(['class_id'=> $classId, 'exam_id'=> $request['exam_id']])->first();
+                if (empty($resultPublish)){
+                    $fail(__('Exam result not published'));
+                }
+            }],
+        ];
 
     }
 

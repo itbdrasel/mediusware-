@@ -10,6 +10,7 @@ class Controller extends LaravelController
 
     protected $data;
     protected $bUrl;
+    protected $pUrl;
     protected $title;
     protected $model;
     protected $auth;

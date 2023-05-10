@@ -60,18 +60,14 @@ class StudentService
         $data['filter'] ='';
         if( $request->filled('filter') ){
             $section_id ='';
-            $filter =  $this->model::$filters;
-            if (!empty($filter)) {
-                $sl =0;
-                foreach ($filter as $key=>$value){
-                    $data['filter'] = $filter = $request->get('filter');
-                    $sl++;
-                    if ($sl ==1) {
-                        $queryData->where($value, 'like', '%'.$filter.'%');
-                    }else{
-                        $queryData->orWhere($value, 'like', '%'.$filter.'%');
+            $data['filter'] = $filter = $request->get('filter');
+            $tableColumnName =  $this->model::$filters;
+            if (!empty($tableColumnName)) {
+                $queryData->where(function ($query) use ($filter, $tableColumnName) {
+                    foreach ($tableColumnName as $columnName) {
+                        $query->orWhere($columnName, 'like', '%'.$filter.'%');
                     }
-                }
+                });
             }
 
         }

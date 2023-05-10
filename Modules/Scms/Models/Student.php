@@ -15,7 +15,7 @@ class Student extends Model
 
     public static $sortable = ['id_number'];
 
-    public static $filters = ['scms_student.id_number','name','phone', 'email'];
+    public static $filters = ['id_number','name','phone', 'email'];
 
     public static $insertData = ['id_number', 'name', 'phone', 'email', 'gender_id', 'religion_id', 'blood_group_id', 'address','dormitory_id', 'transport_id', 'agent_banking_no'];
 

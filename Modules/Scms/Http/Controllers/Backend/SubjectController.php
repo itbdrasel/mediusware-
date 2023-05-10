@@ -19,6 +19,7 @@ class SubjectController extends Controller
         $this->services         = $subjectService;
         $this->model            = Subject::class;
         $this->bUrl             = $this->moduleName.'/subject';
+        $this->pUrl             = $this->bUrl.params();
         $this->title            = 'Subject';
     }
 
@@ -100,10 +101,10 @@ class SubjectController extends Controller
         $params['vtype']        = getVersionType();
         if (empty($id) ) {
             $this->model::create($params);
-            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', successMessage($id, $this->title));
+            return redirect($this->pUrl)->with('success', successMessage($id, $this->title));
         }else{
             $this->model::where($this->tableId, $id)->update($params);
-            return redirect($this->bUrl.'/'.$request['class_id'])->with('success', successMessage($id, $this->title));
+            return redirect($this->pUrl)->with('success', successMessage($id, $this->title));
         }
     }
 

@@ -3,6 +3,7 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
+use Modules\Scms\Models\Enroll;
 use Modules\Scms\Models\Exam;
 use Modules\Scms\Models\Student;
 use Modules\Scms\Services\Backend\Controller;
@@ -49,20 +50,17 @@ class MarksheetController extends Controller
 
 
     public function marksheet(Request $request){
-        $rules = [
-            "exam_id"               => "required",
-            "student_id"            => "required",
-        ];
-
+        $rules = $this->validationRules($request);
         $attribute = [
             "exam_id"               => "exam",
             "student_id"            => "student",
         ];
+        $request->validate($rules,[], $attribute);
 
-       $request->validate($rules,[], $attribute);
         $student = $this->getStudentById($request['student_id']);
         $classId = $student->enroll->class_id??'';
         $subjects = $this->getRuleSubject($classId, $request['exam_id']);
+        dd($student);
         $this->data = [
             'title'         => $this->title.' Print',
             'pageUrl'       => $this->bUrl.'/print',
@@ -70,9 +68,6 @@ class MarksheetController extends Controller
             'subjects'      => $subjects,
             'rules'         =>  $this->getRules($subjects)
         ];
-
-
-
 
         $this->layout('print');
     }

@@ -5,7 +5,7 @@
         <div class="row">
 
             <div class="col-md-12">
-                <form action="{{url($bUrl.'/store')}}" method="post">
+                <form action="{{paramUrl($bUrl.'/store')}}" method="post">
                     <div class="card  card-outline card-primary">
                         <div class="card-header">
                             <h2 class="card-title"> {!! $page_icon !!} &nbsp; {{ $title }}  </h2>
@@ -15,7 +15,7 @@
                                 </button>
 
                                 <button type="button" class="btn btn-tool" >
-                                    <a href="{{url($bUrl)}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i> <i class="fa fa-arrow-left"></i> Back</a>
+                                    <a href="{{paramUrl($bUrl)}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i> <i class="fa fa-arrow-left"></i> Back</a>
                                 </button>
                             </div>
                         </div>

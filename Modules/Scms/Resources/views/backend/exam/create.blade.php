@@ -13,11 +13,11 @@
                                 <i class="fas fa-minus"></i>
                             </button>
                             <button type="button" class="btn btn-tool">
-                                <a href="{{url($bUrl)}}" class="btn btn-info btn-sm"><i class="mdi mdi-plus"></i> <i class="fa fa-arrow-left"></i> Back</a>
+                                <a href="{{paramUrl($bUrl)}}" class="btn btn-info btn-sm"><i class="mdi mdi-plus"></i> <i class="fa fa-arrow-left"></i> Back</a>
                             </button>
                         </div>
                     </div>
-                    <form method="post" action="{{url($bUrl.'/store')}}" >
+                    <form method="post" action="{{paramUrl($bUrl.'/store')}}" >
                         @csrf
                         <div class="card-body">
                             <div class="col-md-11">
@@ -104,7 +104,7 @@
                                     $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                 @endphp
                                 <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>&nbsp;&nbsp;
-                                <a href="{{url($pageUrl)}}"  class="btn btn-warning">Cancel</a>
+                                <a href="{{paramUrl($pageUrl)}}"  class="btn btn-warning">Cancel</a>
                             </div>
                         </div>
                     </form>

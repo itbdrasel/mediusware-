@@ -98,7 +98,7 @@
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-outline-primary link_btn">
-                                            <a  href="{{url($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
+                                            <a  href="{{paramUrl($bUrl.'/'.$data->$tableID.'/edit')}}"><i class="fa fa-edit"></i> </a>
                                         </button>
 
                                         <button type="button" class="btn btn-outline-primary link_btn">

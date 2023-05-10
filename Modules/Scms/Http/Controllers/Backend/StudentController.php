@@ -18,6 +18,7 @@ class StudentController extends Controller
         $this->studentServices  = $studentService;
         $this->model            = Student::class;
         $this->bUrl             = $this->moduleName.'/student';
+        $this->pUrl             = $this->bUrl.params();
         $this->title            = 'Student';
     }
 
@@ -103,7 +104,7 @@ class StudentController extends Controller
         }
         $this->studentServices->insertData($request);
         $message = successMessage($id, $this->title);
-        return redirect($this->bUrl.'/'.$request['class_id'])->with('success', $message);
+        return redirect($this->pUrl)->with('success', $message);
 
     }
 

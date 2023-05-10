@@ -21,12 +21,17 @@ trait ResultPublish
     public function resultPublish($request){
         $classId            = $request['class_id'];
         $ruleMarkManage     = $this->getRuleMarkManageId($request);
-        if (empty($ruleMarkManage)){return false;}
+        if (empty($ruleMarkManage)){
+           return ['status'=>false,'error'=>'Please add exam rules'];
+        }
         $ruleMarkManageId   = $ruleMarkManage->id;
         $calculationSubject = $ruleMarkManage->calculation_subject;
         $examMark           = $this->examMarkWhereQuery($request)->with('marks', 'marks.subject', 'marks.subject.childSubject')->first();
-        if (empty($examMark)){return false;}
+        $examMarkId         = $examMark->id;
         $marks              = $examMark->marks;
+        if (empty($examMark) || empty($marks)){
+            return ['status'=>false, 'error'=> 'Please add exam mark'];
+        }
         $studentData        = [];
         if (!empty($marks)){
             foreach ($marks as $mark){
@@ -89,8 +94,6 @@ trait ResultPublish
                 }
 
             }
-        }else{
-            return false;
         }
 
         if ($studentData){
@@ -108,7 +111,7 @@ trait ResultPublish
 
 
                 $studentMarkData = [
-                    'exam_mark_id'  => $ruleMarkManageId,
+                    'exam_mark_id'  => $examMarkId,
                     'student_id'    => $key,
                     'total_mark'    => $value['totalMark'],
                     'letter_grade'  => $letterGrade->name??'',
@@ -117,13 +120,11 @@ trait ResultPublish
                     'is_pass'       => !empty($passStatus)?1:0,
                 ];
 
-                $matchThese = ['exam_mark_id'=>$ruleMarkManageId,'student_id'=>$key];
+                $matchThese = ['exam_mark_id'=>$examMarkId,'student_id'=>$key];
                 StudentMark::updateOrCreate($matchThese, $studentMarkData);
-
-
             }
         }
-
+        return ['status'=>true, 'examMarkId'=> $examMarkId];
     }
     protected function examMarkWhereQuery($request){
         return ExamMark::where(['class_id'=>$request['class_id'], 'exam_id'=> $request['exam_id'], 'year'=>$request['year']]);

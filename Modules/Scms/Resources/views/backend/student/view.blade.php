@@ -10,9 +10,9 @@
                         <i class="fas fa-minus"></i>
                     </button>
                     <button type="button" class="btn btn-tool">
-                        <a href="{{url($bUrl.'/'.$objData->id.'/edit')}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i>
+                        <a href="{{paramUrl($bUrl.'/'.$objData->id.'/edit')}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i>
                             <i class="fa fa-edit"></i> Edit</a>
-                        <a href="{{url($bUrl)}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i> <i
+                        <a href="{{paramUrl($bUrl)}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i> <i
                                 class="fa fa-arrow-left"></i> Back</a>
                     </button>
 
@@ -162,8 +162,6 @@
                                         <div class="col-sm-4">
                                             : {{$objData->permanent_address }}
                                         </div>
-
-
                                     </div>
 
                                 </div>

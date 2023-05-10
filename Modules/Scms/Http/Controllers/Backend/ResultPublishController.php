@@ -3,6 +3,7 @@ namespace Modules\Scms\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 
+use Modules\Scms\Models\StudentMark;
 use Modules\Scms\Services\Backend\Controller;
 use Illuminate\Http\Request;
 use Modules\Scms\Models\Exam;
@@ -17,6 +18,7 @@ class ResultPublishController extends Controller
         parent::__construct();
         $this->model            = ResultPublish::class;
         $this->bUrl             = $this->moduleName.'/result-publish';
+        $this->pUrl             = $this->bUrl.params();
         $this->title            = 'Result Publish';
     }
 
@@ -85,10 +87,14 @@ class ResultPublishController extends Controller
         $id = $request[$this->tableId];
         $params = $this->crudServices->getInsertData($this->model, $request);
         $params['vtype'] = getVersionType();
-        $this->resultPublish($request);
+        $resultPublish = $this->resultPublish($request);
+        if (empty($resultPublish['status'])){
+            return redirect($this->pUrl)->with('error', $resultPublish)->withInput();
+        }
+        $params['exam_mark_id'] = $resultPublish['examMarkId'];
         if (empty($id) ) {
             $this->model::create($params);
-            return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
+            return redirect($this->pUrl)->with('success', successMessage($id, $this->title));
         }else{
             $this->model::where($this->tableId, $id)->update($params);
             return successMessage($id, $this->title);
@@ -105,6 +111,8 @@ class ResultPublishController extends Controller
     public function destroy(Request $request, $id)
     {
         if ($request->ajax()) {
+            $data = $this->model::where($this->tableId, $id)->first();
+            StudentMark::where(['exam_mark_id'=>$data->exam_mark_id])->delete();
             $this->model::where($this->tableId, $id)->delete();
             return true;
         }
@@ -118,7 +126,7 @@ class ResultPublishController extends Controller
 //        $rules['year']      = 'required|regex:/^[0-9]{4,}-[0-9]{4,}$/';
         $rules['year'] = ['required', 'regex:/^[0-9]{4,}-[0-9]{4,}$/', function ($attribute, $value, $fail) use ($request) {
             $vtype = getVersionType();
-            $resultPublish = $this->model::where(['vtype'=> $vtype, 'class_id'=> $request['class_id'], 'exam_id'=> $request['exam_id'], 'year'=> $value])->first();
+            $resultPublish = $this->model::where(['vtype'=> $vtype, 'class_id'=> $request['class_id'], 'exam_id'=> $request['exam_id'], 'year'=> $value])->where('id','!=', $request[$this->tableId])->first();
             if (!empty($resultPublish)){
                 $fail(__('Exam results already published'));
             }

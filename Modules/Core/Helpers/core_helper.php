@@ -433,3 +433,22 @@ function getCheckedArraySearch($needle, $key, $dataArray=''){
 function getStatusBadge($statuId){
     return $statuId !=1?'<span class="badge bg-danger">Inactive</span>':'<span class="badge bg-success">Active</span>';
 }
+/*****
+ * params()
+ * Return url query with the leading separators.
+ */
+
+function params($lead = ''){
+    $param = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+
+    // for post request
+    if($_SERVER['REQUEST_METHOD'] === 'POST')
+        $param = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY);
+
+    if(!empty($param)) return ($lead ?: '?').$param;
+    else return NULL;
+}
+
+function paramUrl($url, $lead=''){
+    return url($url.params($lead));
+}

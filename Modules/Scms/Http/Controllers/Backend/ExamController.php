@@ -16,6 +16,7 @@ class ExamController extends Controller
         parent::__construct();
         $this->model            = Exam::class;
         $this->bUrl             = $this->moduleName.'/exam';
+        $this->pUrl             = $this->bUrl.params();
         $this->title            = 'Exam';
     }
 
@@ -91,7 +92,7 @@ class ExamController extends Controller
         }else{
             $this->model::where($this->tableId, $id)->update($params);
         }
-        return redirect($this->bUrl)->with('success', successMessage($id, $this->title));
+        return redirect($this->pUrl)->with('success', successMessage($id, $this->title));
 
     }
 

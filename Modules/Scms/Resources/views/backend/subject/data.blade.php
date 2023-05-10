@@ -93,14 +93,14 @@
                                                 <td class="text-center">
                                                     <div class="btn-group dropleft">
                                                         <button type="button" class="btn btn-outline-primary link_btn">
-                                                            <a  href="{{url($bUrl.'/show/'.$data->id)}}"><i class="fa fa-table"></i> </a>
+                                                            <a  href="{{paramUrl($bUrl.'/show/'.$data->id)}}"><i class="fa fa-table"></i> </a>
                                                         </button>
                                                         <button class="btn btn-primary dropdown-toggle dropdown_toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                         </button>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                            <li><a class="dropdown-item"  href="{{url($bUrl.'/'.$data->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a></li>
+                                                            <li><a class="dropdown-item"  href="{{paramUrl($bUrl.'/'.$data->id.'/edit')}}"><i class="fa fa-edit"></i> Edit</a></li>
                                                             <li> <div class="dropdown-divider"></div></li>
-                                                            <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{url($bUrl.'/delete/'.$data->id)}}"><i class="fa fa-trash"></i> Delete</a></li>
+                                                            <li><a class="dropdown-item" id="action" data-bs-toggle="modal" data-bs-target="#windowmodal" href="{{paramUrl($bUrl.'/delete/'.$data->id)}}"><i class="fa fa-trash"></i> Delete</a></li>
                                                         </ul>
                                                     </div>
                                                 </td>

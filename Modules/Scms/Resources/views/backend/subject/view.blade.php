@@ -10,11 +10,11 @@
                         <i class="fas fa-minus"></i>
                     </button>
                     <button type="button" class="btn btn-tool">
-                        <a href="{{url($bUrl.'/'.$objData->id.'/edit')}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i>
+                        <a href="{{paramUrl($bUrl.'/'.$objData->id.'/edit')}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i>
                             <i class="fa fa-edit"></i> Edit</a>
                     </button>
                     <button type="button" class="btn btn-tool">
-                        <a href="{{url($bUrl.'/'.$objData->class_id)}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i> <i
+                        <a href="{{paramUrl($bUrl.'/'.$objData->class_id)}}" class="btn btn-primary btn-sm"><i class="mdi mdi-plus"></i> <i
                                 class="fa fa-arrow-left"></i> Back</a>
                     </button>
 

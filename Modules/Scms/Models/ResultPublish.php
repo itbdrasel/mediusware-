@@ -10,7 +10,7 @@ class ResultPublish extends Model
     protected $table = 'scms_result_publish';
 
     protected $fillable = [
-        'exam_id','class_id','year','vtype'
+        'exam_mark_id', 'exam_id','class_id','year','vtype'
     ];
 
 

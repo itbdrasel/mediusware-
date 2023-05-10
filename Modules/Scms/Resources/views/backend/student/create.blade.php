@@ -5,7 +5,7 @@
         <div class="row">
 
             <div class="col-md-12">
-				<form action="{{url($bUrl.'/store')}}" method="post">
+				<form action="{{paramUrl($bUrl.'/store')}}" method="post">
                     @csrf
                     <input type="hidden" id="" name="id" value="{{getValue('id', $objData)}}">
                     <input type="hidden" name="enroll_id" value="{{getValue('enroll_id', $objData)}}">
@@ -386,7 +386,7 @@
                                             $spinner=  '<i class="fas fa-spinner fa-pulse"></i> Please Wait';
                                         @endphp
                                         <button type="submit" onclick="this.disabled=true;this. innerHTML='{{$spinner}}';this.form.submit();" class="btn btn-primary"><i class="fas fa-save"></i> Save </button>&nbsp;
-                                        <a href="{{url($bUrl)}}" class="btn btn-warning">Cancel</a>
+                                        <a href="{{paramUrl($bUrl)}}" class="btn btn-warning">Cancel</a>
                                     </div>
                                 </div>
                             </div>
