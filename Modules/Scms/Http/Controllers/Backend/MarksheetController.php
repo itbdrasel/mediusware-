@@ -50,17 +50,23 @@ class MarksheetController extends Controller
 
 
     public function marksheet(Request $request){
-        $rules = $this->validationRules($request);
+
+        $year           = getRunningYear();
+        $enroll         = Enroll::where(['student_id'=>$request['student_id'], 'year'=> $year])->first();
+        $classId        = $enroll->class_id;
+
+        $rules = $this->validationRules($request, $classId);
         $attribute = [
             "exam_id"               => "exam",
             "student_id"            => "student",
         ];
         $request->validate($rules,[], $attribute);
+        $student = $enroll->student;
 
-        $student = $this->getStudentById($request['student_id']);
+        dd($student);
         $classId = $student->enroll->class_id??'';
         $subjects = $this->getRuleSubject($classId, $request['exam_id']);
-        dd($student);
+
         $this->data = [
             'title'         => $this->title.' Print',
             'pageUrl'       => $this->bUrl.'/print',

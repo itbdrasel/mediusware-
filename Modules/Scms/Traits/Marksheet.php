@@ -107,14 +107,13 @@ trait Marksheet
 
     }
 
-    public function validationRules($request){
+    public function validationRules($request, $classId){
        return [
             "exam_id"               => "required",
-            "student_id"            => ["required", function ($attribute, $value, $fail) use ($request) {
+            "student_id"            => ["required", function ($attribute, $value, $fail) use ($request, $classId) {
                 $vtype              = getVersionType();
                 $year               = getRunningYear();
                 $where              = ['vtype'=> $vtype, 'year'=> $year];
-                $classId            = Enroll::where(['student_id'=>$value, 'year'=> $year])->first('class_id')->class_id??'';
                 $resultPublish      = \Modules\Scms\Models\ResultPublish::where($where)->where(['class_id'=> $classId, 'exam_id'=> $request['exam_id']])->first();
                 if (empty($resultPublish)){
                     $fail(__('Exam result not published'));
