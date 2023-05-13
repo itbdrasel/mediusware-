@@ -24,6 +24,10 @@ class Student extends Model
         return $this->hasOne(Enroll::class)->where(['year'=>getRunningYear()]);
     }
 
+    public function optionalSubject(){
+        return $this->hasOne(OptionalSubject::class);
+    }
+
 
 
 }

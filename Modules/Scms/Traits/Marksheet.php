@@ -5,7 +5,7 @@ namespace Modules\Scms\Traits;
 
 
 
-use Modules\Scms\Models\Enroll;
+
 use Modules\Scms\Models\ExamRule;
 use Modules\Scms\Models\RuleMarkManage;
 use Modules\Scms\Models\RulesGroup;
@@ -60,6 +60,19 @@ trait Marksheet
             ->sortBy(function ($item) {
                 return optional($item->subject)->order_by;
             });
+
+    }
+
+    public function getStudentSubject($ruleSubjects){
+        if (!empty($ruleSubjects)){
+            foreach ($ruleSubjects as $ruleSubject){
+                $subject = $ruleSubject->subject;
+                $childSubject = $ruleSubject->childSubject??'';
+                dd($subject);
+
+
+            }
+        }
 
     }
 
@@ -121,6 +134,11 @@ trait Marksheet
             }],
         ];
 
+    }
+
+    public function studentResult($studentId){
+        $vtype              = getVersionType();
+        $year               = getRunningYear();
     }
 
 }
