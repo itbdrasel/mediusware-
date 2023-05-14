@@ -6,6 +6,7 @@ namespace Modules\Scms\Traits;
 
 
 
+use Modules\Scms\Models\ExamMark;
 use Modules\Scms\Models\ExamRule;
 use Modules\Scms\Models\RuleMarkManage;
 use Modules\Scms\Models\RulesGroup;
@@ -136,9 +137,20 @@ trait Marksheet
 
     }
 
-    public function studentResult($studentId){
+    public function studentResult($request, $classId){
+
+        $studentId          = $request['student_id'];
+        $examId             = $request['exam_id'];
         $vtype              = getVersionType();
         $year               = getRunningYear();
+        $examMark           = ExamMark::where(['exam_id'=>$examId, 'class_id'=> $classId, 'year'=>$year, 'vtype'=>$vtype])->with('marks', 'studentsMarks')->first('id');
+        $subjectMarks       = $examMark->marks()->where(['student_id'=>$studentId])->get()->toArray();
+        $idArray            = array_column($subjectMarks, 'subject_id');
+        $subjectMarks       = array_combine($idArray, $subjectMarks);
+        $studentsMark      = $examMark->studentsMarks()->where(['student_id'=>$studentId])->select('letter_grade', 'grade_points')->first();
+        dd($subjectMarks);
+        return [''];
+
     }
 
 }

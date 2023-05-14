@@ -26,4 +26,8 @@ class ExamMark extends Model
     public function exam(){
         return $this->belongsTo(Exam::class, 'exam_id', 'id');
     }
+
+    public function studentsMarks(){
+        return $this->hasMany(StudentMark::class, 'exam_mark_id');
+    }
 }

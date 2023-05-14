@@ -63,7 +63,8 @@ class MarksheetController extends Controller
         $request->validate($rules,[], $attribute);
         $student            = $enroll->student;
         $optionalSubject    = $student->optionalSubject->select('o_subjects','four_subject')->first();
-        dd($optionalSubject);
+        $studentResult      = $this->studentResult($request, $classId);
+        dd($studentResult);
         $rulSubjects        = $this->getRuleSubject($classId, $request['exam_id']);
         $subjects           = $this->getStudentSubject($rulSubjects);
         dd($rulSubjects);
