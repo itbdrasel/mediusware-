@@ -143,13 +143,19 @@ trait Marksheet
         $examId             = $request['exam_id'];
         $vtype              = getVersionType();
         $year               = getRunningYear();
+
         $examMark           = ExamMark::where(['exam_id'=>$examId, 'class_id'=> $classId, 'year'=>$year, 'vtype'=>$vtype])->with('marks', 'studentsMarks')->first('id');
-        $subjectMarks       = $examMark->marks()->where(['student_id'=>$studentId])->get()->toArray();
+
+        $subjectMarks       = $examMark->marks()->where(['student_id'=>$studentId])
+            ->select('subject_id','rules_marks','total_mark','letter_grade', 'grade_points', 'is_pass')
+            ->get()->toArray();
+
         $idArray            = array_column($subjectMarks, 'subject_id');
         $subjectMarks       = array_combine($idArray, $subjectMarks);
+
         $studentsMark      = $examMark->studentsMarks()->where(['student_id'=>$studentId])->select('letter_grade', 'grade_points')->first();
-        dd($subjectMarks);
-        return [''];
+
+        return ['subjectMarks'=>$subjectMarks, 'studentsMark'=>$studentsMark];
 
     }
 
