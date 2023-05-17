@@ -4,8 +4,6 @@
 namespace Modules\Scms\Traits;
 
 
-
-
 use Modules\Scms\Models\ExamMark;
 use Modules\Scms\Models\ExamRule;
 use Modules\Scms\Models\RuleMarkManage;

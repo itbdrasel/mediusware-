@@ -55,26 +55,29 @@ class MarksheetController extends Controller
         $enroll         = Enroll::where(['student_id'=>$request['student_id'], 'year'=> $year])->first();
         $classId        = $enroll->class_id;
 
-        $rules = $this->validationRules($request, $classId);
+        $rules          = $this->validationRules($request, $classId);
         $attribute = [
             "exam_id"               => "exam",
             "student_id"            => "student",
         ];
         $request->validate($rules,[], $attribute);
+
         $student            = $enroll->student;
         $optionalSubject    = $student->optionalSubject->select('o_subjects','four_subject')->first();
         $studentResult      = $this->studentResult($request, $classId);
-        dd($studentResult);
+        $subjectsMark       = $studentResult['subjectMarks'];
+        $studentMark        = $studentResult['studentsMark'];
         $rulSubjects        = $this->getRuleSubject($classId, $request['exam_id']);
-        $subjects           = $this->getStudentSubject($rulSubjects);
-        dd($rulSubjects);
 
         $this->data = [
-            'title'         => $this->title.' Print',
-            'pageUrl'       => $this->bUrl.'/print',
-            'student'       => $student,
-            'subjects'      => $subjects,
-            'rules'         =>  $this->getRules($rulSubjects)
+            'title'             => $this->title.' Print',
+            'pageUrl'           => $this->bUrl.'/print',
+            'student'           => $student,
+            'subjects'          => $rulSubjects,
+            'optionalSubject'   => $optionalSubject,
+            'studentMark'       => $studentMark,
+            'subjectsMark'      => $subjectsMark,
+            'rules'             =>  $this->getRules($rulSubjects)
         ];
 
         $this->layout('print');
