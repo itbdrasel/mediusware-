@@ -100,9 +100,12 @@
                             <th>{{$totalRuleMark[$rule->id]??0}}</th>
                         @endforeach
                     @endif
+                    @php
+                    //dd($studentMark);
+                    @endphp
                     <th>{{$totalMark}}</th>
-                    <th>{{$studentMark->letter_grade}}</th>
-                    <th>{{$studentMark->grade_points}}</th>
+                    <th>{{$studentMark->is_pass?$studentMark->letter_grade:'F'}}</th>
+                    <th>{{$studentMark->is_pass?$studentMark->grade_points:'0.00'}}</th>
                 </tr>
                 </thead>
             </table>

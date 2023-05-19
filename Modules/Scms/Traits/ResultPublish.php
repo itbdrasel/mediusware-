@@ -35,6 +35,7 @@ trait ResultPublish
         $studentData        = [];
         if (!empty($marks)){
             foreach ($marks as $mark){
+                /** @var  $studentExmMarks @Student Exam Rule Result Mark  */
                 $studentExmMarks            = json_decode($mark->rules_marks, true);
 
                 $examSubjectRules           = $this->getRuleMakr($ruleMarkManageId, $mark->subject_id);
@@ -42,6 +43,8 @@ trait ResultPublish
 
                 $childSubjectId             = $mark->subject->childSubject->id??'';
 
+
+                /*** Child & Prent Subject Result  */
                 if (!empty($childSubjectId)){
                     $studentChildSubExamMark    = $this->getExamChildSubjectMark($childSubjectId, $mark->exam_mark_id, $mark->student_id);
                     $ruleChildExamMarks         = $this->getRuleMakr($ruleMarkManageId, $childSubjectId);
@@ -52,9 +55,11 @@ trait ResultPublish
 
                     /*** Prent & child subject rule mark calculation */
                     $allRuleSubjecMarks     = [];
+
                     foreach ($studentExmMarks as $key=>$value){
                         $allRuleSubjecMarks[$key] = isset($studentChildSubExamMark[$key]) && $studentChildSubExamMark[$key]>0 && $value>0? $studentChildSubExamMark[$key] + $value:0;
                     }
+
                     $studentResult  = $this->getStudentExamResult($examSubjectRules, $rulesPassMark, $allRuleSubjecMarks, $classId);
                     $passStatus     = $studentResult['passStatus'];
 
@@ -63,7 +68,7 @@ trait ResultPublish
                     }else{
                         $studentResult['passStatus'] = false;
                     }
-                    $studentData[$mark->student_id]['passStatus'] = $studentResult['passStatus'];
+                    $studentData[$mark->student_id]['passStatus'] = $this->getStudntPassStatusCheck($studentData, $studentResult['passStatus'], $mark->student_id);;
                     $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'totalMark', $studentResult['subjectMark']);
                     $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'gradePoints', $studentResult['point']);
 
@@ -71,14 +76,19 @@ trait ResultPublish
                     $this->updateMark($mark->id, $studentResult);
 
                 }elseif ($mark->subject->subject_parent_id==null){
-                    $studentResult  = $this->getStudentExamResult($examSubjectRules, $rulesPassMark, $rulesPassMark, $classId);
+                    /*** Manin subject Subject Result */
+
+                    $studentResult  = $this->getStudentExamResult($examSubjectRules, $rulesPassMark, $studentExmMarks, $classId);
                     $passStatus     = $studentResult['passStatus'];
+
                     if ($passStatus){
                         $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'totalPassSubject', 1);
                     }else{
                         $studentResult['passStatus']= false;
                     }
-                    $studentData[$mark->student_id]['passStatus'] = $studentResult['passStatus'];
+
+                    $studentData[$mark->student_id]['passStatus'] = $this->getStudntPassStatusCheck($studentData, $studentResult['passStatus'], $mark->student_id);
+
                     $studentData = $this->addToStudentArray($studentData, $mark->student_id, 'totalMark', $studentResult['subjectMark']);
                     $gradePoints = $studentResult['point'];
                     if ($mark->subject->subject_type ==3){
@@ -102,13 +112,13 @@ trait ResultPublish
                 $gradePoints    = $value['gradePoints'];
                 $gradePoints    = $gradePoints / $calculationSubject;
                 $passStatus     = $value['passStatus'];
+
                 if ($gradePoints <1){
                     $gradePoints    = '0.00';
                     $passStatus     = false;
                 }
                 $gradePoints = round($gradePoints,2);
                 $letterGrade = $this->getGradeByPoint($outOfId, $gradePoints);
-
 
                 $studentMarkData = [
                     'exam_mark_id'  => $examMarkId,
@@ -125,6 +135,19 @@ trait ResultPublish
             }
         }
         return ['status'=>true, 'examMarkId'=> $examMarkId];
+    }
+
+
+    protected function getStudntPassStatusCheck($studentData, $passStatus, $studentId){
+        if ($passStatus ==false){
+            return false;
+        }else{
+            if (array_key_exists($studentId, $studentData) && array_key_exists('passStatus', $studentData[$studentId])){
+                return $studentData[$studentId]['passStatus']?true:false;
+            }else{
+                return $passStatus;
+            }
+        }
     }
     protected function examMarkWhereQuery($request){
         return ExamMark::where(['class_id'=>$request['class_id'], 'exam_id'=> $request['exam_id'], 'year'=>$request['year']]);
@@ -162,11 +185,12 @@ trait ResultPublish
     protected function gradePoint($fullMark, $mark, $classId){
         $outOfId = ClassModel::where('id', $classId)->pluck('out_of_id')->toArray();
         $vType = getVersionType();
-        return Grade::where(['full_mark'=>$fullMark,'out_of_id'=>$outOfId, 'status'=>1, 'vtype'=>$vType])
+
+       return Grade::where(['full_mark'=>$fullMark,'out_of_id'=>$outOfId[0], 'status'=>1, 'vtype'=>$vType])
             ->select('name','grade_point')
             ->where(function ($query) use ($mark) {
-                $query->where('mark_from', '<', $mark)
-                    ->where('mark_upto', '>', $mark);
+                $query->where('mark_from', '<=', $mark)
+                    ->where('mark_upto', '>=', $mark);
             })
             ->first();
 
@@ -239,8 +263,9 @@ trait ResultPublish
         $point              = '0.00';
         if ($passStatus && $subjectMark >=$examRule->pass_mark){
             $gradePoint     =  $this->gradePoint($examRule->full_mark, $subjectMark, $classId);
-            $grade          = $gradePoint->name;
-            $point          = $gradePoint->grade_point;
+
+            $grade          = $gradePoint?->name;
+            $point          = $gradePoint?->grade_point;
             if ($point <1){
                 $passStatus = false;
             }
@@ -286,12 +311,5 @@ trait ResultPublish
         return $dataArray;
     }
 
-
-    /**
-     "passStatus" => true
-    "subjectMark" => 70
-    "grade" => "D"
-    "point" => "1.00"
-     */
 
 }

@@ -151,7 +151,7 @@ trait Marksheet
         $idArray            = array_column($subjectMarks, 'subject_id');
         $subjectMarks       = array_combine($idArray, $subjectMarks);
 
-        $studentsMark      = $examMark->studentsMarks()->where(['student_id'=>$studentId])->select('letter_grade', 'grade_points')->first();
+        $studentsMark      = $examMark->studentsMarks()->where(['student_id'=>$studentId])->select('letter_grade', 'grade_points', 'is_pass')->first();
 
         return ['subjectMarks'=>$subjectMarks, 'studentsMark'=>$studentsMark];
 
