@@ -7,9 +7,7 @@ namespace Modules\Scms\Traits;
 use Modules\Scms\Models\ExamMark;
 use Modules\Scms\Models\ExamRule;
 use Modules\Scms\Models\RuleMarkManage;
-use Modules\Scms\Models\RulesGroup;
 use Modules\Scms\Models\Student;
-use Modules\Scms\Models\Subject;
 
 trait Marksheet
 {
@@ -62,54 +60,14 @@ trait Marksheet
 
     }
 
-    public function getStudentSubject($ruleSubjects){
-        if (!empty($ruleSubjects)){
-            foreach ($ruleSubjects as $ruleSubject){
-                $subject = $ruleSubject->subject;
-                $childSubject = $ruleSubject->childSubject??'';
-                dd($subject);
-
-
-            }
-        }
-
-    }
-
     public function getStudents(){
         $branch_id = getBranchId();
         return  Student::select('id', 'name', 'id_number')
             ->where( ['branch_id'=>$branch_id,'vtype'=>getVersionType()])->get();
     }
 
-    public function getStudentById($id){
-        return  Student::where( ['id'=>$id])->first();
-    }
 
-    public function getSubjectsByClassId($id){
-        $branchId = getBranchId();
-        return  Subject::select('id', 'name', 'subject_code', 'group_id', 'subject_parent_id', 'religion_id', 'gender_id', 'full_marks','subject_type')
-            ->where(['class_id'=>$id, 'branch_id'=>$branchId,'vtype'=>getVersionType(), 'status'=>1])
-            ->with('childSubject')
-            ->whereNull('subject_parent_id')
-            ->orderBy('order_by')->get();
-    }
 
-    public function getExamRules($classId, $examId){
-        $runnintYear    = getRunningYear();
-        $start_year     = substr($runnintYear, -4);
-        $end_year       = $start_year;
-        $rulesGroup = RulesGroup::where($this->getWhere())->where(['class_id' => $classId, 'exam_id' => $examId])->with('ruleManages');
-        if ($start_year && $end_year) {
-            $rulesGroup->where('start_year', '<=', $end_year)
-                ->where('end_year', '>=', $start_year);
-        } elseif ($end_year) {
-            $rulesGroup->where('end_year', $end_year);
-        } elseif ($end_year) {
-            $rulesGroup->where('start_year', $start_year);
-        }
-        $rules = $rulesGroup->first();
-        $this->data['rules'] = $rules?->ruleManages()->with('ruleName')->get();
-    }
 
     public function getRules($subjects){
         if (isset($subjects[0]) && !empty($subjects[0])){

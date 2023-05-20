@@ -8,6 +8,12 @@
             }
             return $dataArray;
         }
+    $studentInfo = [
+        'id'            => $student->id,
+        'religion_id'   => $student->religion_id,
+        'gender_id'     => $student->gender_id,
+        'group_id'      => $enroll->group_id,
+        ]
 @endphp
 @extends('core::master_blank')
 @section('content')
@@ -43,8 +49,8 @@
                     @foreach($subjects as $rulesMark)
                         @php
                             $subject      = $rulesMark->subject;
-                            $subjectType  = $subject->subject_type;
                         @endphp
+                @if(getStudentSubjectCheck($studentInfo, $subject, $optionalSubject))
                         @php
                             $rowspan      = !empty($subject->childSubject)?'rowspan="2"':'';
                             $totalFullMark += $rulesMark->full_mark;
@@ -69,24 +75,25 @@
                         <td {!! $rowspan !!}>{{$subjectMark['total_mark']}}</td>
                         <td {!! $rowspan !!}>{{$subjectMark['letter_grade']}}</td>
                         <td {!! $rowspan !!}>{{$subjectMark['grade_points']}}</td>
-                    </tr>
-                        @if(!empty($subject->childSubject))
-                            @php
-                            $subjectMark  = $subjectsMark[$subject->childSubject->id]??[];
-                            $ruleMarks    = json_decode($subjectMark['rules_marks'], true);
-                            $totalFullMark += $subject->childSubject->full_mark;
-                            @endphp
-                            <tr>
-                                <td class="text-start">{{$subject->childSubject->name}}</td>
-                                @if(!empty($rules))
-                                    @foreach($rules as $rule)
-                                        @php
-                                            $totalRuleMark = totalRuleMark($totalRuleMark, $rule->id, $ruleMarks[$rule->id])
-                                        @endphp
-                                <td>{{$ruleMarks[$rule->id]}}</td>
-                                    @endforeach
-                                @endif
-                            </tr>
+                        </tr>
+                            @if(!empty($subject->childSubject))
+                                @php
+                                    $subjectMark  = $subjectsMark[$subject->childSubject->id]??[];
+                                    $ruleMarks    = json_decode($subjectMark['rules_marks'], true);
+                                    $totalFullMark += $subject->childSubject->full_mark;
+                                @endphp
+                                <tr>
+                                    <td class="text-start">{{$subject->childSubject->name}}</td>
+                                    @if(!empty($rules))
+                                        @foreach($rules as $rule)
+                                            @php
+                                                $totalRuleMark = totalRuleMark($totalRuleMark, $rule->id, $ruleMarks[$rule->id])
+                                            @endphp
+                                            <td>{{$ruleMarks[$rule->id]}}</td>
+                                        @endforeach
+                                    @endif
+                                </tr>
+                            @endif
                         @endif
                     @endforeach
                 @endif

@@ -46,3 +46,28 @@ function getBranchId(){
     return session()->get('_branch_id');
 }
 
+
+function getStudentSubjectCheck(array $studentInfo, object $subjectInfo, $opSubject=''){
+    if (empty($studentInfo) || empty($subjectInfo)) return false;
+    $subjectType        = $subjectInfo->subject_type;
+    if ($subjectType ==1) return true;
+    $optionalSubject    = !empty($opSubject)?json_decode($opSubject->o_subjects, true):[];
+    $fourSubject        = !empty($opSubject)?$opSubject->four_subject:'';
+    if ($subjectType ==2 && $studentInfo['group_id'] == $subjectInfo->group_id){
+        return true;
+    }elseif (!empty($opSubject) && ($subjectType ==3 || $subjectType ==4)){
+        if ($subjectType ==3 && $subjectInfo->id == $fourSubject){
+            return true;
+        }elseif ($subjectType ==4 && array_key_exists($subjectInfo->id, $optionalSubject)){
+            return true;
+        }
+       return false;
+    }elseif ($subjectType ==5 && $studentInfo['religion_id'] == $subjectInfo->religion_id){
+        return true;
+    }elseif ($subjectType ==6 && $studentInfo['group_id'] == $subjectInfo->group_id){
+        return true;
+    }
+    return false;
+
+}
+

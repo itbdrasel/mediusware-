@@ -73,6 +73,7 @@ class MarksheetController extends Controller
             'title'             => $this->title.' Print',
             'pageUrl'           => $this->bUrl.'/print',
             'student'           => $student,
+            'enroll'            => $enroll,
             'subjects'          => $rulSubjects,
             'optionalSubject'   => $optionalSubject,
             'studentMark'       => $studentMark,
