@@ -26,7 +26,7 @@ trait ResultPublish
         }
         $ruleMarkManageId   = $ruleMarkManage->id;
         $calculationSubject = $ruleMarkManage->calculation_subject;
-        $examMark           = $this->examMarkWhereQuery($request)->with('marks', 'marks.subject', 'marks.subject.childSubject')->first();
+        $examMark           = $this->examMarkWhereQuery($request)->with('marks', 'marks.subject','marks.student', 'marks.subject.childSubject')->first();
         $examMarkId         = $examMark->id;
         $marks              = $examMark->marks;
         if (empty($examMark) || empty($marks)){
@@ -40,8 +40,16 @@ trait ResultPublish
 
                 $examSubjectRules           = $this->getRuleMakr($ruleMarkManageId, $mark->subject_id);
                 $rulesPassMark              = json_decode($examSubjectRules->rule_mark, true);
+                $subject                    = $mark->subject??'';
 
-                $childSubjectId             = $mark->subject->childSubject->id??'';
+                $childSubjectId             = $subject->childSubject->id??'';
+                $student                    = $mark->student??[];
+
+                $studentInfo = [
+                    'id'            => $student->id,
+                    'religion_id'   => $student->religion_id,
+                    'gender_id'     => $student->gender_id,
+                ];
 
 
                 /*** Child & Prent Subject Result  */
@@ -75,7 +83,7 @@ trait ResultPublish
 
                     $this->updateMark($mark->id, $studentResult);
 
-                }elseif ($mark->subject->subject_parent_id==null){
+                }elseif ($subject->subject_parent_id==null){
                     /*** Manin subject Subject Result */
 
                     $studentResult  = $this->getStudentExamResult($examSubjectRules, $rulesPassMark, $studentExmMarks, $classId);

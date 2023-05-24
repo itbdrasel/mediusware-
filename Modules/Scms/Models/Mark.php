@@ -17,4 +17,8 @@ class Mark extends Model
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 
+    public function student(){
+        return $this->hasOne(Student::class, 'id', 'student_id');
+    }
+
 }
