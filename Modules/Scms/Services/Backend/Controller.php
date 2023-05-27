@@ -14,7 +14,7 @@ class Controller extends LaravelController
     protected $title;
     protected $model;
     protected $auth;
-    protected $tableId      ='id';
+    protected $tableId      = 'id';
     protected $moduleName;
     protected $crudServices;
     protected $branch_id;

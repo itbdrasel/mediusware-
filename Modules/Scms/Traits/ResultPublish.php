@@ -4,6 +4,7 @@
 namespace Modules\Scms\Traits;
 
 use Modules\Scms\Models\ClassModel;
+use Modules\Scms\Models\Enroll;
 use Modules\Scms\Models\ExamMark;
 use Modules\Scms\Models\Grade;
 use Modules\Scms\Models\Mark;
@@ -24,11 +25,35 @@ trait ResultPublish
         if (empty($ruleMarkManage)){
            return ['status'=>false,'error'=>'Please add exam rules'];
         }
+        $enroll = Enroll::where(['year'=>$request['year'], 'class_id'=>$request['class_id']])->select('group_id', 'student_id')->get()->toArray();
+        $enroll = array_column($enroll, 'student_id', 'student_id');
+
+
         $ruleMarkManageId   = $ruleMarkManage->id;
         $calculationSubject = $ruleMarkManage->calculation_subject;
         $examMark           = $this->examMarkWhereQuery($request)->with('marks', 'marks.subject','marks.student', 'marks.subject.childSubject')->first();
+
         $examMarkId         = $examMark->id;
         $marks              = $examMark->marks;
+
+        $marks = $marks->filter(function ($value, $key) use ($enroll) {
+            $student            = $value->student??[];
+            $enroll             = $enroll[$value->student_id];
+            $studentInfo        = [
+                'id'            => $student->id,
+                'religion_id'   => $student->religion_id,
+                'gender_id'     => $student->gender_id,
+                'group_id'      => $enroll,
+            ];
+            $optionalSubject    = $student->optionalSubject??[];
+            $subject            = $value->subject;
+            $subjectCheck       = getStudentSubjectCheck($studentInfo, $subject, $optionalSubject);
+            if ($subjectCheck){
+                return $value;
+            }
+        });
+        
+
         if (empty($examMark) || empty($marks)){
             return ['status'=>false, 'error'=> 'Please add exam mark'];
         }
