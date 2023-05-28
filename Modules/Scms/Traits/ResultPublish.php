@@ -64,6 +64,7 @@ trait ResultPublish
                 $studentExmMarks            = json_decode($mark->rules_marks, true);
 
                 $examSubjectRules           = $this->getRuleMakr($ruleMarkManageId, $mark->subject_id);
+
                 $rulesPassMark              = json_decode($examSubjectRules->rule_mark, true);
                 $subject                    = $mark->subject??'';
 
@@ -139,6 +140,8 @@ trait ResultPublish
             }
         }
 
+
+
         if ($studentData){
             $outOfId = ClassModel::where('id', $classId)->pluck('out_of_id')->toArray();
             foreach ($studentData as $key=>$value){
@@ -153,6 +156,7 @@ trait ResultPublish
                 $gradePoints = round($gradePoints,2);
                 $letterGrade = $this->getGradeByPoint($outOfId, $gradePoints);
 
+
                 $studentMarkData = [
                     'exam_mark_id'  => $examMarkId,
                     'student_id'    => $key,
@@ -164,6 +168,7 @@ trait ResultPublish
                 ];
 
                 $matchThese = ['exam_mark_id'=>$examMarkId,'student_id'=>$key];
+
                 StudentMark::updateOrCreate($matchThese, $studentMarkData);
             }
         }
@@ -234,7 +239,9 @@ trait ResultPublish
         $vType = getVersionType();
         return Grade::where(['out_of_id'=>$outOfId, 'status'=>1, 'vtype'=>$vType])
             ->select('name')
-            ->where('grade_point', '<=', $point)
+            ->where('grade_point', '>=', $point)
+            ->orderBY('grade_point')
+            ->where('full_mark', 100)
             ->first();
 
     }
