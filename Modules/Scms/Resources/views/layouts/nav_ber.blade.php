@@ -90,6 +90,21 @@
     </li>
 @endif
 
+<li class="nav-item {{menuOpenActive(2, ['marksheet'])}}">
+    <a href="#" class="nav-link {{menuOpenActive(2, ['marksheet'], true)}} ">
+        <i class="nav-icon fas fa-poll"></i>
+        <p>Result<i class="right fas fa-angle-down"></i></p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{url('scms/marksheet')}}" class="nav-link {{activeMenu(2, 'marksheet')}} ">
+                <i class="fas fa-circle"></i>
+                <p>Marksheet </p>
+            </a>
+        </li>
+    </ul>
+</li>
+
 @if (dAuth()->hasAnyAccess(['scms.class', 'scms.section']))
     <li class="nav-item {{menuOpenActive(2, ['exam', 'result-publish', 'exam-rules', 'rules-manage','rule-marks', 'grade', 'marks'])}}">
         <a href="#" class="nav-link {{menuOpenActive(2, ['exam','result-publish', 'exam-rules','rules-manage','rule-marks', 'grade','marks'], true)}} ">
